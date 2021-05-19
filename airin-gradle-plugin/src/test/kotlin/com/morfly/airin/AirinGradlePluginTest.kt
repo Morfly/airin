@@ -1,5 +1,6 @@
 package com.morfly.airin
 
+import com.morfly.airin.plugin.AirinGradlePlugin
 import io.kotest.core.spec.style.WordSpec
 import io.kotest.matchers.shouldNotBe
 import org.gradle.testfixtures.ProjectBuilder
