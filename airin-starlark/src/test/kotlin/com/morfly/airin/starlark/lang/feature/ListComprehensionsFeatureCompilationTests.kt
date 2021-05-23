@@ -8,11 +8,6 @@ import com.morlfy.airin.starlark.lang.StringType
 import com.morlfy.airin.starlark.lang.feature.ListComprehensionsFeature
 
 
-private interface ListComprehensionsFeatureUnderCompilationTest :
-// Feature under test
-    ListComprehensionsFeature
-
-
 private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
     var STRING_LIST_RESULT: List<StringType>
     var STRING_MATRIX_RESULT: List<List<StringType>>
@@ -209,3 +204,8 @@ private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
             }
         }
 }
+
+
+private interface ListComprehensionsFeatureUnderCompilationTest :
+// Feature under test
+    ListComprehensionsFeature

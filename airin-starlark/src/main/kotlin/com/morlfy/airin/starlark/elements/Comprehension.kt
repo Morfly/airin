@@ -54,11 +54,6 @@ class ListComprehension<out T>(
     override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, indentIndex, mode, accumulator)
     }
-
-    companion object {
-        fun <T> ofType(type: T?, body: Expression?, clauses: MutableList<Clause>): ListComprehension<T> =
-            ListComprehension(body, clauses)
-    }
 }
 
 /**

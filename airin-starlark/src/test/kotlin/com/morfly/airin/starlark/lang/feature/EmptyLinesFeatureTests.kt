@@ -37,6 +37,7 @@ class EmptyLinesFeatureTests : FeatureSpec({
     }
 })
 
+
 private class EmptyLinesFeatureUnderTest : EmptyLinesFeature {
     override val statements = mutableListOf<Statement>()
 }

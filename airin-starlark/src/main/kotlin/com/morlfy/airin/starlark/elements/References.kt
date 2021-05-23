@@ -14,7 +14,6 @@ sealed interface Reference : Expression {
      */
     val name: String
 
-
     override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, indentIndex, mode, accumulator)
     }
@@ -30,20 +29,7 @@ class StringReference(override val name: String) : Reference,
  *
  */
 class ListReference<out T>(override val name: String) : Reference,
-    List<T> by emptyList() {
-
-    companion object {
-
-        /**
-         *
-         * TODO explain workaround
-         * @param list
-         * @param T
-         */
-        fun <T> fromList(list: List<T>?, name: String): ListReference<T> =
-            ListReference(name)
-    }
-}
+    List<T> by emptyList()
 
 /**
  * TODO

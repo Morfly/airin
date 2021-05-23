@@ -43,7 +43,7 @@ class BuildFile(
 /**
  *
  */
-class StarlarkFile(
+class BzlFile(
     name: String,
     relativePath: String,
     statements: List<Statement>
@@ -56,12 +56,12 @@ class StarlarkFile(
 /**
  *
  */
-class BazelRcFile(
-    name: String = "",
-    relativePath: String = "",
-    statements: List<BazelRcStatement>
+class StarFile(
+    name: String,
+    relativePath: String,
+    statements: List<Statement>
 ) : BazelFile(
-    name = if (name.endsWith(".bazelrc", ignoreCase = true)) name else "$name.bazelrc",
+    name = if (name.endsWith(".star", ignoreCase = true)) name else "$name.star",
     relativePath,
     statements
 )

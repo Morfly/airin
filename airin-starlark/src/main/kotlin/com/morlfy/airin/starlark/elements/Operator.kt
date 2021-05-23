@@ -5,6 +5,7 @@ package com.morlfy.airin.starlark.elements
  *
  */
 sealed interface Operator {
+
     val value: String
 }
 

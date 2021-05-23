@@ -9,7 +9,7 @@ typealias StringType = CharSequence
 /**
  *
  */
-typealias IntegerType = Comparable<Int>
+typealias IntegerType = Comparable<Long>
 
 /**
  *
@@ -30,11 +30,6 @@ typealias Key = Any?
  *
  */
 typealias Value = Any?
-
-/**
- *
- */
-//data class KeyValuePair(val key: Key, var value: Value)
 
 /**
  *

@@ -1,0 +1,97 @@
+package com.morfly.airin.starlark.lang.feature
+
+import com.morlfy.airin.starlark.elements.Argument
+import com.morlfy.airin.starlark.elements.DictionaryExpression
+import com.morlfy.airin.starlark.elements.ListExpression
+import com.morlfy.airin.starlark.elements.StringLiteral
+import com.morlfy.airin.starlark.lang.feature.ArgumentsFeature
+import io.kotest.core.spec.style.FeatureSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+
+
+class ArgumentsFeatureTests : FeatureSpec({
+
+    feature("arguments feature") {
+
+        scenario("string argument") {
+            ArgumentsFeatureUnderTest().apply {
+                // given
+                "string_arg" `=` "value"
+
+                // assertions
+                args.size shouldBe 1
+                args.first().let { arg ->
+                    arg.id shouldBe "string_arg"
+                    arg.value.let { value ->
+                        value.shouldBeTypeOf<StringLiteral>()
+                        value.value shouldBe "value"
+                    }
+                }
+            }
+        }
+
+        scenario("list argument") {
+            ArgumentsFeatureUnderTest().apply {
+                // given
+                "list_arg" `=` listOf("item1")
+
+                // assertions
+                args.size shouldBe 1
+                args.first().let { arg ->
+                    arg.id shouldBe "list_arg"
+                    arg.value.let { value ->
+                        value.shouldBeTypeOf<ListExpression>()
+                        value.value.size shouldBe 1
+                        value.value.first().let { item ->
+                            item.shouldBeTypeOf<StringLiteral>()
+                            item.value shouldBe "item1"
+                        }
+                    }
+                }
+            }
+        }
+
+        scenario("dictionary argument") {
+            ArgumentsFeatureUnderTest().apply {
+                // given
+                "dict_arg" `=` mapOf("key1" to "value1")
+
+                // assertions
+                args.size shouldBe 1
+                args.first().let { arg ->
+                    arg.id shouldBe "dict_arg"
+                    arg.value.let { value ->
+                        value.shouldBeTypeOf<DictionaryExpression>()
+                        value.value.size shouldBe 1
+                        value.value.entries.first().let { (key, value) ->
+                            key.shouldBeTypeOf<StringLiteral>()
+                            key.value shouldBe "key1"
+                            value.shouldBeTypeOf<StringLiteral>()
+                            value.value shouldBe "value1"
+                        }
+                    }
+                }
+            }
+        }
+
+        scenario("null argument") {
+            ArgumentsFeatureUnderTest().apply {
+                // given
+                "arg" `=` null
+
+                // assertions
+                args.size shouldBe 1
+                args.first().let { arg ->
+                    arg.id shouldBe "arg"
+                    arg.value shouldBe null
+                }
+            }
+        }
+    }
+})
+
+
+private class ArgumentsFeatureUnderTest : ArgumentsFeature {
+    override val args = linkedSetOf<Argument>()
+}

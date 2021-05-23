@@ -11,7 +11,7 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
 
-class AssignmentsFormatterTests : ShouldSpec({
+class AssignmentFormatterTests : ShouldSpec({
     val formatter = ElementFormatter(indentSize = 4)
     val ___4 = " ".repeat(4) // 1st position indentation
     val _______8 = " ".repeat(8) // 2nd position indentation

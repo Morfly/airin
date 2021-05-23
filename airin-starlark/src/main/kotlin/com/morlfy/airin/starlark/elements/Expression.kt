@@ -7,21 +7,18 @@ package com.morlfy.airin.starlark.elements
  * Base type for expression elements.
  *
  * Possible expression types:
- *  null - as value of [Expression?] type corresponds to starlark 'None' type,
+ *  null - as value of Expression? type corresponds to starlark's 'None' type,
  *  [Literal]: [IntegerLiteral], [FloatLiteral], [BooleanLiteral],
  *  [ListExpression],
  *  [DictionaryExpression],
  *  [BinaryOperation]: [StringBinaryOperation], [ListBinaryOperation], [DictionaryBinaryOperation], [AnyBinaryOperation],
- *  [Comprehension]: TODO [ListComprehension], [DictionaryComprehension],
- *  [FunctionCall]: [StringFunctionCall], [ListFunctionCall], [DictionaryFunctionCall], [AnyFunctionCall],
+ *  [ListComprehension],
+ *  [DictionaryComprehension],
+ *  [FunctionCall]: [StringFunctionCall], [ListFunctionCall], [DictionaryFunctionCall], [AnyFunctionCall], [VoidFunctionCall],
  *  [Reference]: [StringReference], [ListReference], [DictionaryReference], [AnyReference],
  *  [RawText]: TODO.
  */
 sealed interface Expression : Element
-
-// TODO
-sealed interface StringExpression: Expression
-//sealed interface ListExpression<T>: Expression
 
 /**
  * Converts base kotlin types to corresponding starlark expression elements.

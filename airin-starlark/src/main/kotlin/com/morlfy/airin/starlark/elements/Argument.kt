@@ -30,7 +30,7 @@ class Argument(
 /**
  *
  */
-fun Arguments(args: Map<String, *>): Set<Argument> =
+fun Arguments(args: Map<String, *>): LinkedHashSet<Argument> =
     args.mapTo(linkedSetOf()) { (id, value) ->
         Argument(id, Expression(value))
     }

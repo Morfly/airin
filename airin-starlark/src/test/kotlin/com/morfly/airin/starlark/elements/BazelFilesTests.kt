@@ -69,5 +69,5 @@ class BazelFilesTests : ShouldSpec({
         }
     }
 
-    // TODO BazelRcFile, StarlarkFile
+    // TODO StarlarkFile
 })

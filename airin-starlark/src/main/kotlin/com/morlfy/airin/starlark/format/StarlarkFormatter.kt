@@ -1,9 +1,7 @@
 package com.morlfy.airin.starlark.format
 
 import com.morlfy.airin.starlark.elements.*
-import com.morlfy.airin.starlark.elements.PositionMode.CONTINUE_LINE
-import com.morlfy.airin.starlark.elements.PositionMode.NEW_LINE
-import com.morlfy.airin.starlark.elements.PositionMode.SINGLE_LINE
+import com.morlfy.airin.starlark.elements.PositionMode.*
 
 
 /**
@@ -38,19 +36,6 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-//    private val indents = arrayListOf("", indent)
-//
-//    private fun indent(position: Int): String {
-//        require(position >= 0) { "Indent 'position' must be non-negative but was $position." }
-//
-//        return if (position <= indents.lastIndex)
-//            indents[position]
-//        else {
-//            indents += indent(position - 1) + indent
-//            indents[position]
-//        }
-//    }
-
 
     override fun format(bazelFile: BazelFile): String {
         val accumulator = StringBuilder()
@@ -76,18 +61,25 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-    // TODO test
+    // tested
     override fun visit(element: Expression?, position: Int, mode: PositionMode, acc: Appendable) {
-        if (element == null) acc += None
-        else element.accept(this, position, mode, acc)
+        if (element == null) {
+            acc += when (mode) {
+                NEW_LINE -> indent(position)
+                CONTINUE_LINE -> ""
+                SINGLE_LINE -> TODO()
+            }
+            acc += None
+        } else element.accept(this, position, mode, acc)
     }
 
     // TODO test
     override fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: Appendable) {
+        acc += nl
         visit(element.expression, position, mode, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: Argument, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -99,7 +91,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         if (element.id.isNotBlank())
             acc += element.id + " = "
 
-        visit(element.value, position + 1, CONTINUE_LINE, acc)
+        visit(element.value, position, CONTINUE_LINE, acc)
     }
 
     // tested
@@ -111,7 +103,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         visit(element.value, position, CONTINUE_LINE, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: DynamicValue, position: Int, mode: PositionMode, acc: Appendable) {
         visit(element.value, position, mode, acc)
     }
@@ -123,7 +115,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         visit(element.right, position, mode = CONTINUE_LINE, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: ListExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -137,7 +129,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
             0 -> acc += "$firstLineIndent[]"
             1 -> {
                 acc += "$firstLineIndent["
-                visit(list.first(), position + 1, CONTINUE_LINE, acc)
+                visit(list.first(), position, CONTINUE_LINE, acc)
                 acc += ']'
             }
             else -> {
@@ -151,7 +143,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-    // TODO test
+    // tested
     override fun visit(element: DictionaryExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -166,9 +158,9 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
             1 -> {
                 val (key, value) = dict.first()
                 acc += "$firstLineIndent{"
-                visit(key, position + 1, CONTINUE_LINE, acc)
+                visit(key, position, CONTINUE_LINE, acc)
                 acc += ": "
-                visit(value, position + 1, CONTINUE_LINE, acc)
+                visit(value, position, CONTINUE_LINE, acc)
                 acc += '}'
             }
             else -> {
@@ -184,7 +176,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-    // TODO test
+    // tested
     override fun visit(element: ListComprehension<*>, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -214,6 +206,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         acc += ']'
     }
 
+    // TODO
     override fun visit(element: DictionaryComprehension<*, *>, position: Int, mode: PositionMode, acc: Appendable) {
         val firstLineIndent = when (mode) {
             NEW_LINE -> indent(position)
@@ -226,7 +219,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         acc += '}'
     }
 
-    // TODO test
+    // tested
     override fun visit(element: Comprehension.For, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -245,13 +238,13 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         visit(element.iterable, position + 1, CONTINUE_LINE, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: Comprehension.If, position: Int, mode: PositionMode, acc: Appendable) {
         acc += "if "
         visit(element.condition, position, CONTINUE_LINE, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: FunctionCall, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -267,7 +260,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
             1 -> {
                 val arg = args.first()
                 acc += "$firstLineIndent$name("
-                visit(arg, position + 1, CONTINUE_LINE, acc)
+                visit(arg, position, CONTINUE_LINE, acc)
                 acc += ')'
             }
             else -> {
@@ -402,7 +395,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         TODO("Not yet implemented")
     }
 
-    // TODO test
+    // tested
     override fun visit(element: Reference, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -413,7 +406,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         acc += element.name
     }
 
-    // done
+    // tested
     override fun visit(element: EmptyLineStatement, position: Int, mode: PositionMode, acc: Appendable) {
         acc += nl
     }

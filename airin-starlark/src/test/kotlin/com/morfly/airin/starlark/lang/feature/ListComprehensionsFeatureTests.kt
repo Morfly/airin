@@ -360,7 +360,7 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                 // given
                 val LIST = listOf("item1", "item2", "item3", "item4")
 
-                val comprehension = "i" `in` LIST take { i ->
+                val comprehension = "i" `in` LIST take {
                     "j" `in` LIST take { j -> j }
                 }
 
@@ -393,4 +393,7 @@ class ListComprehensionsFeatureTests : FeatureSpec({
     }
 })
 
-private class ListComprehensionsFeatureUnderTest : ListComprehensionsFeature
+
+private class ListComprehensionsFeatureUnderTest :
+// Feature under test
+    ListComprehensionsFeature

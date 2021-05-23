@@ -13,7 +13,7 @@ import com.morlfy.airin.starlark.lang.Value
 sealed class FunctionCall(
     val name: String,
     val args: Set<Argument>
-) : Statement, Expression {
+) : Expression {
 
     override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, indentIndex, mode, accumulator)

@@ -14,7 +14,7 @@ sealed interface ValueHolder : Element {
  */
 class DynamicValue(
     override var value: Expression?
-) : ValueHolder, Expression {
+) : Expression, ValueHolder {
 
     override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, indentIndex, mode, accumulator)
