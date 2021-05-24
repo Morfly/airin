@@ -9,7 +9,7 @@ import com.morlfy.airin.starlark.lang.Value
 sealed class Comprehension(
     internal val body: Expression?,
     internal val clauses: MutableList<Clause>
-) : Statement, Expression {
+) : Expression {
 
     /**
      *

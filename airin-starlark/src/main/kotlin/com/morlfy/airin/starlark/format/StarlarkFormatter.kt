@@ -108,7 +108,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         visit(element.value, position, mode, acc)
     }
 
-    // TODO test
+    // tested
     override fun visit(element: BinaryOperation, position: Int, mode: PositionMode, acc: Appendable) {
         visit(element.left, position, mode, acc)
         acc += " ${element.operator} "
@@ -277,7 +277,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-    // TODO test
+    // tested
     override fun visit(element: StringLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -309,7 +309,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         }
     }
 
-    // TODO test
+    // tested
     override fun visit(element: IntegerLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -319,7 +319,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         acc += "$indent${element.value}"
     }
 
-    // TODO test
+    // tested
     override fun visit(element: FloatLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -329,7 +329,7 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
         acc += "$indent${element.value}"
     }
 
-    // TODO test
+    // tested
     override fun visit(element: BooleanLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
