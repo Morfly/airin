@@ -5,13 +5,13 @@ package com.morfly.airin.starlark.format
 import com.morlfy.airin.starlark.elements.Expression
 import com.morlfy.airin.starlark.elements.PositionMode.CONTINUE_LINE
 import com.morlfy.airin.starlark.elements.PositionMode.NEW_LINE
-import com.morlfy.airin.starlark.format.ElementFormatter
+import com.morlfy.airin.starlark.format.StarlarkCodeFormatter
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
 
 class ExpressionFormatterTests : ShouldSpec({
-    val formatter = ElementFormatter(indentSize = 4)
+    val formatter = StarlarkCodeFormatter(indentSize = 4)
     val ___4 = " ".repeat(4) // 1st position indentation
 
     context("expression formatter") {

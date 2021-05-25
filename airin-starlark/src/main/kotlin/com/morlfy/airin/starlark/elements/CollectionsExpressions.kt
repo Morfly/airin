@@ -9,8 +9,8 @@ package com.morlfy.airin.starlark.elements
 @JvmInline
 value class ListExpression(val value: List<Expression?>) : Expression {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -26,8 +26,8 @@ fun <T> ListExpression(list: List<T>): ListExpression =
 @JvmInline
 value class DictionaryExpression(val value: Map<Expression?, Expression?>) : Expression {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 

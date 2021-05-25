@@ -17,7 +17,7 @@ internal val nl: String = System.getProperty("line.separator")
 /**
  *
  */
-class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<Appendable>, BazelFileFormatter {
+class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<Appendable>, BazelFileFormatter {
 
     private val indent = " ".repeat(indentSize)
 
@@ -345,32 +345,25 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
 
     override fun visit(element: LoadStatement, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
-        val firstLineIndent = when (mode) {
-            NEW_LINE -> indent
-            CONTINUE_LINE -> ""
-            SINGLE_LINE -> TODO()
-        }
 
         val symbols = element.symbols
         when {
             symbols.size == 1 -> {
-                acc += firstLineIndent
                 acc += "load("
-                visit(element.file, position + 1, CONTINUE_LINE, acc)
+                visit(element.file, position = 1, CONTINUE_LINE, acc)
                 acc += ", "
-                visit(symbols.first(), position + 1, CONTINUE_LINE, acc)
+                visit(symbols.first(), position = 1, CONTINUE_LINE, acc)
                 acc += ')'
             }
             symbols.size > 1 -> {
-                acc += firstLineIndent
                 acc += "load($nl"
-                visit(element.file, position + 1, NEW_LINE, acc)
+                visit(element.file, position = 1, NEW_LINE, acc)
                 acc += ",$nl"
                 for (symbol in symbols) {
-                    visit(symbol, position + 1, NEW_LINE, acc)
+                    visit(symbol, position = 1, NEW_LINE, acc)
                     acc += ",$nl"
                 }
-                acc += "$indent)"
+                acc += ')'
             }
         }
     }
@@ -383,12 +376,12 @@ class ElementFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<A
             SINGLE_LINE -> TODO()
         }
 
+        acc += indent
         if (element.alias != null) {
-            acc += indent
             acc += element.alias
             acc += " = "
         }
-        visit(element.name, position + 1, CONTINUE_LINE, acc)
+        visit(element.name, position, CONTINUE_LINE, acc)
     }
 
     override fun visit(element: RawStatement, position: Int, mode: PositionMode, acc: Appendable) {

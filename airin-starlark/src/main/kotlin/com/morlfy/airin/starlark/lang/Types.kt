@@ -42,4 +42,42 @@ typealias Name = StringType
 typealias Label = StringType
 
 
-typealias NotSpecified = Any // TODO implement as expression
+/**
+ *
+ */
+sealed interface UnspecifiedValue
+
+/**
+ *
+ */
+object UnspecifiedString : UnspecifiedValue,
+    StringType by ""
+
+/**
+ *
+ */
+object UnspecifiedInteger : UnspecifiedValue,
+    IntegerType by 0L
+
+/**
+ *
+ */
+object UnspecifiedBoolean : UnspecifiedValue,
+    BooleanType by false
+
+/**
+ *
+ */
+object UnspecifiedList : UnspecifiedValue,
+    List<Nothing> by emptyList()
+
+/**
+ *
+ */
+object UnspecifiedDictionary : UnspecifiedValue,
+    Map<Key, Value> by emptyMap()
+
+/**
+ *
+ */
+object UnspecifiedAnyValue : UnspecifiedValue

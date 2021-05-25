@@ -9,5 +9,5 @@ sealed interface Element {
     /**
      *
      */
-    fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A)
+    fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A)
 }

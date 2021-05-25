@@ -21,5 +21,5 @@ interface BazelFileFormatter {
     /**
      *
      */
-    companion object Default : BazelFileFormatter by ElementFormatter()
+    companion object Default : BazelFileFormatter by StarlarkCodeFormatter()
 }

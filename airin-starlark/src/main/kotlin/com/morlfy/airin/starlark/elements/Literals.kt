@@ -14,8 +14,8 @@ sealed interface Literal : Expression
 @JvmInline
 value class StringLiteral(val value: StringType) : Literal {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -25,8 +25,8 @@ value class StringLiteral(val value: StringType) : Literal {
 @JvmInline
 value class IntegerLiteral(val value: Long) : Literal {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -36,8 +36,8 @@ value class IntegerLiteral(val value: Long) : Literal {
 @JvmInline
 value class FloatLiteral(val value: Double) : Literal {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -47,7 +47,7 @@ value class FloatLiteral(val value: Double) : Literal {
 @JvmInline
 value class BooleanLiteral(val value: Boolean) : Literal {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }

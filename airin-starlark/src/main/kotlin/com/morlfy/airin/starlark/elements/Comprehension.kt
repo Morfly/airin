@@ -24,8 +24,8 @@ sealed class Comprehension(
         val iterable: Expression?
     ) : Clause {
 
-        override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-            visitor.visit(this, indentIndex, mode, accumulator)
+        override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+            visitor.visit(this, position, mode, accumulator)
         }
     }
 
@@ -36,8 +36,8 @@ sealed class Comprehension(
         val condition: Expression?
     ) : Clause {
 
-        override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-            visitor.visit(this, indentIndex, mode, accumulator)
+        override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+            visitor.visit(this, position, mode, accumulator)
         }
     }
 }
@@ -45,14 +45,14 @@ sealed class Comprehension(
 /**
  *
  */
-class ListComprehension<out T>(
+open class ListComprehension<out T> internal constructor(
     body: Expression?,
     clauses: MutableList<Clause>
 ) : Comprehension(body, clauses),
     List<T> by emptyList() {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -65,7 +65,7 @@ class DictionaryComprehension<K, V : Value>(
 ) : Comprehension(body, clauses),
     Map<K, V> by emptyMap() {
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }

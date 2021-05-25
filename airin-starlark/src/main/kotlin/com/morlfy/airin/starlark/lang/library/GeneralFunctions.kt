@@ -12,9 +12,9 @@ import com.morlfy.airin.starlark.lang.feature.registerFunctionCallStatement
  */
 fun StarlarkContext.glob(
     include: List<Label?>,
-    exclude: List<Label>? = null,
-    exclude_directories: IntegerType? = null,
-    allow_empty: BooleanType? = null
+    exclude: List<Label>? = UnspecifiedList,
+    exclude_directories: IntegerType? = UnspecifiedInteger,
+    allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> = listFunctionCall(
     name = "glob",
     args = mapOf(
@@ -30,9 +30,9 @@ fun StarlarkContext.glob(
  */
 fun StarlarkContext.glob(
     vararg include: Label?,
-    exclude: List<Label>? = null,
-    exclude_directories: IntegerType? = null,
-    allow_empty: BooleanType? = null
+    exclude: List<Label>? = UnspecifiedList,
+    exclude_directories: IntegerType? = UnspecifiedInteger,
+    allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> = glob(
     include.toList(),
     exclude,
@@ -44,35 +44,39 @@ fun StarlarkContext.glob(
  *
  */
 fun StarlarkContext.`package`(
-    default_visibility: List<Label>? = null,
-    default_deprecation: StringType? = null,
-    default_testonly: BooleanType? = null,
-    features: List<StringType>? = null
-): Unit = registerFunctionCallStatement(
-    name = "package",
-    args = mapOf(
-        "default_visibility" to default_visibility,
-        "default_deprecation" to default_deprecation,
-        "default_testonly" to default_testonly,
-        "features" to features
+    default_visibility: List<Label>? = UnspecifiedList,
+    default_deprecation: StringType? = UnspecifiedString,
+    default_testonly: BooleanType? = UnspecifiedBoolean,
+    features: List<StringType>? = UnspecifiedList
+) {
+    registerFunctionCallStatement(
+        name = "package",
+        args = mapOf(
+            "default_visibility" to default_visibility,
+            "default_deprecation" to default_deprecation,
+            "default_testonly" to default_testonly,
+            "features" to features
+        )
     )
-)
+}
 
 /**
  *
  */
 fun StarlarkContext.exports_files(
     exports_files: List<Label>,
-    visibility: List<Label>? = null,
-    licences: List<StringType>? = null
-): Unit = registerFunctionCallStatement(
-    name = "exports_files",
-    args = mapOf(
-        "" to exports_files,
-        "visibility" to visibility,
-        "licences" to licences,
+    visibility: List<Label>? = UnspecifiedList,
+    licences: List<StringType>? = UnspecifiedList
+) {
+    registerFunctionCallStatement(
+        name = "exports_files",
+        args = mapOf(
+            "" to exports_files,
+            "visibility" to visibility,
+            "licences" to licences,
+        )
     )
-)
+}
 
 /**
  *
@@ -81,11 +85,13 @@ fun StarlarkContext.exports_files(
     vararg exports_files: Label,
     visibility: List<Label>? = null,
     licences: List<StringType>? = null
-): Unit = exports_files(
-    exports_files.toList(),
-    visibility,
-    licences
-)
+) {
+    exports_files(
+        exports_files.toList(),
+        visibility,
+        licences
+    )
+}
 
 
 /**

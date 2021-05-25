@@ -8,7 +8,7 @@ import com.morlfy.airin.starlark.elements.ListReference
 import com.morlfy.airin.starlark.elements.PositionMode.CONTINUE_LINE
 import com.morlfy.airin.starlark.elements.PositionMode.NEW_LINE
 import com.morlfy.airin.starlark.elements.StringReference
-import com.morlfy.airin.starlark.format.ElementFormatter
+import com.morlfy.airin.starlark.format.StarlarkCodeFormatter
 import com.morlfy.airin.starlark.lang.Key
 import com.morlfy.airin.starlark.lang.StringType
 import com.morlfy.airin.starlark.lang.Value
@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
 
 
 class ReferenceFormatterTests : ShouldSpec({
-    val formatter = ElementFormatter(indentSize = 4)
+    val formatter = StarlarkCodeFormatter(indentSize = 4)
     val ___4 = " ".repeat(4) // 1st position indentation
 
     context("reference formatter tests") {

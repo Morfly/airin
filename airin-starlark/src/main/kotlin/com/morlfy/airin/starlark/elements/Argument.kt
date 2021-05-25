@@ -11,6 +11,7 @@ class Argument(
     override var value: Expression?
 ) : ValueHolder {
 
+    // comparison by id only
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -22,8 +23,8 @@ class Argument(
     override fun hashCode() = id.hashCode()
 
 
-    override fun <A> accept(visitor: ElementVisitor<A>, indentIndex: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, indentIndex, mode, accumulator)
+    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
+        visitor.visit(this, position, mode, accumulator)
     }
 }
 
@@ -31,6 +32,4 @@ class Argument(
  *
  */
 fun Arguments(args: Map<String, *>): LinkedHashSet<Argument> =
-    args.mapTo(linkedSetOf()) { (id, value) ->
-        Argument(id, Expression(value))
-    }
+    args.mapTo(linkedSetOf()) { (id, value) -> Argument(id, Expression(value)) }
