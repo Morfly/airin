@@ -76,12 +76,12 @@ class BinaryPlusFeatureTests : FeatureSpec({
                 // assertions
                 concat.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                 concat.left.let { left ->
-                    left.shouldBeTypeOf<ListExpression>()
+                    left.shouldBeTypeOf<ListExpression<*>>()
                     left.value shouldBe listOf(StringLiteral("item1"))
                 }
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right.let { right ->
-                    right.shouldBeTypeOf<ListExpression>()
+                    right.shouldBeTypeOf<ListExpression<*>>()
                     right.value shouldBe listOf(StringLiteral("item2"))
                 }
             }
@@ -95,7 +95,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                 // assertions
                 concat.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                 concat.left.let { left ->
-                    left.shouldBeTypeOf<ListExpression>()
+                    left.shouldBeTypeOf<ListExpression<*>>()
                     left.value shouldBe listOf(StringLiteral("item"))
                 }
                 concat.operator shouldBe BinaryOperator.PLUS
@@ -113,7 +113,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                 concat.left shouldBe null
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right.let { right ->
-                    right.shouldBeTypeOf<ListExpression>()
+                    right.shouldBeTypeOf<ListExpression<*>>()
                     right.value shouldBe listOf(StringLiteral("item2"))
                 }
             }
@@ -218,18 +218,18 @@ class BinaryPlusFeatureTests : FeatureSpec({
                 concat.left.let { left ->
                     left.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     left.left.let { nestedLeft ->
-                        nestedLeft.shouldBeTypeOf<ListExpression>()
+                        nestedLeft.shouldBeTypeOf<ListExpression<*>>()
                         nestedLeft.value shouldBe listOf(StringLiteral("item1"))
                     }
                     left.operator shouldBe BinaryOperator.PLUS
                     left.right.let { nestedRight ->
-                        nestedRight.shouldBeTypeOf<ListExpression>()
+                        nestedRight.shouldBeTypeOf<ListExpression<*>>()
                         nestedRight.value shouldBe listOf(StringLiteral("item2"))
                     }
                 }
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right.let { right ->
-                    right.shouldBeTypeOf<ListExpression>()
+                    right.shouldBeTypeOf<ListExpression<*>>()
                     right.value shouldBe listOf(StringLiteral("item3"))
                 }
             }

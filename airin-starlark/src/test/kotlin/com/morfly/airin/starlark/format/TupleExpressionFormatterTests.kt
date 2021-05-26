@@ -18,71 +18,71 @@
 
 package com.morfly.airin.starlark.format
 
-import com.morlfy.airin.starlark.elements.ListExpression
+import com.morlfy.airin.starlark.elements.*
 import com.morlfy.airin.starlark.elements.PositionMode.CONTINUE_LINE
 import com.morlfy.airin.starlark.elements.PositionMode.NEW_LINE
-import com.morlfy.airin.starlark.elements.StringLiteral
 import com.morlfy.airin.starlark.format.StarlarkCodeFormatter
+import com.morlfy.airin.starlark.lang.StringType
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
 
-class ListExpressionFormatterTests : ShouldSpec({
+class TupleExpressionFormatterTests : ShouldSpec({
     val formatter = StarlarkCodeFormatter(indentSize = 4)
     val ___4 = " ".repeat(4) // 1st position indentation
     val _______8 = " ".repeat(8) // 2nd position indentation
     val __________12 = " ".repeat(12) // 3rd position indentation
 
-    context("list expression formatter") {
+    context("tuple expression formatter") {
 
         context("NEW LINE mode") {
 
-            should("format empty list") {
-                val list = ListExpression<Any>(emptyList())
+            should("format empty tuple") {
+                val list = TupleExpression<Any>(emptyList())
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, NEW_LINE, builder)
 
-                val expectedResult = "${___4}[]"
+                val expectedResult = "${___4}()"
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format single item string list") {
-                val list = ListExpression<Any>(listOf(StringLiteral("item")))
+            should("format single item tuple") {
+                val list = TupleExpression<Any>(listOf(StringLiteral("item")))
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
-                    |${___4}["item"]
+                    |${___4}("item",)
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format string list") {
-                val list = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
+            should("format tuple") {
+                val list = TupleExpression<Any>(listOf(StringLiteral("item1"), IntegerLiteral(2)))
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
-                    |${___4}[
+                    |${___4}(
                     |${_______8}"item1",
-                    |${_______8}"item2",
-                    |${___4}]
+                    |${_______8}2,
+                    |${___4})
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format list of lists") {
-                val list = ListExpression<Any>(
+            should("format tuple of collections") {
+                val list = TupleExpression<Any>(
                     listOf(
-                        ListExpression<Any>(listOf()),
-                        ListExpression(listOf(StringLiteral("item1"))),
-                        ListExpression(listOf(StringLiteral("item2"), StringLiteral("item3"))),
+                        TupleExpression<Any>(listOf()),
+                        DictionaryExpression(mapOf(StringLiteral("key") to IntegerLiteral(1))),
+                        ListExpression<StringType>(listOf(StringLiteral("item2"), StringLiteral("item3"))),
                     )
                 )
 
@@ -90,21 +90,21 @@ class ListExpressionFormatterTests : ShouldSpec({
                 formatter.visit(list, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
-                    |${___4}[
-                    |${_______8}[],
-                    |${_______8}["item1"],
+                    |${___4}(
+                    |${_______8}(),
+                    |${_______8}{"key": 1},
                     |${_______8}[
                     |${__________12}"item2",
                     |${__________12}"item3",
                     |${_______8}],
-                    |${___4}]
+                    |${___4})
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format single item list of lists") {
-                val list = ListExpression<Any>(
+            should("format single item tuple of lists") {
+                val list = TupleExpression<Any>(
                     listOf(ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))))
                 )
 
@@ -112,10 +112,10 @@ class ListExpressionFormatterTests : ShouldSpec({
                 formatter.visit(list, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
-                    |${___4}[[
+                    |${___4}([
                     |${_______8}"item1",
                     |${_______8}"item2",
-                    |${___4}]]
+                    |${___4}],)
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult
@@ -124,41 +124,41 @@ class ListExpressionFormatterTests : ShouldSpec({
 
         context("CONTINUE LINE mode") {
 
-            should("format empty string list") {
-                val list = ListExpression<Any>(emptyList())
+            should("format empty tuple") {
+                val list = TupleExpression<Any>(emptyList())
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, CONTINUE_LINE, builder)
 
-                val expectedResult = "[]"
+                val expectedResult = "()"
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format single item string list") {
-                val list = ListExpression<Any>(listOf(StringLiteral("item")))
+            should("format single item tuple") {
+                val list = TupleExpression<Any>(listOf(StringLiteral("item")))
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = """
-                    |["item"]
+                    |("item",)
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult
             }
 
-            should("format string list") {
-                val list = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
+            should("format tuple") {
+                val list = TupleExpression<Any>(listOf(StringLiteral("item1"), IntegerLiteral(2)))
 
                 val builder = StringBuilder()
                 formatter.visit(list, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = """
-                    |[
+                    |(
                     |${_______8}"item1",
-                    |${_______8}"item2",
-                    |${___4}]
+                    |${_______8}2,
+                    |${___4})
                 """.trimMargin()
 
                 builder.toString() shouldBe expectedResult

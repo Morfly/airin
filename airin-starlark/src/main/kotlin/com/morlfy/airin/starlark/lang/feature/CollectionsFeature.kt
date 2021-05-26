@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-@file:Suppress("ClassName")
+@file:Suppress("ClassName", "SpellCheckingInspection")
 
 package com.morlfy.airin.starlark.lang.feature
 
+import com.morlfy.airin.starlark.elements.DictionaryExpression
+import com.morlfy.airin.starlark.elements.ListExpression
+import com.morlfy.airin.starlark.elements.TupleExpression
 import com.morlfy.airin.starlark.lang.Key
 import com.morlfy.airin.starlark.lang.Value
 
@@ -43,32 +46,48 @@ internal interface CollectionsFeature : LanguageFeature {
      *
      */
     operator fun <T> _ListExpressionBuilder.get(vararg args: T): List<T> =
-        listOf(*args)
+        ListExpression(listOf(*args))
 
     /**
      *
      */
     fun <T> list(vararg args: T): List<T> =
-        listOf(*args)
+        ListExpression(listOf(*args))
 
     /**
      *
      */
     fun list(): List<Nothing> =
-        emptyList()
+        ListExpression(emptyList())
 
 
     // ===== Dictionaries =====
 
     /**
-     * TODO
+     *
      */
-    fun dict(body: DictionaryContext.() -> Unit): Map<Key, Value> =
-        DictionaryContext().apply(body).kwargs as Map<Key, Value>
+    fun dict(body: DictionaryContext.() -> Unit): Map<Key, Value> {
+        val kwargs = DictionaryContext().apply(body).kwargs
+        return DictionaryExpression(kwargs)
+    }
+
+    /**
+     * TODO remove
+     */
+    fun <K : Key, V : Value> dict(vararg kwargs: Pair<K, V>): Map<K, V> =
+        kwargs.toMap()
+
+    // ===== Tuples =====
 
     /**
      *
      */
-    fun <K: Key, V: Value>dict(vararg kwargs: Pair<K, V>): Map<K, V> =
-        kwargs.toMap()
+    fun <T> tuple(vararg args: T): List<T> =
+        TupleExpression(listOf(*args))
+
+    /**
+     *
+     */
+    fun tuple(): List<Nothing> =
+        TupleExpression(emptyList())
 }

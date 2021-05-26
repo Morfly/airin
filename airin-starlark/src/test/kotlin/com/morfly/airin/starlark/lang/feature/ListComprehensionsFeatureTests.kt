@@ -50,7 +50,7 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                     forClause.variables.first() shouldBeSameInstanceAs comprehension.body
 
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 2
                         iterable.value.first().let { item ->
                             item.shouldBeTypeOf<StringLiteral>()
@@ -81,7 +81,7 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                     forClause.variables.first() shouldBeSameInstanceAs comprehension.body
 
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 2
                         iterable.value.first().let { item ->
                             item.shouldBeTypeOf<StringLiteral>()
@@ -122,10 +122,10 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                         sublist.name shouldBe "sublist"
                     }
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 2
                         iterable.value.first().let { sublist ->
-                            sublist.shouldBeTypeOf<ListExpression>()
+                            sublist.shouldBeTypeOf<ListExpression<*>>()
                             sublist.value.size shouldBe 1
                         }
                     }
@@ -166,10 +166,10 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                         sublist.name shouldBe "sublist"
                     }
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 2
                         iterable.value.first().let { sublist ->
-                            sublist.shouldBeTypeOf<ListExpression>()
+                            sublist.shouldBeTypeOf<ListExpression<*>>()
                             sublist.value.size shouldBe 1
                         }
                     }
@@ -222,10 +222,10 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                     forClause.variables.first() shouldBeSameInstanceAs comprehension.body
 
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 2
                         iterable.value.first().let { sublist ->
-                            sublist.shouldBeTypeOf<ListExpression>()
+                            sublist.shouldBeTypeOf<ListExpression<*>>()
                             sublist.value.size shouldBe 1
                         }
                     }
@@ -275,10 +275,10 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                         sub_matrix.name shouldBe "sub_matrix"
                     }
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 3
                         iterable.value.first().let { sub_matrix ->
-                            sub_matrix.shouldBeTypeOf<ListExpression>()
+                            sub_matrix.shouldBeTypeOf<ListExpression<*>>()
                             sub_matrix.value.size shouldBe 2
                         }
                     }
@@ -337,10 +337,10 @@ class ListComprehensionsFeatureTests : FeatureSpec({
                         sub_matrix.name shouldBe "sub_matrix"
                     }
                     forClause.iterable.let { iterable ->
-                        iterable.shouldBeTypeOf<ListExpression>()
+                        iterable.shouldBeTypeOf<ListExpression<*>>()
                         iterable.value.size shouldBe 3
                         iterable.value.first().let { sub_matrix ->
-                            sub_matrix.shouldBeTypeOf<ListExpression>()
+                            sub_matrix.shouldBeTypeOf<ListExpression<*>>()
                             sub_matrix.value.size shouldBe 2
                         }
                     }

@@ -32,7 +32,7 @@ internal interface AssignmentsFeature : LanguageFeature, StatementsHolder {
      *
      */
     operator fun StringType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): StringReference {
-        statements += Assignment(name = property.name, value = Expression(this))
+        statements += Assignment(name = property.name, value = Expression(this, ::StringLiteral))
         return StringReference(name = property.name)
     }
 
@@ -47,7 +47,7 @@ internal interface AssignmentsFeature : LanguageFeature, StatementsHolder {
      *
      */
     operator fun <T> List<T>.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): ListReference<T> {
-        statements += Assignment(name = property.name, value = Expression(this))
+        statements += Assignment(name = property.name, value = Expression(this, ::ListExpression))
         return ListReference(name = property.name)
     }
 
@@ -64,7 +64,7 @@ internal interface AssignmentsFeature : LanguageFeature, StatementsHolder {
     operator fun <K : Key, V : Value> Map<K, V>.provideDelegate(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): DictionaryReference<K, V> {
-        statements += Assignment(name = property.name, value = Expression(this))
+        statements += Assignment(name = property.name, value = Expression(this, ::DictionaryExpression))
         return DictionaryReference(name = property.name)
     }
 

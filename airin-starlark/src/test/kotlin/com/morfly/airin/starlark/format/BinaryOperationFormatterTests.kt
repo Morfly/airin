@@ -76,9 +76,9 @@ class BinaryOperationFormatterTests : ShouldSpec({
 
             should("format single line list concatenation") {
                 val concat = ListBinaryOperation<StringType>(
-                    left = ListExpression(listOf(StringLiteral("item1"))),
+                    left = ListExpression<Any>(listOf(StringLiteral("item1"))),
                     operator = PLUS,
-                    right = ListExpression(listOf(StringLiteral("item2")))
+                    right = ListExpression<Any>(listOf(StringLiteral("item2")))
                 )
 
                 val builder = StringBuilder()
@@ -93,9 +93,9 @@ class BinaryOperationFormatterTests : ShouldSpec({
 
             should("format list concatenation") {
                 val concat = ListBinaryOperation<StringType>(
-                    left = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2"))),
+                    left = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))),
                     operator = PLUS,
-                    right = ListExpression(listOf(StringLiteral("item3"), StringLiteral("item4")))
+                    right = ListExpression<Any>(listOf(StringLiteral("item3"), StringLiteral("item4")))
                 )
 
                 val builder = StringBuilder()
@@ -163,9 +163,9 @@ class BinaryOperationFormatterTests : ShouldSpec({
 
             should("format list concatenation") {
                 val concat = ListBinaryOperation<StringType>(
-                    left = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2"))),
+                    left = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))),
                     operator = PLUS,
-                    right = ListExpression(listOf(StringLiteral("item3"), StringLiteral("item4")))
+                    right = ListExpression<Any>(listOf(StringLiteral("item3"), StringLiteral("item4")))
                 )
 
                 val builder = StringBuilder()

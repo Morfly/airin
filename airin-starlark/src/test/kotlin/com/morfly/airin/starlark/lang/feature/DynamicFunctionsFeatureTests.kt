@@ -54,7 +54,7 @@ class DynamicFunctionsFeatureTests : FeatureSpec({
                         }
                         args[1].let { arg ->
                             arg.id shouldBe "arg2"
-                            arg.value.shouldBeTypeOf<ListExpression>()
+                            arg.value.shouldBeTypeOf<ListExpression<*>>()
                         }
                         args[2].let { arg ->
                             arg.id shouldBe "arg3"

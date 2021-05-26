@@ -45,7 +45,7 @@ class ExpressionTests : ShouldSpec({
         }
 
         should("create 'ListExpression' object for list argument") {
-            Expression(listOf("item")).shouldBeTypeOf<ListExpression>()
+            Expression(listOf("item")).shouldBeTypeOf<ListExpression<StringLiteral>>()
         }
 
         should("create 'DictionaryExpression' object for map argument") {

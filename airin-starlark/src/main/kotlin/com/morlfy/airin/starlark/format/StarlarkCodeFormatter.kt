@@ -132,7 +132,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
     // tested
-    override fun visit(element: ListExpression, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: ListExpression<*>, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
             NEW_LINE -> indent
@@ -188,6 +188,34 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
                     acc += ",$nl"
                 }
                 acc += "$indent}"
+            }
+        }
+    }
+
+    override fun visit(element: TupleExpression<*>, position: Int, mode: PositionMode, acc: Appendable) {
+        val indent = indent(position)
+        val firstLineIndent = when (mode) {
+            NEW_LINE -> indent
+            CONTINUE_LINE -> ""
+            SINGLE_LINE -> TODO()
+        }
+
+        val list = element.value
+        when (list.size) {
+            0 -> acc += "$firstLineIndent()"
+            1 -> {
+                acc += "$firstLineIndent("
+                visit(list.first(), position, CONTINUE_LINE, acc)
+                acc += ','
+                acc += ')'
+            }
+            else -> {
+                acc += "$firstLineIndent($nl"
+                for (item in list) {
+                    visit(item, position + 1, NEW_LINE, acc)
+                    acc += ",$nl"
+                }
+                acc += "$indent)"
             }
         }
     }

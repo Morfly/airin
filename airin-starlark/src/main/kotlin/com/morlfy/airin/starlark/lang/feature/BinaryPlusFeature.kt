@@ -35,9 +35,9 @@ internal interface BinaryPlusFeature : LanguageFeature {
      */
     infix fun StringType?.`+`(other: StringType?): StringType =
         StringBinaryOperation(
-            left = Expression(this),
+            left = Expression(this, ::StringLiteral),
             operator = PLUS,
-            right = other?.let(::StringLiteral)
+            right = Expression(other, ::StringLiteral)
         )
 
     /**
@@ -45,9 +45,9 @@ internal interface BinaryPlusFeature : LanguageFeature {
      */
     infix fun <T> List<T>?.`+`(other: List<T>?): List<T> =
         ListBinaryOperation(
-            left = Expression(this),
+            left = Expression(this, ::ListExpression),
             operator = PLUS,
-            right = other?.let(::ListExpression)
+            right = Expression(other, ::ListExpression)
         )
 
     /**
@@ -55,9 +55,9 @@ internal interface BinaryPlusFeature : LanguageFeature {
      */
     infix fun Map<*, Value>?.`+`(other: Map<*, Value>?): Map<Key, Value> =
         DictionaryBinaryOperation(
-            left = Expression(this),
+            left = Expression(this, ::DictionaryExpression),
             operator = PLUS,
-            right = other?.let(::DictionaryExpression)
+            right = Expression(other, ::DictionaryExpression)
         )
 
     /**
@@ -65,7 +65,7 @@ internal interface BinaryPlusFeature : LanguageFeature {
      */
     infix fun Map<*, Value>?.`+`(body: DictionaryContext.() -> Unit): Map<Key, Value> =
         DictionaryBinaryOperation(
-            left = Expression(this),
+            left = Expression(this, ::DictionaryExpression),
             operator = PLUS,
             right = DictionaryExpression(DictionaryContext().apply(body).kwargs)
         )

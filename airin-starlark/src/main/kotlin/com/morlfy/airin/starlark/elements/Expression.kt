@@ -23,15 +23,17 @@ package com.morlfy.airin.starlark.elements
  * Base type for expression elements.
  *
  * Possible expression types:
- *  null - as value of Expression? type corresponds to starlark's 'None' type,
- *  [Literal]: [IntegerLiteral], [FloatLiteral], [BooleanLiteral],
+ *  null - as value of Expression? type corresponds to the 'None' type from Starlark,
+ *  [StringLiteral], [IntegerLiteral], [FloatLiteral], [BooleanLiteral],
  *  [ListExpression],
  *  [DictionaryExpression],
- *  [BinaryOperation]: [StringBinaryOperation], [ListBinaryOperation], [DictionaryBinaryOperation], [AnyBinaryOperation],
+ *  [TupleExpression],
+ *  [BinaryOperation],
  *  [ListComprehension],
  *  [DictionaryComprehension],
- *  [FunctionCall]: [StringFunctionCall], [ListFunctionCall], [DictionaryFunctionCall], [AnyFunctionCall], [VoidFunctionCall],
- *  [Reference]: [StringReference], [ListReference], [DictionaryReference], [AnyReference],
+ *  [FunctionCall],
+ *  [Reference],
+ *  [DynamicValue],
  *  [RawText]: TODO.
  */
 sealed interface Expression : Element
@@ -54,4 +56,14 @@ fun Expression(value: Any?): Expression? =
         is Byte -> IntegerLiteral(value.toLong())
         is Short -> IntegerLiteral(value.toLong())
         else -> StringLiteral(value.toString())
+    }
+
+/**
+ *
+ */
+inline fun <T : Any> Expression(value: T?, builder: (value: T) -> Expression): Expression? =
+    when (value) {
+        null -> null
+        is Expression -> value
+        else -> builder(value)
     }

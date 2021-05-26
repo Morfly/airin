@@ -107,7 +107,7 @@ class AssignmentFormatterTests : ShouldSpec({
         }
 
         should("format new empty list assignments") {
-            val assignment = Assignment("VARIABLE", ListExpression(emptyList()))
+            val assignment = Assignment("VARIABLE", ListExpression<Any>(emptyList()))
 
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
@@ -120,7 +120,7 @@ class AssignmentFormatterTests : ShouldSpec({
         should("format new single item list assignments") {
             val assignment = Assignment(
                 name = "VARIABLE",
-                value = ListExpression(listOf(StringLiteral("item")))
+                value = ListExpression<Any>(listOf(StringLiteral("item")))
             )
 
             val builder = StringBuilder()
@@ -136,7 +136,7 @@ class AssignmentFormatterTests : ShouldSpec({
         should("format new list assignments") {
             val assignment = Assignment(
                 name = "VARIABLE",
-                value = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                value = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
             )
 
             val builder = StringBuilder()
@@ -258,9 +258,9 @@ class AssignmentFormatterTests : ShouldSpec({
 
         should("format concatenated list assignments") {
             val listConcatenation = ListBinaryOperation<String>(
-                left = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2"))),
+                left = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))),
                 operator = BinaryOperator.PLUS,
-                right = ListExpression(listOf(StringLiteral("item3"), StringLiteral("item4")))
+                right = ListExpression<Any>(listOf(StringLiteral("item3"), StringLiteral("item4")))
             )
             val assignment = Assignment(
                 name = "VARIABLE",

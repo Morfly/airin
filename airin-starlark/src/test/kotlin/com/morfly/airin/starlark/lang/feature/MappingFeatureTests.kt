@@ -56,7 +56,7 @@ class MappingFeatureTests : FeatureSpec({
                     key shouldBe StringLiteral("key")
                     value.shouldBeTypeOf<DynamicValue>()
                     value.value.let { listExpr ->
-                        listExpr.shouldBeTypeOf<ListExpression>()
+                        listExpr.shouldBeTypeOf<ListExpression<*>>()
                         listExpr.value shouldBe listOf(StringLiteral("item"))
                     }
                 }

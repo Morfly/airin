@@ -33,7 +33,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StatementsHolder {
      *
      */
     infix fun StringReference.`=`(value: StringType?): _ValueAccumulator<StringType> {
-        val assignment = Assignment(name, value = value?.let(::StringLiteral))
+        val assignment = Assignment(name, value = Expression(value, ::StringLiteral))
         statements += assignment
         return _ValueAccumulator(assignment)
     }
@@ -42,7 +42,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StatementsHolder {
      *
      */
     infix fun <T> ListReference<T>.`=`(value: List<T>?): _ValueAccumulator<List<T>> {
-        val assignment = Assignment(name, value = value?.let(::ListExpression))
+        val assignment = Assignment(name, value = Expression(value, ::ListExpression))
         statements += assignment
         return _ValueAccumulator(assignment)
     }
@@ -51,7 +51,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StatementsHolder {
      *
      */
     infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(value: Map<Key, Value>?): _ValueAccumulator<Map<K, V>> {
-        val assignment = Assignment(name, value = value?.let(::DictionaryExpression))
+        val assignment = Assignment(name, value = Expression(value, ::DictionaryExpression))
         statements += assignment
         return _ValueAccumulator(assignment)
     }

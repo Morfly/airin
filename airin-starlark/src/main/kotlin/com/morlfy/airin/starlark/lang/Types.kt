@@ -40,6 +40,11 @@ typealias BooleanType = Comparable<Boolean>
 /**
  *
  */
+typealias TupleType<T> = List<T>
+
+/**
+ *
+ */
 typealias Key = Any?
 
 /**
@@ -96,4 +101,4 @@ object UnspecifiedDictionary : UnspecifiedValue,
 /**
  *
  */
-object UnspecifiedAnyValue : UnspecifiedValue
+object UnspecifiedAny : UnspecifiedValue

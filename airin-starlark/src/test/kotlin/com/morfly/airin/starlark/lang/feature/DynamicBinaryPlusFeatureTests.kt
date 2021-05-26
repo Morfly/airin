@@ -80,12 +80,12 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                 concat.holder.value.let {
                     it.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     it.left.let { left ->
-                        left.shouldBeTypeOf<ListExpression>()
+                        left.shouldBeTypeOf<ListExpression<*>>()
                         left.value shouldBe listOf(StringLiteral("item1"))
                     }
                     it.operator shouldBe BinaryOperator.PLUS
                     it.right.let { right ->
-                        right.shouldBeTypeOf<ListExpression>()
+                        right.shouldBeTypeOf<ListExpression<*>>()
                         right.value shouldBe listOf(StringLiteral("item2"))
                     }
                 }
@@ -104,7 +104,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                 concat.holder.value.let {
                     it.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     it.left.let { left ->
-                        left.shouldBeTypeOf<ListExpression>()
+                        left.shouldBeTypeOf<ListExpression<*>>()
                         left.value shouldBe listOf(StringLiteral("item1"))
                     }
                     it.operator shouldBe BinaryOperator.PLUS
@@ -244,18 +244,18 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                     it.left.let { left ->
                         left.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                         left.left.let { nestedLeft ->
-                            nestedLeft.shouldBeTypeOf<ListExpression>()
+                            nestedLeft.shouldBeTypeOf<ListExpression<*>>()
                             nestedLeft.value shouldBe listOf(StringLiteral("item1"))
                         }
                         left.operator shouldBe BinaryOperator.PLUS
                         left.right.let { nestedRight ->
-                            nestedRight.shouldBeTypeOf<ListExpression>()
+                            nestedRight.shouldBeTypeOf<ListExpression<*>>()
                             nestedRight.value shouldBe listOf(StringLiteral("item2"))
                         }
                     }
                     it.operator shouldBe BinaryOperator.PLUS
                     it.right.let { right ->
-                        right.shouldBeTypeOf<ListExpression>()
+                        right.shouldBeTypeOf<ListExpression<*>>()
                         right.value shouldBe listOf(StringLiteral("item3"))
                     }
                 }

@@ -64,7 +64,7 @@ class ReassignmentsFeatureTests : FeatureSpec({
 
                 statement.name shouldBe "LIST_VARIABLE"
                 statement.value!!.let { list ->
-                    list.shouldBeTypeOf<ListExpression>()
+                    list.shouldBeTypeOf<ListExpression<*>>()
                     list.value.size shouldBe 1
 
                     list.value.first().let { item ->

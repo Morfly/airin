@@ -89,10 +89,11 @@ class DictionaryExpressionFormatterTests : ShouldSpec({
             should("format dictionary of lists") {
                 val dict = DictionaryExpression(
                     mapOf(
-                        StringLiteral("key1") to DynamicValue(ListExpression(emptyList())),
-                        StringLiteral("key2") to DynamicValue(ListExpression(listOf(StringLiteral("item1")))),
-                        StringLiteral("key3") to
-                                DynamicValue(ListExpression(listOf(StringLiteral("item2"), StringLiteral("item3")))),
+                        StringLiteral("key1") to DynamicValue(ListExpression<Any>(emptyList())),
+                        StringLiteral("key2") to DynamicValue(ListExpression<Any>(listOf(StringLiteral("item1")))),
+                        StringLiteral("key3") to DynamicValue(
+                            ListExpression<Any>(listOf(StringLiteral("item2"), StringLiteral("item3")))
+                        ),
                     )
                 )
 
@@ -143,7 +144,7 @@ class DictionaryExpressionFormatterTests : ShouldSpec({
             should("format single item dictionary with multiline key") {
                 val dict = DictionaryExpression(
                     mapOf(
-                        ListExpression(listOf(StringLiteral("key1"), StringLiteral("key2"))) to
+                        ListExpression<Any>(listOf(StringLiteral("key1"), StringLiteral("key2"))) to
                                 DynamicValue(StringLiteral("value"))
                     )
                 )
@@ -164,8 +165,9 @@ class DictionaryExpressionFormatterTests : ShouldSpec({
             should("format single item dictionary with multiline key and value") {
                 val dict = DictionaryExpression(
                     mapOf(
-                        ListExpression(listOf(StringLiteral("key1"), StringLiteral("key2"))) to
-                                DynamicValue(ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2"))))
+                        ListExpression<Any>(listOf(StringLiteral("key1"), StringLiteral("key2"))) to DynamicValue(
+                            ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                        )
                     )
                 )
 
@@ -188,10 +190,12 @@ class DictionaryExpressionFormatterTests : ShouldSpec({
             should("format dictionary with multiline keys and values") {
                 val dict = DictionaryExpression(
                     mapOf(
-                        ListExpression(listOf(StringLiteral("key1"), StringLiteral("key2"))) to
-                                DynamicValue(ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))),
-                        ListExpression(listOf(StringLiteral("key3"), StringLiteral("key4"))) to
-                                DynamicValue(ListExpression(listOf(StringLiteral("item3"), StringLiteral("item4"))))
+                        ListExpression<Any>(listOf(StringLiteral("key1"), StringLiteral("key2"))) to DynamicValue(
+                            ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                        ),
+                        ListExpression<Any>(listOf(StringLiteral("key3"), StringLiteral("key4"))) to DynamicValue(
+                            ListExpression<Any>(listOf(StringLiteral("item3"), StringLiteral("item4")))
+                        )
                     )
                 )
 

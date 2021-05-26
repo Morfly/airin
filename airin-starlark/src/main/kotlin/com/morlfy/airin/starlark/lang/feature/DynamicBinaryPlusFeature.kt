@@ -37,7 +37,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
         holder.value = StringBinaryOperation(
             left = holder.value,
             operator = PLUS,
-            right = other?.let(::StringLiteral)
+            right = Expression(other, ::StringLiteral)
         )
         return this
     }
@@ -49,7 +49,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
         holder.value = ListBinaryOperation<T>(
             left = holder.value,
             operator = PLUS,
-            right = other?.let(::ListExpression)
+            right = Expression(other, ::ListExpression)
         )
         return this
     }
@@ -61,7 +61,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
         holder.value = DictionaryBinaryOperation<Key, Value>(
             left = holder.value,
             operator = PLUS,
-            right = other?.let(::DictionaryExpression)
+            right = Expression(other, ::DictionaryExpression)
         )
         return this
     }

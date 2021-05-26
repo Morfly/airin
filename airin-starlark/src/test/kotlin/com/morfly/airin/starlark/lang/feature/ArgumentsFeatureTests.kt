@@ -57,7 +57,7 @@ class ArgumentsFeatureTests : FeatureSpec({
                 args.first().let { arg ->
                     arg.id shouldBe "list_arg"
                     arg.value.let { value ->
-                        value.shouldBeTypeOf<ListExpression>()
+                        value.shouldBeTypeOf<ListExpression<StringLiteral>>()
                         value.value.size shouldBe 1
                         value.value.first().let { item ->
                             item.shouldBeTypeOf<StringLiteral>()

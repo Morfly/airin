@@ -39,9 +39,11 @@ interface ElementVisitor<A> {
 
     fun visit(element: BinaryOperation, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: ListExpression, position: Int, mode: PositionMode, acc: A)
+    fun visit(element: ListExpression<*>, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: DictionaryExpression, position: Int, mode: PositionMode, acc: A)
+
+    fun visit(element: TupleExpression<*>, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: ListComprehension<*>, position: Int, mode: PositionMode, acc: A)
 

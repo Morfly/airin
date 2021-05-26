@@ -43,7 +43,7 @@ internal interface ListComprehensionsFeature : LanguageFeature {
     infix fun String.`in`(iterable: List<StringType>): _CompWithStringItems {
         val itemVariable = StringReference(name = this)
         val clauses = mutableListOf<Comprehension.Clause>(
-            Comprehension.For(variables = listOf(itemVariable), iterable = Expression(iterable))
+            Comprehension.For(variables = listOf(itemVariable), iterable = Expression(iterable, ::ListExpression))
         )
         return _CompWithStringItems(itemVariable, clauses)
     }
@@ -80,7 +80,7 @@ internal interface ListComprehensionsFeature : LanguageFeature {
     infix fun <T> String.`in`(iterable: List<List<T>>): _CompWithListItems<T> {
         val itemVariable = ListReference<T>(name = this)
         val clauses = mutableListOf<Comprehension.Clause>(
-            Comprehension.For(variables = listOf(itemVariable), Expression(iterable))
+            Comprehension.For(variables = listOf(itemVariable), Expression(iterable, ::ListExpression))
         )
         return _CompWithListItems(itemVariable, clauses)
     }
@@ -108,6 +108,6 @@ internal interface ListComprehensionsFeature : LanguageFeature {
      */
     infix fun <T, R> _CompWithListItems<T>.take(body: (ListReference<T>) -> List<R>): ListComprehension<List<R>> {
         val expression = body(variable)
-        return ListComprehension(body = Expression(expression), clauses)
+        return ListComprehension(body = Expression(expression, ::ListExpression), clauses)
     }
 }

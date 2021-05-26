@@ -83,7 +83,7 @@ class FunctionCallFormatterTests : ShouldSpec({
                     args = setOf(
                         Argument(
                             id = "arg",
-                            value = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                            value = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
                         )
                     )
                 )
@@ -107,7 +107,7 @@ class FunctionCallFormatterTests : ShouldSpec({
                     args = setOf(
                         Argument(
                             id = "",
-                            value = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                            value = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
                         )
                     )
                 )
@@ -129,7 +129,7 @@ class FunctionCallFormatterTests : ShouldSpec({
                 val call = AnyFunctionCall(
                     name = "function",
                     args = setOf(
-                        Argument("", ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))),
+                        Argument("", ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))),
                         Argument("arg2", StringLiteral("value"))
                     )
                 )
@@ -154,13 +154,13 @@ class FunctionCallFormatterTests : ShouldSpec({
                 val callExpression1 = ListFunctionCall<StringType>(
                     name = "glob",
                     args = setOf(
-                        Argument("", ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2"))))
+                        Argument("", ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))))
                     )
                 )
                 val callExpression2 = ListFunctionCall<StringType>(
                     name = "glob",
                     args = setOf(
-                        Argument("", ListExpression(listOf(StringLiteral("item3"), StringLiteral("item4")))),
+                        Argument("", ListExpression<Any>(listOf(StringLiteral("item3"), StringLiteral("item4")))),
                         Argument("arg3", StringLiteral("value")),
                     )
                 )
@@ -228,7 +228,7 @@ class FunctionCallFormatterTests : ShouldSpec({
                     args = setOf(
                         Argument(
                             id = "arg",
-                            value = ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))
+                            value = ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))
                         )
                     )
                 )
@@ -250,7 +250,7 @@ class FunctionCallFormatterTests : ShouldSpec({
                 val call = AnyFunctionCall(
                     name = "function",
                     args = setOf(
-                        Argument("", ListExpression(listOf(StringLiteral("item1"), StringLiteral("item2")))),
+                        Argument("", ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2")))),
                         Argument("arg2", StringLiteral("value"))
                     )
                 )
