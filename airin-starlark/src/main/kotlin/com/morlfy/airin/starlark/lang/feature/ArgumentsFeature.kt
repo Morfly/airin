@@ -84,10 +84,3 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
         return _ValueAccumulator(argument)
     }
 }
-
-private fun FunctionCallContext.test() {
-    "list" `=` listOf("item1", "item2") `+` listOf("item")
-    "map" `=` mapOf("key" to "value") `+` mapOf(1 to 2)
-    "map" `=` { "key" to "value" } `+` mapOf(1 to 2)
-    "any" `=` null
-}

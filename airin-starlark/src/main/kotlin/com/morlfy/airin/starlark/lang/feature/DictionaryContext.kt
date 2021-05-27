@@ -24,6 +24,7 @@ import com.morlfy.airin.starlark.elements.Expression
 /**
  *
  */
+@LanguageFeatureContext
 class DictionaryContext : MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature {
 
     override val kwargs = mutableMapOf<Expression?, Expression?>()

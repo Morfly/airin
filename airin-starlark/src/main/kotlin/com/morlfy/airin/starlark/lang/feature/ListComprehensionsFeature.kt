@@ -25,6 +25,18 @@ import com.morlfy.airin.starlark.lang.StringType
 /**
  *
  */
+@LanguageFeatureContext
+class ComprehensionContext
+
+/**
+ *
+ */
+@LanguageFeatureContext
+class ComprehensionContinuationContext
+
+/**
+ *
+ */
 internal interface ListComprehensionsFeature : LanguageFeature {
 
     // ==== String items =====

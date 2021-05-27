@@ -24,7 +24,13 @@ import com.morlfy.airin.starlark.elements.Argument
 /**
  *
  */
+@LanguageFeatureContext
 open class FunctionCallContext : ArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
 
     override val args = linkedSetOf<Argument>()
+}
+
+fun test() {
+    val map = mutableMapOf<String, String>()
+    val s: String by map
 }

@@ -16,13 +16,20 @@
 
 package com.morlfy.airin.starlark.lang
 
+import com.morlfy.airin.starlark.elements.Statement
 import com.morlfy.airin.starlark.elements.WorkspaceFile
+import com.morlfy.airin.starlark.lang.feature.LanguageFeatureContext
+import com.morlfy.airin.starlark.lang.feature.StatementsHolder
 
 
 /**
  *
  */
-class WorkspaceContext : StarlarkContext()
+@LanguageFeatureContext
+class WorkspaceContext : StatementsHolder {
+
+    override val statements = mutableListOf<Statement>()
+}
 
 /**
  *
