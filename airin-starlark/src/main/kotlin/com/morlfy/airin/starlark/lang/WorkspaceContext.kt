@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
+@file:Suppress("FunctionName")
+
 package com.morlfy.airin.starlark.lang
 
-import com.morlfy.airin.starlark.elements.Statement
 import com.morlfy.airin.starlark.elements.WorkspaceFile
-import com.morlfy.airin.starlark.lang.feature.LanguageFeatureContext
-import com.morlfy.airin.starlark.lang.feature.StatementsHolder
+import com.morlfy.airin.starlark.lang.api.LanguageContextProvider
+import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 
 
 /**
  *
  */
-@LanguageFeatureContext
-class WorkspaceContext : StatementsHolder {
+@LanguageFeatureScope
+class WorkspaceContext : ConfigurationContext(), LanguageContextProvider<WorkspaceContext> {
 
-    override val statements = mutableListOf<Statement>()
+    override fun newContext() = WorkspaceContext()
 }
 
 /**

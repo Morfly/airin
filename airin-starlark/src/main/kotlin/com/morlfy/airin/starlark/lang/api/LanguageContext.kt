@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package com.morlfy.airin.starlark.lang.feature
+package com.morlfy.airin.starlark.lang.api
 
-import com.morlfy.airin.starlark.elements.EmptyLineStatement
-import com.morlfy.airin.starlark.lang.api.LanguageFeature
+import com.morlfy.airin.starlark.elements.Statement
+import com.morlfy.airin.starlark.lang.feature.StarlarkStatementsHolder
 
 
 /**
  *
  */
-internal interface EmptyLinesFeature : LanguageFeature, StarlarkStatementsHolder {
+abstract class LanguageContext : StarlarkStatementsHolder {
 
-    /**
-     *
-     */
-    val space: Unit
-        get() {
-            statements += EmptyLineStatement
-        }
+    override val statements = mutableListOf<Statement>()
 }

@@ -20,13 +20,14 @@ package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.*
 import com.morlfy.airin.starlark.lang.*
+import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 import kotlin.reflect.KProperty
 
 
 /**
  *
  */
-@LanguageFeatureContext
+@LanguageFeatureScope
 open class FunctionCallContext : ArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
 
     override val fargs = linkedSetOf<Argument>()

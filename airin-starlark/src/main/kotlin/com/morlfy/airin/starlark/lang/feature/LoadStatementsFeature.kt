@@ -18,12 +18,13 @@ package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.LoadStatement
 import com.morlfy.airin.starlark.elements.StringLiteral
+import com.morlfy.airin.starlark.lang.api.LanguageFeature
 
 
 /**
  *
  */
-internal interface LoadStatementsFeature : LanguageFeature, StatementsHolder {
+internal interface LoadStatementsFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
      *

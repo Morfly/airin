@@ -19,25 +19,20 @@
 package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.*
+import com.morlfy.airin.starlark.lang.BooleanType
+import com.morlfy.airin.starlark.lang.FloatType
+import com.morlfy.airin.starlark.lang.IntegerType
 import com.morlfy.airin.starlark.lang.StringType
+import com.morlfy.airin.starlark.lang.api.LanguageContext
+import com.morlfy.airin.starlark.lang.api.LanguageContextProvider
+import com.morlfy.airin.starlark.lang.api.LanguageFeature
 
 
 /**
  *
  */
-@LanguageFeatureContext
-class ComprehensionContext
-
-/**
- *
- */
-@LanguageFeatureContext
-class ComprehensionContinuationContext
-
-/**
- *
- */
-internal interface ListComprehensionsFeature : LanguageFeature {
+internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeature, LanguageContextProvider<C>,
+    StarlarkStatementsHolder {
 
     // ==== String items =====
 
@@ -71,10 +66,113 @@ internal interface ListComprehensionsFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <R> _CompWithStringItems.take(body: (StringReference) -> R): ListComprehension<R> {
-        val expression = body(variable)
-        return ListComprehension(body = Expression(expression), clauses)
+    infix fun <R> _CompWithStringItems.take(body: C.(StringReference) -> R): ListComprehension<R> =
+        buildComprehension(context = newContext(), variable, body, clauses)
+
+    // ===== Integer items =====
+
+    /**
+     *
+     */
+    class _CompWithIntegerItems(
+        internal val variable: IntegerReference,
+        internal val clauses: MutableList<Comprehension.Clause>
+    )
+
+    /**
+     *
+     */
+    infix fun String.`in`(iterable: List<IntegerType>): _CompWithIntegerItems {
+        val itemVariable = IntegerReference(name = this)
+        val clauses = mutableListOf<Comprehension.Clause>(
+            Comprehension.For(variables = listOf(itemVariable), iterable = Expression(iterable, ::ListExpression))
+        )
+        return _CompWithIntegerItems(itemVariable, clauses)
     }
+
+    /**
+     *
+     */
+    infix fun _CompWithIntegerItems.`if`(condition: String): _CompWithIntegerItems {
+        clauses += Comprehension.If(condition = AnyRawExpression(condition))
+        return this
+    }
+
+    /**
+     *
+     */
+    infix fun <R> _CompWithIntegerItems.take(body: C.(IntegerReference) -> R): ListComprehension<R> =
+        buildComprehension(context = newContext(), variable, body, clauses)
+
+    // ===== Float items =====
+
+    /**
+     *
+     */
+    class _CompWithFloatItems(
+        internal val variable: FloatReference,
+        internal val clauses: MutableList<Comprehension.Clause>
+    )
+
+    /**
+     *
+     */
+    infix fun String.`in`(iterable: List<FloatType>): _CompWithFloatItems {
+        val itemVariable = FloatReference(name = this)
+        val clauses = mutableListOf<Comprehension.Clause>(
+            Comprehension.For(variables = listOf(itemVariable), iterable = Expression(iterable, ::ListExpression))
+        )
+        return _CompWithFloatItems(itemVariable, clauses)
+    }
+
+    /**
+     *
+     */
+    infix fun _CompWithFloatItems.`if`(condition: String): _CompWithFloatItems {
+        clauses += Comprehension.If(condition = AnyRawExpression(condition))
+        return this
+    }
+
+    /**
+     *
+     */
+    infix fun <R> _CompWithFloatItems.take(body: C.(FloatReference) -> R): ListComprehension<R> =
+        buildComprehension(context = newContext(), variable, body, clauses)
+
+    // ===== Boolean items =====
+
+    /**
+     *
+     */
+    class _CompWithBooleanItems(
+        internal val variable: BooleanReference,
+        internal val clauses: MutableList<Comprehension.Clause>
+    )
+
+    /**
+     *
+     */
+    infix fun String.`in`(iterable: List<BooleanType>): _CompWithBooleanItems {
+        val itemVariable = BooleanReference(name = this)
+        val clauses = mutableListOf<Comprehension.Clause>(
+            Comprehension.For(variables = listOf(itemVariable), iterable = Expression(iterable, ::ListExpression))
+        )
+        return _CompWithBooleanItems(itemVariable, clauses)
+    }
+
+    /**
+     *
+     */
+    infix fun _CompWithBooleanItems.`if`(condition: String): _CompWithBooleanItems {
+        clauses += Comprehension.If(condition = AnyRawExpression(condition))
+        return this
+    }
+
+    /**
+     *
+     */
+    infix fun <R> _CompWithBooleanItems.take(body: C.(BooleanReference) -> R): ListComprehension<R> =
+        buildComprehension(context = newContext(), variable, body, clauses)
 
     // ===== List items =====
 
@@ -97,7 +195,6 @@ internal interface ListComprehensionsFeature : LanguageFeature {
         return _CompWithListItems(itemVariable, clauses)
     }
 
-
     /**
      *
      */
@@ -109,8 +206,11 @@ internal interface ListComprehensionsFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <T, R> _CompWithListItems<T>.`for`(body: (ListReference<T>) -> ListComprehension<R>): ListComprehension<R> {
-        val innerComprehension = body(variable)
+    infix fun <T, R> _CompWithListItems<T>.`for`(body: C.(ListReference<T>) -> ListComprehension<R>): ListComprehension<R> {
+        val context = newContext()
+        val innerComprehension = context.body(variable)
+        if (context.statements.isNotEmpty())
+            error("Statements are prohibited in `for` clauses of comprehensions.")
         clauses += innerComprehension.clauses
         return ListComprehension(body = innerComprehension.body, clauses)
     }
@@ -118,8 +218,28 @@ internal interface ListComprehensionsFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <T, R> _CompWithListItems<T>.take(body: (ListReference<T>) -> List<R>): ListComprehension<List<R>> {
-        val expression = body(variable)
-        return ListComprehension(body = Expression(expression, ::ListExpression), clauses)
+    infix fun <T, R> _CompWithListItems<T>.take(body: C.(ListReference<T>) -> List<R>): ListComprehension<List<R>> =
+        buildComprehension(context = newContext(), variable, body, clauses)
+}
+
+/**
+ *
+ */
+private fun <C : LanguageContext, V : Reference, R> StarlarkStatementsHolder.buildComprehension(
+    context: C,
+    variable: V,
+    body: C.(V) -> R,
+    clauses: MutableList<Comprehension.Clause>
+): ListComprehension<R> {
+    val compBody = context.body(variable)
+
+    if (context.statements.isNotEmpty()) {
+        val exprStatements = context.statements.filterIsInstance<ExpressionStatement>()
+        if (exprStatements.size > 1) error("A comprehension body must not contain more than one statement.")
+        val expression = exprStatements.first().expression
+        val comprehension = ListComprehension<R>(body = expression, clauses)
+        statements += ExpressionStatement(comprehension)
+        return comprehension
     }
+    return ListComprehension(body = Expression(compBody), clauses)
 }

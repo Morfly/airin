@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.morlfy.airin.starlark.lang.feature
+package com.morlfy.airin.starlark.lang.api
 
 
 /**
  *
  */
-internal sealed interface LanguageFeature
-
-/**
- *
- */
-@DslMarker
-internal annotation class LanguageFeatureContext
+internal interface LanguageFeature

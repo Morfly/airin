@@ -20,8 +20,11 @@ package com.morfly.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.*
 import com.morlfy.airin.starlark.lang.StringType
+import com.morlfy.airin.starlark.lang.api.LanguageContext
+import com.morlfy.airin.starlark.lang.feature.DynamicFunctionsFeature
 import com.morlfy.airin.starlark.lang.feature.ListComprehensionsFeature
 import io.kotest.core.spec.style.FeatureSpec
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldBeTypeOf
@@ -406,10 +409,63 @@ class ListComprehensionsFeatureTests : FeatureSpec({
             }
         }
 
+        scenario("statement as a comprehension body") {
+            ListComprehensionsFeatureUnderTest().apply {
+                // given
+                val LIST = listOf("item1", "item2", "item3", "item4")
+
+                "item" `in` LIST take {
+                    "function"()
+                }
+
+                // assertions
+                statements.size shouldBe 1
+                statements.first().let {
+                    it.shouldBeTypeOf<ExpressionStatement>()
+                    it.expression.let { comp ->
+                        comp.shouldBeTypeOf<ListComprehension<*>>()
+                        comp.body.let { body ->
+                            body.shouldBeTypeOf<AnyFunctionCall>()
+                            body.name shouldBe "function"
+                            body.args.shouldBeEmpty()
+                        }
+                        comp.clauses.size shouldBe 1
+                        comp.clauses.first().let { clause ->
+                            clause.shouldBeTypeOf<Comprehension.For>()
+                            clause.iterable.let { list ->
+                                list.shouldBeTypeOf<ListExpression<*>>()
+                                list.value.size shouldBe 4
+                            }
+                            clause.variables.size shouldBe 1
+                            clause.variables.first().let { variable ->
+                                variable.shouldBeTypeOf<StringReference>()
+                                variable.name shouldBe "item"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        scenario("comprehension with a statement body used as expression") {
+            ListComprehensionsFeatureUnderTest().apply {
+                val LIST = listOf("item1", "item2", "item3", "item4")
+
+                val comprehension = "item" `in` LIST take {
+                    "function"()
+                }
+//                TODO()
+            }
+        }
     }
 })
 
 
-private class ListComprehensionsFeatureUnderTest :
+private class ListComprehensionsFeatureUnderTest : LanguageContext(),
 // Feature under test
-    ListComprehensionsFeature
+    ListComprehensionsFeature<ListComprehensionsFeatureUnderTest>,
+// Additional features for compatibility tests
+    DynamicFunctionsFeature {
+
+    override fun newContext() = ListComprehensionsFeatureUnderTest()
+}

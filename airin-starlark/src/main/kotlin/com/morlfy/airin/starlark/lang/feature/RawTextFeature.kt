@@ -20,9 +20,10 @@ import com.morlfy.airin.starlark.elements.RawStatement
 import com.morlfy.airin.starlark.lang.Key
 import com.morlfy.airin.starlark.lang.BaseStarlarkContext
 import com.morlfy.airin.starlark.lang.Value
+import com.morlfy.airin.starlark.lang.api.LanguageFeature
 
 
-internal interface RawTextFeature : LanguageFeature, StatementsHolder {
+internal interface RawTextFeature : LanguageFeature, StarlarkStatementsHolder {
 
     val String.txt: Unit
         get() {

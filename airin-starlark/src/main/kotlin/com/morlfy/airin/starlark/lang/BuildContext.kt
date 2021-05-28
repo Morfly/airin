@@ -19,18 +19,17 @@
 package com.morlfy.airin.starlark.lang
 
 import com.morlfy.airin.starlark.elements.BuildFile
-import com.morlfy.airin.starlark.elements.Statement
-import com.morlfy.airin.starlark.lang.feature.LanguageFeatureContext
-import com.morlfy.airin.starlark.lang.feature.StatementsHolder
+import com.morlfy.airin.starlark.lang.api.LanguageContextProvider
+import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 
 
 /**
  *
  */
-@LanguageFeatureContext
-class BuildContext : StatementsHolder {
+@LanguageFeatureScope
+class BuildContext : ConfigurationContext(), LanguageContextProvider<BuildContext> {
 
-    override val statements = mutableListOf<Statement>()
+    override fun newContext() = BuildContext()
 }
 
 /**

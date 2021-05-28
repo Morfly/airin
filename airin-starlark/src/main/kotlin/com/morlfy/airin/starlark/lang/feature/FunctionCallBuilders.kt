@@ -27,21 +27,21 @@ import kotlin.reflect.typeOf
 /**
  *
  */
-fun StatementsHolder.registerFunctionCallStatement(name: String, args: Set<Argument> = emptySet()) {
+fun StarlarkStatementsHolder.registerFunctionCallStatement(name: String, args: Set<Argument> = emptySet()) {
     statements += ExpressionStatement(VoidFunctionCall(name, args))
 }
 
 /**
  *
  */
-fun StatementsHolder.registerFunctionCallStatement(name: String, args: Map<String, *>) {
+fun StarlarkStatementsHolder.registerFunctionCallStatement(name: String, args: Map<String, *>) {
     registerFunctionCallStatement(name, Arguments(args))
 }
 
 /**
  *
  */
-inline fun <T : FunctionCallContext> StatementsHolder.registerFunctionCallStatement(
+inline fun <T : FunctionCallContext> StarlarkStatementsHolder.registerFunctionCallStatement(
     name: String, context: T, body: T.() -> Unit
 ) {
     val args = context.apply(body).fargs

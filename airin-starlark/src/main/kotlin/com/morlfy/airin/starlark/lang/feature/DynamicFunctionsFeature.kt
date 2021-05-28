@@ -18,11 +18,13 @@
 
 package com.morlfy.airin.starlark.lang.feature
 
+import com.morlfy.airin.starlark.lang.api.LanguageFeature
+
 
 /**
  *
  */
-internal interface DynamicFunctionsFeature : LanguageFeature, StatementsHolder {
+internal interface DynamicFunctionsFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
      *

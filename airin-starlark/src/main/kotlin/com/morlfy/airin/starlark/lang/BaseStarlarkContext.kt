@@ -16,14 +16,16 @@
 
 package com.morlfy.airin.starlark.lang
 
-import com.morlfy.airin.starlark.elements.Statement
+import com.morlfy.airin.starlark.lang.api.LanguageContext
+import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 import com.morlfy.airin.starlark.lang.feature.*
 
 
-@LanguageFeatureContext
-sealed class BaseStarlarkContext : StatementsHolder,
+/**
+ * Starlark Language context that includes a base set of features that are applicable to all types of Starlark files
+ * such as BUILD, WORKSPACE, .bzl and .star files.
+ */
+@LanguageFeatureScope
+sealed class BaseStarlarkContext : LanguageContext(), StarlarkStatementsHolder,
     AssignmentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature,
-    DynamicFunctionsFeature, EmptyLinesFeature, RawTextFeature {
-
-    override val statements = mutableListOf<Statement>()
-}
+    DynamicFunctionsFeature, EmptyLinesFeature, RawTextFeature

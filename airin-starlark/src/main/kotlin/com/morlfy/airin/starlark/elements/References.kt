@@ -16,8 +16,7 @@
 
 package com.morlfy.airin.starlark.elements
 
-import com.morlfy.airin.starlark.lang.StringType
-import com.morlfy.airin.starlark.lang.Value
+import com.morlfy.airin.starlark.lang.*
 
 
 /**
@@ -40,6 +39,24 @@ sealed interface Reference : Expression {
  */
 class StringReference(override val name: String) : Reference,
     StringType by name
+
+/**
+ *
+ */
+class IntegerReference(override val name: String) : Reference,
+    IntegerType by 0L
+
+/**
+ *
+ */
+class FloatReference(override val name: String) : Reference,
+    FloatType by 0.0
+
+/**
+ *
+ */
+class BooleanReference(override val name: String) : Reference,
+    BooleanType by false
 
 /**
  *

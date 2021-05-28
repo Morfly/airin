@@ -14,29 +14,10 @@
  * limitations under the License.
  */
 
-package com.morlfy.airin.starlark.lang.feature
+package com.morlfy.airin.starlark.lang
 
-import com.morlfy.airin.starlark.elements.Statement
+import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 
 
-/**
- *
- */
-interface StatementsHolder {
-
-    /**
-     *
-     */
-    val statements: MutableList<Statement>
-}
-
-/**
- *
- */
-@JvmInline
-value class Statements(internal val value: MutableList<Statement>) {
-
-    operator fun plusAssign(statement: Statement) {
-        value += statement
-    }
-}
+@LanguageFeatureScope
+sealed class ConfigurationContext : BaseStarlarkContext()

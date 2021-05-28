@@ -19,12 +19,13 @@ package com.morlfy.airin.starlark.lang.feature
 import com.morlfy.airin.starlark.elements.Expression
 import com.morlfy.airin.starlark.elements.RawStatement
 import com.morlfy.airin.starlark.elements.StringLiteral
+import com.morlfy.airin.starlark.lang.api.LanguageFeature
 
 
 /**
  *
  */
-internal interface CommentsFeature : LanguageFeature, StatementsHolder {
+internal interface CommentsFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
      *

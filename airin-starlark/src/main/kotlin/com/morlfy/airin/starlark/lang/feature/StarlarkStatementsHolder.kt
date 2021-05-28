@@ -16,20 +16,11 @@
 
 package com.morlfy.airin.starlark.lang.feature
 
-import com.morlfy.airin.starlark.elements.EmptyLineStatement
-import com.morlfy.airin.starlark.lang.api.LanguageFeature
+import com.morlfy.airin.starlark.elements.Statement
+import com.morlfy.airin.starlark.lang.api.StatementsHolder
 
 
 /**
  *
  */
-internal interface EmptyLinesFeature : LanguageFeature, StarlarkStatementsHolder {
-
-    /**
-     *
-     */
-    val space: Unit
-        get() {
-            statements += EmptyLineStatement
-        }
-}
+interface StarlarkStatementsHolder : StatementsHolder<Statement>

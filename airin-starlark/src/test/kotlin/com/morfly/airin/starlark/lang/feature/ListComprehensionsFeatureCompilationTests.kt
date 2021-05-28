@@ -21,13 +21,14 @@ package com.morfly.airin.starlark.lang.feature
 import com.morlfy.airin.starlark.elements.ListReference
 import com.morlfy.airin.starlark.elements.StringReference
 import com.morlfy.airin.starlark.lang.StringType
+import com.morlfy.airin.starlark.lang.api.LanguageContext
 import com.morlfy.airin.starlark.lang.feature.ListComprehensionsFeature
 
 
 private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
-    var STRING_LIST_RESULT: List<StringType>
-    var STRING_MATRIX_RESULT: List<List<StringType>>
-    var STRING_MATRIX_3D_RESULT: List<List<List<StringType>>>
+    var STRING_LIST_RESULT: List<StringType>?
+    var STRING_MATRIX_RESULT: List<List<StringType>>?
+    var STRING_MATRIX_3D_RESULT: List<List<List<StringType>>>?
 
 
     // =================================
@@ -224,4 +225,4 @@ private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
 
 private interface ListComprehensionsFeatureUnderCompilationTest :
 // Feature under test
-    ListComprehensionsFeature
+    ListComprehensionsFeature<LanguageContext>
