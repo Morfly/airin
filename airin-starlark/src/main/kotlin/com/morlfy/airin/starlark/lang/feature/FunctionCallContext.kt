@@ -18,7 +18,9 @@
 
 package com.morlfy.airin.starlark.lang.feature
 
-import com.morlfy.airin.starlark.elements.Argument
+import com.morlfy.airin.starlark.elements.*
+import com.morlfy.airin.starlark.lang.*
+import kotlin.reflect.KProperty
 
 
 /**
@@ -27,10 +29,26 @@ import com.morlfy.airin.starlark.elements.Argument
 @LanguageFeatureContext
 open class FunctionCallContext : ArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
 
-    override val args = linkedSetOf<Argument>()
-}
+    override val fargs = linkedSetOf<Argument>()
 
-fun test() {
-    val map = mutableMapOf<String, String>()
-    val s: String by map
+
+    operator fun <V> Set<Argument>.getValue(thisRef: Any?, property: KProperty<*>): V {
+        error("")
+    }
+
+    operator fun <V : StringType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value, ::StringLiteral))
+    }
+
+    operator fun <T, V: Comparable<T>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value))
+    }
+
+    operator fun <T, V : List<T>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value, ::ListExpression))
+    }
+
+    operator fun <K, V, V1 : Map<K, V>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V1) {
+        fargs += Argument(id = property.name, value = Expression(value, ::DictionaryExpression))
+    }
 }

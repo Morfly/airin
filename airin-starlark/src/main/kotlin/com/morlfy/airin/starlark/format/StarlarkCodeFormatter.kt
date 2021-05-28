@@ -381,9 +381,10 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             SINGLE_LINE -> TODO()
         }
         acc += indent
-        acc += when (element.value) {
+        acc += when (val value = element.value) {
             true -> True
             false -> False
+            else -> value.toString()
         }
     }
 

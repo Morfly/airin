@@ -36,8 +36,8 @@ class ArgumentsFeatureTests : FeatureSpec({
                 "string_arg" `=` "value"
 
                 // assertions
-                args.size shouldBe 1
-                args.first().let { arg ->
+                fargs.size shouldBe 1
+                fargs.first().let { arg ->
                     arg.id shouldBe "string_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<StringLiteral>()
@@ -53,8 +53,8 @@ class ArgumentsFeatureTests : FeatureSpec({
                 "list_arg" `=` listOf("item1")
 
                 // assertions
-                args.size shouldBe 1
-                args.first().let { arg ->
+                fargs.size shouldBe 1
+                fargs.first().let { arg ->
                     arg.id shouldBe "list_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<ListExpression<StringLiteral>>()
@@ -74,8 +74,8 @@ class ArgumentsFeatureTests : FeatureSpec({
                 "dict_arg" `=` mapOf("key1" to "value1")
 
                 // assertions
-                args.size shouldBe 1
-                args.first().let { arg ->
+                fargs.size shouldBe 1
+                fargs.first().let { arg ->
                     arg.id shouldBe "dict_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<DictionaryExpression>()
@@ -97,8 +97,8 @@ class ArgumentsFeatureTests : FeatureSpec({
                 "arg" `=` null
 
                 // assertions
-                args.size shouldBe 1
-                args.first().let { arg ->
+                fargs.size shouldBe 1
+                fargs.first().let { arg ->
                     arg.id shouldBe "arg"
                     arg.value shouldBe null
                 }
@@ -109,5 +109,5 @@ class ArgumentsFeatureTests : FeatureSpec({
 
 
 private class ArgumentsFeatureUnderTest : ArgumentsFeature {
-    override val args = linkedSetOf<Argument>()
+    override val fargs = linkedSetOf<Argument>()
 }

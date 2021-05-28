@@ -16,6 +16,9 @@
 
 package com.morlfy.airin.starlark.elements
 
+import com.morlfy.airin.starlark.lang.BooleanType
+import com.morlfy.airin.starlark.lang.FloatType
+import com.morlfy.airin.starlark.lang.IntegerType
 import com.morlfy.airin.starlark.lang.StringType
 
 
@@ -39,7 +42,7 @@ value class StringLiteral(val value: StringType) : Literal {
  *
  */
 @JvmInline
-value class IntegerLiteral(val value: Long) : Literal {
+value class IntegerLiteral(val value: IntegerType) : Literal {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -50,7 +53,7 @@ value class IntegerLiteral(val value: Long) : Literal {
  *
  */
 @JvmInline
-value class FloatLiteral(val value: Double) : Literal {
+value class FloatLiteral(val value: FloatType) : Literal {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -61,7 +64,7 @@ value class FloatLiteral(val value: Double) : Literal {
  *
  */
 @JvmInline
-value class BooleanLiteral(val value: Boolean) : Literal {
+value class BooleanLiteral(val value: BooleanType) : Literal {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)

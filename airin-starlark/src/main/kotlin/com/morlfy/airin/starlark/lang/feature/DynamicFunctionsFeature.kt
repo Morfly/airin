@@ -28,7 +28,7 @@ internal interface DynamicFunctionsFeature : LanguageFeature, StatementsHolder {
      *
      */
     operator fun String.invoke(body: FunctionCallContext.() -> Unit) {
-        val args = FunctionCallContext().apply(body).args
+        val args = FunctionCallContext().apply(body).fargs
         registerFunctionCallStatement(name = this, args)
     }
 

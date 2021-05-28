@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.morlfy.airin.starlark.lang.library
+package com.morlfy.airin.starlark.library
 
 import com.morlfy.airin.starlark.lang.*
 import com.morlfy.airin.starlark.lang.feature.DictionaryContext
@@ -26,7 +26,7 @@ import com.morlfy.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  *
  */
-fun StarlarkContext.glob(
+fun BaseStarlarkContext.glob(
     include: List<Label?>,
     exclude: List<Label>? = UnspecifiedList,
     exclude_directories: IntegerType? = UnspecifiedInteger,
@@ -44,7 +44,7 @@ fun StarlarkContext.glob(
 /**
  *
  */
-fun StarlarkContext.glob(
+fun BaseStarlarkContext.glob(
     vararg include: Label?,
     exclude: List<Label>? = UnspecifiedList,
     exclude_directories: IntegerType? = UnspecifiedInteger,
@@ -59,7 +59,7 @@ fun StarlarkContext.glob(
 /**
  *
  */
-fun StarlarkContext.`package`(
+fun BaseStarlarkContext.`package`(
     default_visibility: List<Label>? = UnspecifiedList,
     default_deprecation: StringType? = UnspecifiedString,
     default_testonly: BooleanType? = UnspecifiedBoolean,
@@ -79,7 +79,7 @@ fun StarlarkContext.`package`(
 /**
  *
  */
-fun StarlarkContext.exports_files(
+fun BaseStarlarkContext.exports_files(
     exports_files: List<Label>,
     visibility: List<Label>? = UnspecifiedList,
     licences: List<StringType>? = UnspecifiedList
@@ -97,7 +97,7 @@ fun StarlarkContext.exports_files(
 /**
  *
  */
-fun StarlarkContext.exports_files(
+fun BaseStarlarkContext.exports_files(
     vararg exports_files: Label,
     visibility: List<Label>? = null,
     licences: List<StringType>? = null
@@ -113,7 +113,7 @@ fun StarlarkContext.exports_files(
 /**
  *
  */
-inline fun <reified T> StarlarkContext.select(
+inline fun <reified T> BaseStarlarkContext.select(
     select: Map<Key, Value>,
     no_match_error: StringType? = null
 ): T = functionCallExpression(
@@ -127,7 +127,7 @@ inline fun <reified T> StarlarkContext.select(
 /**
  *
  */
-inline fun <reified T> StarlarkContext.select(
+inline fun <reified T> BaseStarlarkContext.select(
     select: DictionaryContext.() -> Unit,
     no_match_error: StringType? = null
 ): T = functionCallExpression(
@@ -138,7 +138,7 @@ inline fun <reified T> StarlarkContext.select(
     )
 )
 
-fun StarlarkContext.test() {
+fun BaseStarlarkContext.test() {
     val list: List<Label> = select(dict {})
     val list1: List<Label> = select({})
     val string: StringType = select(dict {})

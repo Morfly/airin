@@ -18,7 +18,7 @@ package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.RawStatement
 import com.morlfy.airin.starlark.lang.Key
-import com.morlfy.airin.starlark.lang.StarlarkContext
+import com.morlfy.airin.starlark.lang.BaseStarlarkContext
 import com.morlfy.airin.starlark.lang.Value
 
 
@@ -46,7 +46,7 @@ inline fun <reified T : Any> String.txt(): T {
 
 //infix fun Any?.`+`(other: Any?): String = ""
 
-fun StarlarkContext.test() {
+fun BaseStarlarkContext.test() {
     """
             NAME = "some name"
             VIEW_MODELS = ["vm1", "vm2"]

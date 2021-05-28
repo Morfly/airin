@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("SpellCheckingInspection")
+
 package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.*
@@ -30,7 +32,7 @@ internal interface ArgumentsHolder {
     /**
      *
      */
-    val args: LinkedHashSet<Argument>
+    val fargs: LinkedHashSet<Argument>
 }
 
 /**
@@ -43,7 +45,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
      */
     infix fun String.`=`(value: StringType): _ValueAccumulator<StringType> {
         val argument = Argument(id = this, value = Expression(value, ::StringLiteral))
-        args += argument
+        fargs += argument
         return _ValueAccumulator(argument)
     }
 
@@ -52,7 +54,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
      */
     infix fun <T> String.`=`(value: List<T>): _ValueAccumulator<List<T>> {
         val argument = Argument(id = this, value = Expression(value, ::ListExpression))
-        args += argument
+        fargs += argument
         return _ValueAccumulator(argument)
     }
 
@@ -61,7 +63,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
      */
     infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _ValueAccumulator<Map<K, V>> {
         val argument = Argument(id = this, value = Expression(value, ::DictionaryExpression))
-        args += argument
+        fargs += argument
         return _ValueAccumulator(argument)
     }
 
@@ -71,7 +73,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     infix fun String.`=`(body: DictionaryContext.() -> Unit): _ValueAccumulator<Map<Key, Value>> {
         val value = DictionaryContext().apply(body).kwargs
         val argument = Argument(id = this, value = DictionaryExpression(value))
-        args += argument
+        fargs += argument
         return _ValueAccumulator(argument)
     }
 
@@ -80,7 +82,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
      */
     infix fun String.`=`(value: Any?): _ValueAccumulator<Any> {
         val argument = Argument(id = this, value = Expression(value))
-        args += argument
+        fargs += argument
         return _ValueAccumulator(argument)
     }
 }

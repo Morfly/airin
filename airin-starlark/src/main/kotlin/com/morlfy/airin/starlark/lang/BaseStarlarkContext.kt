@@ -21,7 +21,7 @@ import com.morlfy.airin.starlark.lang.feature.*
 
 
 @LanguageFeatureContext
-sealed class StarlarkContext : StatementsHolder,
+sealed class BaseStarlarkContext : StatementsHolder,
     AssignmentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature,
     DynamicFunctionsFeature, EmptyLinesFeature, RawTextFeature {
 

@@ -44,7 +44,7 @@ fun StatementsHolder.registerFunctionCallStatement(name: String, args: Map<Strin
 inline fun <T : FunctionCallContext> StatementsHolder.registerFunctionCallStatement(
     name: String, context: T, body: T.() -> Unit
 ) {
-    val args = context.apply(body).args
+    val args = context.apply(body).fargs
     registerFunctionCallStatement(name, args)
 }
 
