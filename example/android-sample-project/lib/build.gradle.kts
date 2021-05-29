@@ -1,15 +1,6 @@
 plugins {
     `java-library`
     kotlin("jvm")
-    id("com.morfly.airin")
-}
-
-class JavaTemplate : com.morfly.airin.dsl.TemplateProvider()
-
-airin {
-    templates {
-        register<JavaTemplate>()
-    }
 }
 
 java {
