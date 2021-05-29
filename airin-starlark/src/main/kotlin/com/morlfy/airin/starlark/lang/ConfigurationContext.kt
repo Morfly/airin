@@ -16,8 +16,9 @@
 
 package com.morlfy.airin.starlark.lang
 
+import com.morlfy.airin.starlark.lang.api.LanguageContext
 import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 
 
 @LanguageFeatureScope
-sealed class ConfigurationContext : BaseStarlarkContext()
+sealed class ConfigurationContext<C : LanguageContext> : BaseStarlarkContext<C>()

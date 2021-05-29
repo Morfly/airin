@@ -25,8 +25,8 @@ import java.io.File
 
 open class BazelFileWriter private constructor(
     private val formatter: BazelFileFormatter = BazelFileFormatter,
-    private val writer: FileWriter = FileWriter()
-) : Writer<File, BazelFile> {
+    private val writer: FileWriter = FileWriter
+) : Writer<File, BazelFile, Unit> {
 
     override fun write(projectRootDir: File, content: BazelFile) = with(content) {
         val path = File("${projectRootDir.path}/$relativePath/$name")

@@ -26,6 +26,8 @@ import com.morlfy.airin.starlark.lang.feature.*
  * such as BUILD, WORKSPACE, .bzl and .star files.
  */
 @LanguageFeatureScope
-sealed class BaseStarlarkContext : LanguageContext(), StarlarkStatementsHolder,
-    AssignmentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature,
-    DynamicFunctionsFeature, EmptyLinesFeature, RawTextFeature
+sealed class BaseStarlarkContext<C : LanguageContext> : LanguageContext(), StarlarkStatementsHolder,
+    AssignmentsFeature, CustomNameAssignmentsFeature, BinaryPlusFeature,
+    DynamicBinaryPlusFeature, CollectionsFeature, DynamicFunctionsFeature,
+    EmptyLinesFeature, RawTextFeature, LoadStatementsFeature,
+    ListComprehensionsFeature<C>, SlicesFeature

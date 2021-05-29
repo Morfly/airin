@@ -33,37 +33,37 @@ internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHol
     /**
      *
      */
-    infix fun StringReference.`=`(value: StringType?): _ValueAccumulator<StringType> {
+    infix fun StringReference.`=`(value: StringType?): _StringValueAccumulator {
         val assignment = Assignment(name, value = Expression(value, ::StringLiteral))
         statements += assignment
-        return _ValueAccumulator(assignment)
+        return _StringValueAccumulator(assignment)
     }
 
     /**
      *
      */
-    infix fun <T> ListReference<T>.`=`(value: List<T>?): _ValueAccumulator<List<T>> {
+    infix fun <T> ListReference<T>.`=`(value: List<T>?): _ListValueAccumulator<T> {
         val assignment = Assignment(name, value = Expression(value, ::ListExpression))
         statements += assignment
-        return _ValueAccumulator(assignment)
+        return _ListValueAccumulator(assignment)
     }
 
     /**
      *
      */
-    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(value: Map<Key, Value>?): _ValueAccumulator<Map<K, V>> {
+    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(value: Map<Key, Value>?): _DictionaryValueAccumulator<K, V> {
         val assignment = Assignment(name, value = Expression(value, ::DictionaryExpression))
         statements += assignment
-        return _ValueAccumulator(assignment)
+        return _DictionaryValueAccumulator(assignment)
     }
 
     /**
      *
      */
-    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(body: DictionaryContext.() -> Unit): _ValueAccumulator<Map<K, V>> {
+    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
         val value = DictionaryContext().apply(body).kwargs
         val assignment = Assignment(name, value = DictionaryExpression(value))
         statements += assignment
-        return _ValueAccumulator(assignment)
+        return _DictionaryValueAccumulator(assignment)
     }
 }

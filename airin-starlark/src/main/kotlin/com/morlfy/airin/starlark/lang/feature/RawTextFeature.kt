@@ -47,18 +47,18 @@ inline fun <reified T : Any> String.txt(): T {
 
 //infix fun Any?.`+`(other: Any?): String = ""
 
-fun BaseStarlarkContext.test() {
-    """
-            NAME = "some name"
-            VIEW_MODELS = ["vm1", "vm2"]
-        """.trimIndent().txt
-
-    "NAME".txt
-
-    val list: List<String> = "NAME".txt()
-    val str: CharSequence = "" + "NAME".txt() `+` ""
-    val dict: Map<Key, Value> = "NAME".txt()
-    val any: Any = "NAME".txt()
-
-//    "arg" `=` "NAME".txt() `+` ""
-}
+//fun BaseStarlarkContext.test() {
+//    """
+//            NAME = "some name"
+//            VIEW_MODELS = ["vm1", "vm2"]
+//        """.trimIndent().txt
+//
+//    "NAME".txt
+//
+//    val list: List<String> = "NAME".txt()
+//    val str: CharSequence = "" + "NAME".txt() `+` ""
+//    val dict: Map<Key, Value> = "NAME".txt()
+//    val any: Any = "NAME".txt()
+//
+////    "arg" `=` "NAME".txt() `+` ""
+//}

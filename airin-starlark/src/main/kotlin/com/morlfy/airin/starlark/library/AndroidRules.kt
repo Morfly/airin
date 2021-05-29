@@ -43,6 +43,7 @@ fun BuildContext.android_library(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
+        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
         if (custom_package != UnspecifiedString)
             it += Argument("custom_package", Expression(custom_package, ::StringLiteral))
         if (manifest != UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
@@ -50,7 +51,6 @@ fun BuildContext.android_library(
             it += Argument("exports_manifest", Expression(exports_manifest, ::BooleanLiteral))
         if (resource_files != UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
         if (enable_data_binding != UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
         if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))

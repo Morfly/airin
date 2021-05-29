@@ -18,9 +18,13 @@
 
 package com.morfly.airin.starlark.lang.feature
 
+import com.morlfy.airin.starlark.elements.DictionaryReference
+import com.morlfy.airin.starlark.elements.ListReference
+import com.morlfy.airin.starlark.elements.StringReference
+import com.morlfy.airin.starlark.lang.Key
 import com.morlfy.airin.starlark.lang.StringType
+import com.morlfy.airin.starlark.lang.Value
 import com.morlfy.airin.starlark.lang.feature.ArgumentsFeature
-import com.morlfy.airin.starlark.lang.feature.AssignmentsFeature
 import com.morlfy.airin.starlark.lang.feature.CollectionsFeature
 import com.morlfy.airin.starlark.lang.feature.DynamicBinaryPlusFeature
 
@@ -31,7 +35,8 @@ private fun ArgumentsFeatureUnderCompilationTest.CompilationTests() {
     // ===== String args =====
     // =======================
 
-    val STRING_VAR by "var_value"
+//    val STRING_VAR by "var_value"
+    val STRING_VAR = StringReference("STRING_VAR")
     "string_arg" `=` STRING_VAR
     "string_arg" `=` "value"
     "string_arg" `=` "value" `+` STRING_VAR
@@ -41,7 +46,7 @@ private fun ArgumentsFeatureUnderCompilationTest.CompilationTests() {
     // ===== List args =====
     // =====================
 
-    val LIST_VAR by list["item"]
+    val LIST_VAR = ListReference<StringType>("LIST_VAR")
     "list_arg" `=` LIST_VAR
     "list_arg" `=` listOf("item")
     "list_arg" `=` list["item"]
@@ -50,14 +55,16 @@ private fun ArgumentsFeatureUnderCompilationTest.CompilationTests() {
     "list_arg" `=` list<StringType>() `+` list["item"]
     "list_arg" `=` list() // `+` list["item"]
     "list_arg" `=` list["item"] `+` list() `+` list["item"]
-    "list_arg" `=` list["item"] `+` LIST_VAR
+//    "list_arg" `=` list["item"] `+` LIST_VAR TODO
+    "list_arg" `=` LIST_VAR `+` list["item"]
 
 
     // ===========================
     // ===== Dictionary args =====
     // ===========================
 
-    val DICT_VAR by dict { "key" to "value" }
+//    val DICT_VAR by dict { "key" to "value" }
+    val DICT_VAR = DictionaryReference<Key, Value>("DICT_VAR")
     "dict_arg" `=` DICT_VAR
     "dict_arg" `=` mapOf("key" to "value")
     "dict_arg" `=` dict { "key" to "value" }
@@ -82,6 +89,5 @@ private interface ArgumentsFeatureUnderCompilationTest :
 // Features under test
     ArgumentsFeature,
 // Additional features for compatibility tests
-    AssignmentsFeature,
     CollectionsFeature,
     DynamicBinaryPlusFeature

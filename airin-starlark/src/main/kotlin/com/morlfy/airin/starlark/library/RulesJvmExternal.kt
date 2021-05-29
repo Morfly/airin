@@ -30,7 +30,7 @@ import com.morlfy.airin.starlark.lang.feature.stringFunctionCall
 /**
  *
  */
-fun ConfigurationContext.maven_install(
+fun ConfigurationContext<*>.maven_install(
     name: Name,
     artifacts: List<StringType?>? = UnspecifiedList,
     repositories: List<StringType?>? = UnspecifiedList,
@@ -67,7 +67,7 @@ fun ConfigurationContext.maven_install(
 /**
  *
  */
-fun ConfigurationContext.maven_install(body: MavenInstallContext.() -> Unit) =
+fun ConfigurationContext<*>.maven_install(body: MavenInstallContext.() -> Unit) =
     registerFunctionCallStatement("maven_install", MavenInstallContext(), body)
 
 /**
@@ -91,7 +91,7 @@ class MavenInstallContext : FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext.artifact(a: StringType): StringType =
+fun ConfigurationContext<*>.artifact(a: StringType): StringType =
     stringFunctionCall(
         name = "artifact",
         args = mapOf(

@@ -22,13 +22,12 @@ package com.morlfy.airin.starlark.elements
  */
 interface ElementVisitor<A> {
 
-    //
     fun visit(element: Element, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: BazelFile, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: Expression?, position: Int, mode: PositionMode, acc: A)
-    
+
     fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: Argument, position: Int, mode: PositionMode, acc: A)
@@ -70,6 +69,8 @@ interface ElementVisitor<A> {
     fun visit(element: RawStatement, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: Reference, position: Int, mode: PositionMode, acc: A)
+
+    fun visit(element: Slice, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: EmptyLineStatement, position: Int, mode: PositionMode, acc: A)
 

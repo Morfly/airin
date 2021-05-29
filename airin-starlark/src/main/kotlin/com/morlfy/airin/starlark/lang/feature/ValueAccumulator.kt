@@ -19,8 +19,27 @@
 package com.morlfy.airin.starlark.lang.feature
 
 import com.morlfy.airin.starlark.elements.ValueHolder
+import com.morlfy.airin.starlark.lang.Key
+import com.morlfy.airin.starlark.lang.Value
 
 
-@Suppress("unused")
+//@Suppress("unused")
+//open class _ValueAccumulator<T>(internal val holder: ValueHolder)
+//
+//class _StringValueAccumulator(holder: ValueHolder) : _ValueAccumulator<StringType>(holder)
+
+interface _ValueAccumulator {
+    val holder: ValueHolder
+}
+
 @JvmInline
-value class _ValueAccumulator<T>(internal val holder: ValueHolder)
+value class _StringValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
+
+@JvmInline
+value class _ListValueAccumulator<T>(override val holder: ValueHolder) : _ValueAccumulator
+
+@JvmInline
+value class _DictionaryValueAccumulator<K : Key, V : Value>(override val holder: ValueHolder) : _ValueAccumulator
+
+@JvmInline
+value class _AnyValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator

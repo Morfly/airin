@@ -21,7 +21,7 @@ package com.morlfy.airin.starlark.writer
 import java.io.File
 
 
-open class FileWriter : Writer<File, String> {
+open class FileWriter : Writer<File, String, Unit> {
 
     override fun write(path: File, content: String) = with(path) {
         try {

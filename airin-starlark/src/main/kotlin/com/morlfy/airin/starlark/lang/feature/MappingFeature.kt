@@ -44,40 +44,51 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     /**
      *
      */
-    infix fun Key.to(value: StringType): _ValueAccumulator<StringType> =
-        registerKeyValuePair(key = this, value = Expression(value, ::StringLiteral))
+    infix fun Key.to(value: StringType): _StringValueAccumulator {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::StringLiteral))
+        kwargs[k] = v
+        return _StringValueAccumulator(v)
+    }
 
     /**
      *
      */
-    infix fun <T> Key.to(value: List<T>): _ValueAccumulator<List<T>> =
-        registerKeyValuePair(key = this, value = Expression(value, ::ListExpression))
+    infix fun <T> Key.to(value: List<T>): _ListValueAccumulator<T> {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::ListExpression))
+        kwargs[k] = v
+        return _ListValueAccumulator(v)
+    }
 
     /**
      *
      */
-    infix fun <K : Key, V : Value> Key.to(value: Map<K, V>): _ValueAccumulator<Map<K, V>> =
-        registerKeyValuePair(key = this, value = Expression(value, ::DictionaryExpression))
+    infix fun <K : Key, V : Value> Key.to(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::DictionaryExpression))
+        kwargs[k] = v
+        return _DictionaryValueAccumulator(v)
+    }
 
     /**
      *
      */
-    infix fun Key.to(body: DictionaryContext.() -> Unit): _ValueAccumulator<Map<Key, Value>> =
-        registerKeyValuePair(key = this, value = DictionaryExpression(DictionaryContext().apply(body).kwargs))
+    infix fun Key.to(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
+        val value = DictionaryContext().apply(body).kwargs
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::DictionaryExpression))
+        kwargs[k] = v
+        return _DictionaryValueAccumulator(v)
+    }
 
     /**
      *
      */
-    infix fun Key.to(value: Any?): _ValueAccumulator<Any> =
-        registerKeyValuePair(key = this, value = Expression(value))
-}
-
-/**
- *
- */
-internal fun <T> MappingFeature.registerKeyValuePair(key: Key, value: Expression?): _ValueAccumulator<T> {
-    val k = Expression(key)
-    val v = DynamicValue(value)
-    kwargs[k] = v
-    return _ValueAccumulator(v)
+    infix fun Key.to(value: Any?): _AnyValueAccumulator {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value))
+        kwargs[k] = v
+        return _AnyValueAccumulator(v)
+    }
 }

@@ -19,7 +19,6 @@
 package com.morlfy.airin.starlark.lang
 
 import com.morlfy.airin.starlark.elements.WorkspaceFile
-import com.morlfy.airin.starlark.lang.api.LanguageContextProvider
 import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
 
 
@@ -27,7 +26,7 @@ import com.morlfy.airin.starlark.lang.api.LanguageFeatureScope
  *
  */
 @LanguageFeatureScope
-class WorkspaceContext : ConfigurationContext(), LanguageContextProvider<WorkspaceContext> {
+class WorkspaceContext : ConfigurationContext<WorkspaceContext>() {
 
     override fun newContext() = WorkspaceContext()
 }

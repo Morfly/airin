@@ -44,46 +44,46 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     /**
      *
      */
-    infix fun String.`=`(value: StringType): _ValueAccumulator<StringType> {
+    infix fun String.`=`(value: StringType): _StringValueAccumulator {
         val argument = Argument(id = this, value = Expression(value, ::StringLiteral))
         fargs += argument
-        return _ValueAccumulator(argument)
+        return _StringValueAccumulator(argument)
     }
 
     /**
      *
      */
-    infix fun <T> String.`=`(value: List<T>): _ValueAccumulator<List<T>> {
+    infix fun <T> String.`=`(value: List<T>): _ListValueAccumulator<T> {
         val argument = Argument(id = this, value = Expression(value, ::ListExpression))
         fargs += argument
-        return _ValueAccumulator(argument)
+        return _ListValueAccumulator(argument)
     }
 
     /**
      *
      */
-    infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _ValueAccumulator<Map<K, V>> {
+    infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
         val argument = Argument(id = this, value = Expression(value, ::DictionaryExpression))
         fargs += argument
-        return _ValueAccumulator(argument)
+        return _DictionaryValueAccumulator(argument)
     }
 
     /**
      *
      */
-    infix fun String.`=`(body: DictionaryContext.() -> Unit): _ValueAccumulator<Map<Key, Value>> {
+    infix fun String.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
         val value = DictionaryContext().apply(body).kwargs
         val argument = Argument(id = this, value = DictionaryExpression(value))
         fargs += argument
-        return _ValueAccumulator(argument)
+        return _DictionaryValueAccumulator(argument)
     }
 
     /**
      * handles null and any arg
      */
-    infix fun String.`=`(value: Any?): _ValueAccumulator<Any> {
+    infix fun String.`=`(value: Any?): _AnyValueAccumulator {
         val argument = Argument(id = this, value = Expression(value))
         fargs += argument
-        return _ValueAccumulator(argument)
+        return _AnyValueAccumulator(argument)
     }
 }

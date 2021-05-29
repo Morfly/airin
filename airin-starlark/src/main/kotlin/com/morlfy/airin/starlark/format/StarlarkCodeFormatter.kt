@@ -113,7 +113,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     // tested
     override fun visit(element: Assignment, position: Int, mode: PositionMode, acc: Appendable) {
         require(mode == NEW_LINE) { "Assignment statements must be formatted only in NEW_LINE mode but was $mode." }
-
+        acc += nl
         acc += indent(position)
         acc += element.name + " = "
         visit(element.value, position, CONTINUE_LINE, acc)
@@ -441,6 +441,25 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
         acc += indent
         acc += element.name
+    }
+
+    override fun visit(element: Slice, position: Int, mode: PositionMode, acc: Appendable) {
+        val indent = when (mode) {
+            NEW_LINE -> indent(position)
+            CONTINUE_LINE -> ""
+            SINGLE_LINE -> TODO()
+        }
+        acc += indent
+        visit(element.expression as Expression?, position, CONTINUE_LINE, acc)
+        acc += '['
+        acc += element.start?.toString() ?: ""
+        acc += ':'
+        acc += element.end?.toString() ?: ""
+        if (element.step != null) {
+            acc += ':'
+            acc += element.step.toString()
+        }
+        acc += ']'
     }
 
     // tested

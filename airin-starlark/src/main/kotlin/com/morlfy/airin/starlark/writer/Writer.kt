@@ -20,10 +20,10 @@ package com.morlfy.airin.starlark.writer
 /**
  *
  */
-interface Writer<D, C> {
+interface Writer<D, C, R> {
 
     /**
      *
      */
-    fun write(destination: D, content: C)
+    fun write(destination: D, content: C): R
 }

@@ -25,10 +25,7 @@ import com.morlfy.airin.starlark.elements.StringLiteral
 import com.morlfy.airin.starlark.lang.Key
 import com.morlfy.airin.starlark.lang.StringType
 import com.morlfy.airin.starlark.lang.Value
-import com.morlfy.airin.starlark.lang.feature.AssignmentsFeature
-import com.morlfy.airin.starlark.lang.feature.CollectionsFeature
-import com.morlfy.airin.starlark.lang.feature.DynamicBinaryPlusFeature
-import com.morlfy.airin.starlark.lang.feature._ValueAccumulator
+import com.morlfy.airin.starlark.lang.feature.*
 
 
 private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
@@ -37,7 +34,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== String concatenation =====
     // ================================
 
-    val stringValue = _ValueAccumulator<StringType>(DynamicValue(StringLiteral("value")))
+    val stringValue = _StringValueAccumulator(DynamicValue(StringLiteral("value")))
 
     val STRING_VARIABLE by "value"
 
@@ -52,7 +49,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== List concatenation =====
     // ==============================
 
-    val listValue = _ValueAccumulator<List<StringType>>(DynamicValue(ListExpression(listOf("item"))))
+    val listValue = _ListValueAccumulator<StringType>(DynamicValue(ListExpression(listOf("item"))))
 
     val LIST_VARIABLE by list["item"]
 
@@ -76,7 +73,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== Dictionary concatenation =====
     // ====================================
 
-    val dictValue = _ValueAccumulator<Map<Key, Value>>(DynamicValue(DictionaryExpression(mapOf("key" to "value"))))
+    val dictValue = _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key" to "value"))))
 
     val DICT_VARIABLE by dict {}
 
@@ -106,7 +103,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== Other concatenations =========
     // ====================================
 
-    val value = _ValueAccumulator<Any>(DynamicValue(null))
+    val value = _AnyValueAccumulator(DynamicValue(null))
 
     value `+` Any()
     value `+` null

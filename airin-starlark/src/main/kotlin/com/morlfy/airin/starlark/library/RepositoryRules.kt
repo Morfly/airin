@@ -29,7 +29,7 @@ import com.morlfy.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  *
  */
-fun ConfigurationContext.http_archive(
+fun ConfigurationContext<*>.http_archive(
     name: Name,
     build_file: StringType? = UnspecifiedString,
     build_file_content: StringType? = UnspecifiedString,
@@ -80,7 +80,7 @@ fun ConfigurationContext.http_archive(
 /**
  *
  */
-fun ConfigurationContext.http_archive(body: HttpArchiveContext.() -> Unit) =
+fun ConfigurationContext<*>.http_archive(body: HttpArchiveContext.() -> Unit) =
     registerFunctionCallStatement("http_archive", HttpArchiveContext(), body)
 
 /**
@@ -112,7 +112,7 @@ class HttpArchiveContext : FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext.http_file(
+fun ConfigurationContext<*>.http_file(
     name: Name,
     auth_patterns: Map<Key, Value>? = UnspecifiedDictionary,
     canonical_id: StringType? = UnspecifiedString,
@@ -140,7 +140,7 @@ fun ConfigurationContext.http_file(
 /**
  *
  */
-fun ConfigurationContext.http_file(body: HttpFileContext.() -> Unit) =
+fun ConfigurationContext<*>.http_file(body: HttpFileContext.() -> Unit) =
     registerFunctionCallStatement("http_file", HttpFileContext(), body)
 
 /**
@@ -159,7 +159,7 @@ class HttpFileContext : FunctionCallContext() {
 
 // ===== http_jar =====
 
-fun ConfigurationContext.http_jar(
+fun ConfigurationContext<*>.http_jar(
     name: Name,
     auth_patterns: Map<Key, Value>? = UnspecifiedDictionary,
     canonical_id: StringType? = UnspecifiedString,
@@ -184,7 +184,7 @@ fun ConfigurationContext.http_jar(
 /**
  *
  */
-fun ConfigurationContext.http_jar(body: HttpJarContext.() -> Unit) =
+fun ConfigurationContext<*>.http_jar(body: HttpJarContext.() -> Unit) =
     registerFunctionCallStatement("http_jar", HttpJarContext(), body)
 
 /**
@@ -205,14 +205,14 @@ class HttpJarContext : FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext.git_repository() {
+fun ConfigurationContext<*>.git_repository() {
     TODO()
 }
 
 /**
  *
  */
-fun ConfigurationContext.git_repository(body: GitRepositoryContext.() -> Unit) =
+fun ConfigurationContext<*>.git_repository(body: GitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("git_repository", GitRepositoryContext(), body)
 
 /**
@@ -229,14 +229,14 @@ class GitRepositoryContext : FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext.new_git_repository() {
+fun ConfigurationContext<*>.new_git_repository() {
     TODO()
 }
 
 /**
  *
  */
-fun ConfigurationContext.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
+fun ConfigurationContext<*>.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("new_git_repository", NewGitRepositoryContext(), body)
 
 /**

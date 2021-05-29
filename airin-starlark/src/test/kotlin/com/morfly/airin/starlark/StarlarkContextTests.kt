@@ -19,7 +19,7 @@ package com.morfly.airin.starlark
 import com.morlfy.airin.starlark.lang.BaseStarlarkContext
 
 
-fun BaseStarlarkContext.CompilationTest() {
+//fun BaseStarlarkContext.CompilationTest() {
 //    "function_with_args" {
 //        "arg1" `=` listOf("item1") `+` listOf("")
 //        "arg2" `=` "value2" `+` ""
@@ -32,4 +32,4 @@ fun BaseStarlarkContext.CompilationTest() {
 //        }
 //        "arg4" `=` null
 //    }
-}
+//}

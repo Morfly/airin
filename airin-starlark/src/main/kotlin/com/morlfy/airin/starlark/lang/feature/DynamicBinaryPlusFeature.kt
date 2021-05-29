@@ -34,7 +34,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      *
      */
-    infix fun _ValueAccumulator<StringType>.`+`(other: StringType?): _ValueAccumulator<StringType> {
+    infix fun _StringValueAccumulator.`+`(other: StringType?): _StringValueAccumulator {
         holder.value = StringBinaryOperation(
             left = holder.value,
             operator = PLUS,
@@ -46,7 +46,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <T> _ValueAccumulator<List<T>>.`+`(other: List<T>?): _ValueAccumulator<List<T>> {
+    infix fun <T> _ListValueAccumulator<T>.`+`(other: List<T>?): _ListValueAccumulator<T> {
         holder.value = ListBinaryOperation<T>(
             left = holder.value,
             operator = PLUS,
@@ -58,7 +58,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <K, V : Value> _ValueAccumulator<Map<K, V>>.`+`(other: Map<*, Value>?): _ValueAccumulator<Map<K, V>> {
+    infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(other: Map<*, Value>?): _DictionaryValueAccumulator<K, V> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
             left = holder.value,
             operator = PLUS,
@@ -70,7 +70,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <K, V : Value> _ValueAccumulator<Map<K, V>>.`+`(body: DictionaryContext.() -> Unit): _ValueAccumulator<Map<K, V>> {
+    infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
             left = holder.value,
             operator = PLUS,
@@ -82,7 +82,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      *
      */
-    infix fun _ValueAccumulator<Any>.`+`(other: Any?): _ValueAccumulator<Any> {
+    infix fun _AnyValueAccumulator.`+`(other: Any?): _AnyValueAccumulator {
         holder.value = AnyBinaryOperation(
             left = holder.value,
             operator = PLUS,
