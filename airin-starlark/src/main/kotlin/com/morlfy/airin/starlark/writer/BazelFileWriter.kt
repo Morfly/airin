@@ -18,7 +18,7 @@
 
 package com.morlfy.airin.starlark.writer
 
-import com.morlfy.airin.starlark.elements.BazelFile
+import com.morlfy.airin.starlark.elements.StarlarkFile
 import com.morlfy.airin.starlark.format.BazelFileFormatter
 import java.io.File
 
@@ -26,9 +26,9 @@ import java.io.File
 open class BazelFileWriter private constructor(
     private val formatter: BazelFileFormatter = BazelFileFormatter,
     private val writer: FileWriter = FileWriter
-) : Writer<File, BazelFile, Unit> {
+) : Writer<File, StarlarkFile, Unit> {
 
-    override fun write(projectRootDir: File, content: BazelFile) = with(content) {
+    override fun write(projectRootDir: File, content: StarlarkFile) = with(content) {
         val path = File("${projectRootDir.path}/$relativePath/$name")
         writer.write(path, formatter.format(content))
     }

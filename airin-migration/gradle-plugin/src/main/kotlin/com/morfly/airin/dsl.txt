@@ -1,0 +1,39 @@
+airin {
+    on {
+        projects(":app", ":lib")
+    }
+
+    templates {
+        on {
+            projects {
+                projects("")
+                subprojects("")
+                allprojects("")
+
+                ignore {
+                    projects("")
+                    subprojects("")
+                    allprojects("")
+                }
+            }
+
+            build {
+                projects {
+                    projects("")
+                    subprojects("")
+
+                    ignore {
+                        projects("")
+                        subprojects("")
+                    }
+                }
+            }
+        }
+        register JavaLibrary
+    }
+    artifacts {
+        ignore {
+            artifacts("")
+        }
+    }
+}

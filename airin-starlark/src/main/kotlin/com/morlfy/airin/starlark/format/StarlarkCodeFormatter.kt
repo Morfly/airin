@@ -53,14 +53,14 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
 
-    override fun format(bazelFile: BazelFile): String {
+    override fun format(starlarkFile: StarlarkFile): String {
         val accumulator = StringBuilder()
-        visit(bazelFile, position = 0, mode = NEW_LINE, accumulator)
+        visit(starlarkFile, position = 0, mode = NEW_LINE, accumulator)
         return accumulator.toString()
     }
 
-    override fun format(bazelFile: BazelFile, accumulator: Appendable) {
-        visit(bazelFile, position = 0, mode = NEW_LINE, accumulator)
+    override fun format(starlarkFile: StarlarkFile, accumulator: Appendable) {
+        visit(starlarkFile, position = 0, mode = NEW_LINE, accumulator)
     }
 
 
@@ -70,7 +70,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
     // TODO test
-    override fun visit(element: BazelFile, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: Appendable) {
         for (statement in element.statements) {
             visit(statement, position, mode, acc)
             acc += nl

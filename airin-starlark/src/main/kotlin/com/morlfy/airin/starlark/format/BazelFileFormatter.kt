@@ -16,7 +16,7 @@
 
 package com.morlfy.airin.starlark.format
 
-import com.morlfy.airin.starlark.elements.BazelFile
+import com.morlfy.airin.starlark.elements.StarlarkFile
 
 
 /**
@@ -27,12 +27,12 @@ interface BazelFileFormatter {
     /**
      *
      */
-    fun format(bazelFile: BazelFile): String
+    fun format(starlarkFile: StarlarkFile): String
 
     /**
      *
      */
-    fun format(bazelFile: BazelFile, accumulator: Appendable)
+    fun format(starlarkFile: StarlarkFile, accumulator: Appendable)
 
     /**
      *
