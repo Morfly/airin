@@ -140,41 +140,38 @@ private data class AndroidDataBindingModuleData(
     val internalDeps: List<String>,
     val externalDeps: List<String>,
     val isRootModule: Boolean
-) {
+)
 
-    companion object {
 
-        const val SRC_SUB_DIR = "src/main/kotlin"
-        const val RES_SUB_DIR = "src/main/res"
-        const val MANIFEST_SUB_DIR = "src/main"
+private const val SRC_SUB_DIR = "src/main/kotlin"
+private const val RES_SUB_DIR = "src/main/res"
+private const val MANIFEST_SUB_DIR = "src/main"
 
-        operator fun invoke(
-            moduleNumber: Int,
-            rootPackageName: String,
-            workspaceDir: File,
-            internalDeps: List<String>,
-            isRootModule: Boolean
-        ): AndroidDataBindingModuleData {
-            val moduleName = if (isRootModule) "app" else "lib$moduleNumber"
-            val packageName = "$rootPackageName.$moduleName"
-            val packageSubDir = packageName.replace(".", "/")
-            val moduleRoot = "${workspaceDir.path}/$moduleName"
-            return AndroidDataBindingModuleData(
-                moduleNumber = moduleNumber,
-                moduleName = moduleName,
-                packageName = packageName,
-                label = "//$moduleName",
-                moduleRoot = moduleRoot,
-                srcDir = "$moduleRoot/$SRC_SUB_DIR/$packageSubDir",
-                resDir = "$moduleRoot/$RES_SUB_DIR",
-                manifestDir = "$moduleRoot/$MANIFEST_SUB_DIR",
-                viewModels = listOf("$SRC_SUB_DIR/$packageSubDir/${viewModelClassName(moduleName)}.kt"),
-                bindingAdapters = listOf("$SRC_SUB_DIR/$packageSubDir/BindingAdapters.java"),
-                dataBindingLayouts = listOf("$RES_SUB_DIR/layout/${dataBindingLayoutName(moduleName)}.xml"),
-                internalDeps = internalDeps,
-                externalDeps = emptyList(),
-                isRootModule = isRootModule
-            )
-        }
-    }
+private fun AndroidDataBindingModuleData(
+    moduleNumber: Int,
+    rootPackageName: String,
+    workspaceDir: File,
+    internalDeps: List<String>,
+    isRootModule: Boolean
+): AndroidDataBindingModuleData {
+    val moduleName = if (isRootModule) "app" else "lib$moduleNumber"
+    val packageName = "$rootPackageName.$moduleName"
+    val packageSubDir = packageName.replace(".", "/")
+    val moduleRoot = "${workspaceDir.path}/$moduleName"
+    return AndroidDataBindingModuleData(
+        moduleNumber = moduleNumber,
+        moduleName = moduleName,
+        packageName = packageName,
+        label = "//$moduleName",
+        moduleRoot = moduleRoot,
+        srcDir = "$moduleRoot/${SRC_SUB_DIR}/$packageSubDir",
+        resDir = "$moduleRoot/${RES_SUB_DIR}",
+        manifestDir = "$moduleRoot/${MANIFEST_SUB_DIR}",
+        viewModels = listOf("${SRC_SUB_DIR}/$packageSubDir/${viewModelClassName(moduleName)}.kt"),
+        bindingAdapters = listOf("${SRC_SUB_DIR}/$packageSubDir/BindingAdapters.java"),
+        dataBindingLayouts = listOf("${RES_SUB_DIR}/layout/${dataBindingLayoutName(moduleName)}.xml"),
+        internalDeps = internalDeps,
+        externalDeps = emptyList(),
+        isRootModule = isRootModule
+    )
 }
