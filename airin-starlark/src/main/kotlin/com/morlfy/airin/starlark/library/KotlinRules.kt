@@ -457,11 +457,11 @@ fun WorkspaceContext.kt_register_toolchains() =
 // ===== kotlin_repositories =====
 
 fun WorkspaceContext.kotlin_repositories(
-    compiler_release: StringType? = UnspecifiedString
+    compiler_release: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
-        if (compiler_release !== UnspecifiedString)
-            it += Argument("compiler_release", Expression(compiler_release, ::StringLiteral))
+        if (compiler_release !== UnspecifiedDictionary)
+            it += Argument("compiler_release", Expression(compiler_release, ::DictionaryExpression))
     }
     registerFunctionCallStatement("kotlin_repositories", args)
 }
