@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
+package com.morfly.airin
 
-import com.morfly.airin.Dependency
-import com.morfly.airin.MavenArtifact
-import com.morfly.airin.ProjectModule
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ExternalDependency
 import org.gradle.api.artifacts.ProjectDependency

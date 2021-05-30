@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
+package com.morfly.airin
 
-import com.morfly.airin.PerModuleTemplateProvider
-import com.morfly.airin.StandaloneTemplateProvider
-import com.morfly.airin.TemplateProvider
 import org.gradle.api.Project
 
 
 /**
  *
  */
-sealed class GradleTemplateProvider : TemplateProvider<Project> {
+abstract class GradleTemplateProvider : TemplateProvider<Project> {
 
     /**
      *

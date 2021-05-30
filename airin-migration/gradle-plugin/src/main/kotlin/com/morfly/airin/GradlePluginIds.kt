@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
-
-import com.morfly.airin.MavenArtifact
+package com.morfly.airin
 
 
-/**
- *
- */
-interface SharedMigrationData {
+const val JAVA = "java"
+const val JAVA_LIBRARY = "java-library"
+const val APPLICATION = "application"
 
-    /**
-     *
-     */
-    val allArtifacts: Collection<MavenArtifact>
-}
+const val KOTLIN_JVM = "org.jetbrains.kotlin.jvm"
+
+const val ANDROID_LIBRARY = "com.android.library"
+const val ANDROID_APPLICATION = "com.android.application"

@@ -16,7 +16,7 @@
 
 package com.morfly.airin.plugin.task
 
-import com.morfly.airin.migration.GradleMigratorToBazel
+import com.morfly.airin.GradleMigratorToBazel
 import com.morfly.airin.plugin.dsl.AirinExtension
 import com.morlfy.airin.starlark.writer.StarlarkFileWriter
 import org.gradle.api.DefaultTask

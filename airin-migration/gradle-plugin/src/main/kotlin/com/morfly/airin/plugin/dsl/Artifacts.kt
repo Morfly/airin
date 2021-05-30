@@ -22,5 +22,5 @@ package com.morfly.airin.plugin.dsl
  */
 open class Artifacts {
 
-    val ignored = mutableListOf<String>()
+    var ignored: List<String> = emptyList()
 }

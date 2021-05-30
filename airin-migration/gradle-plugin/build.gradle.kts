@@ -14,8 +14,8 @@ gradlePlugin {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(project(":airin-starlark"))
-    implementation(project(":airin-migration:core"))
+    api(project(":airin-starlark"))
+    api(project(":airin-migration:core"))
 //    implementation("com.android.tools.build:gradle:4.2.1")
     implementation("com.android.tools.build:gradle:4.1.0")
 }

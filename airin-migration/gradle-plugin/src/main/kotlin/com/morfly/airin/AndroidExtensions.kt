@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
+package com.morfly.airin
 
 import com.android.build.gradle.BaseExtension
 import groovy.util.XmlSlurper

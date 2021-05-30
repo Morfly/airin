@@ -16,7 +16,7 @@
 
 package com.morfly.airin.plugin.dsl
 
-import com.morfly.airin.migration.GradleTemplateProvider
+import com.morfly.airin.GradleTemplateProvider
 
 
 /**

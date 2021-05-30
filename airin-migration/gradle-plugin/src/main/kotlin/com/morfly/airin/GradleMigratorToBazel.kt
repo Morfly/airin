@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
+package com.morfly.airin
 
-import com.morfly.airin.MavenArtifact
-import com.morfly.airin.MigratorToBazel
 import com.morfly.airin.plugin.dsl.AirinExtension
 import com.morlfy.airin.starlark.elements.StarlarkFile
 import com.morlfy.airin.starlark.writer.StarlarkFileWriter

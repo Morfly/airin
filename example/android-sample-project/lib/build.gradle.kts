@@ -1,7 +1,3 @@
-import com.morfly.airin.migration.template.AndroidApplication
-import com.morfly.airin.migration.template.AndroidWorkspace
-import com.morfly.airin.migration.template.KotlinLibrary
-
 plugins {
     `java-library`
     kotlin("jvm")
@@ -18,7 +14,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 }
 
-
 airin {
     templates {
         register<AndroidWorkspace>()
@@ -27,7 +22,7 @@ airin {
     }
 
     artifacts {
-        ignored += listOf(
+        ignored = listOf(
             "org.jetbrains.kotlin:kotlin-stdlib"
         )
     }

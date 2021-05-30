@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration.template
-
 import com.morfly.airin.migration.GradleStandaloneTemplateProvider
 import com.morlfy.airin.starlark.elements.StarlarkFile
 import org.gradle.api.Project
+import template.android_workspace
 
 
 /**

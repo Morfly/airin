@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration
+package com.morfly.airin
 
 import com.morlfy.airin.starlark.elements.StarlarkFile
 import org.gradle.api.Project

@@ -16,7 +16,7 @@
 
 @file:Suppress("LocalVariableName", "FunctionName", "SpellCheckingInspection")
 
-package com.morfly.airin.migration.template
+package template
 
 import com.morlfy.airin.starlark.lang.WORKSPACE
 import com.morlfy.airin.starlark.library.*

@@ -16,7 +16,7 @@
 
 @file:Suppress("FunctionName", "SpellCheckingInspection")
 
-package com.morfly.airin.migration.template
+package template
 
 import com.morlfy.airin.starlark.lang.BUILD
 import com.morlfy.airin.starlark.lang.Label

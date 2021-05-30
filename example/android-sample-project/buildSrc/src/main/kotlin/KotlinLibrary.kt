@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.migration.template
-
-import com.morfly.airin.MavenArtifact
-import com.morfly.airin.ProjectModule
-import com.morfly.airin.migration.APPLICATION
-import com.morfly.airin.migration.GradlePerModuleTemplateProvider
-import com.morfly.airin.migration.KOTLIN_JVM
-import com.morfly.airin.migration.findDependencies
+import com.morfly.airin.*
 import com.morlfy.airin.starlark.elements.StarlarkFile
 import org.gradle.api.Project
+import template.kotlin_library_build
 
 
 /**
