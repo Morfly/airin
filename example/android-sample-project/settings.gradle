@@ -1,5 +1,0 @@
-rootProject.name = "android-sample-application"
-include ':app'
-
-includeBuild "../../"
-include ':lib'

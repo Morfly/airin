@@ -1,0 +1,15 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.5.10"
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
+    implementation "com.android.tools.build:gradle:4.1.0"
+    implementation files(fileTree(dir: 'libs', includes: ['*.jar'])) // FIXME tmp
+//    implementation "com.morfly.airin:gradle-plugin:0.0.1"
+}
