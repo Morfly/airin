@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.task
+@file:Suppress("MemberVisibilityCanBePrivate")
 
-import com.morfly.airin.dsl.AirinExtension
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
+package com.morfly.airin.plugin.dsl
+
+import org.gradle.api.Action
+import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 
 
-open class MigrateToBazelTask @Inject constructor(
-    private val extension: AirinExtension
-) : DefaultTask() {
+/**
+ *
+ */
+open class AirinExtension @Inject constructor(objects: ObjectFactory) {
 
-    @TaskAction
-    fun migrateToBazel() {
-        println("migrateToBazel...")
-        println(extension.templates.templates.size)
+    val templates: Templates = objects.newInstance(Templates::class.java)
+
+    val artifacts: Artifacts = objects.newInstance(Artifacts::class.java)
+
+    fun templates(body: Action<Templates>) {
+        body.execute(templates)
+    }
+
+    fun artifacts(body: Action<Artifacts>) {
+        body.execute(artifacts)
     }
 
     companion object {
-        const val NAME = "migrateToBazel"
+        const val NAME = "airin"
     }
 }

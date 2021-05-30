@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-package com.morlfy.airin.starlark.format
+package com.morfly.airin.migration.template
 
+import com.morfly.airin.migration.GradleStandaloneTemplateProvider
 import com.morlfy.airin.starlark.elements.StarlarkFile
+import org.gradle.api.Project
 
 
 /**
  *
  */
-interface BazelFileFormatter {
+class AndroidWorkspace : GradleStandaloneTemplateProvider() {
 
-    /**
-     *
-     */
-    fun format(starlarkFile: StarlarkFile): String
-
-    /**
-     *
-     */
-    fun format(starlarkFile: StarlarkFile, accumulator: Appendable)
-
-    /**
-     *
-     */
-    companion object Default : BazelFileFormatter by StarlarkCodeFormatter()
+    override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
+        val file = android_workspace(
+            workspaceName = "android-application",
+            repositoriesList = listOf(
+                "https://maven.google.com",
+                "https://repo1.maven.org/maven2"
+            ),
+            artifactsList = data.allArtifacts.map { it.toString() }
+        )
+        return listOf(file)
+    }
 }

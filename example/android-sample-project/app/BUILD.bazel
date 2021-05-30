@@ -3,34 +3,33 @@ load("@rules_jvm_external//:defs.bzl", "artifact")
 
 kt_android_library(
     name = "app",
-    srcs = glob(["src/main/java/**/*.kt"]),
+    srcs = glob([
+        "src/main/java/**/*.kt",
+        "src/main/kotlin/**/*.kt",
+    ]),
     custom_package = "com.morfly.airin.sample",
     manifest = "src/main/AndroidManifest.xml",
-    resource_files = glob(["src/main/res/**"]),
-    visibility = ["//visibility:public"],
     deps = [
         "//lib",
+        artifact("org.jetbrains.kotlin:kotlin-stdlib"),
         artifact("androidx.core:core-ktx"),
         artifact("androidx.appcompat:appcompat"),
         artifact("com.google.android.material:material"),
-        artifact("androidx.constraintlayout:constraintlayout")
+        artifact("androidx.constraintlayout:constraintlayout"),
     ],
+    visibility = ["//visibility:public"],
+    resource_files = glob(["src/main/res/**"]),
 )
 
 android_binary(
-    name = "app_binary",
-    manifest = "src/main/AndroidManifest.xml",
+    name = "app_bin",
     custom_package = "com.morfly.airin.sample",
-    resource_files = glob(["src/main/res/**"]),
+    manifest = "src/main/AndroidManifest.xml",
     manifest_values = {
         "minSdkVersion": "21",
-        "targetSdkVersion": "30"
+        "targetSdkVersion": "30",
     },
-    deps = [
-        ":app",
-        artifact("androidx.core:core-ktx"),
-        artifact("com.google.android.material:material"),
-        artifact("androidx.appcompat:appcompat"),
-        artifact("androidx.constraintlayout:constraintlayout")
-    ]
+    resource_files = glob(["src/main/res/**"]),
+    deps = [":app"],
+    visibility = ["//visibility:public"],
 )

@@ -79,24 +79,24 @@ fun BuildContext.genrule(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (outs != UnspecifiedList) it += Argument("outs", Expression(outs, ::ListExpression))
-        if (cmd != UnspecifiedString) it += Argument("cmd", Expression(cmd, ::StringLiteral))
-        if (cmd_bash != UnspecifiedString) it += Argument("cmd_bash", Expression(cmd_bash, ::StringLiteral))
-        if (cmd_bat != UnspecifiedString) it += Argument("cmd_bat", Expression(cmd_bat, ::StringLiteral))
-        if (cmd_ps != UnspecifiedString) it += Argument("cmd_ps", Expression(cmd_ps, ::StringLiteral))
-        if (exec_tools != UnspecifiedList) it += Argument("exec_tools", Expression(exec_tools, ::ListExpression))
-        if (executable != UnspecifiedBoolean) it += Argument("executable", Expression(executable, ::BooleanLiteral))
-        if (local != UnspecifiedBoolean) it += Argument("local", Expression(local, ::BooleanLiteral))
-        if (message != UnspecifiedString) it += Argument("message", Expression(message, ::StringLiteral))
-        if (output_licenses != UnspecifiedList) it += Argument(
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (outs !== UnspecifiedList) it += Argument("outs", Expression(outs, ::ListExpression))
+        if (cmd !== UnspecifiedString) it += Argument("cmd", Expression(cmd, ::StringLiteral))
+        if (cmd_bash !== UnspecifiedString) it += Argument("cmd_bash", Expression(cmd_bash, ::StringLiteral))
+        if (cmd_bat !== UnspecifiedString) it += Argument("cmd_bat", Expression(cmd_bat, ::StringLiteral))
+        if (cmd_ps !== UnspecifiedString) it += Argument("cmd_ps", Expression(cmd_ps, ::StringLiteral))
+        if (exec_tools !== UnspecifiedList) it += Argument("exec_tools", Expression(exec_tools, ::ListExpression))
+        if (executable !== UnspecifiedBoolean) it += Argument("executable", Expression(executable, ::BooleanLiteral))
+        if (local !== UnspecifiedBoolean) it += Argument("local", Expression(local, ::BooleanLiteral))
+        if (message !== UnspecifiedString) it += Argument("message", Expression(message, ::StringLiteral))
+        if (output_licenses !== UnspecifiedList) it += Argument(
             "output_licenses", Expression(output_licenses, ::ListExpression)
         )
-        if (output_to_bindir != UnspecifiedBoolean) it += Argument(
+        if (output_to_bindir !== UnspecifiedBoolean) it += Argument(
             "output_to_bindir", Expression(output_to_bindir, ::BooleanLiteral)
         )
-        if (tools != UnspecifiedList) it += Argument("tools", Expression(tools, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (tools !== UnspecifiedList) it += Argument("tools", Expression(tools, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement(name = "genrule", args)
 }

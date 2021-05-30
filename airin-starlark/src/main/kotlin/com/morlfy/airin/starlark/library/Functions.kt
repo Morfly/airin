@@ -37,10 +37,10 @@ fun BaseStarlarkContext<*>.glob(
 ): List<Label> {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(include, ::ListExpression))
-        if (exclude != UnspecifiedList) it += Argument("exclude", Expression(exclude, ::ListExpression))
-        if (exclude_directories != UnspecifiedInteger)
+        if (exclude !== UnspecifiedList) it += Argument("exclude", Expression(exclude, ::ListExpression))
+        if (exclude_directories !== UnspecifiedInteger)
             it += Argument("exclude_directories", Expression(exclude_directories, ::IntegerLiteral))
-        if (allow_empty != UnspecifiedBoolean) it += Argument("allow_empty", Expression(allow_empty, ::BooleanLiteral))
+        if (allow_empty !== UnspecifiedBoolean) it += Argument("allow_empty", Expression(allow_empty, ::BooleanLiteral))
     }
     return listFunctionCall("glob", args)
 }
@@ -70,13 +70,13 @@ fun BaseStarlarkContext<*>.`package`(
     features: List<StringType>? = UnspecifiedList
 ) {
     val args = linkedSetOf<Argument>().also {
-        if (default_visibility != UnspecifiedList)
+        if (default_visibility !== UnspecifiedList)
             it += Argument("default_visibility", Expression(default_visibility, ::ListExpression))
-        if (default_deprecation != UnspecifiedString)
+        if (default_deprecation !== UnspecifiedString)
             it += Argument("default_deprecation", Expression(default_deprecation, ::StringLiteral))
-        if (default_testonly != UnspecifiedBoolean)
+        if (default_testonly !== UnspecifiedBoolean)
             it += Argument("default_testonly", Expression(default_testonly, ::BooleanLiteral))
-        if (features != UnspecifiedList)
+        if (features !== UnspecifiedList)
             it += Argument("features", Expression(features, ::ListExpression))
     }
     registerFunctionCallStatement(name = "package", args)
@@ -92,9 +92,9 @@ fun BaseStarlarkContext<*>.exports_files(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(exports_files, ::ListExpression))
-        if (visibility != UnspecifiedList)
+        if (visibility !== UnspecifiedList)
             it += Argument("visibility", Expression(visibility, ::ListExpression))
-        if (licences != UnspecifiedList)
+        if (licences !== UnspecifiedList)
             it += Argument("licences", Expression(licences, ::ListExpression))
     }
     registerFunctionCallStatement(name = "exports_files", args)
@@ -125,7 +125,7 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
 ): T {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(select, ::DictionaryExpression))
-        if (no_match_error != UnspecifiedString)
+        if (no_match_error !== UnspecifiedString)
             it += Argument("no_match_error", Expression(no_match_error, ::StringLiteral))
     }
     return functionCallExpression("select", args)
@@ -140,7 +140,7 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
 ): T {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", DictionaryExpression(DictionaryContext().apply(select).kwargs))
-        if (no_match_error != UnspecifiedString)
+        if (no_match_error !== UnspecifiedString)
             it += Argument("no_match_error", Expression(no_match_error, ::StringLiteral))
     }
     return functionCallExpression("select", args)

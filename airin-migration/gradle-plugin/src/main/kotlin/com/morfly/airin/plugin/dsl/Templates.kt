@@ -14,9 +14,25 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.dsl
+package com.morfly.airin.plugin.dsl
+
+import com.morfly.airin.migration.GradleTemplateProvider
 
 
-open class Artifacts {
+/**
+ *
+ */
+open class Templates {
 
+    val providers = linkedSetOf<Class<out GradleTemplateProvider>>()
+
+    @Suppress("unused") // dsl
+    fun register(cls: Class<out GradleTemplateProvider>) {
+        providers += cls
+    }
+
+    @Suppress("unused") // dsl
+    inline fun <reified T : GradleTemplateProvider> register() {
+        register(T::class.java)
+    }
 }

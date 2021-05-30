@@ -47,7 +47,7 @@ fun WorkspaceContext.workspace(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (managed_directories != UnspecifiedDictionary)
+        if (managed_directories !== UnspecifiedDictionary)
             it += Argument("managed_directories", Expression(managed_directories, ::DictionaryExpression))
     }
     registerFunctionCallStatement("workspace", args)

@@ -14,31 +14,28 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.dsl
+package com.morlfy.airin.starlark.format
 
-import org.gradle.api.Action
-import org.gradle.api.model.ObjectFactory
-import javax.inject.Inject
+import com.morlfy.airin.starlark.elements.StarlarkFile
 
 
 /**
  *
  */
-open class AirinExtension @Inject constructor(objects: ObjectFactory) {
+interface StarlarkFileFormatter {
 
-    val templates: Templates = objects.newInstance(Templates::class.java)
+    /**
+     *
+     */
+    fun format(starlarkFile: StarlarkFile): String
 
-    val artifacts: Artifacts = objects.newInstance(Artifacts::class.java)
+    /**
+     *
+     */
+    fun format(starlarkFile: StarlarkFile, accumulator: Appendable)
 
-    fun templates(body: Action<Templates>) {
-        body.execute(templates)
-    }
-
-    fun artifacts(body: Action<Artifacts>) {
-        body.execute(artifacts)
-    }
-
-    companion object {
-        const val NAME = "airin"
-    }
+    /**
+     *
+     */
+    companion object Default : StarlarkFileFormatter by StarlarkCodeFormatter()
 }

@@ -40,12 +40,12 @@ fun BuildContext.java_library(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (resources != UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (resources !== UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
+        if (exports !== UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
+        if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement(name = "java_library", args)
 }
@@ -87,22 +87,22 @@ fun BuildContext.java_binary(
     env: Map<Key, Value>? = UnspecifiedDictionary,
     output_licenses: List<StringType?>? = UnspecifiedList,
 ) {
-    val args = linkedSetOf<Argument>().also {
+    val fargs = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (resources != UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (main_class != UnspecifiedString) it += Argument("main_class", Expression(main_class, ::StringLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
-        if (args != UnspecifiedList) it += Argument("args", Expression(args, ::ListExpression))
-        if (env != UnspecifiedDictionary) it += Argument("env", Expression(env, ::DictionaryExpression))
-        if (output_licenses != UnspecifiedList) it += Argument(
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (resources !== UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
+        if (exports !== UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
+        if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (main_class !== UnspecifiedString) it += Argument("main_class", Expression(main_class, ::StringLiteral))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (args !== UnspecifiedList) it += Argument("args", Expression(args, ::ListExpression))
+        if (env !== UnspecifiedDictionary) it += Argument("env", Expression(env, ::DictionaryExpression))
+        if (output_licenses !== UnspecifiedList) it += Argument(
             "output_licenses", Expression(output_licenses, ::ListExpression)
         )
     }
-    registerFunctionCallStatement("java_binary", args)
+    registerFunctionCallStatement("java_binary", fargs)
 }
 
 /**
@@ -143,11 +143,11 @@ fun BuildContext.java_import(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (jars != UnspecifiedList) it += Argument("jars", Expression(jars, ::ListExpression))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
-        if (neverlink != UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
+        if (jars !== UnspecifiedList) it += Argument("jars", Expression(jars, ::ListExpression))
+        if (exports !== UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (neverlink !== UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
     }
     registerFunctionCallStatement("java_import", args)
 }
@@ -185,12 +185,12 @@ fun BuildContext.java_plugin(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (processor_class != UnspecifiedString)
+        if (processor_class !== UnspecifiedString)
             it += Argument("processor_class", Expression(processor_class, ::StringLiteral))
-        if (generates_api != UnspecifiedBoolean)
+        if (generates_api !== UnspecifiedBoolean)
             it += Argument("generates_api", Expression(generates_api, ::BooleanLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("java_plugin", args)
 }

@@ -43,19 +43,19 @@ fun BuildContext.android_library(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (custom_package != UnspecifiedString)
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (custom_package !== UnspecifiedString)
             it += Argument("custom_package", Expression(custom_package, ::StringLiteral))
-        if (manifest != UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
-        if (exports_manifest != UnspecifiedBoolean)
+        if (manifest !== UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
+        if (exports_manifest !== UnspecifiedBoolean)
             it += Argument("exports_manifest", Expression(exports_manifest, ::BooleanLiteral))
-        if (resource_files != UnspecifiedList)
+        if (resource_files !== UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
-        if (enable_data_binding != UnspecifiedBoolean)
+        if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("android_library", args)
 }
@@ -109,28 +109,28 @@ fun BuildContext.android_binary(
 ) {
     val fargs = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (custom_package != UnspecifiedString)
+        if (custom_package !== UnspecifiedString)
             it += Argument("custom_package", Expression(custom_package, ::StringLiteral))
-        if (manifest != UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
-        if (manifest_values != UnspecifiedDictionary)
+        if (manifest !== UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
+        if (manifest_values !== UnspecifiedDictionary)
             it += Argument("manifest_values", Expression(manifest_values, ::DictionaryExpression))
-        if (debug_key != UnspecifiedString) it += Argument("debug_key", Expression(debug_key, ::StringLiteral))
-        if (enable_data_binding != UnspecifiedBoolean)
+        if (debug_key !== UnspecifiedString) it += Argument("debug_key", Expression(debug_key, ::StringLiteral))
+        if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
-        if (multidex != UnspecifiedString) it += Argument("multidex", Expression(multidex, ::StringLiteral))
-        if (incremental_dexing != UnspecifiedInteger)
+        if (multidex !== UnspecifiedString) it += Argument("multidex", Expression(multidex, ::StringLiteral))
+        if (incremental_dexing !== UnspecifiedInteger)
             it += Argument("incremental_dexing", Expression(incremental_dexing, ::IntegerLiteral))
-        if (crunch_png != UnspecifiedBoolean) it += Argument("crunch_png", Expression(crunch_png, ::BooleanLiteral))
-        if (dex_shards != UnspecifiedInteger) it += Argument("dex_shards", Expression(dex_shards, ::IntegerLiteral))
-        if (resource_files != UnspecifiedList)
+        if (crunch_png !== UnspecifiedBoolean) it += Argument("crunch_png", Expression(crunch_png, ::BooleanLiteral))
+        if (dex_shards !== UnspecifiedInteger) it += Argument("dex_shards", Expression(dex_shards, ::IntegerLiteral))
+        if (resource_files !== UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
-        if (args != UnspecifiedList) it += Argument("args", Expression(args, ::ListExpression))
-        if (env != UnspecifiedDictionary) it += Argument("env", Expression(env, ::DictionaryExpression))
-        if (output_licenses != UnspecifiedList)
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (args !== UnspecifiedList) it += Argument("args", Expression(args, ::ListExpression))
+        if (env !== UnspecifiedDictionary) it += Argument("env", Expression(env, ::DictionaryExpression))
+        if (output_licenses !== UnspecifiedList)
             it += Argument("output_licenses", Expression(output_licenses, ::ListExpression))
     }
     registerFunctionCallStatement("android_binary", args = fargs)
@@ -178,11 +178,11 @@ fun BuildContext.aar_import(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (aar != UnspecifiedString) it += Argument("aar", Expression(aar, ::StringLiteral))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (srcjar != UnspecifiedString) it += Argument("srcjar", Expression(srcjar, ::StringLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (aar !== UnspecifiedString) it += Argument("aar", Expression(aar, ::StringLiteral))
+        if (exports !== UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
+        if (srcjar !== UnspecifiedString) it += Argument("srcjar", Expression(srcjar, ::StringLiteral))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("aar_import", args)
 }
@@ -215,15 +215,15 @@ fun WorkspaceContext.android_sdk_repository(
     api_level: IntegerType? = UnspecifiedInteger,
     build_tools_version: StringType? = UnspecifiedString,
     path: StringType? = UnspecifiedString,
-    repo_mapping: Map<Key, Value>?
+    repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level != UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
-        if (build_tools_version != UnspecifiedString)
+        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (build_tools_version !== UnspecifiedString)
             it += Argument("build_tools_version", Expression(build_tools_version, ::StringLiteral))
-        if (path != UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
-        if (repo_mapping != UnspecifiedDictionary)
+        if (path !== UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
+        if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))
     }
     registerFunctionCallStatement("android_sdk_repository", args)
@@ -259,9 +259,9 @@ fun WorkspaceContext.android_ndk_repository(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level != UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
-        if (path != UnspecifiedString) it += Argument("path", Expression("path", ::StringLiteral))
-        if (repo_mapping != UnspecifiedDictionary)
+        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (path !== UnspecifiedString) it += Argument("path", Expression("path", ::StringLiteral))
+        if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))
     }
     registerFunctionCallStatement("android_ndk_repository", args)

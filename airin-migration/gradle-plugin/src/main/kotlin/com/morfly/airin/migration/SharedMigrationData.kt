@@ -14,33 +14,18 @@
  * limitations under the License.
  */
 
-package com.morfly.airin
+package com.morfly.airin.migration
 
-import com.morlfy.airin.starlark.elements.StarlarkFile
+import com.morfly.airin.MavenArtifact
 
 
 /**
  *
  */
-interface TemplateProvider<T> {
+interface SharedMigrationData {
 
     /**
      *
      */
-    fun provide(target: T, relativePath: String): List<StarlarkFile>
-
-    /**
-     *
-     */
-    fun canProvide(target: T): Boolean
+    val allArtifacts: Collection<MavenArtifact>
 }
-
-/**
- *
- */
-interface PerModuleTemplateProvider<M> : TemplateProvider<M>
-
-/**
- *
- */
-interface StandaloneTemplateProvider<P> : TemplateProvider<P>

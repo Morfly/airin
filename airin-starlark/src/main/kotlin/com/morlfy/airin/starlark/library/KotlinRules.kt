@@ -41,15 +41,20 @@ fun BuildContext.kt_compiler_plugin(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (compile_phase != UnspecifiedBoolean)
+        if (compile_phase !== UnspecifiedBoolean)
             it += Argument("compile_phase", Expression(compile_phase, ::BooleanLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (id != UnspecifiedString) it += Argument("id", Expression(id, ::StringLiteral))
-        if (options != UnspecifiedDictionary) it += Argument("options", Expression(options, ::DictionaryExpression))
-        if (stubs_phase != UnspecifiedBoolean) it += Argument("stubs_phase", Expression(stubs_phase, ::BooleanLiteral))
-        if (target_embedded_compiler != UnspecifiedBoolean)
-            it += Argument("target_embedded_compiler", Expression(target_embedded_compiler, ::BooleanLiteral))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (id !== UnspecifiedString) it += Argument("id", Expression(id, ::StringLiteral))
+        if (options !== UnspecifiedDictionary)
+            it += Argument("options", Expression(options, ::DictionaryExpression))
+        if (stubs_phase !== UnspecifiedBoolean)
+            it += Argument("stubs_phase", Expression(stubs_phase, ::BooleanLiteral))
+        if (target_embedded_compiler !== UnspecifiedBoolean)
+            it += Argument(
+                "target_embedded_compiler", Expression(target_embedded_compiler, ::BooleanLiteral)
+            )
+        if (visibility !== UnspecifiedList)
+            it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("kt_compiler_plugin", args)
 }
@@ -97,19 +102,27 @@ fun BuildContext.kt_jvm_binary(
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
         it += Argument("main_class", Expression(main_class, ::StringLiteral))
-        if (data != UnspecifiedList) it += Argument("data", Expression(data, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (jvm_flags != UnspecifiedList) it += Argument("jvm_flags", Expression(jvm_flags, ::ListExpression))
-        if (module_name != UnspecifiedString) it += Argument("module_name", Expression(module_name, ::StringLiteral))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (resource_jars != UnspecifiedList)
+        if (data !== UnspecifiedList) it += Argument("data", Expression(data, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (jvm_flags !== UnspecifiedList)
+            it += Argument("jvm_flags", Expression(jvm_flags, ::ListExpression))
+        if (module_name !== UnspecifiedString)
+            it += Argument("module_name", Expression(module_name, ::StringLiteral))
+        if (plugins !== UnspecifiedList)
+            it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (resource_jars !== UnspecifiedList)
             it += Argument("resource_jars", Expression(resource_jars, ::ListExpression))
-        if (resource_strip_prefix != UnspecifiedString)
-            it += Argument("resource_strip_prefix", Expression(resource_strip_prefix, ::StringLiteral))
-        if (resources != UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
-        if (runtime_deps != UnspecifiedList) it += Argument("runtime_deps", Expression(runtime_deps, ::ListExpression))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (resource_strip_prefix !== UnspecifiedString)
+            it += Argument(
+                "resource_strip_prefix", Expression(resource_strip_prefix, ::StringLiteral)
+            )
+        if (resources !== UnspecifiedList)
+            it += Argument("resources", Expression(resources, ::ListExpression))
+        if (runtime_deps !== UnspecifiedList)
+            it += Argument("runtime_deps", Expression(runtime_deps, ::ListExpression))
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (visibility !== UnspecifiedList)
+            it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("kt_jvm_binary", args)
 }
@@ -158,16 +171,34 @@ fun BuildContext.kt_jvm_import(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (exported_compiler_plugins != UnspecifiedList)
-            it += Argument("exported_compiler_plugins", Expression(exported_compiler_plugins, ::ListExpression))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (jar != UnspecifiedString) it += Argument("jar", Expression(jar, ::StringLiteral))
-        if (jars != UnspecifiedList) it += Argument("jars", Expression(jars, ::ListExpression))
-        if (neverlink != UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
-        if (runtime_deps != UnspecifiedList) it += Argument("runtime_deps", Expression(runtime_deps, ::ListExpression))
-        if (srcjar != UnspecifiedString) it += Argument("srcjar", Expression(srcjar, ::StringLiteral))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (exported_compiler_plugins !== UnspecifiedList)
+            it += Argument(
+                "exported_compiler_plugins",
+                Expression(exported_compiler_plugins, ::ListExpression)
+            )
+        if (exports !== UnspecifiedList) it += Argument(
+            "exports",
+            Expression(exports, ::ListExpression)
+        )
+        if (jar !== UnspecifiedString) it += Argument("jar", Expression(jar, ::StringLiteral))
+        if (jars !== UnspecifiedList) it += Argument("jars", Expression(jars, ::ListExpression))
+        if (neverlink !== UnspecifiedBoolean) it += Argument(
+            "neverlink",
+            Expression(neverlink, ::BooleanLiteral)
+        )
+        if (runtime_deps !== UnspecifiedList) it += Argument(
+            "runtime_deps",
+            Expression(runtime_deps, ::ListExpression)
+        )
+        if (srcjar !== UnspecifiedString) it += Argument(
+            "srcjar",
+            Expression(srcjar, ::StringLiteral)
+        )
+        if (visibility !== UnspecifiedList) it += Argument(
+            "visibility",
+            Expression(visibility, ::ListExpression)
+        )
     }
     registerFunctionCallStatement("kt_jvm_import", args)
 }
@@ -217,22 +248,49 @@ fun BuildContext.kt_jvm_library(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (data != UnspecifiedList) it += Argument("data", Expression(data, ::ListExpression))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (exported_compiler_plugins != UnspecifiedList)
-            it += Argument("exported_compiler_plugins", Expression(exported_compiler_plugins, ::ListExpression))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (module_name != UnspecifiedString) it += Argument("module_name", Expression(module_name, ::StringLiteral))
-        if (neverlink != UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
-        if (plugins != UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
-        if (resource_jars != UnspecifiedList)
+        if (data !== UnspecifiedList) it += Argument("data", Expression(data, ::ListExpression))
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (exported_compiler_plugins !== UnspecifiedList)
+            it += Argument(
+                "exported_compiler_plugins",
+                Expression(exported_compiler_plugins, ::ListExpression)
+            )
+        if (exports !== UnspecifiedList) it += Argument(
+            "exports",
+            Expression(exports, ::ListExpression)
+        )
+        if (module_name !== UnspecifiedString) it += Argument(
+            "module_name",
+            Expression(module_name, ::StringLiteral)
+        )
+        if (neverlink !== UnspecifiedBoolean) it += Argument(
+            "neverlink",
+            Expression(neverlink, ::BooleanLiteral)
+        )
+        if (plugins !== UnspecifiedList) it += Argument(
+            "plugins",
+            Expression(plugins, ::ListExpression)
+        )
+        if (resource_jars !== UnspecifiedList)
             it += Argument("resource_jars", Expression(resource_jars, ::ListExpression))
-        if (resource_strip_prefix != UnspecifiedString)
-            it += Argument("resource_strip_prefix", Expression(resource_strip_prefix, ::StringLiteral))
-        if (resources != UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
-        if (runtime_deps != UnspecifiedList) it += Argument("runtime_deps", Expression(runtime_deps, ::ListExpression))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (resource_strip_prefix !== UnspecifiedString)
+            it += Argument(
+                "resource_strip_prefix",
+                Expression(resource_strip_prefix, ::StringLiteral)
+            )
+        if (resources !== UnspecifiedList) it += Argument(
+            "resources",
+            Expression(resources, ::ListExpression)
+        )
+        if (runtime_deps !== UnspecifiedList) it += Argument(
+            "runtime_deps",
+            Expression(runtime_deps, ::ListExpression)
+        )
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument(
+            "visibility",
+            Expression(visibility, ::ListExpression)
+        )
     }
     registerFunctionCallStatement("kt_jvm_library", args)
 }
@@ -282,18 +340,27 @@ fun BuildContext.kt_android_library(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (exports != UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
-        if (srcs != UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
-        if (custom_package != UnspecifiedString)
+        if (exports !== UnspecifiedList) it += Argument(
+            "exports",
+            Expression(exports, ::ListExpression)
+        )
+        if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
+        if (custom_package !== UnspecifiedString)
             it += Argument("custom_package", Expression(custom_package, ::StringLiteral))
-        if (manifest != UnspecifiedString) it += Argument("manifest", Expression(manifest, ::StringLiteral))
-        if (exports_manifest != UnspecifiedBoolean)
+        if (manifest !== UnspecifiedString) it += Argument(
+            "manifest",
+            Expression(manifest, ::StringLiteral)
+        )
+        if (exports_manifest !== UnspecifiedBoolean)
             it += Argument("exports_manifest", Expression(exports_manifest, ::BooleanLiteral))
-        if (enable_data_binding != UnspecifiedBoolean)
+        if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
-        if (deps != UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
-        if (resource_files != UnspecifiedList)
+        if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (visibility !== UnspecifiedList) it += Argument(
+            "visibility",
+            Expression(visibility, ::ListExpression)
+        )
+        if (resource_files !== UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
     }
     registerFunctionCallStatement("kt_android_library", args)
@@ -337,15 +404,24 @@ fun WorkspaceContext.define_kt_toolchain(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_version != UnspecifiedString) it += Argument("api_version", Expression(name, ::StringLiteral))
-        if (jvm_target != UnspecifiedString) it += Argument("jvm_target", Expression(jvm_target, ::StringLiteral))
-        if (language_version != UnspecifiedString)
+        if (api_version !== UnspecifiedString) it += Argument(
+            "api_version",
+            Expression(name, ::StringLiteral)
+        )
+        if (jvm_target !== UnspecifiedString) it += Argument(
+            "jvm_target",
+            Expression(jvm_target, ::StringLiteral)
+        )
+        if (language_version !== UnspecifiedString)
             it += Argument("language_version", Expression(language_version, ::StringLiteral))
-        if (experimental_use_abi_jars != UnspecifiedBoolean)
-            it += Argument("experimental_use_abi_jars", Expression(experimental_use_abi_jars, ::BooleanLiteral))
-        if (javac_options != UnspecifiedDictionary)
+        if (experimental_use_abi_jars !== UnspecifiedBoolean)
+            it += Argument(
+                "experimental_use_abi_jars",
+                Expression(experimental_use_abi_jars, ::BooleanLiteral)
+            )
+        if (javac_options !== UnspecifiedDictionary)
             it += Argument("javac_options", Expression(javac_options, ::DictionaryExpression))
-        if (kotlinc_options != UnspecifiedDictionary)
+        if (kotlinc_options !== UnspecifiedDictionary)
             it += Argument("kotlinc_options", Expression(kotlinc_options, ::DictionaryExpression))
     }
     registerFunctionCallStatement("define_kt_toolchain", args)
@@ -381,10 +457,11 @@ fun WorkspaceContext.kt_register_toolchains() =
 // ===== kotlin_repositories =====
 
 fun WorkspaceContext.kotlin_repositories(
-    compiler_release: StringType
+    compiler_release: StringType? = UnspecifiedString
 ) {
     val args = linkedSetOf<Argument>().also {
-        it += Argument("compiler_release", Expression(compiler_release, ::StringLiteral))
+        if (compiler_release !== UnspecifiedString)
+            it += Argument("compiler_release", Expression(compiler_release, ::StringLiteral))
     }
     registerFunctionCallStatement("kotlin_repositories", args)
 }

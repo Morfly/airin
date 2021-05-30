@@ -36,8 +36,10 @@ fun WorkspaceContext.bind(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (actual != UnspecifiedString) it += Argument("actual", Expression(actual, ::StringLiteral))
-        if (visibility != UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (actual !== UnspecifiedString)
+            it += Argument("actual", Expression(actual, ::StringLiteral))
+        if (visibility !== UnspecifiedList)
+            it += Argument("visibility", Expression(visibility, ::ListExpression))
     }
     registerFunctionCallStatement("bind", args)
 }
@@ -70,7 +72,7 @@ fun WorkspaceContext.local_repository(
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
         it += Argument("path", Expression(path, ::StringLiteral))
-        if (repo_mapping != UnspecifiedDictionary)
+        if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))
     }
     registerFunctionCallStatement("local_repository", args)
@@ -107,16 +109,22 @@ fun WorkspaceContext.new_local_repository(
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (build_file != UnspecifiedString) it += Argument("build_file", Expression(build_file, ::StringLiteral))
-        if (build_file_content != UnspecifiedString)
+        if (build_file !== UnspecifiedString) it += Argument(
+            "build_file",
+            Expression(build_file, ::StringLiteral)
+        )
+        if (build_file_content !== UnspecifiedString)
             it += Argument("build_file_content", Expression(build_file_content, ::StringLiteral))
-        if (path != UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
-        if (repo_mapping != UnspecifiedDictionary)
+        if (path !== UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
+        if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))
-        if (workspace_file != UnspecifiedString)
+        if (workspace_file !== UnspecifiedString)
             it += Argument("workspace_file", Expression(workspace_file, ::StringLiteral))
-        if (workspace_file_content != UnspecifiedString)
-            it += Argument("workspace_file_content", Expression(workspace_file_content, ::StringLiteral))
+        if (workspace_file_content !== UnspecifiedString)
+            it += Argument(
+                "workspace_file_content",
+                Expression(workspace_file_content, ::StringLiteral)
+            )
     }
     registerFunctionCallStatement("new_local_repository", args)
 }

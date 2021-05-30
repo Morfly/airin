@@ -33,7 +33,7 @@ internal val nl: String = System.getProperty("line.separator")
 /**
  *
  */
-class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<Appendable>, BazelFileFormatter {
+class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<Appendable>, StarlarkFileFormatter {
 
     private val indent = " ".repeat(indentSize)
 

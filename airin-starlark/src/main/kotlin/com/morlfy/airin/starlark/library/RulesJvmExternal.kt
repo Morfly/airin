@@ -31,7 +31,6 @@ import com.morlfy.airin.starlark.lang.feature.stringFunctionCall
  *
  */
 fun ConfigurationContext<*>.maven_install(
-    name: Name,
     artifacts: List<StringType?>? = UnspecifiedList,
     repositories: List<StringType?>? = UnspecifiedList,
     fail_on_missing_checksum: BooleanType? = UnspecifiedBoolean,
@@ -43,22 +42,21 @@ fun ConfigurationContext<*>.maven_install(
     jetify_include_list: List<StringType?>? = UnspecifiedList
 ) {
     val args = linkedSetOf<Argument>().also {
-        it += Argument("name", Expression(name, ::StringLiteral))
-        if (artifacts != UnspecifiedList) it += Argument("artifacts", Expression(artifacts, ::ListExpression))
-        if (repositories != UnspecifiedList)
+        if (artifacts !== UnspecifiedList) it += Argument("artifacts", Expression(artifacts, ::ListExpression))
+        if (repositories !== UnspecifiedList)
             it += Argument("repositories", Expression(repositories, ::ListExpression))
-        if (fail_on_missing_checksum != UnspecifiedBoolean)
+        if (fail_on_missing_checksum !== UnspecifiedBoolean)
             it += Argument("fail_on_missing_checksum", Expression(fail_on_missing_checksum, ::BooleanLiteral))
-        if (fetch_sources != UnspecifiedBoolean)
+        if (fetch_sources !== UnspecifiedBoolean)
             it += Argument("fetch_sources", Expression(fetch_sources, ::BooleanLiteral))
-        if (excluded_artifacts != UnspecifiedList)
+        if (excluded_artifacts !== UnspecifiedList)
             it += Argument("excluded_artifacts", Expression(excluded_artifacts, ::ListExpression))
-        if (generate_compat_repositories != UnspecifiedBoolean)
+        if (generate_compat_repositories !== UnspecifiedBoolean)
             it += Argument("generate_compat_repositories", Expression(generate_compat_repositories, ::BooleanLiteral))
-        if (strict_visibility != UnspecifiedBoolean)
+        if (strict_visibility !== UnspecifiedBoolean)
             it += Argument("strict_visibility", Expression(strict_visibility, ::BooleanLiteral))
-        if (jetify != UnspecifiedBoolean) it += Argument("jetify", Expression(jetify, ::BooleanLiteral))
-        if (jetify_include_list != UnspecifiedList)
+        if (jetify !== UnspecifiedBoolean) it += Argument("jetify", Expression(jetify, ::BooleanLiteral))
+        if (jetify_include_list !== UnspecifiedList)
             it += Argument("jetify_include_list", Expression(jetify_include_list, ::ListExpression))
     }
     registerFunctionCallStatement("maven_install", args)
@@ -74,7 +72,6 @@ fun ConfigurationContext<*>.maven_install(body: MavenInstallContext.() -> Unit) 
  *
  */
 class MavenInstallContext : FunctionCallContext() {
-    var name: Name by fargs
     var artifacts: List<StringType?>? by fargs
     var repositories: List<StringType?>? by fargs
     var fail_on_missing_checksum: BooleanType? by fargs

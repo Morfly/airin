@@ -30,4 +30,4 @@ sealed class BaseStarlarkContext<C : LanguageContext> : LanguageContext(), Starl
     AssignmentsFeature, CustomNameAssignmentsFeature, BinaryPlusFeature,
     DynamicBinaryPlusFeature, CollectionsFeature, DynamicFunctionsFeature,
     EmptyLinesFeature, RawTextFeature, LoadStatementsFeature,
-    ListComprehensionsFeature<C>, SlicesFeature
+    ListComprehensionsFeature<C>, SlicesFeature, BinaryPercentsFeature

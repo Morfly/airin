@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package com.morfly.airin.dsl
-
-open class TemplateProvider
+package com.morfly.airin.migration
 
 
-open class Templates {
+const val JAVA = "java"
+const val JAVA_LIBRARY = "java-library"
+const val APPLICATION = "application"
 
-    val templates = linkedSetOf<Class<out TemplateProvider>>()
+const val KOTLIN_JVM = "org.jetbrains.kotlin.jvm"
 
-    @Suppress("unused") // dsl
-    fun register(cls: Class<TemplateProvider>) {
-        templates += cls
-    }
-
-    @Suppress("unused") // dsl
-    inline fun <reified T : TemplateProvider> register() {
-        templates.add(T::class.java)
-    }
-}
+const val ANDROID_LIBRARY = "com.android.library"
+const val ANDROID_APPLICATION = "com.android.application"

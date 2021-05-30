@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package com.morfly.airin
+package com.morfly.airin.plugin.dsl
 
 
-class GradleProjectMigrator {
+/**
+ *
+ */
+open class Artifacts {
 
+    val ignored = mutableListOf<String>()
 }

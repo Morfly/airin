@@ -18,7 +18,10 @@
 
 package com.morlfy.airin.starlark.lang.feature
 
+import com.morlfy.airin.starlark.lang.BaseStarlarkContext
+import com.morlfy.airin.starlark.lang.BuildContext
 import com.morlfy.airin.starlark.lang.api.LanguageFeature
+import com.morlfy.airin.starlark.library.java_library
 
 
 /**

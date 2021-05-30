@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.morfly.airin
+package com.morfly.airin.plugin
 
-import com.morfly.airin.dsl.AirinExtension
-import com.morfly.airin.task.MigrateToBazelTask
+import com.morfly.airin.plugin.dsl.AirinExtension
+import com.morfly.airin.plugin.task.MigrateToBazelTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 
+/**
+ *
+ */
 class AirinGradlePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
