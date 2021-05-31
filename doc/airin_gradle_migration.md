@@ -138,7 +138,7 @@ In the root `build.gradle` file add Airin Gradle plugin to classpath.
 
 ```kotlin
 buildscript {
-    ...
+    
     dependencies {
         classpath("org.morfly.airin:airin-gradle:1.0.0-alpha01")
     }
@@ -156,7 +156,7 @@ plugins {
 
 ```groovy
 buildscript {
-    ...
+    
     dependencies {
         classpath "org.morfly.airin:airin-gradle:1.0.0-alpha01"
     }

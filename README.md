@@ -45,7 +45,7 @@ In root `build.gradle` file configure Airin Gradle plugin by registering your ne
 
 ```kotlin
 airin {
-  ...
+  
   templates {
     
     register<Workspace>() // WORKSPACE file
@@ -61,7 +61,7 @@ airin {
 
 ```groovy
 airin {
-  ...
+  
   templates {
     
     register Workspace // WORKSPACE file
@@ -111,7 +111,7 @@ Open your root `build.gradle` file and add the following lines
 
 ```kotlin
 buildscript {
-    ...
+    
     dependencies {
         classpath("org.morfly.airin:airin-gradle:1.0.0-alpha01")
     }
@@ -128,7 +128,7 @@ plugins {
 
 ```groovy
 buildscript {
-    ...
+    
     dependencies {
         classpath "org.morfly.airin:airin-gradle:1.0.0-alpha01"
     }
