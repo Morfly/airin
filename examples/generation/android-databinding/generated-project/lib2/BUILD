@@ -7,7 +7,7 @@ DATABINDING_LAYOUTS = ["src/main/res/layout/layout_lib2.xml"]
 
 VIEW_MODELS_WITH_RES_IMPORTS = []
 
-VIEW_MODELS = ["src/main/kotlin/com/morfly/airin/sample/lib2/Lib2ViewModel.kt"] + [
+VIEW_MODELS = ["src/main/kotlin/org/morfly/airin/sample/lib2/Lib2ViewModel.kt"] + [
     "modify_imports_in_" + view_model_with_res_imports[0:-3]
     for view_model_with_res_imports in VIEW_MODELS_WITH_RES_IMPORTS
 ]
@@ -19,13 +19,13 @@ VIEW_MODELS = ["src/main/kotlin/com/morfly/airin/sample/lib2/Lib2ViewModel.kt"] 
         outs = [file[0:-3] + "_synthetic.kt"],
         cmd = """
         cat $(SRCS) |
-        sed 's/import com.morfly.airin.sample.lib2.R/import com.morfly.airin.sample.lib2.viewmodels.R/g' > $(OUTS)
+        sed 's/import org.morfly.airin.sample.lib2.R/import org.morfly.airin.sample.lib2.viewmodels.R/g' > $(OUTS)
         """,
     )
     for file in VIEW_MODELS_WITH_RES_IMPORTS
 ]
 
-BINDING_ADAPTERS = ["src/main/kotlin/com/morfly/airin/sample/lib2/BindingAdapters.java"]
+BINDING_ADAPTERS = ["src/main/kotlin/org/morfly/airin/sample/lib2/BindingAdapters.java"]
 
 EXCLUDED_LIB2_FILES = VIEW_MODELS + VIEW_MODELS_WITH_RES_IMPORTS + BINDING_ADAPTERS
 
@@ -49,7 +49,7 @@ LIB2_FILES = [
         outs = [file[0:-3] + "_synthetic.kt"],
         cmd = """
         cat $(SRCS) |
-        sed 's/import com.morfly.airin.sample.lib2.databinding./import com.morfly.airin.sample.lib2.databinding.databinding./g' > $(OUTS)
+        sed 's/import org.morfly.airin.sample.lib2.databinding./import org.morfly.airin.sample.lib2.databinding.databinding./g' > $(OUTS)
         """,
     )
     for file in LIB2_FILES_WITH_RESOURCE_IMPORTS
@@ -57,7 +57,7 @@ LIB2_FILES = [
 
 android_library(
     name = "resources",
-    custom_package = "com.morfly.airin.sample.lib2.res",
+    custom_package = "org.morfly.airin.sample.lib2.res",
     manifest = "src/main/AndroidManifest.xml",
     exports_manifest = True,
     resource_files = glob(
@@ -70,7 +70,7 @@ android_library(
 kt_android_library(
     name = "view_models",
     srcs = VIEW_MODELS,
-    custom_package = "com.morfly.airin.sample.lib2.viewmodels",
+    custom_package = "org.morfly.airin.sample.lib2.viewmodels",
     manifest = "src/main/ViewModelsManifest.xml",
     enable_data_binding = True,
     deps = [
@@ -85,7 +85,7 @@ kt_android_library(
 android_library(
     name = "databinding_resources",
     srcs = BINDING_ADAPTERS,
-    custom_package = "com.morfly.airin.sample.lib2.databinding",
+    custom_package = "org.morfly.airin.sample.lib2.databinding",
     manifest = "src/main/DataBindingResourcesManifest.xml",
     exports_manifest = True,
     resource_files = DATABINDING_LAYOUTS,
@@ -102,7 +102,7 @@ android_library(
 kt_android_library(
     name = "lib2",
     srcs = LIB2_FILES,
-    custom_package = "com.morfly.airin.sample.lib2",
+    custom_package = "org.morfly.airin.sample.lib2",
     manifest = "src/main/AndroidManifest.xml",
     exports_manifest = True,
     enable_data_binding = True,

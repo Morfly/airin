@@ -2,8 +2,8 @@
 
 package org.morfly.example.generator
 
-import com.morlfy.airin.starlark.writer.FileWriter
-import com.morlfy.airin.starlark.writer.StarlarkFileWriter
+import org.morfly.airin.starlark.writer.FileWriter
+import org.morfly.airin.starlark.writer.StarlarkFileWriter
 import org.morfly.example.template.android_databinding_workspace
 import org.morfly.example.template.other.android_databinding_bazelrc
 import org.morfly.example.template.root_build_template
@@ -13,7 +13,7 @@ import java.util.*
 
 
 const val GENERATED_PROJECT_ROOT_DIR = "../generated-project"
-private const val ROOT_PACKAGE_NAME = "com.morfly.airin.sample"
+private const val ROOT_PACKAGE_NAME = "org.morfly.airin.sample"
 
 
 /**

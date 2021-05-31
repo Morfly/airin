@@ -2,9 +2,9 @@
 
 package org.morfly.example.template
 
-import com.morlfy.airin.starlark.lang.BUILD
-import com.morlfy.airin.starlark.lang.Label
-import com.morlfy.airin.starlark.library.*
+import org.morfly.airin.starlark.lang.BUILD
+import org.morfly.airin.starlark.lang.Label
+import org.morfly.airin.starlark.library.*
 
 
 fun android_databinding_library_build(

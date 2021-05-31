@@ -2,11 +2,11 @@
 
 package org.morfly.example.template
 
-import com.morlfy.airin.starlark.lang.BUILD
-import com.morlfy.airin.starlark.lang.Label
-import com.morlfy.airin.starlark.lang.Name
-import com.morlfy.airin.starlark.library.android_binary
-import com.morlfy.airin.starlark.library.artifact
+import org.morfly.airin.starlark.lang.BUILD
+import org.morfly.airin.starlark.lang.Label
+import org.morfly.airin.starlark.lang.Name
+import org.morfly.airin.starlark.library.android_binary
+import org.morfly.airin.starlark.library.artifact
 
 
 fun root_build_template(

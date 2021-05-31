@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.morfly.airin.sample.lib1.Lib1ViewModel" />
+            type="org.morfly.airin.sample.lib1.Lib1ViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

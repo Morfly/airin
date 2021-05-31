@@ -1,7 +1,7 @@
 package org.morfly.example.generator
 
-import com.morlfy.airin.starlark.writer.FileWriter
-import com.morlfy.airin.starlark.writer.StarlarkFileWriter
+import org.morfly.airin.starlark.writer.FileWriter
+import org.morfly.airin.starlark.writer.StarlarkFileWriter
 import org.morfly.example.template.android_databinding_library_build
 import org.morfly.example.template.manifest.android_manifest_template
 import org.morfly.example.template.manifest.main_android_manifest_template

@@ -2,9 +2,9 @@
 
 package org.morfly.example.template
 
-import com.morlfy.airin.starlark.lang.BUILD
-import com.morlfy.airin.starlark.library.java_import
-import com.morlfy.airin.starlark.library.java_plugin
+import org.morfly.airin.starlark.lang.BUILD
+import org.morfly.airin.starlark.library.java_import
+import org.morfly.airin.starlark.library.java_plugin
 
 
 fun tools_build(

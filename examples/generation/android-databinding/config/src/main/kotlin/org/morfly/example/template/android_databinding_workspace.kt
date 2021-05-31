@@ -2,10 +2,10 @@
 
 package org.morfly.example.template
 
-import com.morlfy.airin.starlark.elements.ListReference
-import com.morlfy.airin.starlark.lang.StringType
-import com.morlfy.airin.starlark.lang.WORKSPACE
-import com.morlfy.airin.starlark.library.*
+import org.morfly.airin.starlark.elements.ListReference
+import org.morfly.airin.starlark.lang.StringType
+import org.morfly.airin.starlark.lang.WORKSPACE
+import org.morfly.airin.starlark.library.*
 
 
 fun android_databinding_workspace(
