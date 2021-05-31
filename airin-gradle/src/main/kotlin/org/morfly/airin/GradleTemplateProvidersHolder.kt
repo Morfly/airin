@@ -37,8 +37,8 @@ class GradleTemplateProvidersHolder(
      *
      */
     fun providePerModule(target: Project, relativePath: String): List<StarlarkFile> =
-        providers[GradlePerModuleTemplateProvider]!!
-            .firstOrNull { it.canProvide(target) }
+        providers[GradlePerModuleTemplateProvider]
+            ?.firstOrNull { it.canProvide(target) }
             ?.provide(target, relativePath)
             ?: emptyList()
 
@@ -46,9 +46,10 @@ class GradleTemplateProvidersHolder(
      *
      */
     fun provideStandalone(root: Project): List<StarlarkFile> =
-        providers[GradleStandaloneTemplateProvider]!!
-            .filter { it.canProvide(root) }
-            .flatMap { it.provide(root, relativePath = "") }
+        providers[GradleStandaloneTemplateProvider]
+            ?.filter { it.canProvide(root) }
+            ?.flatMap { it.provide(root, relativePath = "") }
+            ?: emptyList()
 
     /**
      *
