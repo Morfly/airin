@@ -54,7 +54,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
     implementation "com.android.tools.build:gradle:4.1.0" // temporary
-    implementation "com.morfly.airin:airin-gradle:<version>"
+    implementation "org.morfly.airin:airin-gradle:1.0.0-alpha01"
 }
 ```
 

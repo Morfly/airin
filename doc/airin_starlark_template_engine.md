@@ -27,7 +27,7 @@ fun java_build(
 }
 
 fun main() {
-    val buildFile = java_build("app", "src/main/java", "com.morfly.airin.Main")
+    val buildFile = java_build("app", "src/main/java", "org.morfly.airin.Main")
     val path = File("path/to/the/file")
     StarlarkFileWriter.write(path, buildFile)
 }
@@ -291,7 +291,7 @@ To use a function statement call a corresponding Kotlin function and pass argume
 java_binary(
     name = "app",
     srcs = glob("src/main/java/**/*.java"),
-    main_class = "com.morfly.Main",
+    main_class = "org.morfly.Main",
     deps = list["//lib"]
 )
 ```
