@@ -79,7 +79,7 @@ WORKSPACE.bazel {
 
 ## Variables and Assignments
 
-To declare a variable initialization `by` operator must be used, so that the following Kotlin statement. Only `val`
+To declare a variable initialization `by` operator must be used. Only `val`
 properties are allowed here.
 
 ```kotlin

@@ -9,7 +9,7 @@ Airin is a tool for migrating Gradle projects to Bazel and generating Bazel buil
 
 ## How it works?
 
-### Step 1
+### Step `1`
 
 In `buildSrc` define a set of [Starlark templates](doc/airin_starlark_template_engine.md) for your project.
 
@@ -32,11 +32,11 @@ fun java_build(
     )
 }
 ```
-### Step 2
+### Step `2`
 
 Also, in `buildSrc` implement [`TemplateProvider`](doc/airin_gradle_migration.md)'s for each type of your Gradle modules to correctly map the right templates to the right modules.
 
-### Step 3
+### Step `3`
 
 In root `build.gradle` file configure Airin Gradle plugin by registering your newly created template providers for each type of modules or usecases.
 
@@ -47,6 +47,7 @@ In root `build.gradle` file configure Airin Gradle plugin by registering your ne
 airin {
   ...
   templates {
+    
     register<Workspace>() // WORKSPACE file
     register<JavaLibrary>() // Java library modules
     register<AndroidApplication>() // Android application modules
@@ -62,6 +63,7 @@ airin {
 airin {
   ...
   templates {
+    
     register Workspace // WORKSPACE file
     register JavaLibrary // Java library modules
     register AndroidApplication // Android application modules
@@ -71,7 +73,7 @@ airin {
 </details>
 
 In the example above `Workspace`, `JavaLibrary` and `AndroidApplication` are template providers that implement `GradleTemplateProvider` interface.
-### Step 4
+### Step `4`
 
 Run the migration.
 
