@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package org.morfly.airin.sample
+@file:Suppress("FunctionName")
 
-import org.morfly.airin.sample.generator.ProjectGenerator
-import kotlin.system.measureTimeMillis
+package org.morfly.airin.sample.template.src
 
 
-fun main() {
-    val projectGenerator = ProjectGenerator()
+fun view_model_template(
+    vmPackageName: String,
+    vmClassName: String,
+    vmPropertyName: String,
+    vmPropertyValue: String
+    /**
+     *
+     */
+) = """
+package $vmPackageName
 
-    println("Generating project...")
 
-    val millis = measureTimeMillis {
-        projectGenerator.generate(numOfModules = 4, depsOverlap = 2)
-    }
+class $vmClassName {
 
-    println("Project successfully generated in ${millis / 1000.0} seconds.")
+    val $vmPropertyName: String
+        get() = "$vmPropertyValue"
 }
+""".trimIndent()

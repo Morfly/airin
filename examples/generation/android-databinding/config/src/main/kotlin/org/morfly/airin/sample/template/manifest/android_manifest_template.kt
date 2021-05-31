@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package org.morfly.airin.sample
+@file:Suppress("FunctionName")
 
-import org.morfly.airin.sample.generator.ProjectGenerator
-import kotlin.system.measureTimeMillis
+package org.morfly.airin.sample.template.manifest
 
 
-fun main() {
-    val projectGenerator = ProjectGenerator()
-
-    println("Generating project...")
-
-    val millis = measureTimeMillis {
-        projectGenerator.generate(numOfModules = 4, depsOverlap = 2)
-    }
-
-    println("Project successfully generated in ${millis / 1000.0} seconds.")
-}
+fun android_manifest_template(
+    packageName: String
+    /**
+     *
+     */
+) = """
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="$packageName">
+</manifest>    
+""".trimIndent()

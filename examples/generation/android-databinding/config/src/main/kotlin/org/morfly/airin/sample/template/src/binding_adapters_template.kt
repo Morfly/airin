@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package org.morfly.airin.sample
+@file:Suppress("FunctionName")
 
-import org.morfly.airin.sample.generator.ProjectGenerator
-import kotlin.system.measureTimeMillis
+package org.morfly.airin.sample.template.src
 
 
-fun main() {
-    val projectGenerator = ProjectGenerator()
+fun binding_adapters_template(
+    packageName: String,
+    adapterName: String
+) = """
+package $packageName;
 
-    println("Generating project...")
+import androidx.databinding.BindingAdapter;
+import android.widget.TextView;
 
-    val millis = measureTimeMillis {
-        projectGenerator.generate(numOfModules = 4, depsOverlap = 2)
+
+public class BindingAdapters {
+
+    @BindingAdapter("$adapterName")
+    public static void $adapterName(TextView view, String $adapterName) {
+        view.setText($adapterName);
     }
-
-    println("Project successfully generated in ${millis / 1000.0} seconds.")
 }
+
+""".trimIndent()
