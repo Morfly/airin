@@ -34,7 +34,9 @@ fun main() {
 ```
 The example above will generate a `BUILD.bazel` file in `path/to/the/file`.
 
-[Click here](../examples) to see how Airin template engine shines on more advanced examples.
+See [example1](../examples/generation/android-databinding/config/src/main/kotlin/org/morfly/example/template/android_databinding_library_build.kt) 
+and [example2](../examples/migration/multimodule-android/buildSrc/src/main/kotlin/template/android_workspace.kt) 
+for more advanced usages of Airin template engine or check the complete [example projects](../examples). 
 
 ## Enter Starlark Scope
 
@@ -195,7 +197,7 @@ tuple("value1", 2, 3.0)
 
 ### List Comprehension
 
-Airin provides
+Airin provides type safe list comprehensions that conform to `List` type and can be used in any place where lists are expected.
 
 ```kotlin
 // kotlin

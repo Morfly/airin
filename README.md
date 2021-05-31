@@ -1,5 +1,5 @@
 # Airin
-
+Airin is a tool for migrating Gradle projects to Bazel and generating Bazel build scripts.
 - **Starlark Template Engine**: Airin provides a declarative, typesafe template engine for generating Starlark code. Define
   templates for your Bazel configuration files in Kotlin DSL which closely resembles Starlark itself. Check
   [the documentation](doc/airin_starlark_template_engine.md) to learn more.
@@ -13,6 +13,25 @@
 
 In `buildSrc` define a set of [Starlark templates](doc/airin_starlark_template_engine.md) for your project.
 
+```kotlin
+fun java_build(
+    targetName: String,
+    srcRoot: String,
+    mainClass: String
+    /**
+     *
+     */
+) = BUILD.bazel {
+    load("@rules_java//java:defs.bzl", "java_binary")
+
+    java_binary(
+        name = targetName,
+        srcs = glob("$srcRoot/**/*.java"),
+        main_class = mainClass,
+        deps = list["//library"]
+    )
+}
+```
 ### Step 2
 
 Also, in `buildSrc` implement [`TemplateProvider`](doc/airin_gradle_migration.md)'s for each type of your Gradle modules to correctly map the right templates to the right modules.
