@@ -86,7 +86,7 @@ Use [the documentation](doc/airin_gradle_migration.md) to learn more about the m
 
 ## Installation
 
-### Airin Starlark
+### Airin Starlark Template Engine
 
 <details open>
 <summary>Kotlin </summary>
