@@ -4,8 +4,8 @@ plugins {
     kotlin("jvm") version "1.5.10"
 }
 
-group = "org.morfly"
-version = "1.0"
+group = "org.morfly.airin"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -17,5 +17,5 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("com.morfly.airin:airin-starlark:0.0.1")
+    implementation("org.morfly.airin:airin-starlark:1.0.0-alpha")
 }

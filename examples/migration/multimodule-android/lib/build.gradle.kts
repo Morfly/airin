@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     kotlin("jvm")
-    id("com.morfly.airin")
+//    id("org.morfly.airin")
 }
 
 java {
@@ -14,16 +14,16 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 }
 
-airin {
-    templates {
-        register<AndroidWorkspace>()
-        register<KotlinLibrary>()
-        register<AndroidApplication>()
-    }
-
-    artifacts {
-        ignored = listOf(
-            "org.jetbrains.kotlin:kotlin-stdlib"
-        )
-    }
-}
+//airin {
+//    templates {
+//        register<AndroidWorkspace>()
+//        register<KotlinLibrary>()
+//        register<AndroidApplication>()
+//    }
+//
+//    artifacts {
+//        ignored = listOf(
+//            "org.jetbrains.kotlin:kotlin-stdlib"
+//        )
+//    }
+//}

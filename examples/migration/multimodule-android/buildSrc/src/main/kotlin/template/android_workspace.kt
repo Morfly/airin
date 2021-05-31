@@ -18,8 +18,8 @@
 
 package template
 
-import com.morlfy.airin.starlark.lang.WORKSPACE
-import com.morlfy.airin.starlark.library.*
+import org.morfly.airin.starlark.lang.WORKSPACE
+import org.morfly.airin.starlark.library.*
 
 
 /**

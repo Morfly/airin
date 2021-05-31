@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import com.morfly.airin.*
-import com.morlfy.airin.starlark.elements.StarlarkFile
+import org.morfly.airin.*
+import org.morfly.airin.starlark.elements.StarlarkFile
 import org.gradle.api.Project
 import template.android_application_build
 

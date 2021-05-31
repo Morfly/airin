@@ -18,12 +18,12 @@
 
 package template
 
-import com.morlfy.airin.starlark.lang.BUILD
-import com.morlfy.airin.starlark.lang.Label
-import com.morlfy.airin.starlark.lang.bazel
-import com.morlfy.airin.starlark.library.artifact
-import com.morlfy.airin.starlark.library.glob
-import com.morlfy.airin.starlark.library.kt_jvm_library
+import org.morfly.airin.starlark.lang.BUILD
+import org.morfly.airin.starlark.lang.Label
+import org.morfly.airin.starlark.lang.bazel
+import org.morfly.airin.starlark.library.artifact
+import org.morfly.airin.starlark.library.glob
+import org.morfly.airin.starlark.library.kt_jvm_library
 
 
 /**

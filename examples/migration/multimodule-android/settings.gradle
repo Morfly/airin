@@ -1,4 +1,4 @@
-rootProject.name = "android-sample-application"
+rootProject.name = "multimodule-android"
 include ':app'
 
 includeBuild "../../../"
