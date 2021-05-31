@@ -1,6 +1,6 @@
-package org.morfly.example
+package org.morfly.airin.sample
 
-import org.morfly.example.generator.ProjectGenerator
+import org.morfly.airin.sample.generator.ProjectGenerator
 import kotlin.system.measureTimeMillis
 
 

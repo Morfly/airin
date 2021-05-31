@@ -1,11 +1,11 @@
-package org.morfly.example.generator
+package org.morfly.airin.sample.generator
 
 import org.morfly.airin.starlark.writer.FileWriter
 import org.morfly.airin.starlark.writer.StarlarkFileWriter
-import org.morfly.example.template.android_databinding_library_build
-import org.morfly.example.template.manifest.android_manifest_template
-import org.morfly.example.template.manifest.main_android_manifest_template
-import org.morfly.example.template.src.*
+import org.morfly.airin.sample.template.android_databinding_library_build
+import org.morfly.airin.sample.template.src.*
+import org.morfly.airin.sample.template.manifest.android_manifest_template
+import org.morfly.airin.sample.template.manifest.main_android_manifest_template
 import java.io.File
 
 
@@ -164,12 +164,12 @@ private fun AndroidDataBindingModuleData(
         packageName = packageName,
         label = "//$moduleName",
         moduleRoot = moduleRoot,
-        srcDir = "$moduleRoot/${SRC_SUB_DIR}/$packageSubDir",
-        resDir = "$moduleRoot/${RES_SUB_DIR}",
-        manifestDir = "$moduleRoot/${MANIFEST_SUB_DIR}",
-        viewModels = listOf("${SRC_SUB_DIR}/$packageSubDir/${viewModelClassName(moduleName)}.kt"),
-        bindingAdapters = listOf("${SRC_SUB_DIR}/$packageSubDir/BindingAdapters.java"),
-        dataBindingLayouts = listOf("${RES_SUB_DIR}/layout/${dataBindingLayoutName(moduleName)}.xml"),
+        srcDir = "$moduleRoot/$SRC_SUB_DIR/$packageSubDir",
+        resDir = "$moduleRoot/$RES_SUB_DIR",
+        manifestDir = "$moduleRoot/$MANIFEST_SUB_DIR",
+        viewModels = listOf("$SRC_SUB_DIR/$packageSubDir/${viewModelClassName(moduleName)}.kt"),
+        bindingAdapters = listOf("$SRC_SUB_DIR/$packageSubDir/BindingAdapters.java"),
+        dataBindingLayouts = listOf("$RES_SUB_DIR/layout/${dataBindingLayoutName(moduleName)}.xml"),
         internalDeps = internalDeps,
         externalDeps = emptyList(),
         isRootModule = isRootModule

@@ -1,6 +1,6 @@
 @file:Suppress("LocalVariableName", "FunctionName", "SpellCheckingInspection")
 
-package org.morfly.example.template
+package org.morfly.airin.sample.template
 
 import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.lang.Label

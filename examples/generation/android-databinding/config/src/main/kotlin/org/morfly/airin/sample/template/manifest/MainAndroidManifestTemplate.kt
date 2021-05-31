@@ -1,6 +1,6 @@
 @file:Suppress("FunctionName")
 
-package org.morfly.example.template.manifest
+package org.morfly.airin.sample.template.manifest
 
 
 fun main_android_manifest_template(

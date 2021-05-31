@@ -34,7 +34,7 @@ fun main() {
 ```
 The example above will generate a `BUILD.bazel` file in `path/to/the/file`.
 
-See [example1](../examples/generation/android-databinding/config/src/main/kotlin/org/morfly/example/template/android_databinding_library_build.kt) 
+See [example1](../examples/generation/android-databinding/config/src/main/kotlin/org/morfly/airin/sample/template/android_databinding_library_build.kt) 
 and [example2](../examples/migration/multimodule-android/buildSrc/src/main/kotlin/template/android_workspace.kt) 
 for more advanced usages of Airin template engine or check the complete [example projects](../examples). 
 

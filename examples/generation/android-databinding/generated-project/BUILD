@@ -1,7 +1,7 @@
 load("@rules_jvm_external//:defs.bzl", "artifact")
 
 android_binary(
-    name = "example_app",
+    name = "app_bin",
     custom_package = "org.morfly.airin.sample",
     manifest = "//app:src/main/AndroidManifest.xml",
     manifest_values = {

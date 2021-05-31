@@ -1,13 +1,13 @@
 @file:Suppress("SpellCheckingInspection")
 
-package org.morfly.example.generator
+package org.morfly.airin.sample.generator
 
 import org.morfly.airin.starlark.writer.FileWriter
 import org.morfly.airin.starlark.writer.StarlarkFileWriter
-import org.morfly.example.template.android_databinding_workspace
-import org.morfly.example.template.other.android_databinding_bazelrc
-import org.morfly.example.template.root_build_template
-import org.morfly.example.template.tools_build
+import org.morfly.airin.sample.template.android_databinding_workspace
+import org.morfly.airin.sample.template.other.android_databinding_bazelrc
+import org.morfly.airin.sample.template.root_build_template
+import org.morfly.airin.sample.template.tools_build
 import java.io.File
 import java.util.*
 
@@ -99,13 +99,6 @@ class ProjectGenerator {
             target = File("$GENERATED_PROJECT_ROOT_DIR/tools/android/android_tools"),
             overwrite = true
         )
-//        try {
-//            File("src/main/resources/bazel").copyTo(
-//                target = File("$GENERATED_PROJECT_ROOT_DIR/tools/bazel"),
-//                overwrite = false
-//            )
-//        } catch (e: FileAlreadyExistsException) {
-//        }
         File("src/main/resources/kotlin").copyRecursively(
             target = File("$GENERATED_PROJECT_ROOT_DIR/tools/kotlin"),
             overwrite = true
@@ -116,7 +109,7 @@ class ProjectGenerator {
 
     private fun generateRootBuild() {
         val build = root_build_template(
-            binaryName = "example_app",
+            binaryName = "app_bin",
             packageName = ROOT_PACKAGE_NAME,
             internalDeps = internalDeps,
             externalDeps = emptyList()

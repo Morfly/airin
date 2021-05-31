@@ -1,6 +1,6 @@
 @file:Suppress("FunctionName")
 
-package org.morfly.example.template.src
+package org.morfly.airin.sample.template.src
 
 
 fun regular_file_template(

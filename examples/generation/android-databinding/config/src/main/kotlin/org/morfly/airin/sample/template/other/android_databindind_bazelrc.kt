@@ -1,6 +1,6 @@
 @file:Suppress("FunctionName", "SpellCheckingInspection")
 
-package org.morfly.example.template.other
+package org.morfly.airin.sample.template.other
 
 
 fun android_databinding_bazelrc(

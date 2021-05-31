@@ -39,7 +39,7 @@ open class MigrateToBazelTask @Inject constructor(
         val millis = measureTimeMillis {
             migrator.migrate(project.rootProject)
         }
-        logger.lifecycle("\nMIGRATION SUCCESSFUL in ${millis / 1000}s")
+        logger.lifecycle("\nMIGRATION SUCCESSFUL in ${millis / 1000.0}s")
     }
 
     companion object {
