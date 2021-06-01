@@ -22,12 +22,12 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Enables load statements for Starlark file.
  */
 internal interface LoadStatementsFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
-     *
+     * Starlark Load statement.
      */
     fun load(file: String, vararg symbols: String) {
         val elements = symbols.map {

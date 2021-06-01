@@ -18,7 +18,10 @@ package org.morfly.airin.starlark.elements
 
 
 /**
+ * A syntax element for a load statement.
  *
+ * @param file the file to be loaded.
+ * @param symbols the list of symbols to be loaded to the environment.
  */
 class LoadStatement(
     val file: StringLiteral,
@@ -26,7 +29,9 @@ class LoadStatement(
 ) : Statement {
 
     /**
+     * A syntax element for a symbol of a load statement.
      *
+     * A load statement symbol represents rules, functions and constants that are to be loaded to the environment.
      */
     class Symbol(
         val name: StringLiteral,

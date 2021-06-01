@@ -20,9 +20,9 @@ import org.morfly.airin.starlark.lang.StringType
 
 
 /**
- *
+ * Syntax element for a slice expression.
  */
-sealed class Slice(
+sealed class SliceExpression(
     val expression: Expression,
     val start: Int?,
     val end: Int?,
@@ -35,23 +35,23 @@ sealed class Slice(
 }
 
 /**
- *
+ * Syntax element for a slice expression on string.
  */
-class StringSlice(
+class StringSliceExpression(
     expression: Expression,
     start: Int?,
     end: Int?,
     step: Int?
-) : Slice(expression, start, end, step),
+) : SliceExpression(expression, start, end, step),
     StringType by ""
 
 /**
- *
+ * Syntax element for a slice expression on list.
  */
-class ListSlice<T>(
+class ListSliceExpression<T>(
     expression: Expression,
     start: Int?,
     end: Int?,
     step: Int?
-) : Slice(expression, start, end, step),
+) : SliceExpression(expression, start, end, step),
     List<T> by emptyList()

@@ -21,6 +21,9 @@ package org.morfly.airin.starlark.writer
 import java.io.File
 
 
+/**
+ * Writes string content to the specified file path.
+ */
 open class FileWriter : Writer<File, String, Unit> {
 
     override fun write(path: File, content: String) = with(path) {
@@ -33,5 +36,8 @@ open class FileWriter : Writer<File, String, Unit> {
         }
     }
 
+    /**
+     * Default instance of a file writer.
+     */
     companion object Default : FileWriter()
 }

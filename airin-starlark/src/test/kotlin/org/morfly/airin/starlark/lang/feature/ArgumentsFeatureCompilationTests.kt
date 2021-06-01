@@ -26,7 +26,7 @@ import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.Value
 
 
-private fun ArgumentsFeatureUnderCompilationTest.CompilationTests() {
+private fun DynamicArgumentsFeatureUnderCompilationTest.CompilationTests() {
 
     // =======================
     // ===== String args =====
@@ -82,9 +82,9 @@ private fun ArgumentsFeatureUnderCompilationTest.CompilationTests() {
 }
 
 
-private interface ArgumentsFeatureUnderCompilationTest :
+private interface DynamicArgumentsFeatureUnderCompilationTest :
 // Features under test
-    ArgumentsFeature,
+    DynamicArgumentsFeature,
 // Additional features for compatibility tests
     CollectionsFeature,
     DynamicBinaryPlusFeature

@@ -23,7 +23,7 @@ import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 
 
 /**
- *
+ * Starlark language context that is specific to Bazel WORKSPACE files.
  */
 @LanguageFeatureScope
 class WorkspaceContext : ConfigurationContext<WorkspaceContext>() {

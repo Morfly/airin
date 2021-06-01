@@ -18,7 +18,7 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * Syntax element for an assignment statement.
  */
 class Assignment(
     val name: String,

@@ -27,12 +27,40 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
+ * Feature that enables concatenations that follow a `=` operator with backticks.
  *
+ * Example:
+ * ```
+ * function1 {
+ *     arg = "value1" `+` "value2" `+` "value3"
+ *         ^           ^            ^
+ *        (=)      (first +)    (second +)
+ * }
+ * ```
+ * In the first example an argument is being passed using regular = operator. The order of operations is the following:
+ * - first +
+ * - second +
+ * - =
+ *
+ * ```
+ * function2 {
+ *     arg `=` "value1" `+` "value2" `+` "value3"
+ *          ^            ^            ^
+ *         (=)       (first +)    (second +)
+ * }
+ * ```
+ * However, in the second example a dynamic `=` operator is being used (with backticks). Since it's a regular Kotlin
+ * function, the order of operations is the following:
+ * - =
+ * - first +
+ * - second +
+ *
+ * This feature makes sure the entire concatenation is registered as an argument.
  */
 internal interface DynamicBinaryPlusFeature : LanguageFeature {
 
     /**
-     *
+     * String concatenation operator.
      */
     infix fun _StringValueAccumulator.`+`(other: StringType?): _StringValueAccumulator {
         holder.value = StringBinaryOperation(
@@ -44,7 +72,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     }
 
     /**
-     *
+     * List concatenation operator.
      */
     infix fun <T> _ListValueAccumulator<T>.`+`(other: List<T>?): _ListValueAccumulator<T> {
         holder.value = ListBinaryOperation<T>(
@@ -56,7 +84,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     }
 
     /**
-     *
+     * Dictionary concatenation operator.
      */
     infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(other: Map<*, Value>?): _DictionaryValueAccumulator<K, V> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
@@ -68,7 +96,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     }
 
     /**
-     *
+     * Dictionary concatenation operator.
      */
     infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
@@ -80,7 +108,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     }
 
     /**
-     *
+     * Concatenation operator for values for with type does not matter.
      */
     infix fun _AnyValueAccumulator.`+`(other: Any?): _AnyValueAccumulator {
         holder.value = AnyBinaryOperation(

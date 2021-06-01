@@ -30,7 +30,7 @@ class ArgumentsFeatureTests : FeatureSpec({
     feature("arguments feature") {
 
         scenario("string argument") {
-            ArgumentsFeatureUnderTest().apply {
+            DynamicArgumentsFeatureUnderTest().apply {
                 // given
                 "string_arg" `=` "value"
 
@@ -47,7 +47,7 @@ class ArgumentsFeatureTests : FeatureSpec({
         }
 
         scenario("list argument") {
-            ArgumentsFeatureUnderTest().apply {
+            DynamicArgumentsFeatureUnderTest().apply {
                 // given
                 "list_arg" `=` listOf("item1")
 
@@ -68,7 +68,7 @@ class ArgumentsFeatureTests : FeatureSpec({
         }
 
         scenario("dictionary argument") {
-            ArgumentsFeatureUnderTest().apply {
+            DynamicArgumentsFeatureUnderTest().apply {
                 // given
                 "dict_arg" `=` mapOf("key1" to "value1")
 
@@ -91,7 +91,7 @@ class ArgumentsFeatureTests : FeatureSpec({
         }
 
         scenario("null argument") {
-            ArgumentsFeatureUnderTest().apply {
+            DynamicArgumentsFeatureUnderTest().apply {
                 // given
                 "arg" `=` null
 
@@ -107,6 +107,6 @@ class ArgumentsFeatureTests : FeatureSpec({
 })
 
 
-private class ArgumentsFeatureUnderTest : ArgumentsFeature {
+private class DynamicArgumentsFeatureUnderTest : DynamicArgumentsFeature {
     override val fargs = linkedSetOf<Argument>()
 }

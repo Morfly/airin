@@ -23,7 +23,7 @@ import org.morfly.airin.starlark.lang.Value
 
 
 /**
- *
+ * Syntax element for a list expression.
  */
 class ListExpression<T>(val value: List<Expression?>) : Expression,
     List<T> by emptyList() {
@@ -34,13 +34,13 @@ class ListExpression<T>(val value: List<Expression?>) : Expression,
 }
 
 /**
- *
+ * Factory function for creating list expression object from the items of any type.
  */
 fun <T> ListExpression(list: List<T>): ListExpression<T> =
     ListExpression(list.map(::Expression))
 
 /**
- *
+ * Syntax element for a dictionary expression.
  */
 class DictionaryExpression(val value: Map<Expression?, Expression?>) : Expression,
     Map<Key, Value> by emptyMap() {
@@ -51,7 +51,7 @@ class DictionaryExpression(val value: Map<Expression?, Expression?>) : Expressio
 }
 
 /**
- *
+ * Factory function for creating dictionary expression object from the keys and values of any type.
  */
 fun DictionaryExpression(dictionary: Map<*, *>): DictionaryExpression =
     DictionaryExpression(value = dictionary
@@ -60,7 +60,7 @@ fun DictionaryExpression(dictionary: Map<*, *>): DictionaryExpression =
     )
 
 /**
- *
+ * Syntax element for a tuple expression.
  */
 class TupleExpression<T>(val value: List<Expression?>) : Expression,
     List<T> by emptyList() {
@@ -71,7 +71,7 @@ class TupleExpression<T>(val value: List<Expression?>) : Expression,
 }
 
 /**
- *
+ * Factory function for creating tuple expression object from the items of any type.
  */
 fun <T> TupleExpression(list: List<T>): TupleExpression<T> =
     TupleExpression(list.map(::Expression))

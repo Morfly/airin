@@ -26,7 +26,7 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Container of the key value pairs that are part of the dictionary expression.
  */
 internal interface MappingHolder {
 
@@ -37,12 +37,12 @@ internal interface MappingHolder {
 }
 
 /**
- *
+ * Enables mapping to key-value pairs that are part of the dictionary expression.
  */
 internal interface MappingFeature : LanguageFeature, MappingHolder {
 
     /**
-     *
+     * Mapping key to string value.
      */
     infix fun Key.to(value: StringType): _StringValueAccumulator {
         val k = Expression(this)
@@ -52,7 +52,7 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     }
 
     /**
-     *
+     * Mapping key to list value.
      */
     infix fun <T> Key.to(value: List<T>): _ListValueAccumulator<T> {
         val k = Expression(this)
@@ -62,7 +62,7 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     }
 
     /**
-     *
+     * Mapping key to dictionary value.
      */
     infix fun <K : Key, V : Value> Key.to(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
         val k = Expression(this)
@@ -72,7 +72,7 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     }
 
     /**
-     *
+     * Mapping key to dictionary value.
      */
     infix fun Key.to(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
         val value = DictionaryContext().apply(body).kwargs
@@ -83,7 +83,7 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     }
 
     /**
-     *
+     * Mapping key to value of any type.
      */
     infix fun Key.to(value: Any?): _AnyValueAccumulator {
         val k = Expression(this)

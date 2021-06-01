@@ -3,6 +3,7 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
+    id("org.jetbrains.dokka")
     kotlin("jvm")
 }
 

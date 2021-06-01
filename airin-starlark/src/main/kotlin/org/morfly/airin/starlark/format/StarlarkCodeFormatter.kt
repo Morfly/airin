@@ -21,17 +21,17 @@ import org.morfly.airin.starlark.elements.PositionMode.*
 
 
 /**
- *
+ * Default indentation value in a Starlark file.
  */
 const val DEFAULT_INDENT_SIZE = 4
 
 /**
- *
+ * New line character.
  */
 internal val nl: String = System.getProperty("line.separator")
 
 /**
- *
+ * Formats a syntax tree of Starlark elements to .
  */
 class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisitor<Appendable>, StarlarkFileFormatter {
 
@@ -64,12 +64,10 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
 
-    // TODO test
     override fun visit(element: Element, position: Int, mode: PositionMode, acc: Appendable) {
         element.accept(this, position, mode, acc)
     }
 
-    // TODO test
     override fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: Appendable) {
         for (statement in element.statements) {
             visit(statement, position, mode, acc)
@@ -77,7 +75,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: Expression?, position: Int, mode: PositionMode, acc: Appendable) {
         if (element == null) {
             acc += when (mode) {
@@ -95,7 +92,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         visit(element.expression, position, mode, acc)
     }
 
-    // tested
     override fun visit(element: Argument, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -110,7 +106,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         visit(element.value, position, CONTINUE_LINE, acc)
     }
 
-    // tested
     override fun visit(element: Assignment, position: Int, mode: PositionMode, acc: Appendable) {
         require(mode == NEW_LINE) { "Assignment statements must be formatted only in NEW_LINE mode but was $mode." }
         acc += nl
@@ -119,19 +114,16 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         visit(element.value, position, CONTINUE_LINE, acc)
     }
 
-    // tested
     override fun visit(element: DynamicValue, position: Int, mode: PositionMode, acc: Appendable) {
         visit(element.value, position, mode, acc)
     }
 
-    // tested
     override fun visit(element: BinaryOperation, position: Int, mode: PositionMode, acc: Appendable) {
         visit(element.left, position, mode, acc)
         acc += " ${element.operator} "
         visit(element.right, position, mode = CONTINUE_LINE, acc)
     }
 
-    // tested
     override fun visit(element: ListExpression<*>, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -159,7 +151,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: DictionaryExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -220,7 +211,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: ListComprehension<*>, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -263,7 +253,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         acc += '}'
     }
 
-    // tested
     override fun visit(element: Comprehension.For, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -282,13 +271,11 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         visit(element.iterable, position + 1, CONTINUE_LINE, acc)
     }
 
-    // tested
     override fun visit(element: Comprehension.If, position: Int, mode: PositionMode, acc: Appendable) {
         acc += "if "
         visit(element.condition, position, CONTINUE_LINE, acc)
     }
 
-    // tested
     override fun visit(element: FunctionCall, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -321,7 +308,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: StringLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
@@ -353,7 +339,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: IntegerLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -363,7 +348,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         acc += "$indent${element.value}"
     }
 
-    // tested
     override fun visit(element: FloatLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -373,7 +357,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         acc += "$indent${element.value}"
     }
 
-    // tested
     override fun visit(element: BooleanLiteral, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -388,7 +371,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: LoadStatement, position: Int, mode: PositionMode, acc: Appendable) {
         val symbols = element.symbols
         when {
@@ -412,7 +394,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    // tested
     override fun visit(element: LoadStatement.Symbol, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -432,7 +413,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         TODO("Not yet implemented")
     }
 
-    // tested
     override fun visit(element: Reference, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
@@ -443,7 +423,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         acc += element.name
     }
 
-    override fun visit(element: Slice, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: SliceExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = when (mode) {
             NEW_LINE -> indent(position)
             CONTINUE_LINE -> ""
@@ -462,7 +442,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         acc += ']'
     }
 
-    // tested
     override fun visit(element: EmptyLineStatement, position: Int, mode: PositionMode, acc: Appendable) {
         acc += nl
     }

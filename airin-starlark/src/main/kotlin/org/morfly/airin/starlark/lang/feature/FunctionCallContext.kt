@@ -28,7 +28,7 @@ import kotlin.reflect.KProperty
  *
  */
 @LanguageFeatureScope
-open class FunctionCallContext : ArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
+open class FunctionCallContext : DynamicArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
 
     override val fargs = linkedSetOf<Argument>()
 

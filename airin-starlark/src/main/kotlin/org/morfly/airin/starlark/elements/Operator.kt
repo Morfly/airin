@@ -18,15 +18,18 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * A language operator.
  */
 sealed interface Operator {
 
+    /**
+     * The display value of the operator.
+     */
     val value: String
 }
 
 /**
- *
+ * A language binary operator.
  */
 enum class BinaryOperator(override val value: String) : Operator {
     PLUS("+"),

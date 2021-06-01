@@ -25,43 +25,28 @@ import kotlin.reflect.KProperty
 
 
 /**
- *
+ * Feature that enables Starlark variable assignment statements.
  */
 internal interface AssignmentsFeature : LanguageFeature, StarlarkStatementsHolder {
 
-    /**
-     *
-     */
     operator fun StringType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): StringReference {
         statements += Assignment(name = property.name, value = Expression(this, ::StringLiteral))
         return StringReference(name = property.name)
     }
 
-    /**
-     *
-     */
     operator fun StringReference.getValue(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): StringReference = this
 
-    /**
-     *
-     */
     operator fun <T> List<T>.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): ListReference<T> {
         statements += Assignment(name = property.name, value = Expression(this, ::ListExpression))
         return ListReference(name = property.name)
     }
 
-    /**
-     *
-     */
     operator fun <T> ListReference<T>.getValue(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): ListReference<T> = this
 
-    /**
-     *
-     */
     operator fun <K : Key, V : Value> Map<K, V>.provideDelegate(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): DictionaryReference<K, V> {
@@ -69,9 +54,6 @@ internal interface AssignmentsFeature : LanguageFeature, StarlarkStatementsHolde
         return DictionaryReference(name = property.name)
     }
 
-    /**
-     *
-     */
     operator fun <K : Key, V : Value> DictionaryReference<K, V>.getValue(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): DictionaryReference<K, V> = this

@@ -27,36 +27,30 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that enables list, dictionary and tuple expressions.
  */
 internal interface CollectionsFeature : LanguageFeature {
 
     // ===== Lists =====
 
-    /**
-     *
-     */
     object _ListExpressionBuilder
 
-    /**
-     *
-     */
     val list get() = _ListExpressionBuilder
 
     /**
-     *
+     * List expreession builder.
      */
     operator fun <T> _ListExpressionBuilder.get(vararg args: T): List<T> =
         ListExpression(listOf(*args))
 
     /**
-     *
+     * List expression builder.
      */
     fun <T> list(vararg args: T): List<T> =
         ListExpression(listOf(*args))
 
     /**
-     *
+     * Empty list builder.
      */
     fun list(): List<Nothing> =
         ListExpression(emptyList())
@@ -65,29 +59,27 @@ internal interface CollectionsFeature : LanguageFeature {
     // ===== Dictionaries =====
 
     /**
-     *
+     * Dictionary expression builder.
      */
     fun dict(body: DictionaryContext.() -> Unit): Map<Key, Value> {
         val kwargs = DictionaryContext().apply(body).kwargs
         return DictionaryExpression(kwargs)
     }
 
-    /**
-     * TODO remove
-     */
+    @Deprecated("Replace with dict{} expression builder", replaceWith = ReplaceWith("dict {}"))
     fun <K : Key, V : Value> dict(vararg kwargs: Pair<K, V>): Map<K, V> =
         kwargs.toMap()
 
     // ===== Tuples =====
 
     /**
-     *
+     * Tuple expression builder.
      */
     fun <T> tuple(vararg args: T): List<T> =
         TupleExpression(listOf(*args))
 
     /**
-     *
+     * Empty tuple expression builder.
      */
     fun tuple(): List<Nothing> =
         TupleExpression(emptyList())

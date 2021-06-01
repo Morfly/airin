@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
 
 /**
- *
+ * glob Starlark function.
  */
 fun BaseStarlarkContext<*>.glob(
     include: List<Label?>,
@@ -46,7 +46,7 @@ fun BaseStarlarkContext<*>.glob(
 }
 
 /**
- *
+ * glob Starlark function.
  */
 fun BaseStarlarkContext<*>.glob(
     vararg include: Label?,
@@ -61,7 +61,7 @@ fun BaseStarlarkContext<*>.glob(
 )
 
 /**
- *
+ * package Starlark function.
  */
 fun BaseStarlarkContext<*>.`package`(
     default_visibility: List<Label>? = UnspecifiedList,
@@ -83,7 +83,7 @@ fun BaseStarlarkContext<*>.`package`(
 }
 
 /**
- *
+ * exports_files Starlark function.
  */
 fun BaseStarlarkContext<*>.exports_files(
     exports_files: List<Label>,
@@ -101,7 +101,7 @@ fun BaseStarlarkContext<*>.exports_files(
 }
 
 /**
- *
+ * exports_files Starlark function.
  */
 fun BaseStarlarkContext<*>.exports_files(
     vararg exports_files: Label,
@@ -115,9 +115,8 @@ fun BaseStarlarkContext<*>.exports_files(
     )
 }
 
-
 /**
- *
+ * select Starlark function.
  */
 inline fun <reified T> BaseStarlarkContext<*>.select(
     select: Map<Key, Value>,
@@ -132,7 +131,7 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
 }
 
 /**
- *
+ * select Starlark function.
  */
 inline fun <reified T> BaseStarlarkContext<*>.select(
     select: DictionaryContext.() -> Unit,
@@ -147,7 +146,7 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
 }
 
 
-fun BaseStarlarkContext<*>.test() {
+private fun BaseStarlarkContext<*>.test() {
     val list: List<Label> = select(dict {})
     val list1: List<Label> = select({})
     val string: StringType = select(dict {})

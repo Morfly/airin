@@ -18,7 +18,10 @@
 
 package org.morfly.airin.starlark.library
 
-import org.morfly.airin.starlark.elements.*
+import org.morfly.airin.starlark.elements.Argument
+import org.morfly.airin.starlark.elements.BooleanLiteral
+import org.morfly.airin.starlark.elements.Expression
+import org.morfly.airin.starlark.elements.ListExpression
 import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
@@ -28,7 +31,7 @@ import org.morfly.airin.starlark.lang.feature.stringFunctionCall
 // ===== maven_install =====
 
 /**
- *
+ * maven_install Bazel rule.
  */
 fun ConfigurationContext<*>.maven_install(
     artifacts: List<StringType?>? = UnspecifiedList,
@@ -63,14 +66,11 @@ fun ConfigurationContext<*>.maven_install(
 }
 
 /**
- *
+ * maven_install Bazel rule.
  */
 fun ConfigurationContext<*>.maven_install(body: MavenInstallContext.() -> Unit) =
     registerFunctionCallStatement("maven_install", MavenInstallContext(), body)
 
-/**
- *
- */
 class MavenInstallContext : FunctionCallContext() {
     var artifacts: List<StringType?>? by fargs
     var repositories: List<StringType?>? by fargs
@@ -86,7 +86,7 @@ class MavenInstallContext : FunctionCallContext() {
 // ===== artifact =====
 
 /**
- *
+ * artifact Bazeel function.
  */
 fun ConfigurationContext<*>.artifact(a: StringType): StringType =
     stringFunctionCall(

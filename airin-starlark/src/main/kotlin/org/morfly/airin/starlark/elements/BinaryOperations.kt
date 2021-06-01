@@ -21,7 +21,7 @@ import org.morfly.airin.starlark.lang.Value
 
 
 /**
- *
+ * Syntax element for binary operation.
  */
 sealed class BinaryOperation(
     val left: Expression?,
@@ -35,7 +35,9 @@ sealed class BinaryOperation(
 }
 
 /**
+ * Syntax element for binary operation of strings.
  *
+ * Conforms to the dictionary type.
  */
 class StringBinaryOperation(
     left: Expression?,
@@ -45,7 +47,9 @@ class StringBinaryOperation(
     StringType by ""
 
 /**
+ * Syntax element for binary operation of lists.
  *
+ * Conforms to the list type.
  */
 class ListBinaryOperation<T>(
     left: Expression?,
@@ -55,7 +59,9 @@ class ListBinaryOperation<T>(
     List<T> by emptyList()
 
 /**
- * TODO
+ * Syntax element for binary operation of dictionaries.
+ *
+ * Conforms to the dictionary type.
  */
 class DictionaryBinaryOperation<K /*: Key*/, V : Value>(
     left: Expression?,
@@ -65,7 +71,7 @@ class DictionaryBinaryOperation<K /*: Key*/, V : Value>(
     Map<K, V> by emptyMap()
 
 /**
- *
+ * Syntax element for binary operation of objects of any type.
  */
 class AnyBinaryOperation(
     left: Expression?,

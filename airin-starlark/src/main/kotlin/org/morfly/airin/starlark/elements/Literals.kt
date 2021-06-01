@@ -23,12 +23,12 @@ import org.morfly.airin.starlark.lang.StringType
 
 
 /**
- *
+ * An abstract element for any Starlark literal.
  */
 sealed interface Literal : Expression
 
 /**
- *
+ * An element for a string literal.
  */
 @JvmInline
 value class StringLiteral(val value: StringType) : Literal {
@@ -39,7 +39,7 @@ value class StringLiteral(val value: StringType) : Literal {
 }
 
 /**
- *
+ * An element for an integer literal.
  */
 @JvmInline
 value class IntegerLiteral(val value: IntegerType) : Literal {
@@ -50,7 +50,7 @@ value class IntegerLiteral(val value: IntegerType) : Literal {
 }
 
 /**
- *
+ * An element for a float literal.
  */
 @JvmInline
 value class FloatLiteral(val value: FloatType) : Literal {
@@ -61,7 +61,7 @@ value class FloatLiteral(val value: FloatType) : Literal {
 }
 
 /**
- *
+ * An element for a boolean literal.
  */
 @JvmInline
 value class BooleanLiteral(val value: BooleanType) : Literal {

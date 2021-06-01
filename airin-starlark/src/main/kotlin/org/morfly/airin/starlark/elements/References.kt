@@ -20,12 +20,12 @@ import org.morfly.airin.starlark.lang.*
 
 
 /**
- *
+ * Syntax element that represents a variable.
  */
 sealed interface Reference : Expression {
 
     /**
-     *
+     * Name of the variable.
      */
     val name: String
 
@@ -35,43 +35,43 @@ sealed interface Reference : Expression {
 }
 
 /**
- *
+ * Syntax element for a string variable.
  */
 class StringReference(override val name: String) : Reference,
     StringType by name
 
 /**
- *
+ * Syntax element for a list variable.
  */
 class IntegerReference(override val name: String) : Reference,
     IntegerType by 0L
 
 /**
- *
+ * Syntax element for a dictionary variable.
  */
 class FloatReference(override val name: String) : Reference,
     FloatType by 0.0
 
 /**
- *
+ * Syntax element for a boolean variable.
  */
 class BooleanReference(override val name: String) : Reference,
     BooleanType by false
 
 /**
- *
+ * Syntax element for a list variable.
  */
 class ListReference<out T>(override val name: String) : Reference,
     List<T> by emptyList()
 
 /**
- * TODO
+ * Syntax element for a dictionary variable
  */
 class DictionaryReference<K /*: Key*/, V : Value>(override val name: String) : Reference,
     Map<K, V> by emptyMap()
 
 /**
- *
+ * Syntax element for variable if the type does not matter..
  */
 @JvmInline
 value class AnyReference(override val name: String) : Reference

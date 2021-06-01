@@ -22,8 +22,16 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 internal interface RawTextFeature : LanguageFeature, StarlarkStatementsHolder {
 
+    /**
+     *
+     */
     val String.raw: Unit
         get() {
             statements += RawStatement(value = this)
         }
+
+    /**
+     *
+     */
+    operator fun String.unaryMinus() = raw
 }

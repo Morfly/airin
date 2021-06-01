@@ -18,9 +18,12 @@
 
 package org.morfly.airin.starlark.elements
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
+
 
 /**
- * Base type for expression elements.
+ * Base type for all expression elements in a syntax tree.
  *
  * Possible expression types:
  *  null - as value of Expression? type corresponds to the 'None' type from Starlark,
@@ -33,14 +36,17 @@ package org.morfly.airin.starlark.elements
  *  [DictionaryComprehension],
  *  [FunctionCall],
  *  [Reference],
- *  [Slice],
+ *  [SliceExpression],
  *  [DynamicValue],
  *  [RawText]: TODO.
  */
 sealed interface Expression : Element
 
 /**
- * Converts base kotlin types to corresponding starlark expression elements.
+ * Converts a Kotlin type to a corresponding Starlark expression element.
+ *
+ * In case the input value does not correspond to any Starlark element it will be converted [toString] and treated like
+ * a [StringLiteral].
  */
 fun Expression(value: Any?): Expression? =
     when (value) {
@@ -60,7 +66,7 @@ fun Expression(value: Any?): Expression? =
     }
 
 /**
- *
+ * Creates an expression element of specific a specific type only in case the argument is not already an expression.
  */
 inline fun <T : Any> Expression(value: T?, builder: (value: T) -> Expression): Expression? =
     when (value) {

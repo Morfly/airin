@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== alias =====
 
 /**
- *
+ * alias Bazel rule.
  */
 fun BuildContext.alias(
     name: Name,
@@ -41,15 +41,12 @@ fun BuildContext.alias(
 }
 
 /**
- *
+ * aleas Bazel rule.
  */
 fun BuildContext.alias(body: AliasContext.() -> Unit) {
     registerFunctionCallStatement("alias", AliasContext(), body)
 }
 
-/**
- *
- */
 class AliasContext : FunctionCallContext() {
     var name: Name by fargs
     var alias: Label by fargs
@@ -58,7 +55,7 @@ class AliasContext : FunctionCallContext() {
 // ===== genrule =====
 
 /**
- *
+ * genrule Bazel rule.
  */
 fun BuildContext.genrule(
     name: Name,
@@ -102,15 +99,12 @@ fun BuildContext.genrule(
 }
 
 /**
- *
+ * genrule Bazel rule.
  */
 fun BuildContext.genrule(body: GenruleContext.() -> Unit) {
     registerFunctionCallStatement("genrule", GenruleContext(), body)
 }
 
-/**
- *
- */
 class GenruleContext : FunctionCallContext() {
     var name: Name by fargs
     var srcs: List<Label?>? by fargs

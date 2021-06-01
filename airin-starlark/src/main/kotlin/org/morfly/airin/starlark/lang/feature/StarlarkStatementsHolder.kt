@@ -20,7 +20,4 @@ import org.morfly.airin.starlark.elements.Statement
 import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
-/**
- *
- */
 interface StarlarkStatementsHolder : StatementsHolder<Statement>

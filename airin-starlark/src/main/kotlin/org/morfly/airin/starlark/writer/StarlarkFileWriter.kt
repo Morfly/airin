@@ -24,7 +24,7 @@ import java.io.File
 
 
 /**
- *
+ * Converts a Starlark file syntax tree to the compilable Starlark file and writes it to the given path.
  */
 open class StarlarkFileWriter private constructor(
     private val formatter: StarlarkFileFormatter = StarlarkFileFormatter,
@@ -37,5 +37,8 @@ open class StarlarkFileWriter private constructor(
         writer.write(fullPath, formatter.format(content))
     }
 
+    /**
+     * Default instance of a starlark file writer.
+     */
     companion object Default : StarlarkFileWriter()
 }

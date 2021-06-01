@@ -18,7 +18,7 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * Syntax element for an expression that is used like a statement.
  */
 @JvmInline
 value class ExpressionStatement(val expression: Expression?) : Statement {

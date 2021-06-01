@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== java_library =====
 
 /**
- *
+ * java_library Bazel rule.
  */
 fun BuildContext.java_library(
     name: Name,
@@ -51,14 +51,11 @@ fun BuildContext.java_library(
 }
 
 /**
- *
+ * java_libary Bazel rule.
  */
 fun BuildContext.java_library(body: JavaLibraryContext.() -> Unit) =
     registerFunctionCallStatement("java_library", JavaLibraryContext(), body)
 
-/**
- *
- */
 class JavaLibraryContext : FunctionCallContext() {
     var name: Name by fargs
     var srcs: List<Label?>? by fargs
@@ -72,7 +69,7 @@ class JavaLibraryContext : FunctionCallContext() {
 // ===== java_binary =====
 
 /**
- *
+ * java_binary Bazel rule.
  */
 fun BuildContext.java_binary(
     name: Name,
@@ -106,14 +103,11 @@ fun BuildContext.java_binary(
 }
 
 /**
- *
+ * java_binary Bazel rule.
  */
 fun BuildContext.java_binary(body: JavaBinaryContext.() -> Unit) =
     registerFunctionCallStatement("java_binary", JavaBinaryContext(), body)
 
-/**
- *
- */
 class JavaBinaryContext : FunctionCallContext() {
     var name: Name by fargs
     var srcs: List<Label?>? by fargs
@@ -131,7 +125,7 @@ class JavaBinaryContext : FunctionCallContext() {
 // ===== java_import =====
 
 /**
- *
+ * java_import Bazel rule.
  */
 fun BuildContext.java_import(
     name: Name,
@@ -153,14 +147,11 @@ fun BuildContext.java_import(
 }
 
 /**
- *
+ * java_import Bazel rule.
  */
 fun BuildContext.java_import(body: JavaImportContext.() -> Unit) =
     registerFunctionCallStatement("java_import", JavaImportContext(), body)
 
-/**
- *
- */
 class JavaImportContext : FunctionCallContext() {
     var name: Name by fargs
     var jars: List<Label?>? by fargs
@@ -174,7 +165,7 @@ class JavaImportContext : FunctionCallContext() {
 // ===== java_plugin =====
 
 /**
- *
+ * java_plugin Bazel rule.
  */
 fun BuildContext.java_plugin(
     name: Name,
@@ -196,14 +187,11 @@ fun BuildContext.java_plugin(
 }
 
 /**
- *
+ * java_plugin Bazel rule.
  */
 fun BuildContext.java_plugin(body: JavaPluginContext.() -> Unit) =
     registerFunctionCallStatement("java_plugin", JavaPluginContext(), body)
 
-/**
- *
- */
 class JavaPluginContext : FunctionCallContext() {
     var name: Name by fargs
     var processor_class: StringType? by fargs

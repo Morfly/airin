@@ -20,5 +20,8 @@ import org.morfly.airin.starlark.lang.api.LanguageContext
 import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 
 
+/**
+ * Starlark language context that is specific to Bazel BUILD and WORKSPACE files.
+ */
 @LanguageFeatureScope
 sealed class ConfigurationContext<C : LanguageContext> : BaseStarlarkContext<C>()

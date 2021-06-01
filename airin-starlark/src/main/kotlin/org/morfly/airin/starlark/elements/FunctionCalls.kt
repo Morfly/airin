@@ -16,14 +16,13 @@
 
 package org.morfly.airin.starlark.elements
 
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 
 
 /**
- * Abstract element for function calls.
+ * An abstract element for a function call.
  *
- * @param name name of the function.
+ * @param name the name of the function.
  * @param args arguments of the function
  */
 sealed class FunctionCall(
@@ -37,7 +36,7 @@ sealed class FunctionCall(
 }
 
 /**
- * Element for a call of the function that returns string.
+ * An element for a call of the function that returns string.
  */
 class StringFunctionCall(
     name: String,
@@ -46,7 +45,34 @@ class StringFunctionCall(
     StringType by name
 
 /**
- * Call of the function that returns [List].
+ * An element for a call of the function that returns integer.
+ */
+class IntegerFunctionCall(
+    name: String,
+    args: Set<Argument>
+) : FunctionCall(name, args),
+    IntegerType by 0L
+
+/**
+ * An element for a call of the function that returns float.
+ */
+class FloatFunctionCall(
+    name: String,
+    args: Set<Argument>
+) : FunctionCall(name, args),
+    FloatType by 0.0
+
+/**
+ * An element for a call of the function that returns boolean.
+ */
+class BooleanFunctionCall(
+    name: String,
+    args: Set<Argument>
+) : FunctionCall(name, args),
+    BooleanType by false
+
+/**
+ * An element for a call of the function that returns list.
  */
 class ListFunctionCall<T>(
     name: String,
@@ -55,7 +81,7 @@ class ListFunctionCall<T>(
     List<T> by emptyList()
 
 /**
- * Call of the function that returns Dictionary. TODO
+ * An element for a call of the function that returns dictionary.
  */
 class DictionaryFunctionCall<K /*: Key*/, V : Value>(
     name: String,
@@ -64,7 +90,7 @@ class DictionaryFunctionCall<K /*: Key*/, V : Value>(
     Map<K, V> by emptyMap()
 
 /**
- * Call of the function that returns any other type (including void).
+ * An element for a call of the function when the return type does not matter.
  */
 class AnyFunctionCall(
     name: String,
@@ -72,7 +98,7 @@ class AnyFunctionCall(
 ) : FunctionCall(name, args)
 
 /**
- *
+ * An element for a call of the function with no return value (void).
  */
 typealias VoidFunctionCall = AnyFunctionCall
 

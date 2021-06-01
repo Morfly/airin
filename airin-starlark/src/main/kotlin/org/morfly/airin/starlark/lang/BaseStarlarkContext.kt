@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.*
  */
 @LanguageFeatureScope
 sealed class BaseStarlarkContext<C : LanguageContext> : LanguageContext(), StarlarkStatementsHolder,
-    AssignmentsFeature, CustomNameAssignmentsFeature, BinaryPlusFeature,
+    AssignmentsFeature, DynamicAssignmentsFeature, BinaryPlusFeature,
     DynamicBinaryPlusFeature, CollectionsFeature, DynamicFunctionsFeature,
     EmptyLinesFeature, RawTextFeature, LoadStatementsFeature,
     ListComprehensionsFeature<C>, SlicesFeature, BinaryPercentsFeature

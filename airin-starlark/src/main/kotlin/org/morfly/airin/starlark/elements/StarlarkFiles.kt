@@ -18,7 +18,11 @@ package org.morfly.airin.starlark.elements
 
 
 /**
+ * Abstract element that represents the root of a syntax tree for a Starlark file, such as BUILD, WORKSPACE or .bzl.
  *
+ * @param name the file name.
+ * @param relativePath the path of the file in relation to the project root directory.
+ * @param statements the list of children elements in the tree.
  */
 sealed class StarlarkFile(
     val name: String,
@@ -32,7 +36,9 @@ sealed class StarlarkFile(
 }
 
 /**
+ * The root of a syntax tree for a Bazel WORKSPACE file.
  *
+ * @param hasExtension defines whether the WORKSPACE file should have .bazel extension.
  */
 class WorkspaceFile(
     hasExtension: Boolean,
@@ -44,7 +50,9 @@ class WorkspaceFile(
 )
 
 /**
+ * The root of a syntax tree for a Bazel BUILD file.
  *
+ * @param hasExtension defines whether the BUILD file should have .bazel extension.
  */
 class BuildFile(
     hasExtension: Boolean,
@@ -57,7 +65,7 @@ class BuildFile(
 )
 
 /**
- *
+ * The root of a syntax tree for a .bzl file.
  */
 class BzlFile(
     name: String,
@@ -70,7 +78,7 @@ class BzlFile(
 )
 
 /**
- *
+ * The root of a syntax tree for a .star file.
  */
 class StarFile(
     name: String,

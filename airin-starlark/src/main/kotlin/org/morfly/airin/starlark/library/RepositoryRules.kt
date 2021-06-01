@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== http_archive =====
 
 /**
- *
+ * http_archive Bazel rule.
  */
 fun ConfigurationContext<*>.http_archive(
     name: Name,
@@ -56,7 +56,10 @@ fun ConfigurationContext<*>.http_archive(
             it += Argument("build_file_content", Expression(build_file_content, ::StringLiteral))
         if (auth_patterns !== UnspecifiedDictionary)
             it += Argument("auth_patterns", Expression(auth_patterns, ::DictionaryExpression))
-        if (canonical_id !== UnspecifiedString) it += Argument("canonical_id", Expression(canonical_id, ::StringLiteral))
+        if (canonical_id !== UnspecifiedString) it += Argument(
+            "canonical_id",
+            Expression(canonical_id, ::StringLiteral)
+        )
         if (netrc !== UnspecifiedString) it += Argument("netrc", Expression(netrc, ::StringLiteral))
         if (patch_args !== UnspecifiedList) it += Argument("patch_args", Expression(patch_args, ::ListExpression))
         if (patch_cmds !== UnspecifiedList) it += Argument("patch_cmds", Expression(patch_cmds, ::ListExpression))
@@ -65,7 +68,10 @@ fun ConfigurationContext<*>.http_archive(
         if (patch_tool !== UnspecifiedString) it += Argument("patch_tool", Expression(patch_tool, ::StringLiteral))
         if (patches !== UnspecifiedList) it += Argument("patches", Expression(patches, ::ListExpression))
         if (sha256 !== UnspecifiedString) it += Argument("sha256", Expression(sha256, ::StringLiteral))
-        if (strip_prefix !== UnspecifiedString) it += Argument("strip_prefix", Expression(strip_prefix, ::StringLiteral))
+        if (strip_prefix !== UnspecifiedString) it += Argument(
+            "strip_prefix",
+            Expression(strip_prefix, ::StringLiteral)
+        )
         if (type !== UnspecifiedString) it += Argument("type", Expression(type, ::StringLiteral))
         if (url !== UnspecifiedString) it += Argument("url", Expression(url, ::StringLiteral))
         if (urls !== UnspecifiedList) it += Argument("urls", Expression(urls, ::ListExpression))
@@ -78,14 +84,11 @@ fun ConfigurationContext<*>.http_archive(
 }
 
 /**
- *
+ * http_archive Bazel rule.
  */
 fun ConfigurationContext<*>.http_archive(body: HttpArchiveContext.() -> Unit) =
     registerFunctionCallStatement("http_archive", HttpArchiveContext(), body)
 
-/**
- *
- */
 class HttpArchiveContext : FunctionCallContext() {
     var name: Name by fargs
     var build_file: StringType? by fargs
@@ -110,7 +113,7 @@ class HttpArchiveContext : FunctionCallContext() {
 // ===== http_file =====
 
 /**
- *
+ * http_file Bazel rule.
  */
 fun ConfigurationContext<*>.http_file(
     name: Name,
@@ -138,14 +141,11 @@ fun ConfigurationContext<*>.http_file(
 }
 
 /**
- *
+ * http_file Bazel rule.
  */
 fun ConfigurationContext<*>.http_file(body: HttpFileContext.() -> Unit) =
     registerFunctionCallStatement("http_file", HttpFileContext(), body)
 
-/**
- *
- */
 class HttpFileContext : FunctionCallContext() {
     var name: Name by fargs
     var auth_patterns: Map<Key, Value>? by fargs
@@ -159,6 +159,9 @@ class HttpFileContext : FunctionCallContext() {
 
 // ===== http_jar =====
 
+/**
+ * http_jar Bazel rule.
+ */
 fun ConfigurationContext<*>.http_jar(
     name: Name,
     auth_patterns: Map<Key, Value>? = UnspecifiedDictionary,
@@ -172,7 +175,10 @@ fun ConfigurationContext<*>.http_jar(
         it += Argument("name", Expression(name, ::StringLiteral))
         if (auth_patterns !== UnspecifiedDictionary)
             it += Argument("auth_patterns", Expression(auth_patterns, ::DictionaryExpression))
-        if (canonical_id !== UnspecifiedString) it += Argument("canonical_id", Expression(canonical_id, ::StringLiteral))
+        if (canonical_id !== UnspecifiedString) it += Argument(
+            "canonical_id",
+            Expression(canonical_id, ::StringLiteral)
+        )
         if (netrc !== UnspecifiedString) it += Argument("netrc", Expression(netrc, ::StringLiteral))
         if (sha256 !== UnspecifiedString) it += Argument("sha256", Expression(sha256, ::StringLiteral))
         if (url !== UnspecifiedList) it += Argument("url", Expression(url, ::ListExpression))
@@ -182,14 +188,11 @@ fun ConfigurationContext<*>.http_jar(
 }
 
 /**
- *
+ * http_jar Bazel rule.
  */
 fun ConfigurationContext<*>.http_jar(body: HttpJarContext.() -> Unit) =
     registerFunctionCallStatement("http_jar", HttpJarContext(), body)
 
-/**
- *
- */
 class HttpJarContext : FunctionCallContext() {
     var name: Name by fargs
     var auth_patterns: Map<Key, Value>? by fargs
@@ -202,23 +205,14 @@ class HttpJarContext : FunctionCallContext() {
 
 // ===== git_repository =====
 
-/**
- *
- */
-fun ConfigurationContext<*>.git_repository() {
+private fun ConfigurationContext<*>.git_repository() {
     TODO()
 }
 
-/**
- *
- */
-fun ConfigurationContext<*>.git_repository(body: GitRepositoryContext.() -> Unit) =
+private fun ConfigurationContext<*>.git_repository(body: GitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("git_repository", GitRepositoryContext(), body)
 
-/**
- *
- */
-class GitRepositoryContext : FunctionCallContext() {
+private class GitRepositoryContext : FunctionCallContext() {
     init {
         TODO()
     }
@@ -226,23 +220,14 @@ class GitRepositoryContext : FunctionCallContext() {
 
 // ===== new_git_repository =====
 
-/**
- *
- */
-fun ConfigurationContext<*>.new_git_repository() {
+private fun ConfigurationContext<*>.new_git_repository() {
     TODO()
 }
 
-/**
- *
- */
-fun ConfigurationContext<*>.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
+private fun ConfigurationContext<*>.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("new_git_repository", NewGitRepositoryContext(), body)
 
-/**
- *
- */
-class NewGitRepositoryContext : FunctionCallContext() {
+private class NewGitRepositoryContext : FunctionCallContext() {
     init {
         TODO()
     }

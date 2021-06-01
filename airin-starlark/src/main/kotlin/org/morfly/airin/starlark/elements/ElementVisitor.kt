@@ -18,7 +18,7 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ *  A visitor for visiting the elements of a syntax tree in lexical order.
  */
 interface ElementVisitor<A> {
 
@@ -70,7 +70,7 @@ interface ElementVisitor<A> {
 
     fun visit(element: Reference, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: Slice, position: Int, mode: PositionMode, acc: A)
+    fun visit(element: SliceExpression, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: EmptyLineStatement, position: Int, mode: PositionMode, acc: A)
 

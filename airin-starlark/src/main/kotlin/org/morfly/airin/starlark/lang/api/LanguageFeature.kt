@@ -18,6 +18,6 @@ package org.morfly.airin.starlark.lang.api
 
 
 /**
- *
+ * Starlark DSL language feature.
  */
 internal interface LanguageFeature

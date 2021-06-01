@@ -18,16 +18,6 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * Base interface for all statements in a syntax tree.
  */
 sealed interface Statement : Element
-
-/**
- *
- */
-object EmptyLineStatement : Statement {
-
-    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, position, mode, accumulator)
-    }
-}

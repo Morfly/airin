@@ -26,12 +26,12 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that enables assigning new values to the existing variable.
  */
 internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
-     *
+     * String assignment operator.
      */
     infix fun StringReference.`=`(value: StringType?): _StringValueAccumulator {
         val assignment = Assignment(name, value = Expression(value, ::StringLiteral))
@@ -40,7 +40,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHol
     }
 
     /**
-     *
+     * List assignment operator.
      */
     infix fun <T> ListReference<T>.`=`(value: List<T>?): _ListValueAccumulator<T> {
         val assignment = Assignment(name, value = Expression(value, ::ListExpression))
@@ -49,7 +49,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHol
     }
 
     /**
-     *
+     * Dictionary assignment operator.
      */
     infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(value: Map<Key, Value>?): _DictionaryValueAccumulator<K, V> {
         val assignment = Assignment(name, value = Expression(value, ::DictionaryExpression))
@@ -58,7 +58,7 @@ internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHol
     }
 
     /**
-     *
+     * Dictionary assignment operator.
      */
     infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
         val value = DictionaryContext().apply(body).kwargs

@@ -18,12 +18,19 @@ package org.morfly.airin.starlark.elements
 
 
 /**
+ * An Element is a node in a Starlark syntax tree.
  *
+ * Elements are constructed with the Airin's DSL functions.
  */
 sealed interface Element {
 
     /**
+     * Implements the double dispatch by redirecting the call to the node specific `visit` method of the [ElementVisitor].
      *
+     * @param visitor the [ElementVisitor] instance to dispatch to.
+     * @param position the horizontal position of the element that is usually represented by the indentation index.
+     * @param mode a position mode in relation to the previous element in the syntax tree.
+     * @param accumulator an accumulator of values being collected while traversing elements in a syntax tree.
      */
     fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A)
 }

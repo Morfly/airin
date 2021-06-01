@@ -22,14 +22,8 @@ import org.morfly.airin.starlark.elements.StringLiteral
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
-/**
- *
- */
 internal interface CommentsFeature : LanguageFeature, StarlarkStatementsHolder {
 
-    /**
-     *
-     */
     val String.comment: Unit
         get() {
             statements += RawStatement(this)

@@ -29,23 +29,22 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that enables list comprehensions.
  */
 internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeature, LanguageContextProvider<C>,
     StarlarkStatementsHolder {
 
     // ==== String items =====
 
-    /**
-     *
-     */
     class _CompWithStringItems(
         internal val variable: StringReference,
         internal val clauses: MutableList<Comprehension.Clause>
     )
 
     /**
+     * Keyword that defines `for` clause in the comprehension where items are of string type.
      *
+     * @receiver `for` clause variable name.
      */
     infix fun String.`in`(iterable: List<StringType>): _CompWithStringItems {
         val itemVariable = StringReference(name = this)
@@ -56,7 +55,9 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Keyword that defines `if` clause in the comprehension.
      *
+     * @param condition the `if` clause condition passed as a raw text.
      */
     infix fun _CompWithStringItems.`if`(condition: String): _CompWithStringItems {
         clauses += Comprehension.If(condition = AnyRawExpression(condition))
@@ -64,23 +65,25 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Defines the body of a comprehension.
      *
+     * @param body the function which takes a variable reference from a `for` clause and returns the value of a
+     * comprehension body.
      */
     infix fun <R> _CompWithStringItems.take(body: C.(StringReference) -> R): ListComprehension<R> =
         buildComprehension(context = newContext(), variable, body, clauses)
 
     // ===== Integer items =====
 
-    /**
-     *
-     */
     class _CompWithIntegerItems(
         internal val variable: IntegerReference,
         internal val clauses: MutableList<Comprehension.Clause>
     )
 
     /**
+     * Keyword that defines `for` clause in the comprehension where items are of integer type.
      *
+     * @receiver `for` clause variable name.
      */
     infix fun String.`in`(iterable: List<IntegerType>): _CompWithIntegerItems {
         val itemVariable = IntegerReference(name = this)
@@ -91,7 +94,9 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Keyword that defines `if` clause in the comprehension.
      *
+     * @param condition the `if` clause condition passed as a raw text.
      */
     infix fun _CompWithIntegerItems.`if`(condition: String): _CompWithIntegerItems {
         clauses += Comprehension.If(condition = AnyRawExpression(condition))
@@ -99,23 +104,23 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Defines the body of a comprehension.
      *
+     * @param body the function which takes a variable reference from a `for` clause and returns the value of a
+     * comprehension body.
      */
     infix fun <R> _CompWithIntegerItems.take(body: C.(IntegerReference) -> R): ListComprehension<R> =
         buildComprehension(context = newContext(), variable, body, clauses)
 
     // ===== Float items =====
 
-    /**
-     *
-     */
     class _CompWithFloatItems(
         internal val variable: FloatReference,
         internal val clauses: MutableList<Comprehension.Clause>
     )
 
     /**
-     *
+     * Keyword that defines `for` clause in the comprehension where items are of float type.
      */
     infix fun String.`in`(iterable: List<FloatType>): _CompWithFloatItems {
         val itemVariable = FloatReference(name = this)
@@ -126,7 +131,9 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Keyword that defines `if` clause in the comprehension.
      *
+     * @param condition the `if` clause condition passed as a raw text.
      */
     infix fun _CompWithFloatItems.`if`(condition: String): _CompWithFloatItems {
         clauses += Comprehension.If(condition = AnyRawExpression(condition))
@@ -134,23 +141,23 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Defines the body of a comprehension.
      *
+     * @param body the function which takes a variable reference from a `for` clause and returns the value of a
+     * comprehension body.
      */
     infix fun <R> _CompWithFloatItems.take(body: C.(FloatReference) -> R): ListComprehension<R> =
         buildComprehension(context = newContext(), variable, body, clauses)
 
     // ===== Boolean items =====
 
-    /**
-     *
-     */
     class _CompWithBooleanItems(
         internal val variable: BooleanReference,
         internal val clauses: MutableList<Comprehension.Clause>
     )
 
     /**
-     *
+     * Keyword that defines `for` clause in the comprehension where items are of boolean type.
      */
     infix fun String.`in`(iterable: List<BooleanType>): _CompWithBooleanItems {
         val itemVariable = BooleanReference(name = this)
@@ -161,7 +168,9 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Keyword that defines `if` clause in the comprehension.
      *
+     * @param condition the `if` clause condition passed as a raw text.
      */
     infix fun _CompWithBooleanItems.`if`(condition: String): _CompWithBooleanItems {
         clauses += Comprehension.If(condition = AnyRawExpression(condition))
@@ -169,23 +178,23 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Defines the body of a comprehension.
      *
+     * @param body the function which takes a variable reference from a `for` clause and returns the value of a
+     * comprehension body.
      */
     infix fun <R> _CompWithBooleanItems.take(body: C.(BooleanReference) -> R): ListComprehension<R> =
         buildComprehension(context = newContext(), variable, body, clauses)
 
     // ===== List items =====
 
-    /**
-     *
-     */
     class _CompWithListItems<T>(
         internal val variable: ListReference<T>,
         internal val clauses: MutableList<Comprehension.Clause>
     )
 
     /**
-     *
+     * Keyword that defines `for` clause in the comprehension where items are of list type.
      */
     infix fun <T> String.`in`(iterable: List<List<T>>): _CompWithListItems<T> {
         val itemVariable = ListReference<T>(name = this)
@@ -196,7 +205,9 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Keyword that defines `if` clause in the comprehension.
      *
+     * @param condition the `if` clause condition passed as a raw text.
      */
     infix fun <T> _CompWithListItems<T>.`if`(condition: String): _CompWithListItems<T> {
         clauses += Comprehension.If(condition = AnyRawExpression(condition))
@@ -204,7 +215,7 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
-     *
+     * A `for` clause for nested comprehensions.
      */
     infix fun <T, R> _CompWithListItems<T>.`for`(body: C.(ListReference<T>) -> ListComprehension<R>): ListComprehension<R> {
         val context = newContext()
@@ -216,15 +227,15 @@ internal interface ListComprehensionsFeature<C : LanguageContext> : LanguageFeat
     }
 
     /**
+     * Defines the body of a comprehension.
      *
+     * @param body the function which takes a variable reference from a `for` clause and returns the value of a
+     * comprehension body.
      */
     infix fun <T, R> _CompWithListItems<T>.take(body: C.(ListReference<T>) -> List<R>): ListComprehension<List<R>> =
         buildComprehension(context = newContext(), variable, body, clauses)
 }
 
-/**
- *
- */
 private fun <C : LanguageContext, V : Reference, R> StarlarkStatementsHolder.buildComprehension(
     context: C,
     variable: V,

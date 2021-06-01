@@ -22,15 +22,15 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Enables slices for Starlark file.
  */
 internal interface SlicesFeature : LanguageFeature {
 
     /**
-     *
+     * Slice expression for string type.
      */
-    operator fun StringType.get(slice: IntRange): StringSlice =
-        StringSlice(
+    operator fun StringType.get(slice: IntProgression): StringSliceExpression =
+        StringSliceExpression(
             expression = Expression(this, ::StringLiteral)!!,
             start = slice.first,
             end = slice.last,
@@ -38,10 +38,10 @@ internal interface SlicesFeature : LanguageFeature {
         )
 
     /**
-     *
+     * Slice expression for list type
      */
-    operator fun <T> List<T>.get(slice: IntRange): ListSlice<T> =
-        ListSlice(
+    operator fun <T> List<T>.get(slice: IntProgression): ListSliceExpression<T> =
+        ListSliceExpression(
             expression = Expression(this, ::ListExpression)!!,
             start = slice.first,
             end = slice.last,

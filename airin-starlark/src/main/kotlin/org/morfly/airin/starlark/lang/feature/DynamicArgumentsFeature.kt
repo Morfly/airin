@@ -26,7 +26,7 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Defines an entity that collects argument elements.
  */
 internal interface ArgumentsHolder {
 
@@ -37,12 +37,13 @@ internal interface ArgumentsHolder {
 }
 
 /**
- *
+ * Feature of the Starlark template engine that provides operators for passsing arguments that were not initially
+ * specified in Airin.
  */
-internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
+internal interface DynamicArgumentsFeature : LanguageFeature, ArgumentsHolder {
 
     /**
-     *
+     * Operator for passing string argument.
      */
     infix fun String.`=`(value: StringType): _StringValueAccumulator {
         val argument = Argument(id = this, value = Expression(value, ::StringLiteral))
@@ -51,7 +52,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     }
 
     /**
-     *
+     * Operator for passing list argument.
      */
     infix fun <T> String.`=`(value: List<T>): _ListValueAccumulator<T> {
         val argument = Argument(id = this, value = Expression(value, ::ListExpression))
@@ -60,7 +61,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     }
 
     /**
-     *
+     * Operator for passing dictionary argument.
      */
     infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
         val argument = Argument(id = this, value = Expression(value, ::DictionaryExpression))
@@ -69,7 +70,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     }
 
     /**
-     *
+     * Operator for passing dictionary argument.
      */
     infix fun String.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
         val value = DictionaryContext().apply(body).kwargs
@@ -79,7 +80,7 @@ internal interface ArgumentsFeature : LanguageFeature, ArgumentsHolder {
     }
 
     /**
-     * handles null and any arg
+     * Operator for passing null or arguments of any other type.
      */
     infix fun String.`=`(value: Any?): _AnyValueAccumulator {
         val argument = Argument(id = this, value = Expression(value))

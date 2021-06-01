@@ -25,7 +25,7 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that enables percent binary operator mostly used for string interpolation in Starlark.
  */
 internal interface BinaryPercentsFeature : LanguageFeature {
 

@@ -20,7 +20,7 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * Syntax element for an argument of the function.
  */
 class Argument(
     val id: String,
@@ -36,6 +36,7 @@ class Argument(
         return true
     }
 
+    // comparison by id only
     override fun hashCode() = id.hashCode()
 
 
@@ -45,7 +46,7 @@ class Argument(
 }
 
 /**
- *
+ * Factory function that constructs a set of argument based on the provided map.
  */
 fun Arguments(args: Map<String, *>): LinkedHashSet<Argument> =
     args.mapTo(linkedSetOf()) { (id, value) -> Argument(id, Expression(value)) }

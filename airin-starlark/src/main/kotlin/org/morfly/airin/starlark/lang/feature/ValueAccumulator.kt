@@ -24,35 +24,33 @@ import org.morfly.airin.starlark.lang.Value
 
 
 /**
- *
+ * Abstract accumulator of values for dynamic operations.
  */
 interface _ValueAccumulator {
-    /**
-     *
-     */
+
     val holder: ValueHolder
 }
 
 /**
- *
+ * Accumulator of string values for dynamic operations.
  */
 @JvmInline
 value class _StringValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
 
 /**
- *
+ * Accumulator of list values for dynamic operations.
  */
 @JvmInline
 value class _ListValueAccumulator<T>(override val holder: ValueHolder) : _ValueAccumulator
 
 /**
- *
+ * Accumulator of dictionary values for dynamic operations.
  */
 @JvmInline
 value class _DictionaryValueAccumulator<K : Key, V : Value>(override val holder: ValueHolder) : _ValueAccumulator
 
 /**
- *
+ * Accumulator of any other values for dynamic operations.
  */
 @JvmInline
 value class _AnyValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator

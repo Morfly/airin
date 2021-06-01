@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== register_toolchains =====
 
 /**
- *
+ * register_toolchains Bazel function.
  */
 fun WorkspaceContext.register_toolchains(vararg toolchains: Label?) {
     val args = linkedSetOf<Argument>().also {
@@ -39,7 +39,7 @@ fun WorkspaceContext.register_toolchains(vararg toolchains: Label?) {
 // ===== workspace =====
 
 /**
- *
+ * workspace Bazel function.
  */
 fun WorkspaceContext.workspace(
     name: Name,
@@ -54,15 +54,12 @@ fun WorkspaceContext.workspace(
 }
 
 /**
- *
+ * workspace Bazel function.
  */
 fun BuildContext.workspace(body: WorkspaceFunctionContext.() -> Unit) {
     registerFunctionCallStatement("workspace", WorkspaceFunctionContext(), body)
 }
 
-/**
- *
- */
 class WorkspaceFunctionContext : FunctionCallContext() {
     var name: Name by fargs
     var managed_directories: Map<Key, Value>? by fargs

@@ -18,12 +18,9 @@ package org.morfly.airin.starlark.writer
 
 
 /**
- *
+ * Defines a generic interface of an entity that can write some content to some destination
  */
 interface Writer<D, C, R> {
 
-    /**
-     *
-     */
     fun write(destination: D, content: C): R
 }

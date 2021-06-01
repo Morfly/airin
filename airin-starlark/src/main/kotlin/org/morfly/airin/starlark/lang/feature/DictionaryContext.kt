@@ -23,7 +23,8 @@ import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 
 
 /**
- *
+ * Starlark context that enables features specific to dictionary expression builder.
+ * @see [CollectionsFeature].
  */
 @LanguageFeatureScope
 class DictionaryContext : MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature {

@@ -18,22 +18,46 @@ package org.morfly.airin.starlark.elements
 
 
 /**
- *
+ * A position mode defines the way how a syntax tree element should be positioned in relation to other elements.
  */
 enum class PositionMode {
 
     /**
+     * The element starts completely from a new line.
      *
+     * The same indentation applies for each line of the formatted representation of a syntax tree element.
+     *
+     * For example:
+     * ```
+     * LIST = [
+     *      "item1",
+     *      "item2"
+     * ]
+     * ```
+     * Each item of the list is positioned in the NEW_LINE mode as they start from the new line.
      */
     NEW_LINE,
 
     /**
+     * The element continues the line where the previous element of a syntax tree takes place.
      *
+     * The same indentation applies for each line of the formatted representation of the element except the first line
+     * which is not indented at all.
+     *
+     * For example:
+     * ```
+     * LIST = [
+     *      "item1",
+     *      "item2"
+     * ]
+     * ```
+     * The list expression is positioned in the CONTINUE_LINE mode as it continues the line that is already occupied by
+     * the previous element. The indentation in such case should not be applied to the first line of the list expression.
      */
     CONTINUE_LINE,
 
     /**
-     *
+     * TODO
      */
     SINGLE_LINE
 }

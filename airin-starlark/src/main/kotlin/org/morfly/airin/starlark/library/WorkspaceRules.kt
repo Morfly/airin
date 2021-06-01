@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== bind =====
 
 /**
- *
+ * bind Bazel rule.
  */
 fun WorkspaceContext.bind(
     name: Name,
@@ -45,14 +45,11 @@ fun WorkspaceContext.bind(
 }
 
 /**
- *
+ * bind Bazel rule.
  */
 fun WorkspaceContext.bind(body: BindContext.() -> Unit) =
     registerFunctionCallStatement("bind", BindContext(), body)
 
-/**
- *
- */
 class BindContext : FunctionCallContext() {
     var name: Name by fargs
     var actual: Label? by fargs
@@ -62,7 +59,7 @@ class BindContext : FunctionCallContext() {
 // ===== local_repository =====
 
 /**
- *
+ * local_repository Bazel rule.
  */
 fun WorkspaceContext.local_repository(
     name: Name,
@@ -79,14 +76,11 @@ fun WorkspaceContext.local_repository(
 }
 
 /**
- *
+ * local_repository Bazel rule.
  */
 fun WorkspaceContext.local_repository(body: LocalRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("local_repository", LocalRepositoryContext(), body)
 
-/**
- *
- */
 class LocalRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
     var path: StringType by fargs
@@ -96,7 +90,7 @@ class LocalRepositoryContext : FunctionCallContext() {
 // ===== new_local_repository =====
 
 /**
- *
+ * new_local_repository Bazel rule.
  */
 fun WorkspaceContext.new_local_repository(
     name: Name,
@@ -130,14 +124,11 @@ fun WorkspaceContext.new_local_repository(
 }
 
 /**
- *
+ * new_local_repository Bazel rule.
  */
 fun WorkspaceContext.new_local_repository(body: NewLocalRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("new_local_repository", NewLocalRepositoryContext(), body)
 
-/**
- *
- */
 class NewLocalRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
     var build_file: StringType? by fargs

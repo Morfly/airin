@@ -23,7 +23,7 @@ import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 
 
 /**
- *
+ * Starlark language context that is specific to Bazel BUILD files.
  */
 @LanguageFeatureScope
 class BuildContext : ConfigurationContext<BuildContext>() {
@@ -32,7 +32,7 @@ class BuildContext : ConfigurationContext<BuildContext>() {
 }
 
 /**
- *
+ * Builder function that allows entering Starlark template engine context and use Kotlin DSL
  */
 inline fun BUILD(relativePath: String = "", body: BuildContext.() -> Unit): BuildFile =
     BuildContext()

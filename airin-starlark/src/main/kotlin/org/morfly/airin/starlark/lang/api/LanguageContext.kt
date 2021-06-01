@@ -21,7 +21,7 @@ import org.morfly.airin.starlark.lang.feature.StarlarkStatementsHolder
 
 
 /**
- *
+ * Language feature context.
  */
 abstract class LanguageContext : StarlarkStatementsHolder {
 

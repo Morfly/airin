@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== kt_compiler_plugin =====
 
 /**
- *
+ * kt_compiler_plugin Bazel rule.
  */
 fun BuildContext.kt_compiler_plugin(
     name: Name,
@@ -60,14 +60,11 @@ fun BuildContext.kt_compiler_plugin(
 }
 
 /**
- *
+ * kt_compiler_plugin Bazel rule.
  */
 fun BuildContext.kt_compiler_plugin(body: KtCompilerPluginContext.() -> Unit) =
     registerFunctionCallStatement("kt_compiler_plugin", KtCompilerPluginContext(), body)
 
-/**
- *
- */
 class KtCompilerPluginContext : FunctionCallContext() {
     var name: Name by fargs
     var compile_phase: BooleanType? by fargs
@@ -82,7 +79,7 @@ class KtCompilerPluginContext : FunctionCallContext() {
 // ===== kt_jvm_binary =====
 
 /**
- *
+ * kt_jvm_binary Bazel rule.
  */
 fun BuildContext.kt_jvm_binary(
     name: Name,
@@ -128,14 +125,11 @@ fun BuildContext.kt_jvm_binary(
 }
 
 /**
- *
+ * kt_jvm_binary Bazel rule.
  */
 fun BuildContext.kt_jvm_binary(body: KtJvmBinaryContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_binary", KtJvmBinaryContext(), body)
 
-/**
- *
- */
 class KtJvmBinaryContext : FunctionCallContext() {
     var name: Name by fargs
     var data: List<Label?>? by fargs
@@ -204,14 +198,11 @@ fun BuildContext.kt_jvm_import(
 }
 
 /**
- *
+ * kt_jvm_import Bazel rule.
  */
 fun BuildContext.kt_jvm_import(body: KtJvmImportContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_import", KtJvmImportContext(), body)
 
-/**
- *
- */
 class KtJvmImportContext : FunctionCallContext() {
     var name: Name by fargs
     var deps: List<Label?>? by fargs
@@ -228,7 +219,7 @@ class KtJvmImportContext : FunctionCallContext() {
 // ===== kt_jvm_library =====
 
 /**
- *
+ * kt_jvm_library Bazel rule.
  */
 fun BuildContext.kt_jvm_library(
     name: Name,
@@ -296,14 +287,11 @@ fun BuildContext.kt_jvm_library(
 }
 
 /**
- *
+ * kt_jvm_import Bazel rule.
  */
 fun BuildContext.kt_jvm_library(body: KtJvmLibraryContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_library", KtJvmLibraryContext(), body)
 
-/**
- *
- */
 class KtJvmLibraryContext : FunctionCallContext() {
     var name: Name by fargs
     var data: List<Label?>? by fargs
@@ -324,7 +312,7 @@ class KtJvmLibraryContext : FunctionCallContext() {
 // ===== kt_android_library =====
 
 /**
- *
+ * kt_android_library Bazel rule.
  */
 fun BuildContext.kt_android_library(
     name: Name,
@@ -367,14 +355,11 @@ fun BuildContext.kt_android_library(
 }
 
 /**
- *
+ * kt_android_library Bazel rule.
  */
 fun BuildContext.kt_android_library(body: KtAndroidLibraryContext.() -> Unit) =
     registerFunctionCallStatement("kt_android_library", KtAndroidLibraryContext(), body)
 
-/**
- *
- */
 class KtAndroidLibraryContext : FunctionCallContext() {
     var name: Name by fargs
     var exports: List<Label?>? by fargs
@@ -391,7 +376,7 @@ class KtAndroidLibraryContext : FunctionCallContext() {
 // ===== define_kt_toolchain =====
 
 /**
- *
+ * define_kt_toolchain Bazel rule.
  */
 fun WorkspaceContext.define_kt_toolchain(
     name: Name,
@@ -428,14 +413,11 @@ fun WorkspaceContext.define_kt_toolchain(
 }
 
 /**
- *
+ * define_kt_toolchain Bazel rule.
  */
 fun WorkspaceContext.define_kt_toolchain(body: DefineKtToolchainContext.() -> Unit) =
     registerFunctionCallStatement("define_kt_toolchain", DefineKtToolchainContext(), body)
 
-/**
- *
- */
 class DefineKtToolchainContext : FunctionCallContext() {
     var name: Name by fargs
     var api_version: StringType? by fargs
@@ -449,13 +431,16 @@ class DefineKtToolchainContext : FunctionCallContext() {
 // ===== kt_register_toolchains =====
 
 /**
- *
+ * kt_register_toolchains Bazel rule.
  */
 fun WorkspaceContext.kt_register_toolchains() =
     registerFunctionCallStatement("kt_register_toolchains")
 
 // ===== kotlin_repositories =====
 
+/**
+ * kotlin_repositories Bazel rule.
+ */
 fun WorkspaceContext.kotlin_repositories(
     compiler_release: Map<Key, Value>? = UnspecifiedDictionary
 ) {
@@ -467,14 +452,11 @@ fun WorkspaceContext.kotlin_repositories(
 }
 
 /**
- *
+ * kotlin_repositories Bazel rule
  */
 fun WorkspaceContext.kotlin_repositories(body: KotlinRepositoriesContext.() -> Unit) =
     registerFunctionCallStatement("kotlin_repositories", KotlinRepositoriesContext(), body)
 
-/**
- *
- */
 class KotlinRepositoriesContext : FunctionCallContext() {
     var compiler_release: StringType by fargs
 }

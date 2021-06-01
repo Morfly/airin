@@ -21,12 +21,12 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that allows custom adding of empty lines to the Starlark file.
  */
 internal interface EmptyLinesFeature : LanguageFeature, StarlarkStatementsHolder {
 
     /**
-     *
+     * Append empty line to the Starlark file.
      */
     val space: Unit
         get() {

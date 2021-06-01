@@ -17,9 +17,6 @@
 package org.morfly.airin.starlark.elements
 
 
-/**
- *
- */
 @JvmInline
 value class Comment(val value: String) : Statement {
 

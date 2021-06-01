@@ -27,12 +27,12 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
- *
+ * Feature that enables concatenations.
  */
 internal interface BinaryPlusFeature : LanguageFeature {
 
     /**
-     *
+     * Operator for string concatenation.
      */
     infix fun StringType?.`+`(other: StringType?): StringType =
         StringBinaryOperation(
@@ -42,7 +42,7 @@ internal interface BinaryPlusFeature : LanguageFeature {
         )
 
     /**
-     *
+     * Operator for list concatenation.
      */
     infix fun <T> List<T>?.`+`(other: List<T>?): List<T> =
         ListBinaryOperation(
@@ -52,7 +52,7 @@ internal interface BinaryPlusFeature : LanguageFeature {
         )
 
     /**
-     *
+     * Operator for dictionary concatenation.
      */
     infix fun Map<*, Value>?.`+`(other: Map<*, Value>?): Map<Key, Value> =
         DictionaryBinaryOperation(
@@ -62,7 +62,7 @@ internal interface BinaryPlusFeature : LanguageFeature {
         )
 
     /**
-     *
+     * Operator for dictionary concatenation.
      */
     infix fun Map<*, Value>?.`+`(body: DictionaryContext.() -> Unit): Map<Key, Value> =
         DictionaryBinaryOperation(

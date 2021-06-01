@@ -22,7 +22,14 @@ import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
 /**
+ * Feature that enables declaring function statements using string as a name.
  *
+ * Example:
+ * ```
+ * "java_binary" {
+ *     "name" `=` "app"
+ * }
+ * ```
  */
 internal interface DynamicFunctionsFeature : LanguageFeature, StarlarkStatementsHolder {
 

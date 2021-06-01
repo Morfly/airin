@@ -27,7 +27,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 // ===== android_library =====
 
 /**
- *
+ * android_library Bazel rule.
  */
 fun BuildContext.android_library(
     name: Name,
@@ -61,14 +61,11 @@ fun BuildContext.android_library(
 }
 
 /**
- *
+ * android_library Bazel rule.
  */
 fun BuildContext.android_library(body: AndroidLibraryContext.() -> Unit) =
     registerFunctionCallStatement("android_library", AndroidLibraryContext(), body)
 
-/**
- *
- */
 class AndroidLibraryContext : FunctionCallContext() {
     var name: Name by fargs
     var custom_package: StringType? by fargs
@@ -85,7 +82,7 @@ class AndroidLibraryContext : FunctionCallContext() {
 // ===== android_binary =====
 
 /**
- *
+ * android_binary Bazel rule.
  */
 fun BuildContext.android_binary(
     name: Name,
@@ -137,14 +134,11 @@ fun BuildContext.android_binary(
 }
 
 /**
- *
+ * android_binary Bazel rule.
  */
 fun BuildContext.android_binary(body: AndroidBinaryContext.() -> Unit) =
     registerFunctionCallStatement("android_binary", AndroidBinaryContext(), body)
 
-/**
- *
- */
 class AndroidBinaryContext : FunctionCallContext() {
     var name: Name by fargs
     var custom_package: StringType? by fargs
@@ -168,6 +162,9 @@ class AndroidBinaryContext : FunctionCallContext() {
 
 // ===== aar_import =====
 
+/**
+ * aar_import Bazel rule.
+ */
 fun BuildContext.aar_import(
     name: Name,
     aar: Label = UnspecifiedString,
@@ -188,14 +185,11 @@ fun BuildContext.aar_import(
 }
 
 /**
- *
+ * aar_import Bazel rule.
  */
 fun BuildContext.aar_import(body: AarImportContext.() -> Unit) =
     registerFunctionCallStatement("aar_import", AarImportContext(), body)
 
-/**
- *
- */
 class AarImportContext : FunctionCallContext() {
     var name: Name by fargs
     var aar: Label by fargs
@@ -208,7 +202,7 @@ class AarImportContext : FunctionCallContext() {
 // ===== android_sdk_repository =====
 
 /**
- *
+ * android_sdk_reporitory Bazel rule.
  */
 fun WorkspaceContext.android_sdk_repository(
     name: Name,
@@ -230,14 +224,11 @@ fun WorkspaceContext.android_sdk_repository(
 }
 
 /**
- *
+ * android_sdk_repository Bazel rule.
  */
 fun WorkspaceContext.android_sdk_repository(body: AndroidSdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_sdk_repository", AndroidSdkRepositoryContext(), body)
 
-/**
- *
- */
 class AndroidSdkRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
     var api_level: IntegerType? by fargs
@@ -249,7 +240,7 @@ class AndroidSdkRepositoryContext : FunctionCallContext() {
 // ===== android_ndk_repository =====
 
 /**
- *
+ * android_ndk_repository Bazel rule.
  */
 fun WorkspaceContext.android_ndk_repository(
     name: Name,
@@ -268,14 +259,11 @@ fun WorkspaceContext.android_ndk_repository(
 }
 
 /**
- *
+ * android_ndk_repository Bazel rule.
  */
 fun WorkspaceContext.android_ndk_repository(body: AndroidNdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_ndk_repository", AndroidNdkRepositoryContext(), body)
 
-/**
- *
- */
 class AndroidNdkRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
     var api_level: Int? by fargs

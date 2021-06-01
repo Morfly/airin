@@ -25,21 +25,21 @@ import kotlin.reflect.typeOf
 // ===== Function call statements =====
 
 /**
- *
+ * Registers function statement in the Starlark file.
  */
 fun StarlarkStatementsHolder.registerFunctionCallStatement(name: String, args: Set<Argument> = emptySet()) {
     statements += ExpressionStatement(VoidFunctionCall(name, args))
 }
 
 /**
- *
+ * Registers function statement in the Starlark file.
  */
 fun StarlarkStatementsHolder.registerFunctionCallStatement(name: String, args: Map<String, *>) {
     registerFunctionCallStatement(name, Arguments(args))
 }
 
 /**
- *
+ * Registers function statement in the Starlark file.
  */
 inline fun <T : FunctionCallContext> StarlarkStatementsHolder.registerFunctionCallStatement(
     name: String, context: T, body: T.() -> Unit
@@ -51,79 +51,81 @@ inline fun <T : FunctionCallContext> StarlarkStatementsHolder.registerFunctionCa
 // ===== Function call expressions =====
 
 /**
- *
+ * Builds a function call expression that returns string type.
  */
 fun stringFunctionCall(name: String, args: Set<Argument> = emptySet()): StringType =
     StringFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns string type.
  */
 fun stringFunctionCall(name: String, args: Map<String, *>): StringType =
     StringFunctionCall(name, args = Arguments(args))
 
 /**
- *
+ * Builds a function call expression that returns list type.
  */
 fun <T> listFunctionCall(name: String, args: Set<Argument> = emptySet()): List<T> =
     ListFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns list type.
  */
 fun <T> listFunctionCall(name: String, args: Map<String, *>): List<T> =
     ListFunctionCall(name, args = Arguments(args))
 
 /**
- *
+ * Builds a function call expression that returns dictionary type.
  */
 fun dictFunctionCall(name: String, args: Set<Argument> = emptySet()): Map<Key, Value> =
     DictionaryFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns dictionary type.
  */
 fun dictFunctionCall(name: String, args: Map<String, *>): Map<Key, Value> =
     DictionaryFunctionCall(name, args = Arguments(args))
 
 /**
- *
+ * Builds a function call expression that returns integer type.
  */
 fun intFunctionCall(name: String, args: Set<Argument> = emptySet()): IntegerType =
-    TODO("IntegerFunctionCall")
+    IntegerFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns integer type.
  */
 fun intFunctionCall(name: String, args: Map<String, *>): IntegerType =
     intFunctionCall(name, args = Arguments(args))
 
 /**
- *
+ * Builds a function call expression that returns float type.
  */
 fun floatFunctionCall(name: String, args: Set<Argument> = emptySet()): FloatType =
-    TODO("FloatFunctionCall")
+    FloatFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns float type.
  */
 fun floatFunctionCall(name: String, args: Map<String, *>): FloatType =
     floatFunctionCall(name, args = Arguments(args))
 
 /**
- *
+ * Builds a function call expression that returns boolean type.
  */
 fun booleanFunctionCall(name: String, args: Set<Argument> = emptySet()): BooleanType =
-    TODO("BooleanFunctionCall")
+    BooleanFunctionCall(name, args)
 
 /**
- *
+ * Builds a function call expression that returns boolean type.
  */
 fun booleanFunctionCall(name: String, args: Map<String, *>): BooleanType =
     booleanFunctionCall(name, args = Arguments(args))
 
 /**
- * Note: if the function you're building has a specific type DO NOT use this builder.
+ * Function call expression return type if which is specified by the caller.
+ *
+ * Note: if the function you're building has a specific determined type DO NOT use this builder.
  */
 @OptIn(ExperimentalStdlibApi::class)
 inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> = emptySet()): T =
@@ -137,11 +139,11 @@ inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> 
             val type = typeOf<T>().arguments.first().type
             when (type?.classifier as? KClass<*>) {
                 // IntegerType
-                Long::class, Int::class -> TODO("IntegerFunctionCall")
+                Long::class, Int::class -> IntegerFunctionCall(name, args)
                 // FloatType
-                Double::class, Float::class -> TODO("FloatFunctionCall")
+                Double::class, Float::class -> FloatFunctionCall(name, args)
                 // BooleanType
-                Boolean::class -> TODO("BooleanFunctionCall")
+                Boolean::class -> BooleanFunctionCall(name, args)
                 else -> AnyFunctionCall(name, args)
             }
         }
@@ -149,7 +151,9 @@ inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> 
     } as T
 
 /**
+ * Function call expression return type if which is specified by the caller.
  *
+ * Note: if the function you're building has a specific determined type DO NOT use this builder.
  */
 inline fun <reified T> functionCallExpression(name: String, args: Map<String, *>): T =
     functionCallExpression(name, args = Arguments(args))

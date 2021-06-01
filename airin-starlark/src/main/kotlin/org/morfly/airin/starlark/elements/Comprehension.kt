@@ -20,7 +20,7 @@ import org.morfly.airin.starlark.lang.Value
 
 
 /**
- *
+ * Abstract syntax element for comprehension.
  */
 sealed class Comprehension(
     internal val body: Expression?,
@@ -28,12 +28,12 @@ sealed class Comprehension(
 ) : Expression {
 
     /**
-     *
+     * Syntax element for comprehension components.
      */
     sealed interface Clause : Element
 
     /**
-     *
+     * For clause in the comprehension.
      */
     class For(
         val variables: List<Reference?>,
@@ -46,7 +46,7 @@ sealed class Comprehension(
     }
 
     /**
-     *
+     * If clause in the comprehension.
      */
     class If(
         val condition: Expression?
@@ -59,7 +59,9 @@ sealed class Comprehension(
 }
 
 /**
+ * Syntax element for a list comprehension.
  *
+ * Conforms to a list type and can be used in any place where the list type is expected.
  */
 open class ListComprehension<out T> internal constructor(
     body: Expression?,
@@ -73,7 +75,9 @@ open class ListComprehension<out T> internal constructor(
 }
 
 /**
+ * Syntax element for a dictionary comprehension.
  *
+ * Conforms to a dictionary type and can be used in any place where the dictionary type is expected.
  */
 class DictionaryComprehension<K, V : Value>(
     body: Expression?,

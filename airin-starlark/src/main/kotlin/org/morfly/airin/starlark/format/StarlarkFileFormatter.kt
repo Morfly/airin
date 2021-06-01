@@ -20,22 +20,22 @@ import org.morfly.airin.starlark.elements.StarlarkFile
 
 
 /**
- *
+ * Formats a Starlark syntax tree into a compilable Starlark code.
  */
 interface StarlarkFileFormatter {
 
     /**
-     *
+     * Formats a Starlark syntax tree and returns a string representation of a compilable code.
      */
     fun format(starlarkFile: StarlarkFile): String
 
     /**
-     *
+     * Formats a Starlark syntax tree and posts a string representation of a compilable code to the accumulator.
      */
     fun format(starlarkFile: StarlarkFile, accumulator: Appendable)
 
     /**
-     *
+     * Default instance of the formatter.
      */
     companion object Default : StarlarkFileFormatter by StarlarkCodeFormatter()
 }
