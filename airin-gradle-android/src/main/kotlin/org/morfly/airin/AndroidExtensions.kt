@@ -29,6 +29,7 @@ private val xmlParser = XmlSlurper()
  *
  */
 fun Project.findPackageName(): String? {
+    if (!isAndroidModule()) return null
     packageNamesCache[path]?.let { return it }
 
     val ext = extensions.findByType(BaseExtension::class.java)
