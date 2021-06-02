@@ -99,7 +99,7 @@ Each `GradleTemplateProvider` consists of 2 functions that are to be implemented
   for this particular Gradle `Project`.
   > Note: Usually, it is enough to check if the `Project` has a specific Gradle plugin attached to it.
   > For example:  `target.plugins.hasPlugin("java-library")`
-- `fun provide(target: Project, relativePath: String): List<StarlarkFile>` - provides the list of temlpate provider for
+- `fun provide(target: Project, relativePath: String): List<StarlarkFile>` - provides the list of Starlark files for
   this particular Gradle `Project`.
 
 User is able to directly inherit one of the two types of template providers:
