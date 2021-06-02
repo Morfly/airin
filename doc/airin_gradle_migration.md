@@ -32,7 +32,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.10")
     implementation("com.android.tools.build:gradle:4.1.0") // temporary
-    implementation("org.morfly.airin:airin-gradle:<version>")
+    implementation("org.morfly.airin:airin-gradle:0.1.0")
 }
 ```
 
@@ -54,7 +54,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
     implementation "com.android.tools.build:gradle:4.1.0" // temporary
-    implementation "org.morfly.airin:airin-gradle:1.0.0-alpha01"
+    implementation "org.morfly.airin:airin-gradle:0.1.0"
 }
 ```
 
@@ -140,7 +140,7 @@ In the root `build.gradle` file add Airin Gradle plugin to classpath.
 buildscript {
     
     dependencies {
-        classpath("org.morfly.airin:airin-gradle:1.0.0-alpha01")
+        classpath("org.morfly.airin:airin-gradle:0.1.0")
     }
 }
 
@@ -158,7 +158,7 @@ plugins {
 buildscript {
     
     dependencies {
-        classpath "org.morfly.airin:airin-gradle:1.0.0-alpha01"
+        classpath "org.morfly.airin:airin-gradle:0.1.0"
     }
 }
 

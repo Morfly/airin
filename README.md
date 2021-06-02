@@ -92,7 +92,7 @@ Use [the documentation](doc/airin_gradle_migration.md) to learn more about the m
 <summary>Kotlin </summary>
 
 ```kotlin
-implementation("org.morfly.airin:airin-starlark:1.0.0-alpha01")
+implementation("org.morfly.airin:airin-starlark:0.1.0")
 ```
 </details>
 
@@ -100,7 +100,7 @@ implementation("org.morfly.airin:airin-starlark:1.0.0-alpha01")
 <summary>Groovy</summary>
 
 ```groovy
-implementation "org.morfly.airin:airin-starlark:1.0.0-alpha01"
+implementation "org.morfly.airin:airin-starlark:0.1.0"
 ```
 </details>
 
@@ -113,7 +113,7 @@ Open your root `build.gradle` file and add the following lines
 buildscript {
     
     dependencies {
-        classpath("org.morfly.airin:airin-gradle:1.0.0-alpha01")
+        classpath("org.morfly.airin:airin-gradle:0.1.0")
     }
 }
 
@@ -130,7 +130,7 @@ plugins {
 buildscript {
     
     dependencies {
-        classpath "org.morfly.airin:airin-gradle:1.0.0-alpha01"
+        classpath "org.morfly.airin:airin-gradle:0.1.0"
     }
 }
 

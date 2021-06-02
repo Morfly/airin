@@ -5,7 +5,7 @@ plugins {
 
 subprojects {
     group = "org.morfly.airin"
-    version = "1.0.0-alpha01"
+    version = "0.1.0"
 
     repositories {
         mavenCentral()
