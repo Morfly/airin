@@ -1,7 +1,5 @@
 package org.morfly.airin.sample.imagelist.impl
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -22,7 +20,7 @@ class ImageListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val searchQueryFlow = MutableStateFlow<String?>(null)
-    
+
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val images = searchQueryFlow
         .filterNotNull()

@@ -3,9 +3,11 @@ package org.morfly.airin.sample.imagelist.impl.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -28,12 +30,13 @@ fun ImageList(viewModel: ImageListViewModel) {
             }
             item { Spacer(Modifier.height(70.dp)) }
         }
+        if (images.itemCount == 0) Empty()
         Loading(loadState = images.loadState)
     }
 }
 
 @Composable
-fun Loading(loadState: CombinedLoadStates) = with(loadState) {
+private fun Loading(loadState: CombinedLoadStates) = with(loadState) {
     when (LoadState.Loading) {
         refresh -> {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -44,5 +47,16 @@ fun Loading(loadState: CombinedLoadStates) = with(loadState) {
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun Empty() {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(
+            text = "Type your query",
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 30.dp)
+        )
     }
 }

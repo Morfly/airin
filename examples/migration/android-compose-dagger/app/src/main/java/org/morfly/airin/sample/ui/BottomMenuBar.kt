@@ -40,8 +40,8 @@ fun BottomMenuBar(navController: NavController, destinations: FeatureEntries) {
         )
         GlowingMenuIcon(
             isGlowing = false,
-            glowingIcon = Icons.Rounded.Search,
-            idleIcon = Icons.Outlined.Search,
+            glowingIcon = Icons.Rounded.Favorite,
+            idleIcon = Icons.Outlined.FavoriteBorder,
             modifier = Modifier.clickable { }
         )
         Box(contentAlignment = Alignment.Center) {
@@ -64,14 +64,14 @@ fun BottomMenuBar(navController: NavController, destinations: FeatureEntries) {
         }
         GlowingMenuIcon(
             isGlowing = false,
-            glowingIcon = Icons.Rounded.Favorite,
-            idleIcon = Icons.Outlined.FavoriteBorder,
+            glowingIcon = Icons.Rounded.Person,
+            idleIcon = Icons.Outlined.Person,
             modifier = Modifier.clickable { }
         )
         GlowingMenuIcon(
             isGlowing = false,
-            glowingIcon = Icons.Rounded.Person,
-            idleIcon = Icons.Outlined.Person,
+            glowingIcon = Icons.Rounded.Settings,
+            idleIcon = Icons.Outlined.Settings,
             modifier = Modifier.clickable { }
         )
     }
