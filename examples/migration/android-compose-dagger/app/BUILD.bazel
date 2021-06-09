@@ -28,8 +28,6 @@ kt_android_library(
         artifact("androidx.compose.material:material"),
         artifact("androidx.activity:activity-compose"),
         artifact("androidx.navigation:navigation-compose"),
-
-        artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core"),
     ],
 )
 
@@ -50,5 +48,8 @@ android_binary(
     multidex = "native",
     deps = [
         "//app",
+
+        "//:kotlin_reflect",
+        artifact("com.google.guava:guava"),
     ],
 )

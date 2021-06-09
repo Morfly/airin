@@ -14,7 +14,6 @@ kt_android_library(
     deps = [
         "//core",
         "//data/api",
-        "//:androidx_room_room_compiler_library",
 
         "//:dagger",
 
@@ -27,6 +26,10 @@ kt_android_library(
         artifact("com.squareup.okhttp3:logging-interceptor"),
         artifact("com.squareup.moshi:moshi-kotlin"),
 
-        artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core"),
+        artifact("androidx.sqlite:sqlite-framework"),
+        artifact("androidx.room:room-common"),
+        "//:androidx_room_room_compiler_library",
+        "//:room_runtime",
+        "//:room_ktx",
     ],
 )

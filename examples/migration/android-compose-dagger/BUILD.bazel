@@ -49,10 +49,29 @@ kt_compiler_plugin(
 
 # ===== room =====
 
+aar_import(
+    name = "room_runtime",
+    aar = "room-runtime-2.3.0.aar",
+    visibility = ["//visibility:public"],
+    deps = [
+        artifact("androidx.sqlite:sqlite"),
+        artifact("androidx.arch.core:core-common"),
+        artifact("androidx.lifecycle:lifecycle-livedata-ktx"),
+    ],
+)
+
+aar_import(
+    name = "room_ktx",
+    aar = "room-ktx-2.3.0.aar",
+    visibility = ["//visibility:public"],
+)
+
 java_plugin(
     name = "androidx_room_room_compiler_plugin",
     processor_class = "androidx.room.RoomProcessor",
-    deps = [artifact("androidx.room:room-compiler")],
+    deps = [
+        artifact("androidx.room:room-compiler"),
+    ],
     neverlink = True,
 )
 
@@ -77,3 +96,14 @@ java_library(
 load("@dagger//:workspace_defs.bzl", "dagger_rules")
 
 dagger_rules()
+
+
+# ===== kotlin =====
+
+java_import(
+    name = "kotlin_reflect",
+    jars = [
+        "kotlin-reflect-1.5.10.jar_desugared.jar",
+    ],
+    visibility = ["//visibility:public"],
+)

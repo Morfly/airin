@@ -82,12 +82,9 @@ maven_install(
         "androidx.room:room-ktx:%s" % ROOM_VERSION,
 
         "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1",
+        "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1",
 
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3",
-
-
-       "com.google.guava:guava:28.1-android",
-      #maven.artifact("com.google.auto", "auto-common", "0.10", neverlink = True),
+        "com.google.guava:guava:28.1-android",
     ],
     excluded_artifacts = [
         # kotlin_rules has bug while desugaring kotlin-reflect artifact.

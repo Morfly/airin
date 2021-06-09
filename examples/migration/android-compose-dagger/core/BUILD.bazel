@@ -9,9 +9,6 @@ kt_android_library(
     manifest = "src/main/AndroidManifest.xml",
     plugins = ["//:jetpack_compose_compiler_plugin"],
     visibility = ["//visibility:public"],
-    exports = [
-        artifact("com.google.guava:guava"),
-    ],
     deps = [
         "//:dagger",
 
@@ -29,7 +26,5 @@ kt_android_library(
         artifact("com.google.accompanist:accompanist-coil"),
 
         artifact("androidx.paging:paging-runtime-ktx"),
-
-        artifact("com.google.guava:guava"),
     ],
 )
