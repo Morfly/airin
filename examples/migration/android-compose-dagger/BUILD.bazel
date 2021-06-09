@@ -1,0 +1,106 @@
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "define_kt_toolchain", "kt_compiler_plugin", "kt_javac_options", "kt_kotlinc_options", "kt_android_library")
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
+load("@rules_jvm_external//:defs.bzl", "artifact")
+
+package(default_visibility = ["//visibility:public"])
+
+# ===== java toolchain =====
+
+default_java_toolchain(
+    name = "java_toolchain",
+    visibility = ["//visibility:public"],
+)
+
+
+# ===== kotlin toolchain =====
+
+kt_kotlinc_options(
+    name = "kt_kotlinc_options",
+    #x_allow_jvm_ir_dependencies = True,
+    #x_use_ir = True,
+)
+
+kt_javac_options(
+    name = "kt_javac_options",
+)
+
+define_kt_toolchain(
+    name = "kotlin_toolchain",
+    api_version = "1.5",
+    experimental_use_abi_jars = False,
+    javac_options = "//:kt_javac_options",
+    jvm_target = "1.8",
+    kotlinc_options = "//:kt_kotlinc_options",
+    language_version = "1.5",
+)
+
+
+# ===== compose plugin =====
+
+kt_compiler_plugin(
+    name = "jetpack_compose_compiler_plugin",
+    id = "androidx.compose.compiler",
+    target_embedded_compiler = True,
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:androidx_compose_compiler_compiler",
+    ],
+)
+
+# ===== room =====
+
+java_plugin(
+    name = "androidx_room_room_compiler_plugin",
+    processor_class = "androidx.room.RoomProcessor",
+    deps = [artifact("androidx.room:room-compiler")],
+    neverlink = True,
+)
+
+java_library(
+    name = "androidx_room_room_compiler_library",
+    exported_plugins = [
+        ":androidx_room_room_compiler_plugin",
+    ],
+    neverlink = True,
+    exports = [
+        # these deps can't be direct artifact deps
+        "@maven//:androidx_room_room_common",
+        "@maven//:androidx_room_room_compiler",
+        "@maven//:androidx_room_room_runtime",
+        "@maven//:androidx_room_room_ktx",
+    ],
+)
+
+
+# ===== dagger =====
+
+load("@dagger//:workspace_defs.bzl", "dagger_rules")
+
+dagger_rules()
+
+
+# ===== test binary =====
+
+load("@build_bazel_rules_android//android:rules.bzl", "android_binary")
+
+android_binary(
+    name = "app_a",
+    custom_package = "org.morfly.airin.sample",
+    manifest = "AndroidManifest.xml",
+    visibility = ["//visibility:public"],
+    incremental_dexing = 1,
+    manifest_values = {
+        "minSdkVersion": "21",
+    },
+    multidex = "native",
+    deps = [
+        "//core",
+        "//data/api",
+        "//data/impl",
+        "//image-list/api",
+        "//image-list/impl",
+        "//app",
+
+        #"//:dagger",
+    ],
+)

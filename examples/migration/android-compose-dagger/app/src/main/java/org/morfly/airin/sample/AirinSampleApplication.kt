@@ -1,7 +1,6 @@
 package org.morfly.airin.sample
 
 import android.app.Application
-import androidx.compose.runtime.compositionLocalOf
 import org.morfly.airin.sample.core.di.DaggerCoreComponent
 import org.morfly.airin.sample.data.impl.di.DaggerDataComponent
 import org.morfly.airin.sample.di.AppProvider
