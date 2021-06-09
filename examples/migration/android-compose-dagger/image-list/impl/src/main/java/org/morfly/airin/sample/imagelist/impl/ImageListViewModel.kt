@@ -12,8 +12,6 @@ import org.morfly.airin.sample.core.entity.Image
 import javax.inject.Inject
 
 
-private const val QUERY_INPUT_DELAY_MILLIS = 1000L
-
 @ScreenScoped
 class ImageListViewModel @Inject constructor(
     private val imagesRepository: ImagesRepository
@@ -28,10 +26,24 @@ class ImageListViewModel @Inject constructor(
         .flatMapLatest { imagesRepository.getPagedImages(query = it) }
         .cachedIn(viewModelScope)
 
+    val searchSuggestion: String =
+        SEARCH_SUGGESTIONS.random()
+
     fun updateSearchQuery(query: String) {
         searchQueryFlow.value = query
     }
 
     fun userImages(id: Long): Flow<List<Image>> =
         imagesRepository.getUserImages(userId = id)
+
+
+    companion object {
+
+        private const val QUERY_INPUT_DELAY_MILLIS = 1000L
+
+        private val SEARCH_SUGGESTIONS = listOf(
+            "kitten",
+            "puppies",
+        )
+    }
 }
