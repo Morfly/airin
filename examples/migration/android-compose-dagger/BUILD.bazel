@@ -1,109 +1,40 @@
-load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "define_kt_toolchain", "kt_compiler_plugin", "kt_javac_options", "kt_kotlinc_options", "kt_android_library")
-load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
-load("@rules_jvm_external//:defs.bzl", "artifact")
+package(default_visibility = ["//visibility:public"])
 
-
-# ===== java toolchain =====
-
-default_java_toolchain(
+alias(
     name = "java_toolchain",
-    visibility = ["//visibility:public"],
+    actual = "//tools/java:java_toolchain",
 )
 
-
-# ===== kotlin toolchain =====
-
-kt_kotlinc_options(
-    name = "kt_kotlinc_options",
-    #x_allow_jvm_ir_dependencies = True,
-    #x_use_ir = True,
-)
-
-kt_javac_options(
-    name = "kt_javac_options",
-)
-
-define_kt_toolchain(
+alias(
     name = "kotlin_toolchain",
-    api_version = "1.5",
-    experimental_use_abi_jars = False,
-    javac_options = "//:kt_javac_options",
-    jvm_target = "1.8",
-    kotlinc_options = "//:kt_kotlinc_options",
-    language_version = "1.5",
+    actual = "//tools/kotlin:kotlin_toolchain",
 )
 
-
-# ===== compose plugin =====
-
-kt_compiler_plugin(
-    name = "jetpack_compose_compiler_plugin",
-    id = "androidx.compose.compiler",
-    target_embedded_compiler = True,
-    visibility = ["//visibility:public"],
-    deps = [
-        "@maven//:androidx_compose_compiler_compiler",
-    ],
-)
-
-
-# ===== room =====
-
-aar_import(
+alias(
     name = "room_runtime",
-    aar = "room-runtime-2.3.0.aar",
-    visibility = ["//visibility:public"],
-    deps = [
-        artifact("androidx.sqlite:sqlite"),
-        artifact("androidx.arch.core:core-common"),
-        artifact("androidx.lifecycle:lifecycle-livedata-ktx"),
-    ],
+    actual = "//artifacts:room_runtime",
 )
 
-aar_import(
+alias(
     name = "room_ktx",
-    aar = "room-ktx-2.3.0.aar",
-    visibility = ["//visibility:public"],
+    actual = "//artifacts:room_ktx",
 )
 
-java_plugin(
-    name = "androidx_room_room_compiler_plugin",
-    processor_class = "androidx.room.RoomProcessor",
-    deps = [
-        artifact("androidx.room:room-compiler"),
-    ],
-    neverlink = True,
+alias(
+    name = "kotlin_reflect",
+    actual = "//artifacts:kotlin_reflect",
 )
 
-java_library(
+alias(
+    name = "jetpack_compose_compiler_plugin",
+    actual = "//tools/android:jetpack_compose_compiler_plugin",
+)
+
+alias(
     name = "androidx_room_room_compiler_library",
-    exported_plugins = [
-        ":androidx_room_room_compiler_plugin",
-    ],
-    neverlink = True,
-    visibility = ["//visibility:public"],
-    exports = [
-        "@maven//:androidx_room_room_common",
-        "@maven//:androidx_room_room_compiler",
-        "@maven//:androidx_room_room_runtime",
-        "@maven//:androidx_room_room_ktx",
-    ],
+    actual = "//tools/android:androidx_room_room_compiler_library",
 )
-
-
-# ===== dagger =====
 
 load("@dagger//:workspace_defs.bzl", "dagger_rules")
 
 dagger_rules()
-
-
-# ===== kotlin =====
-
-java_import(
-    name = "kotlin_reflect",
-    jars = [
-        "kotlin-reflect-1.5.10.jar_desugared.jar",
-    ],
-    visibility = ["//visibility:public"],
-)

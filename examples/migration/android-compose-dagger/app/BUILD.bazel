@@ -1,5 +1,5 @@
 load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_android_library")
-load("@build_bazel_rules_android//android:rules.bzl", "android_binary")
+load("@rules_android//android:rules.bzl", "android_binary")
 load("@rules_jvm_external//:defs.bzl", "artifact")
 
 kt_android_library(
@@ -36,15 +36,11 @@ android_binary(
     custom_package = "org.morfly.airin.sample",
     manifest = "src/main/AndroidManifest.xml",
     visibility = ["//visibility:public"],
-    #incremental_dexing = 1,
-    proguard_specs = [
-        #"proguard-rules.pro",
-    ],
+    incremental_dexing = 1,
     manifest_values = {
         "minSdkVersion": "21",
         "targetSdkVersion": "29",
     },
-    crunch_png = False,
     multidex = "native",
     deps = [
         "//app",
