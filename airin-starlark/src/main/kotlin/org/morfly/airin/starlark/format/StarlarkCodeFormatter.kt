@@ -75,15 +75,17 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    override fun visit(element: Expression?, position: Int, mode: PositionMode, acc: Appendable) {
-        if (element == null) {
-            acc += when (mode) {
-                NEW_LINE -> indent(position)
-                CONTINUE_LINE -> ""
-                SINGLE_LINE -> TODO()
-            }
-            acc += None
-        } else element.accept(this, position, mode, acc)
+    override fun visit(element: Expression, position: Int, mode: PositionMode, acc: Appendable) {
+        element.accept(this, position, mode, acc)
+    }
+
+    override fun visit(element: NoneValue, position: Int, mode: PositionMode, acc: Appendable) {
+        acc += when (mode) {
+            NEW_LINE -> indent(position)
+            CONTINUE_LINE -> ""
+            SINGLE_LINE -> TODO()
+        }
+        acc += None
     }
 
     // TODO test
@@ -183,7 +185,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    override fun visit(element: TupleExpression<*>, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: TupleExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
             NEW_LINE -> indent
@@ -430,7 +432,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             SINGLE_LINE -> TODO()
         }
         acc += indent
-        visit(element.expression as Expression?, position, CONTINUE_LINE, acc)
+        visit(element.expression, position, CONTINUE_LINE, acc)
         acc += '['
         acc += element.start?.toString() ?: ""
         acc += ':'

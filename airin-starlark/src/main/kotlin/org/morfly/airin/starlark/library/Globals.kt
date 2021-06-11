@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName")
+@file:Suppress("PropertyName", "FunctionName", "unused")
 
 package org.morfly.airin.starlark.library
 

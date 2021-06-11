@@ -18,12 +18,13 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.EmptyLineStatement
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
 /**
  * Feature that allows custom adding of empty lines to the Starlark file.
  */
-internal interface EmptyLinesFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface EmptyLinesFeature : LanguageFeature, StatementsHolder {
 
     /**
      * Append empty line to the Starlark file.

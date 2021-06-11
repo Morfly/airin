@@ -49,7 +49,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                 concat.shouldBeTypeOf<StringBinaryOperation>()
                 concat.left shouldBe StringLiteral("string")
                 concat.operator shouldBe BinaryOperator.PLUS
-                concat.right shouldBe null
+                concat.right shouldBe NoneValue
             }
         }
 
@@ -60,7 +60,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
 
                 // assertions
                 concat.shouldBeTypeOf<StringBinaryOperation>()
-                concat.left shouldBe null
+                concat.left shouldBe NoneValue
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right shouldBe StringLiteral("string")
 
@@ -97,7 +97,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     left.value shouldBe listOf(StringLiteral("item"))
                 }
                 concat.operator shouldBe BinaryOperator.PLUS
-                concat.right shouldBe null
+                concat.right shouldBe NoneValue
             }
         }
 
@@ -108,7 +108,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
 
                 // assertions
                 concat.shouldBeTypeOf<ListBinaryOperation<StringType>>()
-                concat.left shouldBe null
+                concat.left shouldBe NoneValue
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right.let { right ->
                     right.shouldBeTypeOf<ListExpression<*>>()
@@ -163,7 +163,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     }
                 }
                 concat.operator shouldBe BinaryOperator.PLUS
-                concat.right shouldBe null
+                concat.right shouldBe NoneValue
             }
         }
 
@@ -174,7 +174,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
 
                 // assertions
                 concat.shouldBeTypeOf<DictionaryBinaryOperation<StringType, StringType>>()
-                concat.left shouldBe null
+                concat.left shouldBe NoneValue
                 concat.operator shouldBe BinaryOperator.PLUS
                 concat.right.let { right ->
                     right.shouldBeTypeOf<DictionaryExpression>()

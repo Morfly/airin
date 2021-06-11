@@ -19,12 +19,13 @@ package org.morfly.airin.starlark.lang.feature
 import org.morfly.airin.starlark.elements.LoadStatement
 import org.morfly.airin.starlark.elements.StringLiteral
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
 /**
  * Enables load statements for Starlark file.
  */
-internal interface LoadStatementsFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface LoadStatementsFeature : LanguageFeature, StatementsHolder {
 
     /**
      * Starlark Load statement.

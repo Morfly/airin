@@ -155,5 +155,5 @@ private class MappingFeatureUnderTest :
     CollectionsFeature,
     BinaryPlusFeature,
     DynamicBinaryPlusFeature {
-    override val kwargs = mutableMapOf<Expression?, Expression?>()
+    override val kwargs = mutableMapOf<Expression, Expression>()
 }

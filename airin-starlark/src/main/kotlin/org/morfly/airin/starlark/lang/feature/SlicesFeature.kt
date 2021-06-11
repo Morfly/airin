@@ -31,7 +31,7 @@ internal interface SlicesFeature : LanguageFeature {
      */
     operator fun StringType.get(slice: IntProgression): StringSliceExpression =
         StringSliceExpression(
-            expression = Expression(this, ::StringLiteral)!!,
+            expression = Expression(this, ::StringLiteral),
             start = slice.first,
             end = slice.last,
             step = null
@@ -42,7 +42,7 @@ internal interface SlicesFeature : LanguageFeature {
      */
     operator fun <T> List<T>.get(slice: IntProgression): ListSliceExpression<T> =
         ListSliceExpression(
-            expression = Expression(this, ::ListExpression)!!,
+            expression = Expression(this, ::ListExpression),
             start = slice.first,
             end = slice.last,
             step = null

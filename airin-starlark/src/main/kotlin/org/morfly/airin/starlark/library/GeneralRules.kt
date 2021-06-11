@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName")
+@file:Suppress("PropertyName", "SpellCheckingInspection", "unused")
 
 package org.morfly.airin.starlark.library
 
@@ -41,7 +41,7 @@ fun BuildContext.alias(
 }
 
 /**
- * aleas Bazel rule.
+ * alias Bazel rule.
  */
 fun BuildContext.alias(body: AliasContext.() -> Unit) {
     registerFunctionCallStatement("alias", AliasContext(), body)

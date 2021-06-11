@@ -21,14 +21,10 @@ import org.morfly.airin.starlark.lang.*
 
 /**
  * An abstract element for a function call.
- *
- * @param name the name of the function.
- * @param args arguments of the function
  */
-sealed class FunctionCall(
-    val name: String,
+sealed interface FunctionCall : Expression {
+    val name: String
     val args: Set<Argument>
-) : Expression {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -39,63 +35,60 @@ sealed class FunctionCall(
  * An element for a call of the function that returns string.
  */
 class StringFunctionCall(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    StringType by name
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    StringType by StringTypeDelegate()
 
 /**
  * An element for a call of the function that returns integer.
  */
-class IntegerFunctionCall(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    IntegerType by 0L
-
-/**
- * An element for a call of the function that returns float.
- */
-class FloatFunctionCall(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    FloatType by 0.0
+class NumberFunctionCall(
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    NumberTypeDelegate()
 
 /**
  * An element for a call of the function that returns boolean.
  */
 class BooleanFunctionCall(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    BooleanType by false
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    BooleanType by BooleanTypeDelegate()
 
 /**
  * An element for a call of the function that returns list.
  */
 class ListFunctionCall<T>(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    List<T> by emptyList()
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    List<T> by ListTypeDelegate()
+
+class TupleFunctionCall(
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    TupleType by TupleTypeDelegate()
 
 /**
  * An element for a call of the function that returns dictionary.
  */
 class DictionaryFunctionCall<K /*: Key*/, V : Value>(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args),
-    Map<K, V> by emptyMap()
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall,
+    Map<K, V> by DictionaryTypeDelegate()
 
 /**
  * An element for a call of the function when the return type does not matter.
  */
 class AnyFunctionCall(
-    name: String,
-    args: Set<Argument>
-) : FunctionCall(name, args)
+    override val name: String,
+    override val args: Set<Argument>
+) : FunctionCall
 
 /**
  * An element for a call of the function with no return value (void).

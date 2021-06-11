@@ -21,7 +21,7 @@ package org.morfly.airin.starlark.elements
  * Syntax element for an expression that is used like a statement.
  */
 @JvmInline
-value class ExpressionStatement(val expression: Expression?) : Statement {
+value class ExpressionStatement(val expression: Expression) : Statement {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)

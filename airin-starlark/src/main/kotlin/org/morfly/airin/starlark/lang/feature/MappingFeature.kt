@@ -19,9 +19,7 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
@@ -33,7 +31,7 @@ internal interface MappingHolder {
     /**
      *
      */
-    val kwargs: MutableMap<Expression?, Expression?>
+    val kwargs: MutableMap<Expression, Expression>
 }
 
 /**
@@ -52,6 +50,16 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     }
 
     /**
+     * Mapping key to number value.
+     */
+    infix fun Key.to(value: NumberType): _NumberValueAccumulator {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::NumberLiteral))
+        kwargs[k] = v
+        return _NumberValueAccumulator(v)
+    }
+
+    /**
      * Mapping key to list value.
      */
     infix fun <T> Key.to(value: List<T>): _ListValueAccumulator<T> {
@@ -59,6 +67,16 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
         val v = DynamicValue(Expression(value, ::ListExpression))
         kwargs[k] = v
         return _ListValueAccumulator(v)
+    }
+
+    /**
+     * Mapping key to tuple value.
+     */
+    infix fun Key.to(value: TupleType): _TupleValueAccumulator {
+        val k = Expression(this)
+        val v = DynamicValue(Expression(value, ::TupleExpression))
+        kwargs[k] = v
+        return _TupleValueAccumulator(v)
     }
 
     /**

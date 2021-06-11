@@ -17,13 +17,12 @@
 package org.morfly.airin.starlark.lang.api
 
 import org.morfly.airin.starlark.elements.Statement
-import org.morfly.airin.starlark.lang.feature.StarlarkStatementsHolder
 
 
 /**
  * Language feature context.
  */
-abstract class LanguageContext : StarlarkStatementsHolder {
+abstract class LanguageContext internal constructor(): StatementsHolder {
 
     override val statements = mutableListOf<Statement>()
 }

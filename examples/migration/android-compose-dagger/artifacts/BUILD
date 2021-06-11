@@ -4,7 +4,7 @@ load("@rules_jvm_external//:defs.bzl", "artifact")
 aar_import(
     name = "room_runtime",
     aar = "room-runtime-2.3.0.aar",
-    visibility = ["//visibility:public"],
+    visibility = ["//:__pkg__"],
     deps = [
         artifact("androidx.sqlite:sqlite"),
         artifact("androidx.arch.core:core-common"),
@@ -15,7 +15,7 @@ aar_import(
 aar_import(
     name = "room_ktx",
     aar = "room-ktx-2.3.0.aar",
-    visibility = ["//visibility:public"],
+    visibility = ["//:__pkg__"],
 )
 
 java_import(
@@ -23,5 +23,5 @@ java_import(
     jars = [
         "kotlin-reflect-1.5.10.jar_desugared.jar",
     ],
-    visibility = ["//visibility:public"],
+    visibility = ["//:__pkg__"],
 )

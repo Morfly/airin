@@ -26,7 +26,7 @@ class ExpressionTests : ShouldSpec({
 
     context("'Expression' factory function") {
         should("return null for null argument") {
-            Expression(null) shouldBe null
+            Expression(null) shouldBe NoneValue
         }
 
         should("return same instance for expression argument") {

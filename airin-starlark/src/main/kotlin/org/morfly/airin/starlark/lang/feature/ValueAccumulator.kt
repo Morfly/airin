@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("ClassName")
+@file:Suppress("ClassName", "unused")
 
 package org.morfly.airin.starlark.lang.feature
 
@@ -38,10 +38,28 @@ interface _ValueAccumulator {
 value class _StringValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
 
 /**
+ * Accumulator of number values for dynamic operations.
+ */
+@JvmInline
+value class _NumberValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
+
+/**
+ * Accumulator of boolean values for dynamic operations.
+ */
+@JvmInline
+value class _BooleanValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
+
+/**
  * Accumulator of list values for dynamic operations.
  */
 @JvmInline
 value class _ListValueAccumulator<T>(override val holder: ValueHolder) : _ValueAccumulator
+
+/**
+ * Accumulator of tuple values for dynamic operations.
+ */
+@JvmInline
+value class _TupleValueAccumulator(override val holder: ValueHolder) : _ValueAccumulator
 
 /**
  * Accumulator of dictionary values for dynamic operations.

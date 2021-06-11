@@ -16,7 +16,9 @@
 
 package org.morfly.airin.starlark.elements
 
+import org.morfly.airin.starlark.lang.ListTypeDelegate
 import org.morfly.airin.starlark.lang.StringType
+import org.morfly.airin.starlark.lang.StringTypeDelegate
 
 
 /**
@@ -43,7 +45,7 @@ class StringSliceExpression(
     end: Int?,
     step: Int?
 ) : SliceExpression(expression, start, end, step),
-    StringType by ""
+    StringType by StringTypeDelegate()
 
 /**
  * Syntax element for a slice expression on list.
@@ -54,4 +56,4 @@ class ListSliceExpression<T>(
     end: Int?,
     step: Int?
 ) : SliceExpression(expression, start, end, step),
-    List<T> by emptyList()
+    List<T> by ListTypeDelegate()

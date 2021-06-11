@@ -320,6 +320,7 @@ fun BuildContext.kt_android_library(
     visibility: List<Label?>? = UnspecifiedList,
     srcs: List<Label?>? = UnspecifiedList,
     deps: List<Label?>? = UnspecifiedList,
+    plugins: List<Label?>? = UnspecifiedList,
     custom_package: StringType? = UnspecifiedString,
     manifest: Label? = UnspecifiedString,
     resource_files: List<Label?>? = UnspecifiedList,
@@ -344,6 +345,7 @@ fun BuildContext.kt_android_library(
         if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
         if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
+        if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
         if (visibility !== UnspecifiedList) it += Argument(
             "visibility",
             Expression(visibility, ::ListExpression)
@@ -366,6 +368,7 @@ class KtAndroidLibraryContext : FunctionCallContext() {
     var visibility: List<Label?>? by fargs
     var srcs: List<Label?>? by fargs
     var deps: List<Label?>? by fargs
+    var plugins: List<Label?>? by fargs
     var custom_package: StringType? by fargs
     var manifest: Label? by fargs
     var resource_files: List<Label?>? by fargs
@@ -378,14 +381,14 @@ class KtAndroidLibraryContext : FunctionCallContext() {
 /**
  * define_kt_toolchain Bazel rule.
  */
-fun WorkspaceContext.define_kt_toolchain(
+fun ConfigurationContext<*>.define_kt_toolchain(
     name: Name,
     api_version: StringType? = UnspecifiedString,
     jvm_target: StringType? = UnspecifiedString,
     language_version: StringType? = UnspecifiedString,
     experimental_use_abi_jars: BooleanType? = UnspecifiedBoolean,
-    javac_options: Map<Key, Value>? = UnspecifiedDictionary,
-    kotlinc_options: Map<Key, Value>? = UnspecifiedDictionary
+    javac_options: Label? = UnspecifiedString,
+    kotlinc_options: Label? = UnspecifiedString
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
@@ -404,10 +407,10 @@ fun WorkspaceContext.define_kt_toolchain(
                 "experimental_use_abi_jars",
                 Expression(experimental_use_abi_jars, ::BooleanLiteral)
             )
-        if (javac_options !== UnspecifiedDictionary)
-            it += Argument("javac_options", Expression(javac_options, ::DictionaryExpression))
-        if (kotlinc_options !== UnspecifiedDictionary)
-            it += Argument("kotlinc_options", Expression(kotlinc_options, ::DictionaryExpression))
+        if (javac_options !== UnspecifiedString)
+            it += Argument("javac_options", Expression(javac_options, ::StringLiteral))
+        if (kotlinc_options !== UnspecifiedString)
+            it += Argument("kotlinc_options", Expression(kotlinc_options, ::StringLiteral))
     }
     registerFunctionCallStatement("define_kt_toolchain", args)
 }
@@ -415,7 +418,7 @@ fun WorkspaceContext.define_kt_toolchain(
 /**
  * define_kt_toolchain Bazel rule.
  */
-fun WorkspaceContext.define_kt_toolchain(body: DefineKtToolchainContext.() -> Unit) =
+fun ConfigurationContext<*>.define_kt_toolchain(body: DefineKtToolchainContext.() -> Unit) =
     registerFunctionCallStatement("define_kt_toolchain", DefineKtToolchainContext(), body)
 
 class DefineKtToolchainContext : FunctionCallContext() {
@@ -424,8 +427,8 @@ class DefineKtToolchainContext : FunctionCallContext() {
     var jvm_target: StringType? by fargs
     var language_version: StringType? by fargs
     var experimental_use_abi_jars: BooleanType? by fargs
-    var javac_options: Map<Key, Value>? by fargs
-    var kotlinc_options: Map<Key, Value>? by fargs
+    var javac_options: Label? by fargs
+    var kotlinc_options: Label? by fargs
 }
 
 // ===== kt_register_toolchains =====
@@ -459,4 +462,59 @@ fun WorkspaceContext.kotlin_repositories(body: KotlinRepositoriesContext.() -> U
 
 class KotlinRepositoriesContext : FunctionCallContext() {
     var compiler_release: StringType by fargs
+}
+
+// ===== kt_kotlinc_options =====
+
+/**
+ *
+ */
+fun ConfigurationContext<*>.kt_kotlinc_options(
+    name: Name
+) {
+    val args = linkedSetOf<Argument>().also {
+        it += Argument("name", Expression(name, ::StringLiteral))
+    }
+    registerFunctionCallStatement("kt_kotlinc_options", args)
+}
+
+/**
+ *
+ */
+fun ConfigurationContext<*>.kt_kotlinc_options(body: KtKotlicOptionsContext.() -> Unit) =
+    registerFunctionCallStatement("kt_kotlinc_options", KtKotlicOptionsContext(), body)
+
+class KtKotlicOptionsContext: FunctionCallContext() {
+    var name: Name by fargs
+}
+
+// ===== kt_javac_options =====
+
+/**
+ *
+ */
+fun ConfigurationContext<*>.kt_javac_options(
+    name: Name
+) {
+    val args = linkedSetOf<Argument>().also {
+        it += Argument("name", Expression(name, ::StringLiteral))
+    }
+    registerFunctionCallStatement("kt_javac_options", args)
+}
+
+/**
+ *
+ */
+fun ConfigurationContext<*>.kt_javac_options(body: KtJavacOptionsContext.() -> Unit) =
+    registerFunctionCallStatement("kt_javac_options", KtJavacOptionsContext(), body)
+
+class KtJavacOptionsContext: FunctionCallContext() {
+    var name: Name by fargs
+}
+
+fun BuildContext.test() {
+    kt_javac_options {
+        name = ""
+        "arg" `=` True
+    }
 }

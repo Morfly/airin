@@ -121,7 +121,7 @@ class CollectionsFeatureTests : FeatureSpec({
                     val tuple = tuple("1", 2, 3.0)
 
                     // assertions
-                    tuple.shouldBeTypeOf<TupleExpression<*>>()
+                    tuple.shouldBeTypeOf<TupleExpression>()
                     tuple.value.size shouldBe 3
                     tuple.value.first() shouldBe StringLiteral("1")
                     tuple.value[1] shouldBe IntegerLiteral(2)
@@ -135,7 +135,7 @@ class CollectionsFeatureTests : FeatureSpec({
                     val tuple = tuple()
 
                     // assertions
-                    tuple.shouldBeTypeOf<TupleExpression<*>>()
+                    tuple.shouldBeTypeOf<TupleExpression>()
                     tuple.value.shouldBeEmpty()
                 }
             }

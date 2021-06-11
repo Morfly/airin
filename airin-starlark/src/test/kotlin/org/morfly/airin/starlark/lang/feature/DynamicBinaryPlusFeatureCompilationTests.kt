@@ -18,10 +18,7 @@
 
 package org.morfly.airin.starlark.lang.feature
 
-import org.morfly.airin.starlark.elements.DictionaryExpression
-import org.morfly.airin.starlark.elements.DynamicValue
-import org.morfly.airin.starlark.elements.ListExpression
-import org.morfly.airin.starlark.elements.StringLiteral
+import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.Key
 import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.Value
@@ -102,7 +99,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== Other concatenations =========
     // ====================================
 
-    val value = _AnyValueAccumulator(DynamicValue(null))
+    val value = _AnyValueAccumulator(DynamicValue(NoneValue))
 
     value `+` Any()
     value `+` null

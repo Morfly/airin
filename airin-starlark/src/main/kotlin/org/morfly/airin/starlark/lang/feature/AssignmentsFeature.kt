@@ -17,17 +17,16 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 import kotlin.reflect.KProperty
 
 
 /**
  * Feature that enables Starlark variable assignment statements.
  */
-internal interface AssignmentsFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface AssignmentsFeature : LanguageFeature, StatementsHolder {
 
     operator fun StringType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): StringReference {
         statements += Assignment(name = property.name, value = Expression(this, ::StringLiteral))
@@ -38,6 +37,27 @@ internal interface AssignmentsFeature : LanguageFeature, StarlarkStatementsHolde
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): StringReference = this
 
+
+    operator fun NumberType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): NumberReference {
+        statements += Assignment(name = property.name, value = Expression(this, ::NumberLiteral))
+        return NumberReference(name = property.name)
+    }
+
+    operator fun NumberReference.getValue(
+        thisRef: AssignmentsFeature?, property: KProperty<*>
+    ): NumberReference = this
+
+
+    operator fun BooleanType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): BooleanReference {
+        statements += Assignment(name = property.name, value = Expression(this, ::BooleanLiteral))
+        return BooleanReference(name = property.name)
+    }
+
+    operator fun BooleanReference.getValue(
+        thisRef: AssignmentsFeature?, property: KProperty<*>
+    ): BooleanReference = this
+
+
     operator fun <T> List<T>.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): ListReference<T> {
         statements += Assignment(name = property.name, value = Expression(this, ::ListExpression))
         return ListReference(name = property.name)
@@ -46,6 +66,17 @@ internal interface AssignmentsFeature : LanguageFeature, StarlarkStatementsHolde
     operator fun <T> ListReference<T>.getValue(
         thisRef: AssignmentsFeature?, property: KProperty<*>
     ): ListReference<T> = this
+
+
+    operator fun TupleType.provideDelegate(thisRef: AssignmentsFeature?, property: KProperty<*>): TupleReference {
+        statements += Assignment(name = property.name, value = Expression(this, ::TupleExpression))
+        return TupleReference(name = property.name)
+    }
+
+    operator fun TupleReference.getValue(
+        thisRef: AssignmentsFeature?, property: KProperty<*>
+    ): TupleReference = this
+
 
     operator fun <K : Key, V : Value> Map<K, V>.provideDelegate(
         thisRef: AssignmentsFeature?, property: KProperty<*>

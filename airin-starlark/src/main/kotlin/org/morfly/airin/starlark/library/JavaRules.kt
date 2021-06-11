@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection", "PropertyName")
+@file:Suppress("SpellCheckingInspection", "PropertyName", "unused", "FunctionName")
 
 package org.morfly.airin.starlark.library
 
@@ -35,8 +35,10 @@ fun BuildContext.java_library(
     resources: List<Label?>? = UnspecifiedList,
     exports: List<Label?>? = UnspecifiedList,
     plugins: List<Label?>? = UnspecifiedList,
+    exported_plugins: List<Label?>? = UnspecifiedList,
     deps: List<Label?>? = UnspecifiedList,
     visibility: List<Label?>? = UnspecifiedList,
+    neverlink: BooleanType? = UnspecifiedBoolean
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
@@ -44,8 +46,11 @@ fun BuildContext.java_library(
         if (resources !== UnspecifiedList) it += Argument("resources", Expression(resources, ::ListExpression))
         if (exports !== UnspecifiedList) it += Argument("exports", Expression(exports, ::ListExpression))
         if (plugins !== UnspecifiedList) it += Argument("plugins", Expression(plugins, ::ListExpression))
+        if (exported_plugins !== UnspecifiedList)
+            it += Argument("exported_plugins", Expression(exported_plugins, ::ListExpression))
         if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
         if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (neverlink !== UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
     }
     registerFunctionCallStatement(name = "java_library", args)
 }
@@ -62,8 +67,10 @@ class JavaLibraryContext : FunctionCallContext() {
     var resources: List<Label?>? by fargs
     var exports: List<Label?>? by fargs
     var plugins: List<Label?>? by fargs
+    var exported_plugins: List<Label?>? by fargs
     var deps: List<Label?>? by fargs
     var visibility: List<Label?>? by fargs
+    var neverlink: BooleanType? by fargs
 }
 
 // ===== java_binary =====
@@ -172,7 +179,8 @@ fun BuildContext.java_plugin(
     processor_class: StringType? = UnspecifiedString,
     generates_api: BooleanType? = UnspecifiedBoolean,
     deps: List<Label?>? = UnspecifiedList,
-    visibility: List<Label?>? = UnspecifiedList
+    visibility: List<Label?>? = UnspecifiedList,
+    neverlink: BooleanType? = UnspecifiedBoolean
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
@@ -182,6 +190,7 @@ fun BuildContext.java_plugin(
             it += Argument("generates_api", Expression(generates_api, ::BooleanLiteral))
         if (deps !== UnspecifiedList) it += Argument("deps", Expression(deps, ::ListExpression))
         if (visibility !== UnspecifiedList) it += Argument("visibility", Expression(visibility, ::ListExpression))
+        if (neverlink !== UnspecifiedBoolean) it += Argument("neverlink", Expression(neverlink, ::BooleanLiteral))
     }
     registerFunctionCallStatement("java_plugin", args)
 }
@@ -198,4 +207,5 @@ class JavaPluginContext : FunctionCallContext() {
     var generates_api: BooleanType? by fargs
     var deps: List<Label?>? by fargs
     var visibility: List<Label?>? by fargs
+    var neverlink: BooleanType? by fargs
 }

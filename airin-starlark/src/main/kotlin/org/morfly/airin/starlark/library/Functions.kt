@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "unused")
 
 package org.morfly.airin.starlark.library
 
@@ -32,14 +32,14 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 fun BaseStarlarkContext<*>.glob(
     include: List<Label?>,
     exclude: List<Label>? = UnspecifiedList,
-    exclude_directories: IntegerType? = UnspecifiedInteger,
+    exclude_directories: NumberType? = UnspecifiedNumber,
     allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(include, ::ListExpression))
         if (exclude !== UnspecifiedList) it += Argument("exclude", Expression(exclude, ::ListExpression))
-        if (exclude_directories !== UnspecifiedInteger)
-            it += Argument("exclude_directories", Expression(exclude_directories, ::IntegerLiteral))
+        if (exclude_directories !== UnspecifiedNumber)
+            it += Argument("exclude_directories", Expression(exclude_directories, ::NumberLiteral))
         if (allow_empty !== UnspecifiedBoolean) it += Argument("allow_empty", Expression(allow_empty, ::BooleanLiteral))
     }
     return listFunctionCall("glob", args)
@@ -51,7 +51,7 @@ fun BaseStarlarkContext<*>.glob(
 fun BaseStarlarkContext<*>.glob(
     vararg include: Label?,
     exclude: List<Label>? = UnspecifiedList,
-    exclude_directories: IntegerType? = UnspecifiedInteger,
+    exclude_directories: NumberType? = UnspecifiedNumber,
     allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> = glob(
     include.toList(),

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection", "FunctionName", "PropertyName")
+@file:Suppress("SpellCheckingInspection", "FunctionName", "PropertyName", "unused")
 
 package org.morfly.airin.starlark.library
 
@@ -92,9 +92,9 @@ fun BuildContext.android_binary(
     debug_key: Label? = UnspecifiedString,
     enable_data_binding: BooleanType? = UnspecifiedBoolean,
     multidex: StringType? = UnspecifiedString,
-    incremental_dexing: IntegerType? = UnspecifiedInteger,
+    incremental_dexing: NumberType? = UnspecifiedNumber,
     crunch_png: BooleanType? = UnspecifiedBoolean,
-    dex_shards: IntegerType? = UnspecifiedInteger,
+    dex_shards: NumberType? = UnspecifiedNumber,
     resource_files: List<Label?>? = UnspecifiedList,
     srcs: List<Label?>? = UnspecifiedList,
     plugins: List<Label?>? = UnspecifiedList,
@@ -115,10 +115,10 @@ fun BuildContext.android_binary(
         if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
         if (multidex !== UnspecifiedString) it += Argument("multidex", Expression(multidex, ::StringLiteral))
-        if (incremental_dexing !== UnspecifiedInteger)
-            it += Argument("incremental_dexing", Expression(incremental_dexing, ::IntegerLiteral))
+        if (incremental_dexing !== UnspecifiedNumber)
+            it += Argument("incremental_dexing", Expression(incremental_dexing, ::NumberLiteral))
         if (crunch_png !== UnspecifiedBoolean) it += Argument("crunch_png", Expression(crunch_png, ::BooleanLiteral))
-        if (dex_shards !== UnspecifiedInteger) it += Argument("dex_shards", Expression(dex_shards, ::IntegerLiteral))
+        if (dex_shards !== UnspecifiedNumber) it += Argument("dex_shards", Expression(dex_shards, ::NumberLiteral))
         if (resource_files !== UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
         if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
@@ -147,9 +147,9 @@ class AndroidBinaryContext : FunctionCallContext() {
     var debug_key: Label? by fargs
     var enable_data_binding: BooleanType? by fargs
     var multidex: StringType? by fargs
-    var incremental_dexing: IntegerType? by fargs
+    var incremental_dexing: NumberType? by fargs
     var crunch_png: BooleanType? by fargs
-    var dex_shards: IntegerType? by fargs
+    var dex_shards: NumberType? by fargs
     var resource_files: List<Label?>? by fargs
     var srcs: List<Label?>? by fargs
     var plugins: List<Label?>? by fargs
@@ -206,14 +206,14 @@ class AarImportContext : FunctionCallContext() {
  */
 fun WorkspaceContext.android_sdk_repository(
     name: Name,
-    api_level: IntegerType? = UnspecifiedInteger,
+    api_level: NumberType? = UnspecifiedNumber,
     build_tools_version: StringType? = UnspecifiedString,
     path: StringType? = UnspecifiedString,
     repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (api_level !== UnspecifiedNumber) it += Argument("api_level", Expression(api_level, ::NumberLiteral))
         if (build_tools_version !== UnspecifiedString)
             it += Argument("build_tools_version", Expression(build_tools_version, ::StringLiteral))
         if (path !== UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
@@ -231,7 +231,7 @@ fun WorkspaceContext.android_sdk_repository(body: AndroidSdkRepositoryContext.()
 
 class AndroidSdkRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
-    var api_level: IntegerType? by fargs
+    var api_level: NumberType? by fargs
     var build_tools_version: StringType? by fargs
     var path: StringType? by fargs
     var repo_mapping: Map<Key, Value>? by fargs
@@ -244,13 +244,13 @@ class AndroidSdkRepositoryContext : FunctionCallContext() {
  */
 fun WorkspaceContext.android_ndk_repository(
     name: Name,
-    api_level: IntegerType? = UnspecifiedInteger,
+    api_level: NumberType? = UnspecifiedNumber,
     path: StringType? = UnspecifiedString,
     repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (api_level !== UnspecifiedNumber) it += Argument("api_level", Expression(api_level, ::NumberLiteral))
         if (path !== UnspecifiedString) it += Argument("path", Expression("path", ::StringLiteral))
         if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))

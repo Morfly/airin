@@ -26,7 +26,9 @@ interface ElementVisitor<A> {
 
     fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: Expression?, position: Int, mode: PositionMode, acc: A)
+    fun visit(element: Expression, position: Int, mode: PositionMode, acc: A)
+
+    fun visit(element: NoneValue, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: A)
 
@@ -42,7 +44,7 @@ interface ElementVisitor<A> {
 
     fun visit(element: DictionaryExpression, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: TupleExpression<*>, position: Int, mode: PositionMode, acc: A)
+    fun visit(element: TupleExpression, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: ListComprehension<*>, position: Int, mode: PositionMode, acc: A)
 

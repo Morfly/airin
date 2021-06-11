@@ -19,7 +19,10 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
-import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.BooleanType
+import org.morfly.airin.starlark.lang.NumberType
+import org.morfly.airin.starlark.lang.StringType
+import org.morfly.airin.starlark.lang.TupleType
 import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 import kotlin.reflect.KProperty
 
@@ -28,25 +31,36 @@ import kotlin.reflect.KProperty
  *
  */
 @LanguageFeatureScope
-open class FunctionCallContext : DynamicArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature, CollectionsFeature {
+open class FunctionCallContext :
+    DynamicArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature,
+    CollectionsFeature, BooleanValuesFeature {
 
     override val fargs = linkedSetOf<Argument>()
 
 
     operator fun <V> Set<Argument>.getValue(thisRef: Any?, property: KProperty<*>): V {
-        error("")
+        error("Unable to return value from a function argument")
     }
+
 
     operator fun <V : StringType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
         fargs += Argument(id = property.name, value = Expression(value, ::StringLiteral))
     }
 
-    operator fun <T, V: Comparable<T>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value))
+    operator fun <V : NumberType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value, ::NumberLiteral))
+    }
+
+    operator fun <V : BooleanType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value, ::BooleanLiteral))
     }
 
     operator fun <T, V : List<T>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
         fargs += Argument(id = property.name, value = Expression(value, ::ListExpression))
+    }
+
+    operator fun <V : TupleType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs += Argument(id = property.name, value = Expression(value, ::TupleExpression))
     }
 
     operator fun <K, V, V1 : Map<K, V>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V1) {

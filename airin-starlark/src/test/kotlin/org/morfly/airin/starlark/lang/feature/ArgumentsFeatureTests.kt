@@ -16,13 +16,10 @@
 
 package org.morfly.airin.starlark.lang.feature
 
-import org.morfly.airin.starlark.elements.Argument
-import org.morfly.airin.starlark.elements.DictionaryExpression
-import org.morfly.airin.starlark.elements.ListExpression
-import org.morfly.airin.starlark.elements.StringLiteral
 import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
+import org.morfly.airin.starlark.elements.*
 
 
 class ArgumentsFeatureTests : FeatureSpec({
@@ -99,7 +96,7 @@ class ArgumentsFeatureTests : FeatureSpec({
                 fargs.size shouldBe 1
                 fargs.first().let { arg ->
                     arg.id shouldBe "arg"
-                    arg.value shouldBe null
+                    arg.value shouldBe NoneValue
                 }
             }
         }
