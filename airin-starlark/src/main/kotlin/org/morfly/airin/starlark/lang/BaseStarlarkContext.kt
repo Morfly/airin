@@ -32,4 +32,5 @@ sealed class BaseStarlarkContext<C : LanguageContext> : LanguageContext(), State
     DynamicBinaryPlusFeature, CollectionsFeature, DynamicFunctionsFeature,
     EmptyLinesFeature, RawTextFeature, LoadStatementsFeature,
     ListComprehensionsFeature<C>, SlicesFeature, BinaryPercentsFeature,
-    BooleanValuesFeature
+    BooleanValuesFeature,
+    StringExtensionsFeature

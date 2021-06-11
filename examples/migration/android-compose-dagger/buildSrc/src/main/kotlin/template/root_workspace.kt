@@ -2,6 +2,7 @@
 
 package template
 
+import org.morfly.airin.starlark.elements.ListReference
 import org.morfly.airin.starlark.lang.WORKSPACE
 import org.morfly.airin.starlark.library.*
 
@@ -30,9 +31,9 @@ fun root_workspace(
         urls = list["https://github.com/google/dagger/archive/dagger-%s.zip" `%` DAGGER_TAG],
     )
 
-    val DAGGER_ARTIFACTS: List<String> = emptyList() //by variable<List<Label>>()
-    val DAGGER_REPOSITORIES: List<String> = emptyList() //by variable<List<Label>>()
-    load("@dagger//:workspace_defs.bzl", "DAGGER_ARTIFACTS", "DAGGER_REPOSITORIES")
+    val DAGGER_ARTIFACTS = ListReference<String>("DAGGER_ARTIFACTS") // FIXME
+    val DAGGER_REPOSITORIES = ListReference<String>("DAGGER_REPOSITORIES") // FIXME
+    load("@dagger//:workspace_defs.bzl", DAGGER_ARTIFACTS.name, DAGGER_REPOSITORIES.name)
 
     val RULES_JVM_EXTERNAL_VERSION by "4.1"
     val RULES_JVM_EXTERNAL_SHA by "f36441aa876c4f6427bfb2d1f2d723b48e9d930b62662bf723ddfb8fc80f0140"
@@ -92,7 +93,7 @@ fun root_workspace(
     val RULES_KOTLIN_VERSION by "v1.5.0-alpha-3"
     val RULES_KOTLIN_SHA by "eeae65f973b70896e474c57aa7681e444d7a5446d9ec0a59bb88c59fc263ff62"
 
-    """
+    -"""
     #http_archive(
     #    name = "io_bazel_rules_kotlin",
     #    sha256 = RULES_KOTLIN_SHA,
@@ -108,10 +109,9 @@ fun root_workspace(
 
     load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kotlin_repositories")
 
-    -"""
     val RULES_KOTLIN_COMPILER_RELEASE by dict {
         "urls" to list[
-            "https://github.com/JetBrains/kotlin/releases/download/v{v}/kotlin-compiler-{v}.zip".format(v = KOTLIN_COMPILER_VERSION),
+                "https://github.com/JetBrains/kotlin/releases/download/v{v}/kotlin-compiler-{v}.zip".format { "v" `=` KOTLIN_COMPILER_VERSION },
         ]
         "sha256" to "2f8de1d73b816354055ff6a4b974b711c11ad55a68b948ed30b38155706b3c4e"
     }
@@ -119,8 +119,6 @@ fun root_workspace(
     kotlin_repositories(
         compiler_release = RULES_KOTLIN_COMPILER_RELEASE,
     )
-    """.trimIndent()
-
 
     register_toolchains("//:kotlin_toolchain")
 }

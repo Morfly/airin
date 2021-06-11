@@ -286,18 +286,22 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             SINGLE_LINE -> TODO()
         }
 
+        acc += firstLineIndent
+        element.receiver?.let { receiver ->
+            visit(receiver, position, CONTINUE_LINE, acc)
+            acc += '.'
+        }
         val name = element.name
         val args = element.args
         when (args.size) {
-            0 -> acc += "$firstLineIndent$name()"
+            0 -> acc += "$name()"
             1 -> {
                 val arg = args.first()
-                acc += "$firstLineIndent$name("
+                acc += "$name("
                 visit(arg, position, CONTINUE_LINE, acc)
                 acc += ')'
             }
             else -> {
-                acc += firstLineIndent
                 acc += name
                 acc += "($nl"
                 for (arg in args) {

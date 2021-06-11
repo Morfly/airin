@@ -33,13 +33,14 @@ import kotlin.reflect.KProperty
 @LanguageFeatureScope
 open class FunctionCallContext :
     DynamicArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature,
-    CollectionsFeature, BooleanValuesFeature {
+    CollectionsFeature, BooleanValuesFeature,
+    StringExtensionsFeature {
 
     override val fargs = linkedSetOf<Argument>()
 
 
     operator fun <V> Set<Argument>.getValue(thisRef: Any?, property: KProperty<*>): V {
-        error("Unable to return value from a function argument")
+        error("Unable to return value from a function argument.")
     }
 
 

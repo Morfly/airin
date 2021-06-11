@@ -25,6 +25,7 @@ import org.morfly.airin.starlark.lang.*
 sealed interface FunctionCall : Expression {
     val name: String
     val args: Set<Argument>
+    val receiver: Expression?
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -36,7 +37,8 @@ sealed interface FunctionCall : Expression {
  */
 class StringFunctionCall(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     StringType by StringTypeDelegate()
 
@@ -45,7 +47,8 @@ class StringFunctionCall(
  */
 class NumberFunctionCall(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     NumberTypeDelegate()
 
@@ -54,7 +57,8 @@ class NumberFunctionCall(
  */
 class BooleanFunctionCall(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     BooleanType by BooleanTypeDelegate()
 
@@ -63,13 +67,15 @@ class BooleanFunctionCall(
  */
 class ListFunctionCall<T>(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     List<T> by ListTypeDelegate()
 
 class TupleFunctionCall(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     TupleType by TupleTypeDelegate()
 
@@ -78,7 +84,8 @@ class TupleFunctionCall(
  */
 class DictionaryFunctionCall<K /*: Key*/, V : Value>(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall,
     Map<K, V> by DictionaryTypeDelegate()
 
@@ -87,7 +94,8 @@ class DictionaryFunctionCall<K /*: Key*/, V : Value>(
  */
 class AnyFunctionCall(
     override val name: String,
-    override val args: Set<Argument>
+    override val args: Set<Argument>,
+    override val receiver: Expression? = null
 ) : FunctionCall
 
 /**

@@ -27,7 +27,8 @@ import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
  * @see [CollectionsFeature].
  */
 @LanguageFeatureScope
-class DictionaryContext : MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature {
+class DictionaryContext : MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature,
+    StringExtensionsFeature {
 
     override val kwargs = mutableMapOf<Expression, Expression>()
 }
