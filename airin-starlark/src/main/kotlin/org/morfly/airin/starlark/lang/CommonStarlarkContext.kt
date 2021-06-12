@@ -17,17 +17,16 @@
 package org.morfly.airin.starlark.lang
 
 import org.morfly.airin.starlark.lang.api.LanguageContext
-import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
 import org.morfly.airin.starlark.lang.api.StatementsHolder
 import org.morfly.airin.starlark.lang.feature.*
+import org.morfly.airin.starlark.lang.feature.GlobalLibrary
 
 
 /**
  * Starlark Language context that includes a base set of features that are applicable to all types of Starlark files
  * such as BUILD, WORKSPACE, .bzl and .star files.
  */
-@LanguageFeatureScope
-sealed class BaseStarlarkContext<C : LanguageContext> : LanguageContext(), StatementsHolder,
+sealed class CommonStarlarkContext<C : LanguageContext> : LanguageContext(), StatementsHolder, GlobalLibrary,
     AssignmentsFeature, DynamicAssignmentsFeature, BinaryPlusFeature,
     DynamicBinaryPlusFeature, CollectionsFeature, DynamicFunctionsFeature,
     EmptyLinesFeature, RawTextFeature, LoadStatementsFeature,

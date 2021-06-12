@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection", "PropertyName", "FunctionName")
+@file:Suppress("SpellCheckingInspection", "PropertyName", "FunctionName", "unused")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
-import org.morfly.airin.starlark.lang.feature.FunctionCallContext
-import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
+import org.morfly.airin.starlark.lang.feature.*
 
 
 // ===== kt_compiler_plugin =====
@@ -29,7 +28,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * kt_compiler_plugin Bazel rule.
  */
-fun BuildContext.kt_compiler_plugin(
+fun BuildLibrary.kt_compiler_plugin(
     name: Name,
     compile_phase: BooleanType? = UnspecifiedBoolean,
     deps: List<Label?>? = UnspecifiedList,
@@ -62,7 +61,7 @@ fun BuildContext.kt_compiler_plugin(
 /**
  * kt_compiler_plugin Bazel rule.
  */
-fun BuildContext.kt_compiler_plugin(body: KtCompilerPluginContext.() -> Unit) =
+fun BuildLibrary.kt_compiler_plugin(body: KtCompilerPluginContext.() -> Unit) =
     registerFunctionCallStatement("kt_compiler_plugin", KtCompilerPluginContext(), body)
 
 class KtCompilerPluginContext : FunctionCallContext() {
@@ -81,7 +80,7 @@ class KtCompilerPluginContext : FunctionCallContext() {
 /**
  * kt_jvm_binary Bazel rule.
  */
-fun BuildContext.kt_jvm_binary(
+fun BuildLibrary.kt_jvm_binary(
     name: Name,
     main_class: StringType,
     data: List<Label?>? = UnspecifiedList,
@@ -127,7 +126,7 @@ fun BuildContext.kt_jvm_binary(
 /**
  * kt_jvm_binary Bazel rule.
  */
-fun BuildContext.kt_jvm_binary(body: KtJvmBinaryContext.() -> Unit) =
+fun BuildLibrary.kt_jvm_binary(body: KtJvmBinaryContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_binary", KtJvmBinaryContext(), body)
 
 class KtJvmBinaryContext : FunctionCallContext() {
@@ -151,7 +150,7 @@ class KtJvmBinaryContext : FunctionCallContext() {
 /**
  *
  */
-fun BuildContext.kt_jvm_import(
+fun BuildLibrary.kt_jvm_import(
     name: Name,
     deps: List<Label?>? = UnspecifiedList,
     exported_compiler_plugins: List<Label?>? = UnspecifiedList,
@@ -200,7 +199,7 @@ fun BuildContext.kt_jvm_import(
 /**
  * kt_jvm_import Bazel rule.
  */
-fun BuildContext.kt_jvm_import(body: KtJvmImportContext.() -> Unit) =
+fun BuildLibrary.kt_jvm_import(body: KtJvmImportContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_import", KtJvmImportContext(), body)
 
 class KtJvmImportContext : FunctionCallContext() {
@@ -221,7 +220,7 @@ class KtJvmImportContext : FunctionCallContext() {
 /**
  * kt_jvm_library Bazel rule.
  */
-fun BuildContext.kt_jvm_library(
+fun BuildLibrary.kt_jvm_library(
     name: Name,
     data: List<Label?>? = UnspecifiedList,
     deps: List<Label?>? = UnspecifiedList,
@@ -289,7 +288,7 @@ fun BuildContext.kt_jvm_library(
 /**
  * kt_jvm_import Bazel rule.
  */
-fun BuildContext.kt_jvm_library(body: KtJvmLibraryContext.() -> Unit) =
+fun BuildLibrary.kt_jvm_library(body: KtJvmLibraryContext.() -> Unit) =
     registerFunctionCallStatement("kt_jvm_library", KtJvmLibraryContext(), body)
 
 class KtJvmLibraryContext : FunctionCallContext() {
@@ -314,7 +313,7 @@ class KtJvmLibraryContext : FunctionCallContext() {
 /**
  * kt_android_library Bazel rule.
  */
-fun BuildContext.kt_android_library(
+fun BuildLibrary.kt_android_library(
     name: Name,
     exports: List<Label?>? = UnspecifiedList,
     visibility: List<Label?>? = UnspecifiedList,
@@ -359,7 +358,7 @@ fun BuildContext.kt_android_library(
 /**
  * kt_android_library Bazel rule.
  */
-fun BuildContext.kt_android_library(body: KtAndroidLibraryContext.() -> Unit) =
+fun BuildLibrary.kt_android_library(body: KtAndroidLibraryContext.() -> Unit) =
     registerFunctionCallStatement("kt_android_library", KtAndroidLibraryContext(), body)
 
 class KtAndroidLibraryContext : FunctionCallContext() {
@@ -381,7 +380,7 @@ class KtAndroidLibraryContext : FunctionCallContext() {
 /**
  * define_kt_toolchain Bazel rule.
  */
-fun ConfigurationContext<*>.define_kt_toolchain(
+fun BazelLibrary.define_kt_toolchain(
     name: Name,
     api_version: StringType? = UnspecifiedString,
     jvm_target: StringType? = UnspecifiedString,
@@ -418,7 +417,7 @@ fun ConfigurationContext<*>.define_kt_toolchain(
 /**
  * define_kt_toolchain Bazel rule.
  */
-fun ConfigurationContext<*>.define_kt_toolchain(body: DefineKtToolchainContext.() -> Unit) =
+fun BazelLibrary.define_kt_toolchain(body: DefineKtToolchainContext.() -> Unit) =
     registerFunctionCallStatement("define_kt_toolchain", DefineKtToolchainContext(), body)
 
 class DefineKtToolchainContext : FunctionCallContext() {
@@ -436,7 +435,7 @@ class DefineKtToolchainContext : FunctionCallContext() {
 /**
  * kt_register_toolchains Bazel rule.
  */
-fun WorkspaceContext.kt_register_toolchains() =
+fun WorkspaceLibrary.kt_register_toolchains() =
     registerFunctionCallStatement("kt_register_toolchains")
 
 // ===== kotlin_repositories =====
@@ -444,7 +443,7 @@ fun WorkspaceContext.kt_register_toolchains() =
 /**
  * kotlin_repositories Bazel rule.
  */
-fun WorkspaceContext.kotlin_repositories(
+fun WorkspaceLibrary.kotlin_repositories(
     compiler_release: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
@@ -457,7 +456,7 @@ fun WorkspaceContext.kotlin_repositories(
 /**
  * kotlin_repositories Bazel rule
  */
-fun WorkspaceContext.kotlin_repositories(body: KotlinRepositoriesContext.() -> Unit) =
+fun WorkspaceLibrary.kotlin_repositories(body: KotlinRepositoriesContext.() -> Unit) =
     registerFunctionCallStatement("kotlin_repositories", KotlinRepositoriesContext(), body)
 
 class KotlinRepositoriesContext : FunctionCallContext() {
@@ -469,7 +468,7 @@ class KotlinRepositoriesContext : FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext<*>.kt_kotlinc_options(
+fun BazelLibrary.kt_kotlinc_options(
     name: Name
 ) {
     val args = linkedSetOf<Argument>().also {
@@ -481,10 +480,10 @@ fun ConfigurationContext<*>.kt_kotlinc_options(
 /**
  *
  */
-fun ConfigurationContext<*>.kt_kotlinc_options(body: KtKotlicOptionsContext.() -> Unit) =
+fun BazelLibrary.kt_kotlinc_options(body: KtKotlicOptionsContext.() -> Unit) =
     registerFunctionCallStatement("kt_kotlinc_options", KtKotlicOptionsContext(), body)
 
-class KtKotlicOptionsContext: FunctionCallContext() {
+class KtKotlicOptionsContext : FunctionCallContext() {
     var name: Name by fargs
 }
 
@@ -493,7 +492,7 @@ class KtKotlicOptionsContext: FunctionCallContext() {
 /**
  *
  */
-fun ConfigurationContext<*>.kt_javac_options(
+fun BazelLibrary.kt_javac_options(
     name: Name
 ) {
     val args = linkedSetOf<Argument>().also {
@@ -505,16 +504,22 @@ fun ConfigurationContext<*>.kt_javac_options(
 /**
  *
  */
-fun ConfigurationContext<*>.kt_javac_options(body: KtJavacOptionsContext.() -> Unit) =
+fun BazelLibrary.kt_javac_options(body: KtJavacOptionsContext.() -> Unit) =
     registerFunctionCallStatement("kt_javac_options", KtJavacOptionsContext(), body)
 
-class KtJavacOptionsContext: FunctionCallContext() {
+class KtJavacOptionsContext : FunctionCallContext() {
     var name: Name by fargs
 }
 
-fun BuildContext.test() {
-    kt_javac_options {
-        name = ""
-        "arg" `=` True
+//fun BuildContext.test() {
+//    kt_android_library {
+//        srcs = glob("")
+//    }
+//}
+fun test() {
+    BUILD {
+        kt_android_library {
+            srcs = glob("")
+        }
     }
 }

@@ -20,6 +20,7 @@ package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.feature.BuildLibrary
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
@@ -29,7 +30,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * java_library Bazel rule.
  */
-fun BuildContext.java_library(
+fun BuildLibrary.java_library(
     name: Name,
     srcs: List<Label?>? = UnspecifiedList,
     resources: List<Label?>? = UnspecifiedList,
@@ -58,7 +59,7 @@ fun BuildContext.java_library(
 /**
  * java_libary Bazel rule.
  */
-fun BuildContext.java_library(body: JavaLibraryContext.() -> Unit) =
+fun BuildLibrary.java_library(body: JavaLibraryContext.() -> Unit) =
     registerFunctionCallStatement("java_library", JavaLibraryContext(), body)
 
 class JavaLibraryContext : FunctionCallContext() {
@@ -78,7 +79,7 @@ class JavaLibraryContext : FunctionCallContext() {
 /**
  * java_binary Bazel rule.
  */
-fun BuildContext.java_binary(
+fun BuildLibrary.java_binary(
     name: Name,
     srcs: List<Label?>? = UnspecifiedList,
     resources: List<Label?>? = UnspecifiedList,
@@ -112,7 +113,7 @@ fun BuildContext.java_binary(
 /**
  * java_binary Bazel rule.
  */
-fun BuildContext.java_binary(body: JavaBinaryContext.() -> Unit) =
+fun BuildLibrary.java_binary(body: JavaBinaryContext.() -> Unit) =
     registerFunctionCallStatement("java_binary", JavaBinaryContext(), body)
 
 class JavaBinaryContext : FunctionCallContext() {
@@ -134,7 +135,7 @@ class JavaBinaryContext : FunctionCallContext() {
 /**
  * java_import Bazel rule.
  */
-fun BuildContext.java_import(
+fun BuildLibrary.java_import(
     name: Name,
     jars: List<Label?>? = UnspecifiedList,
     exports: List<Label?>? = UnspecifiedList,
@@ -156,7 +157,7 @@ fun BuildContext.java_import(
 /**
  * java_import Bazel rule.
  */
-fun BuildContext.java_import(body: JavaImportContext.() -> Unit) =
+fun BuildLibrary.java_import(body: JavaImportContext.() -> Unit) =
     registerFunctionCallStatement("java_import", JavaImportContext(), body)
 
 class JavaImportContext : FunctionCallContext() {
@@ -174,7 +175,7 @@ class JavaImportContext : FunctionCallContext() {
 /**
  * java_plugin Bazel rule.
  */
-fun BuildContext.java_plugin(
+fun BuildLibrary.java_plugin(
     name: Name,
     processor_class: StringType? = UnspecifiedString,
     generates_api: BooleanType? = UnspecifiedBoolean,
@@ -198,7 +199,7 @@ fun BuildContext.java_plugin(
 /**
  * java_plugin Bazel rule.
  */
-fun BuildContext.java_plugin(body: JavaPluginContext.() -> Unit) =
+fun BuildLibrary.java_plugin(body: JavaPluginContext.() -> Unit) =
     registerFunctionCallStatement("java_plugin", JavaPluginContext(), body)
 
 class JavaPluginContext : FunctionCallContext() {

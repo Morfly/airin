@@ -7,25 +7,20 @@ kt_android_library(
     resource_files = glob(["src/main/res/**"]),
     custom_package = "org.morfly.airin.sample.data.impl",
     manifest = "src/main/AndroidManifest.xml",
+    exports = ["//data/api"],
     visibility = ["//visibility:public"],
-    exports = [
-        "//data/api",
-    ],
     deps = [
         "//core",
         "//data/api",
-
         "//:dagger",
-
         artifact("androidx.core:core-ktx"),
         artifact("androidx.appcompat:appcompat"),
         artifact("com.google.android.material:material"),
-
         artifact("com.squareup.retrofit2:retrofit"),
         artifact("com.squareup.retrofit2:converter-moshi"),
         artifact("com.squareup.okhttp3:logging-interceptor"),
         artifact("com.squareup.moshi:moshi-kotlin"),
-
+        artifact("androidx.paging:paging-runtime-ktx"),
         artifact("androidx.sqlite:sqlite-framework"),
         artifact("androidx.room:room-common"),
         "//:androidx_room_room_compiler_library",

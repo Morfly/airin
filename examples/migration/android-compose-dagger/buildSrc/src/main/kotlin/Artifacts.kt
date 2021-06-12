@@ -20,7 +20,6 @@ class Artifacts : GradleStandaloneTemplateProvider() {
         )
     }
 
-    // side effect // FIXME find another solution to avoid direct file writes here as side effects.
     private fun addArtifactsToTheProject(rootProjectDir: String) {
         File("$rootProjectDir/$ARTIFACTS_SOURCE_DIR").copyRecursively(
             target = File("$rootProjectDir/$ARTIFACTS_DIR"),

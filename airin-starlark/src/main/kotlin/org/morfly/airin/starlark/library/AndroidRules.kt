@@ -20,7 +20,9 @@ package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.feature.BuildLibrary
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
+import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
 
@@ -29,7 +31,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * android_library Bazel rule.
  */
-fun BuildContext.android_library(
+fun BuildLibrary.android_library(
     name: Name,
     custom_package: StringType? = UnspecifiedString,
     manifest: Label? = UnspecifiedString,
@@ -63,7 +65,7 @@ fun BuildContext.android_library(
 /**
  * android_library Bazel rule.
  */
-fun BuildContext.android_library(body: AndroidLibraryContext.() -> Unit) =
+fun BuildLibrary.android_library(body: AndroidLibraryContext.() -> Unit) =
     registerFunctionCallStatement("android_library", AndroidLibraryContext(), body)
 
 class AndroidLibraryContext : FunctionCallContext() {
@@ -84,7 +86,7 @@ class AndroidLibraryContext : FunctionCallContext() {
 /**
  * android_binary Bazel rule.
  */
-fun BuildContext.android_binary(
+fun BuildLibrary.android_binary(
     name: Name,
     custom_package: StringType? = UnspecifiedString,
     manifest: Label? = UnspecifiedString,
@@ -136,7 +138,7 @@ fun BuildContext.android_binary(
 /**
  * android_binary Bazel rule.
  */
-fun BuildContext.android_binary(body: AndroidBinaryContext.() -> Unit) =
+fun BuildLibrary.android_binary(body: AndroidBinaryContext.() -> Unit) =
     registerFunctionCallStatement("android_binary", AndroidBinaryContext(), body)
 
 class AndroidBinaryContext : FunctionCallContext() {
@@ -165,7 +167,7 @@ class AndroidBinaryContext : FunctionCallContext() {
 /**
  * aar_import Bazel rule.
  */
-fun BuildContext.aar_import(
+fun BuildLibrary.aar_import(
     name: Name,
     aar: Label = UnspecifiedString,
     exports: List<Label?>? = UnspecifiedList,
@@ -187,7 +189,7 @@ fun BuildContext.aar_import(
 /**
  * aar_import Bazel rule.
  */
-fun BuildContext.aar_import(body: AarImportContext.() -> Unit) =
+fun BuildLibrary.aar_import(body: AarImportContext.() -> Unit) =
     registerFunctionCallStatement("aar_import", AarImportContext(), body)
 
 class AarImportContext : FunctionCallContext() {
@@ -204,7 +206,7 @@ class AarImportContext : FunctionCallContext() {
 /**
  * android_sdk_reporitory Bazel rule.
  */
-fun WorkspaceContext.android_sdk_repository(
+fun WorkspaceLibrary.android_sdk_repository(
     name: Name,
     api_level: NumberType? = UnspecifiedNumber,
     build_tools_version: StringType? = UnspecifiedString,
@@ -226,7 +228,7 @@ fun WorkspaceContext.android_sdk_repository(
 /**
  * android_sdk_repository Bazel rule.
  */
-fun WorkspaceContext.android_sdk_repository(body: AndroidSdkRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.android_sdk_repository(body: AndroidSdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_sdk_repository", AndroidSdkRepositoryContext(), body)
 
 class AndroidSdkRepositoryContext : FunctionCallContext() {
@@ -242,7 +244,7 @@ class AndroidSdkRepositoryContext : FunctionCallContext() {
 /**
  * android_ndk_repository Bazel rule.
  */
-fun WorkspaceContext.android_ndk_repository(
+fun WorkspaceLibrary.android_ndk_repository(
     name: Name,
     api_level: NumberType? = UnspecifiedNumber,
     path: StringType? = UnspecifiedString,
@@ -261,7 +263,7 @@ fun WorkspaceContext.android_ndk_repository(
 /**
  * android_ndk_repository Bazel rule.
  */
-fun WorkspaceContext.android_ndk_repository(body: AndroidNdkRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.android_ndk_repository(body: AndroidNdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_ndk_repository", AndroidNdkRepositoryContext(), body)
 
 class AndroidNdkRepositoryContext : FunctionCallContext() {

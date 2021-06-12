@@ -8,31 +8,25 @@ kt_android_library(
     custom_package = "org.morfly.airin.sample.imagelist.impl",
     manifest = "src/main/AndroidManifest.xml",
     plugins = ["//:jetpack_compose_compiler_plugin"],
+    exports = ["//image-list/api"],
     visibility = ["//visibility:public"],
-    exports = [
-        "//image-list/api",
-    ],
     deps = [
-        "//core", # v
-        "//image-list/api", # ^
+        "//core",
         "//data/api",
-
+        "//image-list/api",
         "//:dagger",
-
+        artifact("androidx.compose.runtime:runtime"),
         artifact("androidx.core:core-ktx"),
         artifact("androidx.appcompat:appcompat"),
         artifact("com.google.android.material:material"),
-
         artifact("androidx.compose.ui:ui"),
         artifact("androidx.compose.ui:ui-tooling"),
-        artifact("androidx.compose.runtime:runtime"),
         artifact("androidx.compose.material:material"),
         artifact("androidx.activity:activity-compose"),
         artifact("androidx.navigation:navigation-compose"),
         artifact("androidx.lifecycle:lifecycle-viewmodel-compose"),
         artifact("com.google.accompanist:accompanist-coil"),
         artifact("androidx.paging:paging-compose"),
-
         artifact("androidx.paging:paging-runtime-ktx"),
     ],
 )

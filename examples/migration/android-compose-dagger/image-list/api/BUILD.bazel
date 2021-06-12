@@ -11,14 +11,12 @@ kt_android_library(
     visibility = ["//visibility:public"],
     deps = [
         "//core",
-
+        artifact("androidx.compose.runtime:runtime"),
         artifact("androidx.core:core-ktx"),
         artifact("androidx.appcompat:appcompat"),
         artifact("com.google.android.material:material"),
-
         artifact("androidx.compose.ui:ui"),
         artifact("androidx.compose.ui:ui-tooling"),
-        artifact("androidx.compose.runtime:runtime"),
         artifact("androidx.compose.material:material"),
         artifact("androidx.activity:activity-compose"),
         artifact("androidx.navigation:navigation-compose"),

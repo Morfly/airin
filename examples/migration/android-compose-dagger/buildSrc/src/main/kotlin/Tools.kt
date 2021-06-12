@@ -16,7 +16,7 @@ class Tools : GradleStandaloneTemplateProvider() {
         tools_kotlin_build(
             toolsDir = TOOLS_DIR,
             kotlinToolchainTargetName = KOTLIN_TOOLCHAIN_TARGET,
-            kotlinVersion = "1.5"
+            kotlinVersion = KOTLIN_LANG_VERSION
         ),
         tools_android_build(
             toolsDir = TOOLS_DIR,
@@ -27,6 +27,7 @@ class Tools : GradleStandaloneTemplateProvider() {
 
     companion object {
         const val TOOLS_DIR = "tools"
+        const val KOTLIN_LANG_VERSION = "1.5"
 
         const val JAVA_TOOLCHAIN_TARGET = "java_toolchain"
         const val KOTLIN_TOOLCHAIN_TARGET = "kotlin_toolchain"

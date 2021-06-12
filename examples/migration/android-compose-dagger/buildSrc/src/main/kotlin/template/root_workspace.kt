@@ -32,8 +32,8 @@ fun root_workspace(
         urls = list["https://github.com/google/dagger/archive/dagger-%s.zip" `%` DAGGER_TAG],
     )
 
-    val DAGGER_ARTIFACTS = ListReference<String>("DAGGER_ARTIFACTS") // FIXME
-    val DAGGER_REPOSITORIES = ListReference<String>("DAGGER_REPOSITORIES") // FIXME
+    val DAGGER_ARTIFACTS = ListReference<String>("DAGGER_ARTIFACTS")
+    val DAGGER_REPOSITORIES = ListReference<String>("DAGGER_REPOSITORIES")
     load("@dagger//:workspace_defs.bzl", DAGGER_ARTIFACTS.name, DAGGER_REPOSITORIES.name)
 
     val RULES_JVM_EXTERNAL_VERSION by "4.1"
@@ -51,8 +51,14 @@ fun root_workspace(
     load("@rules_jvm_external//:defs.bzl", "maven_install")
     load("@rules_jvm_external//:specs.bzl", "maven")
 
-    val composeArtifacts = (composeArtifactsWithoutVersion + "androidx.compose.runtime:runtime")
-        .map { "$it:%s" `%` COMPOSE_VERSION }
+
+    val composeArtifacts = linkedSetOf<String>().also {
+        it += composeArtifactsWithoutVersion
+        it += listOf(
+            "androidx.compose.compiler:compiler",
+            "androidx.compose.runtime:runtime",
+        )
+    }.map { "$it:%s" `%` COMPOSE_VERSION }
 
     maven_install(
         artifacts = DAGGER_ARTIFACTS `+` artifactList.sorted() + composeArtifacts + list[

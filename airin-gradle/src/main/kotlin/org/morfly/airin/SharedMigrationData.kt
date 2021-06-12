@@ -26,4 +26,9 @@ interface SharedMigrationData {
      *
      */
     val allArtifacts: Collection<MavenArtifact>
+
+    /**
+     *
+     */
+    val ignoredArtifacts: Set<MavenArtifact>
 }

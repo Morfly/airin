@@ -38,7 +38,7 @@ airin {
         register<RootBuild>()
         register<Tools>()
         register<Artifacts>()
-//        register<Build>()
+        register<KotlinAndroidBuild>()
     }
 
     artifacts {

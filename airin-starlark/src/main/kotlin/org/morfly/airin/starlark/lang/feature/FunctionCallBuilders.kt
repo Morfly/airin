@@ -132,7 +132,7 @@ fun booleanFunctionCall(name: String, args: Map<String, *>): BooleanType =
 inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> = emptySet()): T =
     when {
         StringType::class.java.isAssignableFrom(T::class.java) -> StringFunctionCall(name, args)
-        List::class.java.isAssignableFrom(T::class.java) -> ListFunctionCall<Value>(name, args)
+        List::class.java.isAssignableFrom(T::class.java) -> ListFunctionCall<Any?>(name, args)
         Map::class.java.isAssignableFrom(T::class.java) -> DictionaryFunctionCall<Key, Value>(name, args)
         NumberType::class.java.isAssignableFrom(T::class.java) -> NumberFunctionCall(name, args)
         TupleType::class.java.isAssignableFrom(T::class.java) -> TupleFunctionCall(name, args)

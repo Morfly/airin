@@ -21,6 +21,7 @@ package org.morfly.airin.starlark.library
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
+import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
 
@@ -30,14 +31,14 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
  * register_toolchains Bazel function.
  */
 // TODO introduce varargs
-fun WorkspaceContext.register_toolchains(vararg toolchains: Label?) {
+fun WorkspaceLibrary.register_toolchains(vararg toolchains: Label?) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(toolchains.toList(), ::ListExpression))
     }
     registerFunctionCallStatement("register_toolchains", args)
 }
 
-fun WorkspaceContext.register_toolchains(toolchain: Label) {
+fun WorkspaceLibrary.register_toolchains(toolchain: Label) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(toolchain, ::StringLiteral))
     }
@@ -49,7 +50,7 @@ fun WorkspaceContext.register_toolchains(toolchain: Label) {
 /**
  * workspace Bazel function.
  */
-fun WorkspaceContext.workspace(
+fun WorkspaceLibrary.workspace(
     name: Name,
     managed_directories: Map<Key, Value>? = UnspecifiedDictionary
 ) {
@@ -64,7 +65,7 @@ fun WorkspaceContext.workspace(
 /**
  * workspace Bazel function.
  */
-fun BuildContext.workspace(body: WorkspaceFunctionContext.() -> Unit) {
+fun WorkspaceLibrary.workspace(body: WorkspaceFunctionContext.() -> Unit) {
     registerFunctionCallStatement("workspace", WorkspaceFunctionContext(), body)
 }
 

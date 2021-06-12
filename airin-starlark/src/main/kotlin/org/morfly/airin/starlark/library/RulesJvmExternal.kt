@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName", "FunctionName", "SpellCheckingInspection")
+@file:Suppress("PropertyName", "FunctionName", "SpellCheckingInspection", "unused")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
-import org.morfly.airin.starlark.lang.feature.FunctionCallContext
-import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
-import org.morfly.airin.starlark.lang.feature.stringFunctionCall
+import org.morfly.airin.starlark.lang.feature.*
 
 
 // ===== maven_install =====
@@ -30,7 +28,7 @@ import org.morfly.airin.starlark.lang.feature.stringFunctionCall
 /**
  * maven_install Bazel rule.
  */
-fun ConfigurationContext<*>.maven_install(
+fun BazelLibrary.maven_install(
     artifacts: List<StringType?>? = UnspecifiedList,
     repositories: List<StringType?>? = UnspecifiedList,
     fail_on_missing_checksum: BooleanType? = UnspecifiedBoolean,
@@ -68,7 +66,7 @@ fun ConfigurationContext<*>.maven_install(
 /**
  * maven_install Bazel rule.
  */
-fun ConfigurationContext<*>.maven_install(body: MavenInstallContext.() -> Unit) =
+fun BazelLibrary.maven_install(body: MavenInstallContext.() -> Unit) =
     registerFunctionCallStatement("maven_install", MavenInstallContext(), body)
 
 class MavenInstallContext : FunctionCallContext() {
@@ -89,7 +87,7 @@ class MavenInstallContext : FunctionCallContext() {
 /**
  * artifact Bazel function.
  */
-fun ConfigurationContext<*>.artifact(a: StringType): StringType =
+fun GlobalLibrary.artifact(a: StringType): StringType =
     stringFunctionCall(
         name = "artifact",
         args = mapOf(

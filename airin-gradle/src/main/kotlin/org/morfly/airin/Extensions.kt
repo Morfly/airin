@@ -34,7 +34,7 @@ val defaultConfigurations = setOf(
 /**
  *
  */
-fun Project.findDependencies(configs: Set<String> = defaultConfigurations): List<Dependency> =
+fun Project.dependencies(configs: Set<String> = defaultConfigurations): List<Dependency> =
     configurations
         .asSequence()
         .filter { it.name in configs }
@@ -44,7 +44,7 @@ fun Project.findDependencies(configs: Set<String> = defaultConfigurations): List
                 is ExternalDependency -> MavenArtifact(it.group, it.name, it.version)
                 is ProjectDependency -> ProjectModule(
                     relativePath = rootProject.relativePath(it.dependencyProject.projectDir),
-                    label = it.name
+                    label = it.dependencyProject.path
                 )
                 else -> null
             }
@@ -54,7 +54,7 @@ fun Project.findDependencies(configs: Set<String> = defaultConfigurations): List
 /**
  *
  */
-fun Project.findArtifactDependencies(configs: Set<String> = defaultConfigurations): List<MavenArtifact> =
+fun Project.artifactDependencies(configs: Set<String> = defaultConfigurations): List<MavenArtifact> =
     configurations
         .asSequence()
         .filter { it.name in configs }
@@ -66,7 +66,7 @@ fun Project.findArtifactDependencies(configs: Set<String> = defaultConfiguration
 /**
  *
  */
-fun Project.findModuleDependencies(configs: Set<String> = defaultConfigurations): List<ProjectModule> =
+fun Project.moduleDependencies(configs: Set<String> = defaultConfigurations): List<ProjectModule> =
     configurations
         .asSequence()
         .filter { it.name in configs }
@@ -75,7 +75,7 @@ fun Project.findModuleDependencies(configs: Set<String> = defaultConfigurations)
         .map {
             ProjectModule(
                 relativePath = rootProject.relativePath(it.dependencyProject.projectDir),
-                label = this.name
+                label = it.dependencyProject.path
             )
         }
         .toList()
@@ -92,5 +92,5 @@ fun convertGradleLabelToBazel(gradleLabel: String): String =
 /**
  *
  */
-fun ProjectModule.bazelLabel(): String? =
-    label?.let(::convertGradleLabelToBazel)
+fun ProjectModule.bazelLabel(): String =
+    convertGradleLabelToBazel(label)

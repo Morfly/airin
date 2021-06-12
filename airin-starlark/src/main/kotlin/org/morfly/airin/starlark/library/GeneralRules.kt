@@ -20,6 +20,7 @@ package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.feature.BuildLibrary
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
@@ -29,7 +30,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * alias Bazel rule.
  */
-fun BuildContext.alias(
+fun BuildLibrary.alias(
     name: Name,
     actual: Label
 ) {
@@ -43,7 +44,7 @@ fun BuildContext.alias(
 /**
  * alias Bazel rule.
  */
-fun BuildContext.alias(body: AliasContext.() -> Unit) {
+fun BuildLibrary.alias(body: AliasContext.() -> Unit) {
     registerFunctionCallStatement("alias", AliasContext(), body)
 }
 
@@ -57,7 +58,7 @@ class AliasContext : FunctionCallContext() {
 /**
  * genrule Bazel rule.
  */
-fun BuildContext.genrule(
+fun BuildLibrary.genrule(
     name: Name,
     srcs: List<Label?>? = UnspecifiedList,
     outs: List<StringType?>? = UnspecifiedList,
@@ -101,7 +102,7 @@ fun BuildContext.genrule(
 /**
  * genrule Bazel rule.
  */
-fun BuildContext.genrule(body: GenruleContext.() -> Unit) {
+fun BuildLibrary.genrule(body: GenruleContext.() -> Unit) {
     registerFunctionCallStatement("genrule", GenruleContext(), body)
 }
 
