@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName", "SpellCheckingInspection")
+
 package template
 
 import org.morfly.airin.starlark.lang.BUILD
@@ -7,45 +9,55 @@ import org.morfly.airin.starlark.library.alias
 
 
 fun root_build(
+    toolsDir: String,
+    artifactsDir: String,
+    javaToolchainTarget: String,
+    kotlinToolchainTarget: String,
+    roomRuntimeTarget: String,
+    roomKtxTarget: String,
+    kotlinReflectTarget: String,
+    composePluginTarget: String,
+    roomPluginLibraryTarget: String,
     /**
      *
      */
 ) = BUILD.bazel {
+
     `package`(default_visibility = list["//visibility:public"])
 
     alias(
-        name = "java_toolchain",
-        actual = "//tools/java:java_toolchain",
+        name = javaToolchainTarget,
+        actual = "//$toolsDir/java:$javaToolchainTarget",
     )
 
     alias(
-        name = "kotlin_toolchain",
-        actual = "//tools/kotlin:kotlin_toolchain",
+        name = kotlinToolchainTarget,
+        actual = "//$toolsDir/kotlin:$kotlinToolchainTarget",
     )
 
     alias(
-        name = "room_runtime",
-        actual = "//artifacts:room_runtime",
+        name = roomRuntimeTarget,
+        actual = "//$artifactsDir:$roomRuntimeTarget",
     )
 
     alias(
-        name = "room_ktx",
-        actual = "//artifacts:room_ktx",
+        name = roomKtxTarget,
+        actual = "//$artifactsDir:$roomKtxTarget",
     )
 
     alias(
-        name = "kotlin_reflect",
-        actual = "//artifacts:kotlin_reflect",
+        name = kotlinReflectTarget,
+        actual = "//$artifactsDir:$kotlinReflectTarget",
     )
 
     alias(
-        name = "jetpack_compose_compiler_plugin",
-        actual = "//tools/android:jetpack_compose_compiler_plugin",
+        name = composePluginTarget,
+        actual = "//$toolsDir/android:$composePluginTarget",
     )
 
     alias(
-        name = "androidx_room_room_compiler_library",
-        actual = "//tools/android:androidx_room_room_compiler_library",
+        name = roomPluginLibraryTarget,
+        actual = "//$toolsDir/android:$roomPluginLibraryTarget",
     )
 
     load("@dagger//:workspace_defs.bzl", "dagger_rules")

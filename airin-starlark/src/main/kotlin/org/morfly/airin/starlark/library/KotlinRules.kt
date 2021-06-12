@@ -394,7 +394,7 @@ fun ConfigurationContext<*>.define_kt_toolchain(
         it += Argument("name", Expression(name, ::StringLiteral))
         if (api_version !== UnspecifiedString) it += Argument(
             "api_version",
-            Expression(name, ::StringLiteral)
+            Expression(api_version, ::StringLiteral)
         )
         if (jvm_target !== UnspecifiedString) it += Argument(
             "jvm_target",

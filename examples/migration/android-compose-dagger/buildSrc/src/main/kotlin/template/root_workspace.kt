@@ -1,4 +1,4 @@
-@file:Suppress("LocalVariableName", "FunctionName")
+@file:Suppress("LocalVariableName", "FunctionName", "SpellCheckingInspection", "UNUSED_VARIABLE")
 
 package template
 
@@ -8,7 +8,8 @@ import org.morfly.airin.starlark.library.*
 
 
 fun root_workspace(
-    artifactList: List<String>
+    artifactList: List<String>,
+    composeArtifactsWithoutVersion: List<String>
     /**
      *
      */
@@ -18,8 +19,8 @@ fun root_workspace(
 
     load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-    val COMPOSE_VERSION by "1.0.0-beta08"
     val KOTLIN_COMPILER_VERSION by "1.5.10"
+    val COMPOSE_VERSION by "1.0.0-beta08"
 
     val DAGGER_TAG by "2.36"
     val DAGGER_SHA by "1e6d5c64d336af2e14c089124bf2bd9d449010db02534ce820abc6a7f0429c86"
@@ -50,9 +51,12 @@ fun root_workspace(
     load("@rules_jvm_external//:defs.bzl", "maven_install")
     load("@rules_jvm_external//:specs.bzl", "maven")
 
+    val composeArtifacts = (composeArtifactsWithoutVersion + "androidx.compose.runtime:runtime")
+        .map { "$it:%s" `%` COMPOSE_VERSION }
+
     maven_install(
-        artifacts = DAGGER_ARTIFACTS `+` artifactList + list[
-                "com.google.guava:guava:28.1-android",
+        artifacts = DAGGER_ARTIFACTS `+` artifactList.sorted() + composeArtifacts + list[
+                "com.google.guava:guava:28.1-android"
         ],
         excluded_artifacts = list[
                 "org.jetbrains.kotlin:kotlin-reflect",
@@ -67,7 +71,6 @@ fun root_workspace(
                 "https://repo1.maven.org/maven2",
         ],
     )
-
 
     val RULES_ANDROID_VERSION by "0.1.1"
     val RULES_ANDROID_SHA by "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806"
@@ -88,7 +91,6 @@ fun root_workspace(
         api_level = 29,
         build_tools_version = "29.0.3",
     )
-
 
     val RULES_KOTLIN_VERSION by "v1.5.0-alpha-3"
     val RULES_KOTLIN_SHA by "eeae65f973b70896e474c57aa7681e444d7a5446d9ec0a59bb88c59fc263ff62"

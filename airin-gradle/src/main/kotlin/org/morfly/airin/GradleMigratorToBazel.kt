@@ -41,7 +41,7 @@ class GradleMigratorToBazel(
         val instances = mutableListOf<GradleTemplateProvider>()
         for (provider in providers.reversed()) {
             instances += provider.getDeclaredConstructor().newInstance()
-                .also { it.data = this }
+                .also { it.sharedData = this }
         }
         return GradleTemplateProvidersHolder(instances)
     }

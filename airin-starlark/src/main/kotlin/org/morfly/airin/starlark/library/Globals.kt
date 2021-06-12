@@ -29,9 +29,17 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * register_toolchains Bazel function.
  */
+// TODO introduce varargs
 fun WorkspaceContext.register_toolchains(vararg toolchains: Label?) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(toolchains.toList(), ::ListExpression))
+    }
+    registerFunctionCallStatement("register_toolchains", args)
+}
+
+fun WorkspaceContext.register_toolchains(toolchain: Label) {
+    val args = linkedSetOf<Argument>().also {
+        it += Argument("", Expression(toolchain, ::StringLiteral))
     }
     registerFunctionCallStatement("register_toolchains", args)
 }

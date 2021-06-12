@@ -28,8 +28,8 @@ fun build(
 
     kt_android_library(
         name = targetName,
-        srcs = glob(list["src/main/java/**/*.kt"]),
-        resource_files = glob(list["src/main/res/**"]),
+        srcs = glob("src/main/java/**/*.kt"),
+        resource_files = glob("src/main/res/**"),
         custom_package = packageName,
         manifest = manifestLocation,
         plugins = list[composePlugin],

@@ -24,8 +24,8 @@ import org.morfly.airin.starlark.lang.*
 /**
  * Syntax element for a list expression.
  */
-class ListExpression<T>(val value: List<Expression>) : Expression,
-    List<T> by ListTypeDelegate() {
+class ListExpression<T>(val value: List<Expression>, items: List<T>) : Expression,
+    List<T> by ListTypeDelegate(items) {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -36,7 +36,7 @@ class ListExpression<T>(val value: List<Expression>) : Expression,
  * Factory function for creating list expression object from the items of any type.
  */
 fun <T> ListExpression(list: List<T>): ListExpression<T> =
-    ListExpression(list.map(::Expression))
+    ListExpression(list.map(::Expression), list)
 
 /**
  * Syntax element for a dictionary expression.

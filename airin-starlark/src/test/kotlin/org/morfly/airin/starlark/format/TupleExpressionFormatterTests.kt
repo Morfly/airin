@@ -82,7 +82,7 @@ class TupleExpressionFormatterTests : ShouldSpec({
                     listOf(
                         TupleExpression(listOf()),
                         DictionaryExpression(mapOf(StringLiteral("key") to IntegerLiteral(1))),
-                        ListExpression<StringType>(listOf(StringLiteral("item2"), StringLiteral("item3"))),
+                        ListExpression<StringType>(listOf(StringLiteral("item2"), StringLiteral("item3")), emptyList()),
                     )
                 )
 

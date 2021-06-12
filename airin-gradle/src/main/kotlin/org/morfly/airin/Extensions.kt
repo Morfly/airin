@@ -27,6 +27,8 @@ import org.gradle.api.artifacts.ProjectDependency
 val defaultConfigurations = setOf(
     "implementation",
     "api",
+    "kapt",
+    "kotlin-extension",
 )
 
 /**

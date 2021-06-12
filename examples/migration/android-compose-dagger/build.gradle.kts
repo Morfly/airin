@@ -26,6 +26,30 @@ buildscript {
     }
 }
 
+plugins {
+    id("org.morfly.airin")
+}
+
+airin {
+
+    templates {
+
+        register<Workspace>()
+        register<RootBuild>()
+        register<Tools>()
+        register<Artifacts>()
+//        register<Build>()
+    }
+
+    artifacts {
+        ignored = listOf(
+            "com.google.dagger:dagger",
+            "com.google.dagger:dagger-compiler"
+        )
+    }
+}
+
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

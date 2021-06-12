@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection", "unused")
+
 package template
 
 
@@ -7,8 +9,8 @@ fun bazelrc(
      *
      */
 ) = """
-    build --java_toolchain //:java_toolchain
-    build --host_java_toolchain //:java_toolchain
+    build --java_toolchain //:$javaToolchainTarget
+    build --host_java_toolchain //:$javaToolchainTarget
 
     # Enable d8 merger
     build --define=android_dexmerger_tool=d8_dexmerger

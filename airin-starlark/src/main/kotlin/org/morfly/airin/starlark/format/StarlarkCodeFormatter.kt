@@ -69,11 +69,27 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
     override fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: Appendable) {
+        var prev: Statement? = null
         for (statement in element.statements) {
+            if(prev != null) acc += nl
+            if (shouldInsertEmptyLine(prev, statement)) {
+                acc += nl
+            }
             visit(statement, position, mode, acc)
-            acc += nl
+            prev = statement
         }
     }
+
+    private fun shouldInsertEmptyLine(prev: Statement?, curr: Statement): Boolean =
+        when {
+            prev == null -> false
+            prev === EmptyLineStatement -> false
+            prev::class == curr::class -> when {
+                curr is ExpressionStatement && curr.expression is FunctionCall -> true
+                else -> false
+            }
+            else -> true
+        }
 
     override fun visit(element: Expression, position: Int, mode: PositionMode, acc: Appendable) {
         element.accept(this, position, mode, acc)
@@ -90,7 +106,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
 
     // TODO test
     override fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: Appendable) {
-        acc += nl
         visit(element.expression, position, mode, acc)
     }
 
@@ -110,7 +125,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
 
     override fun visit(element: Assignment, position: Int, mode: PositionMode, acc: Appendable) {
         require(mode == NEW_LINE) { "Assignment statements must be formatted only in NEW_LINE mode but was $mode." }
-        acc += nl
         acc += indent(position)
         acc += element.name + " = "
         visit(element.value, position, CONTINUE_LINE, acc)

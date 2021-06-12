@@ -27,7 +27,7 @@ abstract class GradleTemplateProvider : TemplateProvider<Project> {
     /**
      *
      */
-    lateinit var data: SharedMigrationData
+    lateinit var sharedData: SharedMigrationData
 
     /**
      *

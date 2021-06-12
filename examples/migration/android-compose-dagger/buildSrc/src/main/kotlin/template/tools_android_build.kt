@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "SpellCheckingInspection")
 
 package template
 
@@ -10,16 +10,19 @@ import org.morfly.airin.starlark.library.kt_compiler_plugin
 
 
 fun tools_android_build(
+    toolsDir: String,
+    composePluginTargetName: String,
+    roomPluginLibraryTargetName: String,
     /**
      *
      */
-) = BUILD("tools/android") {
+) = BUILD("$toolsDir/android") {
 
     load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_compiler_plugin")
     load("@rules_jvm_external//:defs.bzl", "artifact")
 
     kt_compiler_plugin(
-        name = "jetpack_compose_compiler_plugin",
+        name = composePluginTargetName,
         id = "androidx.compose.compiler",
         target_embedded_compiler = True,
         deps = list[
@@ -38,7 +41,7 @@ fun tools_android_build(
     )
 
     java_library(
-        name = "androidx_room_room_compiler_library",
+        name = roomPluginLibraryTargetName,
         exported_plugins = list[
                 ":androidx_room_room_compiler_plugin",
         ],
