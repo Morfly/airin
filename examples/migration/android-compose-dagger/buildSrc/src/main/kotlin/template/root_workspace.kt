@@ -54,10 +54,8 @@ fun root_workspace(
 
     val composeArtifacts = linkedSetOf<String>().also {
         it += composeArtifactsWithoutVersion
-        it += listOf(
-            "androidx.compose.compiler:compiler",
-            "androidx.compose.runtime:runtime",
-        )
+        it += "androidx.compose.compiler:compiler"
+        it += "androidx.compose.runtime:runtime"
     }.map { "$it:%s" `%` COMPOSE_VERSION }
 
     maven_install(
