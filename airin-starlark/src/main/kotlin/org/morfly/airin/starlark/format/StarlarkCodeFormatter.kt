@@ -69,26 +69,43 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
     }
 
     override fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: Appendable) {
+        var prev: Statement? = null
         for (statement in element.statements) {
+            if(prev != null) acc += nl
+            if (shouldInsertEmptyLine(prev, statement)) {
+                acc += nl
+            }
             visit(statement, position, mode, acc)
-            acc += nl
+            prev = statement
         }
     }
 
-    override fun visit(element: Expression?, position: Int, mode: PositionMode, acc: Appendable) {
-        if (element == null) {
-            acc += when (mode) {
-                NEW_LINE -> indent(position)
-                CONTINUE_LINE -> ""
-                SINGLE_LINE -> TODO()
+    private fun shouldInsertEmptyLine(prev: Statement?, curr: Statement): Boolean =
+        when {
+            prev == null -> false
+            prev === EmptyLineStatement -> false
+            prev::class == curr::class -> when {
+                curr is ExpressionStatement && curr.expression is FunctionCall -> true
+                else -> false
             }
-            acc += None
-        } else element.accept(this, position, mode, acc)
+            else -> true
+        }
+
+    override fun visit(element: Expression, position: Int, mode: PositionMode, acc: Appendable) {
+        element.accept(this, position, mode, acc)
+    }
+
+    override fun visit(element: NoneValue, position: Int, mode: PositionMode, acc: Appendable) {
+        acc += when (mode) {
+            NEW_LINE -> indent(position)
+            CONTINUE_LINE -> ""
+            SINGLE_LINE -> TODO()
+        }
+        acc += None
     }
 
     // TODO test
     override fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: Appendable) {
-        acc += nl
         visit(element.expression, position, mode, acc)
     }
 
@@ -108,7 +125,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
 
     override fun visit(element: Assignment, position: Int, mode: PositionMode, acc: Appendable) {
         require(mode == NEW_LINE) { "Assignment statements must be formatted only in NEW_LINE mode but was $mode." }
-        acc += nl
         acc += indent(position)
         acc += element.name + " = "
         visit(element.value, position, CONTINUE_LINE, acc)
@@ -183,7 +199,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         }
     }
 
-    override fun visit(element: TupleExpression<*>, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: TupleExpression, position: Int, mode: PositionMode, acc: Appendable) {
         val indent = indent(position)
         val firstLineIndent = when (mode) {
             NEW_LINE -> indent
@@ -284,18 +300,22 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             SINGLE_LINE -> TODO()
         }
 
+        acc += firstLineIndent
+        element.receiver?.let { receiver ->
+            visit(receiver, position, CONTINUE_LINE, acc)
+            acc += '.'
+        }
         val name = element.name
         val args = element.args
         when (args.size) {
-            0 -> acc += "$firstLineIndent$name()"
+            0 -> acc += "$name()"
             1 -> {
                 val arg = args.first()
-                acc += "$firstLineIndent$name("
+                acc += "$name("
                 visit(arg, position, CONTINUE_LINE, acc)
                 acc += ')'
             }
             else -> {
-                acc += firstLineIndent
                 acc += name
                 acc += "($nl"
                 for (arg in args) {
@@ -430,7 +450,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             SINGLE_LINE -> TODO()
         }
         acc += indent
-        visit(element.expression as Expression?, position, CONTINUE_LINE, acc)
+        visit(element.expression, position, CONTINUE_LINE, acc)
         acc += '['
         acc += element.start?.toString() ?: ""
         acc += ':'

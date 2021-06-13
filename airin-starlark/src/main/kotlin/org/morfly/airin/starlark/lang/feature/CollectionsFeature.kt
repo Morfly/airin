@@ -21,8 +21,7 @@ package org.morfly.airin.starlark.lang.feature
 import org.morfly.airin.starlark.elements.DictionaryExpression
 import org.morfly.airin.starlark.elements.ListExpression
 import org.morfly.airin.starlark.elements.TupleExpression
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
@@ -70,17 +69,18 @@ internal interface CollectionsFeature : LanguageFeature {
     fun <K : Key, V : Value> dict(vararg kwargs: Pair<K, V>): Map<K, V> =
         kwargs.toMap()
 
+
     // ===== Tuples =====
 
     /**
      * Tuple expression builder.
      */
-    fun <T> tuple(vararg args: T): List<T> =
-        TupleExpression(listOf(*args))
+    fun tuple(vararg args: Any?): TupleType =
+        TupleExpression(tupleOf(*args))
 
     /**
      * Empty tuple expression builder.
      */
-    fun tuple(): List<Nothing> =
-        TupleExpression(emptyList())
+    fun tuple(): TupleType =
+        TupleExpression(emptyTuple())
 }

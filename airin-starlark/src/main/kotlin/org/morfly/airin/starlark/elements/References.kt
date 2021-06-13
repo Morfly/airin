@@ -38,37 +38,37 @@ sealed interface Reference : Expression {
  * Syntax element for a string variable.
  */
 class StringReference(override val name: String) : Reference,
-    StringType by name
+    StringType by StringTypeDelegate()
 
 /**
- * Syntax element for a list variable.
+ * Syntax element for a number reference.
  */
-class IntegerReference(override val name: String) : Reference,
-    IntegerType by 0L
-
-/**
- * Syntax element for a dictionary variable.
- */
-class FloatReference(override val name: String) : Reference,
-    FloatType by 0.0
+class NumberReference(override val name: String) : Reference,
+    NumberTypeDelegate()
 
 /**
  * Syntax element for a boolean variable.
  */
 class BooleanReference(override val name: String) : Reference,
-    BooleanType by false
+    BooleanType by BooleanTypeDelegate()
 
 /**
  * Syntax element for a list variable.
  */
 class ListReference<out T>(override val name: String) : Reference,
-    List<T> by emptyList()
+    List<T> by ListTypeDelegate()
+
+/**
+ *
+ */
+class TupleReference(override val name: String) : Reference,
+    TupleType by TupleTypeDelegate()
 
 /**
  * Syntax element for a dictionary variable
  */
 class DictionaryReference<K /*: Key*/, V : Value>(override val name: String) : Reference,
-    Map<K, V> by emptyMap()
+    Map<K, V> by DictionaryTypeDelegate()
 
 /**
  * Syntax element for variable if the type does not matter..

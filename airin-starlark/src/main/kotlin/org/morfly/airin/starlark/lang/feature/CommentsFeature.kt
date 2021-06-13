@@ -20,9 +20,10 @@ import org.morfly.airin.starlark.elements.Expression
 import org.morfly.airin.starlark.elements.RawStatement
 import org.morfly.airin.starlark.elements.StringLiteral
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
-internal interface CommentsFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface CommentsFeature : LanguageFeature, StatementsHolder {
 
     val String.comment: Unit
         get() {
@@ -32,7 +33,7 @@ internal interface CommentsFeature : LanguageFeature, StarlarkStatementsHolder {
     fun comment(body: () -> String) =
         body().comment
 
-    infix fun <T : Expression?> T.comment(body: () -> String): T {
+    infix fun <T : Expression> T.comment(body: () -> String): T {
 //        body().comment
         return this
     }

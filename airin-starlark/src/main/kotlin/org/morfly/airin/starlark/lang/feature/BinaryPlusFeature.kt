@@ -20,9 +20,7 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.elements.BinaryOperator.PLUS
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
@@ -42,7 +40,27 @@ internal interface BinaryPlusFeature : LanguageFeature {
         )
 
     /**
-     * Operator for list concatenation.
+     * Operator for number concatenation.
+     */
+    infix fun NumberType?.`+`(other: NumberType?): NumberType =
+        NumberBinaryOperation(
+            left = Expression(this, ::NumberLiteral),
+            operator = PLUS,
+            right = Expression(other, ::NumberLiteral)
+        )
+
+    /**
+     * Operator for boolean concatenation.
+     */
+    infix fun BooleanType?.`+`(other: BooleanType?): BooleanType =
+        BooleanBinaryOperation(
+            left = Expression(this, ::BooleanLiteral),
+            operator = PLUS,
+            right = Expression(other, ::BooleanLiteral)
+        )
+
+    /**
+     * Operator for list or tuple concatenation.
      */
     infix fun <T> List<T>?.`+`(other: List<T>?): List<T> =
         ListBinaryOperation(

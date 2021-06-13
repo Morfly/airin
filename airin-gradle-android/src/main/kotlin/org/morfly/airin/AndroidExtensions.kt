@@ -16,46 +16,71 @@
 
 package org.morfly.airin
 
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import groovy.util.XmlSlurper
 import org.gradle.api.Project
 import java.io.File
 
 
-private val packageNamesCache = mutableMapOf<String, String>()
+private typealias PackageName = String
+private typealias ManifestFilePath = String
+
+private val packageNamesCache = mutableMapOf<String, PackageName>()
+private val manifestFilesCache = mutableMapOf<String, ManifestFilePath>()
 private val xmlParser = XmlSlurper()
 
 /**
  *
  */
-fun Project.findPackageName(): String? {
-    if (!isAndroidModule()) return null
-    packageNamesCache[path]?.let { return it }
+val Project.packageName: String?
+    get() {
+        if (!isAndroidModule) return null
+        packageNamesCache[path]?.let { return it }
 
-    val ext = extensions.findByType(BaseExtension::class.java)
-    return ext?.defaultConfig?.applicationId
-        ?: findManifest()
-            ?.let(xmlParser::parse)
-            ?.getProperty("@package")
-            ?.toString()
-            ?.also { packageNamesCache[path] = it }
-}
-
-/**
- *
- */
-fun Project.findManifest(): File? {
-    if (!isAndroidModule()) return null
-
-    return extensions
-        .findByType(BaseExtension::class.java)
-        ?.sourceSets
-        ?.map { it.manifest.srcFile }
-        ?.firstOrNull(File::exists)
-}
+        val ext = extensions.findByType(BaseExtension::class.java)
+        return ext?.defaultConfig?.applicationId
+            ?: manifest
+                ?.let(xmlParser::parse)
+                ?.getProperty("@package")
+                ?.toString()
+                ?.also { packageNamesCache[path] = it }
+    }
 
 /**
  *
  */
-fun Project.isAndroidModule(): Boolean =
-    plugins.hasPlugin(ANDROID_LIBRARY) || plugins.hasPlugin(ANDROID_APPLICATION)
+val Project.manifest: File?
+    get() {
+        if (!isAndroidModule) return null
+        manifestFilesCache[path]?.let { return File(it) }
+
+        return extensions
+            .findByType(BaseExtension::class.java)
+            ?.sourceSets
+            ?.map { it.manifest.srcFile }
+            ?.firstOrNull(File::exists)
+            ?.also { file -> manifestFilesCache[this.path] = file.path }
+    }
+
+/**
+ *
+ */
+val Project.isAndroidModule: Boolean
+    get() = plugins.hasPlugin(ANDROID_LIBRARY) || plugins.hasPlugin(ANDROID_APPLICATION)
+
+/**
+ *
+ */
+@Suppress("UnstableApiUsage")
+val Project.isComposeEnabled: Boolean
+    get() = extensions.findByType(CommonExtension::class.java)?.buildFeatures?.compose ?: false
+
+/**
+ *
+ */
+@Suppress("UnstableApiUsage")
+val Project.isDataBindingEnabled: Boolean
+    get() = extensions.findByType(BaseAppModuleExtension::class.java)?.buildFeatures?.dataBinding ?: false ||
+            extensions.findByType(BaseExtension::class.java)?.dataBinding?.isEnabled ?: false

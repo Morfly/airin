@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName", "FunctionName")
+@file:Suppress("PropertyName", "FunctionName", "SpellCheckingInspection", "unused")
 
 package org.morfly.airin.starlark.library
 
-import org.morfly.airin.starlark.elements.Argument
-import org.morfly.airin.starlark.elements.BooleanLiteral
-import org.morfly.airin.starlark.elements.Expression
-import org.morfly.airin.starlark.elements.ListExpression
+import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
-import org.morfly.airin.starlark.lang.feature.FunctionCallContext
-import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
-import org.morfly.airin.starlark.lang.feature.stringFunctionCall
+import org.morfly.airin.starlark.lang.feature.*
 
 
 // ===== maven_install =====
@@ -33,12 +28,13 @@ import org.morfly.airin.starlark.lang.feature.stringFunctionCall
 /**
  * maven_install Bazel rule.
  */
-fun ConfigurationContext<*>.maven_install(
+fun BazelLibrary.maven_install(
     artifacts: List<StringType?>? = UnspecifiedList,
     repositories: List<StringType?>? = UnspecifiedList,
     fail_on_missing_checksum: BooleanType? = UnspecifiedBoolean,
     fetch_sources: BooleanType? = UnspecifiedBoolean,
     excluded_artifacts: List<StringType?>? = UnspecifiedList,
+    override_targets: Map<Key, Value>? = UnspecifiedDictionary,
     generate_compat_repositories: BooleanType? = UnspecifiedBoolean,
     strict_visibility: BooleanType? = UnspecifiedBoolean,
     jetify: BooleanType? = UnspecifiedBoolean,
@@ -54,6 +50,8 @@ fun ConfigurationContext<*>.maven_install(
             it += Argument("fetch_sources", Expression(fetch_sources, ::BooleanLiteral))
         if (excluded_artifacts !== UnspecifiedList)
             it += Argument("excluded_artifacts", Expression(excluded_artifacts, ::ListExpression))
+        if (override_targets !== UnspecifiedDictionary)
+            it += Argument("override_targets", Expression(override_targets, ::DictionaryExpression))
         if (generate_compat_repositories !== UnspecifiedBoolean)
             it += Argument("generate_compat_repositories", Expression(generate_compat_repositories, ::BooleanLiteral))
         if (strict_visibility !== UnspecifiedBoolean)
@@ -68,7 +66,7 @@ fun ConfigurationContext<*>.maven_install(
 /**
  * maven_install Bazel rule.
  */
-fun ConfigurationContext<*>.maven_install(body: MavenInstallContext.() -> Unit) =
+fun BazelLibrary.maven_install(body: MavenInstallContext.() -> Unit) =
     registerFunctionCallStatement("maven_install", MavenInstallContext(), body)
 
 class MavenInstallContext : FunctionCallContext() {
@@ -77,6 +75,7 @@ class MavenInstallContext : FunctionCallContext() {
     var fail_on_missing_checksum: BooleanType? by fargs
     var fetch_sources: BooleanType? by fargs
     var excluded_artifacts: List<StringType?>? by fargs
+    var override_targets: Map<Key, Value>? by fargs
     var generate_compat_repositories: BooleanType? by fargs
     var strict_visibility: BooleanType? by fargs
     var jetify: BooleanType? by fargs
@@ -86,9 +85,9 @@ class MavenInstallContext : FunctionCallContext() {
 // ===== artifact =====
 
 /**
- * artifact Bazeel function.
+ * artifact Bazel function.
  */
-fun ConfigurationContext<*>.artifact(a: StringType): StringType =
+fun GlobalLibrary.artifact(a: StringType): StringType =
     stringFunctionCall(
         name = "artifact",
         args = mapOf(

@@ -16,10 +16,10 @@
 
 package org.morfly.airin
 
+import org.gradle.api.Project
 import org.morfly.airin.plugin.dsl.AirinExtension
 import org.morfly.airin.starlark.elements.StarlarkFile
 import org.morfly.airin.starlark.writer.StarlarkFileWriter
-import org.gradle.api.Project
 
 
 /**
@@ -31,7 +31,7 @@ class GradleMigratorToBazel(
 ) : MigratorToBazel<Project>, SharedMigrationData {
 
     override val allArtifacts = mutableSetOf<MavenArtifact>()
-    private val ignoredArtifacts = extension.artifacts.ignored
+    override val ignoredArtifacts = extension.artifacts.ignored
         .mapTo(linkedSetOf(), ::MavenArtifact)
 
     private lateinit var providers: GradleTemplateProvidersHolder
@@ -41,7 +41,7 @@ class GradleMigratorToBazel(
         val instances = mutableListOf<GradleTemplateProvider>()
         for (provider in providers.reversed()) {
             instances += provider.getDeclaredConstructor().newInstance()
-                .also { it.data = this }
+                .also { it.sharedData = this }
         }
         return GradleTemplateProvidersHolder(instances)
     }
@@ -56,7 +56,7 @@ class GradleMigratorToBazel(
 
     private fun collectPerModuleFiles(target: Project) {
         target.allprojects.forEach {
-            allArtifacts += it.findArtifactDependencies().filter { dep -> dep !in ignoredArtifacts }
+            allArtifacts += it.artifactDependencies().filter { dep -> dep !in ignoredArtifacts }
 
             val relativePath = it.rootProject.relativePath(it.projectDir)
             if (relativePath !in files) {

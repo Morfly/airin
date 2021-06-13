@@ -22,7 +22,7 @@ package org.morfly.airin.starlark.elements
  */
 sealed interface ValueHolder : Element {
 
-    var value: Expression?
+    var value: Expression
 }
 
 /**
@@ -31,7 +31,7 @@ sealed interface ValueHolder : Element {
  * @param value the expression that van be modified by the next elements in a syntax tree.
  */
 class DynamicValue(
-    override var value: Expression?
+    override var value: Expression
 ) : Expression, ValueHolder {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {

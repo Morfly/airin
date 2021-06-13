@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection", "FunctionName", "PropertyName")
+@file:Suppress("SpellCheckingInspection", "FunctionName", "PropertyName", "unused")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.feature.BuildLibrary
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
+import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
 
@@ -29,7 +31,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * android_library Bazel rule.
  */
-fun BuildContext.android_library(
+fun BuildLibrary.android_library(
     name: Name,
     custom_package: StringType? = UnspecifiedString,
     manifest: Label? = UnspecifiedString,
@@ -63,7 +65,7 @@ fun BuildContext.android_library(
 /**
  * android_library Bazel rule.
  */
-fun BuildContext.android_library(body: AndroidLibraryContext.() -> Unit) =
+fun BuildLibrary.android_library(body: AndroidLibraryContext.() -> Unit) =
     registerFunctionCallStatement("android_library", AndroidLibraryContext(), body)
 
 class AndroidLibraryContext : FunctionCallContext() {
@@ -84,7 +86,7 @@ class AndroidLibraryContext : FunctionCallContext() {
 /**
  * android_binary Bazel rule.
  */
-fun BuildContext.android_binary(
+fun BuildLibrary.android_binary(
     name: Name,
     custom_package: StringType? = UnspecifiedString,
     manifest: Label? = UnspecifiedString,
@@ -92,9 +94,9 @@ fun BuildContext.android_binary(
     debug_key: Label? = UnspecifiedString,
     enable_data_binding: BooleanType? = UnspecifiedBoolean,
     multidex: StringType? = UnspecifiedString,
-    incremental_dexing: IntegerType? = UnspecifiedInteger,
+    incremental_dexing: NumberType? = UnspecifiedNumber,
     crunch_png: BooleanType? = UnspecifiedBoolean,
-    dex_shards: IntegerType? = UnspecifiedInteger,
+    dex_shards: NumberType? = UnspecifiedNumber,
     resource_files: List<Label?>? = UnspecifiedList,
     srcs: List<Label?>? = UnspecifiedList,
     plugins: List<Label?>? = UnspecifiedList,
@@ -115,10 +117,10 @@ fun BuildContext.android_binary(
         if (enable_data_binding !== UnspecifiedBoolean)
             it += Argument("enable_data_binding", Expression(enable_data_binding, ::BooleanLiteral))
         if (multidex !== UnspecifiedString) it += Argument("multidex", Expression(multidex, ::StringLiteral))
-        if (incremental_dexing !== UnspecifiedInteger)
-            it += Argument("incremental_dexing", Expression(incremental_dexing, ::IntegerLiteral))
+        if (incremental_dexing !== UnspecifiedNumber)
+            it += Argument("incremental_dexing", Expression(incremental_dexing, ::NumberLiteral))
         if (crunch_png !== UnspecifiedBoolean) it += Argument("crunch_png", Expression(crunch_png, ::BooleanLiteral))
-        if (dex_shards !== UnspecifiedInteger) it += Argument("dex_shards", Expression(dex_shards, ::IntegerLiteral))
+        if (dex_shards !== UnspecifiedNumber) it += Argument("dex_shards", Expression(dex_shards, ::NumberLiteral))
         if (resource_files !== UnspecifiedList)
             it += Argument("resource_files", Expression(resource_files, ::ListExpression))
         if (srcs !== UnspecifiedList) it += Argument("srcs", Expression(srcs, ::ListExpression))
@@ -136,7 +138,7 @@ fun BuildContext.android_binary(
 /**
  * android_binary Bazel rule.
  */
-fun BuildContext.android_binary(body: AndroidBinaryContext.() -> Unit) =
+fun BuildLibrary.android_binary(body: AndroidBinaryContext.() -> Unit) =
     registerFunctionCallStatement("android_binary", AndroidBinaryContext(), body)
 
 class AndroidBinaryContext : FunctionCallContext() {
@@ -147,9 +149,9 @@ class AndroidBinaryContext : FunctionCallContext() {
     var debug_key: Label? by fargs
     var enable_data_binding: BooleanType? by fargs
     var multidex: StringType? by fargs
-    var incremental_dexing: IntegerType? by fargs
+    var incremental_dexing: NumberType? by fargs
     var crunch_png: BooleanType? by fargs
-    var dex_shards: IntegerType? by fargs
+    var dex_shards: NumberType? by fargs
     var resource_files: List<Label?>? by fargs
     var srcs: List<Label?>? by fargs
     var plugins: List<Label?>? by fargs
@@ -165,7 +167,7 @@ class AndroidBinaryContext : FunctionCallContext() {
 /**
  * aar_import Bazel rule.
  */
-fun BuildContext.aar_import(
+fun BuildLibrary.aar_import(
     name: Name,
     aar: Label = UnspecifiedString,
     exports: List<Label?>? = UnspecifiedList,
@@ -187,7 +189,7 @@ fun BuildContext.aar_import(
 /**
  * aar_import Bazel rule.
  */
-fun BuildContext.aar_import(body: AarImportContext.() -> Unit) =
+fun BuildLibrary.aar_import(body: AarImportContext.() -> Unit) =
     registerFunctionCallStatement("aar_import", AarImportContext(), body)
 
 class AarImportContext : FunctionCallContext() {
@@ -204,16 +206,16 @@ class AarImportContext : FunctionCallContext() {
 /**
  * android_sdk_reporitory Bazel rule.
  */
-fun WorkspaceContext.android_sdk_repository(
+fun WorkspaceLibrary.android_sdk_repository(
     name: Name,
-    api_level: IntegerType? = UnspecifiedInteger,
+    api_level: NumberType? = UnspecifiedNumber,
     build_tools_version: StringType? = UnspecifiedString,
     path: StringType? = UnspecifiedString,
     repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (api_level !== UnspecifiedNumber) it += Argument("api_level", Expression(api_level, ::NumberLiteral))
         if (build_tools_version !== UnspecifiedString)
             it += Argument("build_tools_version", Expression(build_tools_version, ::StringLiteral))
         if (path !== UnspecifiedString) it += Argument("path", Expression(path, ::StringLiteral))
@@ -226,12 +228,12 @@ fun WorkspaceContext.android_sdk_repository(
 /**
  * android_sdk_repository Bazel rule.
  */
-fun WorkspaceContext.android_sdk_repository(body: AndroidSdkRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.android_sdk_repository(body: AndroidSdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_sdk_repository", AndroidSdkRepositoryContext(), body)
 
 class AndroidSdkRepositoryContext : FunctionCallContext() {
     var name: Name by fargs
-    var api_level: IntegerType? by fargs
+    var api_level: NumberType? by fargs
     var build_tools_version: StringType? by fargs
     var path: StringType? by fargs
     var repo_mapping: Map<Key, Value>? by fargs
@@ -242,15 +244,15 @@ class AndroidSdkRepositoryContext : FunctionCallContext() {
 /**
  * android_ndk_repository Bazel rule.
  */
-fun WorkspaceContext.android_ndk_repository(
+fun WorkspaceLibrary.android_ndk_repository(
     name: Name,
-    api_level: IntegerType? = UnspecifiedInteger,
+    api_level: NumberType? = UnspecifiedNumber,
     path: StringType? = UnspecifiedString,
     repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
 ) {
     val args = linkedSetOf<Argument>().also {
         it += Argument("name", Expression(name, ::StringLiteral))
-        if (api_level !== UnspecifiedInteger) it += Argument("api_level", Expression(api_level, ::IntegerLiteral))
+        if (api_level !== UnspecifiedNumber) it += Argument("api_level", Expression(api_level, ::NumberLiteral))
         if (path !== UnspecifiedString) it += Argument("path", Expression("path", ::StringLiteral))
         if (repo_mapping !== UnspecifiedDictionary)
             it += Argument("repo_mapping", Expression(repo_mapping, ::DictionaryExpression))
@@ -261,7 +263,7 @@ fun WorkspaceContext.android_ndk_repository(
 /**
  * android_ndk_repository Bazel rule.
  */
-fun WorkspaceContext.android_ndk_repository(body: AndroidNdkRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.android_ndk_repository(body: AndroidNdkRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("android_ndk_repository", AndroidNdkRepositoryContext(), body)
 
 class AndroidNdkRepositoryContext : FunctionCallContext() {

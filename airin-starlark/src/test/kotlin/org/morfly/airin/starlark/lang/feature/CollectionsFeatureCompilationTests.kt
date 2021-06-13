@@ -49,9 +49,9 @@ private fun CollectionsFeatureUnderCompilationTest.CompilationTests() {
     // ===== Tuples =====
     // ==================
 
-    val tuple1: TupleType<Any> = tuple("value1", 2, 3.0)
+    val tuple1: TupleType = tuple("value1", 2, 3.0)
     val tuple2 = tuple("value1", 2, 3.0)
-    val tuple3: TupleType<StringType> = tuple()
+    val tuple3: TupleType = tuple()
     val tuple4 = tuple()
 }
 

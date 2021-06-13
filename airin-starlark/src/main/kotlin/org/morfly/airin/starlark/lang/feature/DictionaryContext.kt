@@ -19,15 +19,17 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.Expression
-import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
+import org.morfly.airin.starlark.lang.api.LanguageScope
 
 
 /**
  * Starlark context that enables features specific to dictionary expression builder.
  * @see [CollectionsFeature].
  */
-@LanguageFeatureScope
-class DictionaryContext : MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature {
+@LanguageScope
+class DictionaryContext : GlobalLibrary,
+    MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature,
+    StringExtensionsFeature {
 
-    override val kwargs = mutableMapOf<Expression?, Expression?>()
+    override val kwargs = mutableMapOf<Expression, Expression>()
 }

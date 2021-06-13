@@ -6,7 +6,7 @@ import org.morfly.airin.sample.imagelist.impl.ImageListViewModel
 
 
 @Composable
-fun ImageListScreen(viewModel: ImageListViewModel) {
+fun ImageListScreen(viewModel: ImageListViewModel, onUserSelected: (userId: Long) -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
 
     Column {
@@ -20,6 +20,6 @@ fun ImageListScreen(viewModel: ImageListViewModel) {
                 viewModel.updateSearchQuery(searchQuery)
             }
         )
-        ImageList(viewModel)
+        ImageList(viewModel, onUserSelected)
     }
 }

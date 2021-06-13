@@ -24,6 +24,7 @@ import org.morfly.airin.starlark.elements.PositionMode.NEW_LINE
 import org.morfly.airin.starlark.lang.StringType
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import org.morfly.airin.starlark.lang.emptyTuple
 
 
 class TupleExpressionFormatterTests : ShouldSpec({
@@ -37,10 +38,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
         context("NEW LINE mode") {
 
             should("format empty tuple") {
-                val list = TupleExpression<Any>(emptyList())
+                val tuple = TupleExpression(emptyTuple())
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, NEW_LINE, builder)
+                formatter.visit(tuple, position = 1, NEW_LINE, builder)
 
                 val expectedResult = "${___4}()"
 
@@ -48,10 +49,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format single item tuple") {
-                val list = TupleExpression<Any>(listOf(StringLiteral("item")))
+                val tuple = TupleExpression(listOf(StringLiteral("item")))
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, NEW_LINE, builder)
+                formatter.visit(tuple, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
                     |${___4}("item",)
@@ -61,10 +62,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format tuple") {
-                val list = TupleExpression<Any>(listOf(StringLiteral("item1"), IntegerLiteral(2)))
+                val tuple = TupleExpression(listOf(StringLiteral("item1"), IntegerLiteral(2)))
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, NEW_LINE, builder)
+                formatter.visit(tuple, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
                     |${___4}(
@@ -77,16 +78,16 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format tuple of collections") {
-                val list = TupleExpression<Any>(
+                val tuple = TupleExpression(
                     listOf(
-                        TupleExpression<Any>(listOf()),
+                        TupleExpression(listOf()),
                         DictionaryExpression(mapOf(StringLiteral("key") to IntegerLiteral(1))),
-                        ListExpression<StringType>(listOf(StringLiteral("item2"), StringLiteral("item3"))),
+                        ListExpression<StringType>(listOf(StringLiteral("item2"), StringLiteral("item3")), emptyList()),
                     )
                 )
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, NEW_LINE, builder)
+                formatter.visit(tuple, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
                     |${___4}(
@@ -103,12 +104,12 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format single item tuple of lists") {
-                val list = TupleExpression<Any>(
+                val tuple = TupleExpression(
                     listOf(ListExpression<Any>(listOf(StringLiteral("item1"), StringLiteral("item2"))))
                 )
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, NEW_LINE, builder)
+                formatter.visit(tuple, position = 1, NEW_LINE, builder)
 
                 val expectedResult = """
                     |${___4}([
@@ -124,10 +125,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
         context("CONTINUE LINE mode") {
 
             should("format empty tuple") {
-                val list = TupleExpression<Any>(emptyList())
+                val tuple = TupleExpression(emptyList())
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, CONTINUE_LINE, builder)
+                formatter.visit(tuple, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = "()"
 
@@ -135,10 +136,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format single item tuple") {
-                val list = TupleExpression<Any>(listOf(StringLiteral("item")))
+                val tuple = TupleExpression(listOf(StringLiteral("item")))
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, CONTINUE_LINE, builder)
+                formatter.visit(tuple, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = """
                     |("item",)
@@ -148,10 +149,10 @@ class TupleExpressionFormatterTests : ShouldSpec({
             }
 
             should("format tuple") {
-                val list = TupleExpression<Any>(listOf(StringLiteral("item1"), IntegerLiteral(2)))
+                val tuple = TupleExpression(listOf(StringLiteral("item1"), IntegerLiteral(2)))
 
                 val builder = StringBuilder()
-                formatter.visit(list, position = 1, CONTINUE_LINE, builder)
+                formatter.visit(tuple, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = """
                     |(

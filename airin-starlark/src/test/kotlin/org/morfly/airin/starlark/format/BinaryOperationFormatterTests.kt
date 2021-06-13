@@ -19,15 +19,12 @@
 package org.morfly.airin.starlark.format
 
 import org.morfly.airin.starlark.elements.BinaryOperator.PLUS
-import org.morfly.airin.starlark.elements.ListBinaryOperation
-import org.morfly.airin.starlark.elements.ListExpression
 import org.morfly.airin.starlark.elements.PositionMode.CONTINUE_LINE
 import org.morfly.airin.starlark.elements.PositionMode.NEW_LINE
-import org.morfly.airin.starlark.elements.StringBinaryOperation
-import org.morfly.airin.starlark.elements.StringLiteral
 import org.morfly.airin.starlark.lang.StringType
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import org.morfly.airin.starlark.elements.*
 
 
 class BinaryOperationFormatterTests : ShouldSpec({
@@ -60,7 +57,7 @@ class BinaryOperationFormatterTests : ShouldSpec({
                 val concat = StringBinaryOperation(
                     left = StringLiteral("string1"),
                     operator = PLUS,
-                    right = null
+                    right = NoneValue
                 )
 
                 val builder = StringBuilder()

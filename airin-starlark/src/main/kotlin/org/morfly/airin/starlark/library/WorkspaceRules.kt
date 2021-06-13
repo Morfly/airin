@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName", "FunctionName")
+@file:Suppress("PropertyName", "FunctionName", "unused")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
+import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
 
@@ -29,7 +30,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * bind Bazel rule.
  */
-fun WorkspaceContext.bind(
+fun WorkspaceLibrary.bind(
     name: Name,
     actual: Label? = UnspecifiedString,
     visibility: List<Label?>? = UnspecifiedList
@@ -47,7 +48,7 @@ fun WorkspaceContext.bind(
 /**
  * bind Bazel rule.
  */
-fun WorkspaceContext.bind(body: BindContext.() -> Unit) =
+fun WorkspaceLibrary.bind(body: BindContext.() -> Unit) =
     registerFunctionCallStatement("bind", BindContext(), body)
 
 class BindContext : FunctionCallContext() {
@@ -61,7 +62,7 @@ class BindContext : FunctionCallContext() {
 /**
  * local_repository Bazel rule.
  */
-fun WorkspaceContext.local_repository(
+fun WorkspaceLibrary.local_repository(
     name: Name,
     path: StringType,
     repo_mapping: Map<Key, Value>? = UnspecifiedDictionary
@@ -78,7 +79,7 @@ fun WorkspaceContext.local_repository(
 /**
  * local_repository Bazel rule.
  */
-fun WorkspaceContext.local_repository(body: LocalRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.local_repository(body: LocalRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("local_repository", LocalRepositoryContext(), body)
 
 class LocalRepositoryContext : FunctionCallContext() {
@@ -92,7 +93,7 @@ class LocalRepositoryContext : FunctionCallContext() {
 /**
  * new_local_repository Bazel rule.
  */
-fun WorkspaceContext.new_local_repository(
+fun WorkspaceLibrary.new_local_repository(
     name: Name,
     build_file: StringType? = UnspecifiedString,
     build_file_content: StringType? = UnspecifiedString,
@@ -126,7 +127,7 @@ fun WorkspaceContext.new_local_repository(
 /**
  * new_local_repository Bazel rule.
  */
-fun WorkspaceContext.new_local_repository(body: NewLocalRepositoryContext.() -> Unit) =
+fun WorkspaceLibrary.new_local_repository(body: NewLocalRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("new_local_repository", NewLocalRepositoryContext(), body)
 
 class NewLocalRepositoryContext : FunctionCallContext() {

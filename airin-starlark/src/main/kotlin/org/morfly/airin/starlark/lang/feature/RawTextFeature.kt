@@ -18,9 +18,10 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.RawStatement
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
-internal interface RawTextFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface RawTextFeature : LanguageFeature, StatementsHolder {
 
     /**
      *

@@ -19,6 +19,7 @@ package org.morfly.airin.starlark.lang.feature
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.elements.BinaryOperator.PERCENT
 import org.morfly.airin.starlark.lang.Key
+import org.morfly.airin.starlark.lang.NumberType
 import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.Value
 import org.morfly.airin.starlark.lang.api.LanguageFeature
@@ -42,30 +43,10 @@ internal interface BinaryPercentsFeature : LanguageFeature {
     /**
      *
      */
-    infix fun <T> List<T>?.`%`(other: List<T>?): List<T> =
-        ListBinaryOperation(
-            left = Expression(this, ::ListExpression),
+    infix fun NumberType?.`%`(other: NumberType): NumberType =
+        NumberBinaryOperation(
+            left = Expression(this, ::NumberLiteral),
             operator = PERCENT,
-            right = Expression(other, ::ListExpression)
-        )
-
-    /**
-     *
-     */
-    infix fun Map<*, Value>?.`%`(other: Map<*, Value>?): Map<Key, Value> =
-        DictionaryBinaryOperation(
-            left = Expression(this, ::DictionaryExpression),
-            operator = PERCENT,
-            right = Expression(other, ::DictionaryExpression)
-        )
-
-    /**
-     *
-     */
-    infix fun Map<*, Value>?.`%`(body: DictionaryContext.() -> Unit): Map<Key, Value> =
-        DictionaryBinaryOperation(
-            left = Expression(this, ::DictionaryExpression),
-            operator = PERCENT,
-            right = DictionaryExpression(DictionaryContext().apply(body).kwargs)
+            right = Expression(other, ::NumberLiteral)
         )
 }

@@ -25,17 +25,18 @@ import org.morfly.airin.starlark.library.*
 
 
 fun android_databinding_workspace(
-    workspaceName: String,
     artifactList: List<String>
     /**
      *
      */
 ) = WORKSPACE {
 
-    workspace(name = workspaceName)
+    workspace(name = "android-databinding")
 
     android_sdk_repository(
-        name = "androidsdk"
+        name = "androidsdk",
+        api_level = 29,
+        build_tools_version = "29.0.3"
     )
 
     load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -98,15 +99,12 @@ fun android_databinding_workspace(
     val KOTLIN_VERSION by "1.3.72"
 
     val KOTLINC_RELEASE_SHA by "ccd0db87981f1c0e3f209a1a4acb6778f14e63fe3e561a98948b5317e526cc6c"
+    val KOTLINC_RELEASE by dict {
+        "urls" to list["https://github.com/JetBrains/kotlin/releases/download/v{v}/kotlin-compiler-{v}.zip".format { "v" `=` KOTLIN_VERSION }]
+        "sha256" to KOTLINC_RELEASE_SHA
+    }
 
-    """
-        KOTLINC_RELEASE = {
-            "urls": ["https://github.com/JetBrains/kotlin/releases/download/v{v}/kotlin-compiler-{v}.zip".format(v = KOTLIN_VERSION)],
-            "sha256": KOTLINC_RELEASE_SHA,
-        }
-        
-        kotlin_repositories(compiler_release = KOTLINC_RELEASE)
-    """.trimIndent().raw
+    kotlin_repositories(compiler_release = KOTLINC_RELEASE)
 
     kt_register_toolchains()
 }

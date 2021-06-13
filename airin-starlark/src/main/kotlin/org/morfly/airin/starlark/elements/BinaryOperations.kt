@@ -16,18 +16,16 @@
 
 package org.morfly.airin.starlark.elements
 
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 
 
 /**
  * Syntax element for binary operation.
  */
-sealed class BinaryOperation(
-    val left: Expression?,
-    val operator: BinaryOperator,
-    val right: Expression?
-) : Expression {
+sealed interface BinaryOperation : Expression {
+    val left: Expression
+    val operator: BinaryOperator
+    val right: Expression
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -40,23 +38,59 @@ sealed class BinaryOperation(
  * Conforms to the dictionary type.
  */
 class StringBinaryOperation(
-    left: Expression?,
-    operator: BinaryOperator,
-    right: Expression?
-) : BinaryOperation(left, operator, right),
-    StringType by ""
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    StringType by StringTypeDelegate()
 
 /**
- * Syntax element for binary operation of lists.
+ * Syntax element for binary operation of integers.
+ *
+ * Conforms to the integer type.
+ */
+class NumberBinaryOperation(
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    NumberTypeDelegate()
+
+/**
+ * Syntax element for binary operation of booleans.
+ *
+ * Conforms to the boolean type.
+ */
+class BooleanBinaryOperation(
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    BooleanType by BooleanTypeDelegate()
+
+/**
+ * Syntax elemStringBinaryOperationent for binary operation of lists.
  *
  * Conforms to the list type.
  */
 class ListBinaryOperation<T>(
-    left: Expression?,
-    operator: BinaryOperator,
-    right: Expression?
-) : BinaryOperation(left, operator, right),
-    List<T> by emptyList()
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    List<T> by ListTypeDelegate()
+
+/**
+ * Syntax elemStringBinaryOperationent for binary operation of lists.
+ *
+ * Conforms to the list type.
+ */
+class TupleBinaryOperation(
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    TupleType by TupleTypeDelegate()
 
 /**
  * Syntax element for binary operation of dictionaries.
@@ -64,17 +98,17 @@ class ListBinaryOperation<T>(
  * Conforms to the dictionary type.
  */
 class DictionaryBinaryOperation<K /*: Key*/, V : Value>(
-    left: Expression?,
-    operator: BinaryOperator,
-    right: Expression?
-) : BinaryOperation(left, operator, right),
-    Map<K, V> by emptyMap()
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation,
+    Map<K, V> by DictionaryTypeDelegate()
 
 /**
  * Syntax element for binary operation of objects of any type.
  */
 class AnyBinaryOperation(
-    left: Expression?,
-    operator: BinaryOperator,
-    right: Expression?
-) : BinaryOperation(left, operator, right)
+    override val left: Expression,
+    override val operator: BinaryOperator,
+    override val right: Expression
+) : BinaryOperation

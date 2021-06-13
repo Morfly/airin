@@ -2,16 +2,16 @@
 Airin is a tool for migrating Gradle projects to Bazel and generating Bazel build scripts.
 - **Starlark Template Engine**: Airin provides a declarative, typesafe template engine for generating Starlark code. Define
   templates for your Bazel configuration files in Kotlin DSL which closely resembles Starlark itself. Check
-  [the documentation](doc/airin_starlark_template_engine.md) to learn more.
+  [the documentation](docs/airin_starlark_template_engine.md) to learn more.
 - **Automated Migration to Bazel**: Airin provides a framework for migrating Gradle projects to Bazel. Define the set of
   Bazel file templates for your project and configure Airin Gradle plugin to bring automation to your migration process.
-  Check [the documentation](doc/airin_gradle_migration.md) to learn more.
+  Check [the documentation](docs/airin_gradle_migration.md) to learn more.
 
 ## How it works?
 
 ### Step `1`
 
-In `buildSrc` define a set of [Starlark templates](doc/airin_starlark_template_engine.md) for your project.
+In `buildSrc` define a set of [Starlark templates](docs/airin_starlark_template_engine.md) for your project.
 
 ```kotlin
 fun java_build(
@@ -34,7 +34,7 @@ fun java_build(
 ```
 ### Step `2`
 
-Also, in `buildSrc` implement [`TemplateProvider`](doc/airin_gradle_migration.md)'s for each type of your Gradle modules to correctly map the right templates to the right modules.
+Also, in `buildSrc` implement [`TemplateProvider`](docs/airin_gradle_migration.md)'s for each type of your Gradle modules to correctly map the right templates to the right modules.
 
 ### Step `3`
 
@@ -82,7 +82,7 @@ Run the migration.
 ```
 <br>
 
-Use [the documentation](doc/airin_gradle_migration.md) to learn more about the migration process.
+Use [the documentation](docs/airin_gradle_migration.md) to learn more about the migration process.
 
 ## Installation
 
@@ -140,7 +140,7 @@ plugins {
 ```
 </details>
 
-Now you are ready to [configure the plugin](doc/airin_gradle_migration.md).
+Now you are ready to [configure the plugin](docs/airin_gradle_migration.md).
 
 ## Examples
 

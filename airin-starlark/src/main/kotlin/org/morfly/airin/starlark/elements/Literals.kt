@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
+@file:Suppress("FunctionName")
+
 package org.morfly.airin.starlark.elements
 
-import org.morfly.airin.starlark.lang.BooleanType
-import org.morfly.airin.starlark.lang.FloatType
-import org.morfly.airin.starlark.lang.IntegerType
-import org.morfly.airin.starlark.lang.StringType
+import org.morfly.airin.starlark.lang.*
 
 
 /**
@@ -41,8 +40,8 @@ value class StringLiteral(val value: StringType) : Literal {
 /**
  * An element for an integer literal.
  */
-@JvmInline
-value class IntegerLiteral(val value: IntegerType) : Literal {
+@JvmInline // TODO
+value class IntegerLiteral(val value: Long) : Literal {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -52,13 +51,23 @@ value class IntegerLiteral(val value: IntegerType) : Literal {
 /**
  * An element for a float literal.
  */
-@JvmInline
-value class FloatLiteral(val value: FloatType) : Literal {
+@JvmInline // TODO
+value class FloatLiteral(val value: Double) : Literal {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
     }
 }
+
+/**
+ *
+ */
+fun NumberLiteral(value: NumberType): Literal =
+    when (value) {
+        is Long, is Int, is Short, is Byte -> IntegerLiteral(value.toLong())
+        is Double, is Float -> FloatLiteral(value.toDouble())
+        else -> StringLiteral(value.toString())
+    }
 
 /**
  * An element for a boolean literal.

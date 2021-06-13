@@ -60,7 +60,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                     it.shouldBeTypeOf<StringBinaryOperation>()
                     it.left shouldBe StringLiteral("string1")
                     it.operator shouldBe BinaryOperator.PLUS
-                    it.right shouldBe null
+                    it.right shouldBe NoneValue
                 }
             }
         }
@@ -105,7 +105,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                         left.value shouldBe listOf(StringLiteral("item1"))
                     }
                     it.operator shouldBe BinaryOperator.PLUS
-                    it.right shouldBe null
+                    it.right shouldBe NoneValue
                 }
             }
         }
@@ -199,7 +199,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                         }
                     }
                     it.operator shouldBe BinaryOperator.PLUS
-                    it.right shouldBe null
+                    it.right shouldBe NoneValue
                 }
             }
         }

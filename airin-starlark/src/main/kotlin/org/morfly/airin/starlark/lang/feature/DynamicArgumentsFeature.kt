@@ -19,9 +19,7 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
@@ -52,12 +50,39 @@ internal interface DynamicArgumentsFeature : LanguageFeature, ArgumentsHolder {
     }
 
     /**
+     * Operator for passing integer argument.
+     */
+    infix fun String.`=`(value: NumberType): _NumberValueAccumulator {
+        val argument = Argument(id = this, value = Expression(value, ::NumberLiteral))
+        fargs += argument
+        return _NumberValueAccumulator(argument)
+    }
+
+    /**
+     * Operator for passing float argument.
+     */
+    infix fun String.`=`(value: BooleanType): _BooleanValueAccumulator {
+        val argument = Argument(id = this, value = Expression(value, ::BooleanLiteral))
+        fargs += argument
+        return _BooleanValueAccumulator(argument)
+    }
+
+    /**
      * Operator for passing list argument.
      */
     infix fun <T> String.`=`(value: List<T>): _ListValueAccumulator<T> {
         val argument = Argument(id = this, value = Expression(value, ::ListExpression))
         fargs += argument
         return _ListValueAccumulator(argument)
+    }
+
+    /**
+     * Operator for passing tuple argument.
+     */
+    infix fun String.`=`(value: TupleType): _TupleValueAccumulator {
+        val argument = Argument(id = this, value = Expression(value, ::TupleExpression))
+        fargs += argument
+        return _TupleValueAccumulator(argument)
     }
 
     /**

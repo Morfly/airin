@@ -29,11 +29,10 @@ class DefaultImagesRepository @Inject constructor(
             config = PagingConfig(
                 pageSize = ImagesRepository.PAGE_SIZE,
                 enablePlaceholders = true,
-//                initialLoadSize = ImagesRepository.PAGE_SIZE
             ),
             remoteMediator = ImagesRemoteMediator(query, networkService, database, mapper),
             pagingSourceFactory = { database.imagesDao().getImages(query) }
-        ).flow.flowOn(backgroundDispatcher).also { println("getPagedImages") } as Flow<PagingData<Image>>
+        ).flow.flowOn(backgroundDispatcher) as Flow<PagingData<Image>>
 
     override fun getUserImages(userId: Long): Flow<List<Image>> =
         database.imagesDao().getUserImages(userId)

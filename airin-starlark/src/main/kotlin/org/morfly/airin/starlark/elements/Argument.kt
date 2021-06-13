@@ -24,7 +24,7 @@ package org.morfly.airin.starlark.elements
  */
 class Argument(
     val id: String,
-    override var value: Expression?
+    override var value: Expression
 ) : ValueHolder {
 
     // comparison by id only

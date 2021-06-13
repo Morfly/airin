@@ -20,12 +20,14 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.ListReference
 import org.morfly.airin.starlark.elements.StringReference
+import org.morfly.airin.starlark.lang.NumberType
 import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.api.LanguageContext
 
 
 private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
     var STRING_LIST_RESULT: List<StringType>?
+    var INTEGER_LIST_RESULT: List<NumberType>?
     var STRING_MATRIX_RESULT: List<List<StringType>>?
     var STRING_MATRIX_3D_RESULT: List<List<List<StringType>>>?
 
@@ -219,6 +221,17 @@ private fun ListComprehensionsFeatureUnderCompilationTest.CompilationTests() {
                 "i" `in` LIST `if` "condition" take { i: StringReference -> item }
             }
         }
+
+
+    // =======================================
+    // ===== Integer item comprehensions =====
+    // =======================================
+
+    val INT_LIST = listOf(1, 2, 3, 4, 5)
+
+    // [i for i in INT_LIST]
+    INTEGER_LIST_RESULT =
+        "i" `in` INT_LIST take { i -> i }
 }
 
 

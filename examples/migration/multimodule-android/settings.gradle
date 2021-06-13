@@ -1,5 +1,0 @@
-rootProject.name = "multimodule-android"
-include ':app'
-
-includeBuild "../../../"
-include ':lib'

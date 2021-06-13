@@ -43,7 +43,7 @@ class AssignmentFormatterTests : ShouldSpec({
         }
 
         should("format null assignment") {
-            val assignment = Assignment("VARIABLE", value = null)
+            val assignment = Assignment("VARIABLE", value = NoneValue)
 
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)

@@ -19,16 +19,15 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.StatementsHolder
 
 
 /**
  * Feature that enables assigning new values to the existing variable.
  */
-internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHolder {
+internal interface ReassignmentsFeature : LanguageFeature, StatementsHolder {
 
     /**
      * String assignment operator.
@@ -40,12 +39,30 @@ internal interface ReassignmentsFeature : LanguageFeature, StarlarkStatementsHol
     }
 
     /**
+     * Number assignment operator.
+     */
+    infix fun NumberReference.`=`(value: NumberType?): _NumberValueAccumulator {
+        val assignment = Assignment(name, value = Expression(value, ::NumberLiteral))
+        statements += assignment
+        return _NumberValueAccumulator(assignment)
+    }
+
+    /**
      * List assignment operator.
      */
     infix fun <T> ListReference<T>.`=`(value: List<T>?): _ListValueAccumulator<T> {
         val assignment = Assignment(name, value = Expression(value, ::ListExpression))
         statements += assignment
         return _ListValueAccumulator(assignment)
+    }
+
+    /**
+     * List assignment operator.
+     */
+    infix fun TupleReference.`=`(value: TupleType?): _TupleValueAccumulator {
+        val assignment = Assignment(name, value = Expression(value, ::TupleExpression))
+        statements += assignment
+        return _TupleValueAccumulator(assignment)
     }
 
     /**

@@ -14,32 +14,29 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "unused", "SpellCheckingInspection")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
-import org.morfly.airin.starlark.lang.feature.DictionaryContext
-import org.morfly.airin.starlark.lang.feature.functionCallExpression
-import org.morfly.airin.starlark.lang.feature.listFunctionCall
-import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
+import org.morfly.airin.starlark.lang.feature.*
 
 
 /**
  * glob Starlark function.
  */
-fun BaseStarlarkContext<*>.glob(
+fun GlobalLibrary.glob(
     include: List<Label?>,
     exclude: List<Label>? = UnspecifiedList,
-    exclude_directories: IntegerType? = UnspecifiedInteger,
+    exclude_directories: NumberType? = UnspecifiedNumber,
     allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> {
     val args = linkedSetOf<Argument>().also {
         it += Argument("", Expression(include, ::ListExpression))
         if (exclude !== UnspecifiedList) it += Argument("exclude", Expression(exclude, ::ListExpression))
-        if (exclude_directories !== UnspecifiedInteger)
-            it += Argument("exclude_directories", Expression(exclude_directories, ::IntegerLiteral))
+        if (exclude_directories !== UnspecifiedNumber)
+            it += Argument("exclude_directories", Expression(exclude_directories, ::NumberLiteral))
         if (allow_empty !== UnspecifiedBoolean) it += Argument("allow_empty", Expression(allow_empty, ::BooleanLiteral))
     }
     return listFunctionCall("glob", args)
@@ -48,10 +45,10 @@ fun BaseStarlarkContext<*>.glob(
 /**
  * glob Starlark function.
  */
-fun BaseStarlarkContext<*>.glob(
+fun GlobalLibrary.glob(
     vararg include: Label?,
     exclude: List<Label>? = UnspecifiedList,
-    exclude_directories: IntegerType? = UnspecifiedInteger,
+    exclude_directories: NumberType? = UnspecifiedNumber,
     allow_empty: BooleanType? = UnspecifiedBoolean
 ): List<Label> = glob(
     include.toList(),
@@ -63,7 +60,7 @@ fun BaseStarlarkContext<*>.glob(
 /**
  * package Starlark function.
  */
-fun BaseStarlarkContext<*>.`package`(
+fun BazelLibrary.`package`(
     default_visibility: List<Label>? = UnspecifiedList,
     default_deprecation: StringType? = UnspecifiedString,
     default_testonly: BooleanType? = UnspecifiedBoolean,
@@ -85,7 +82,7 @@ fun BaseStarlarkContext<*>.`package`(
 /**
  * exports_files Starlark function.
  */
-fun BaseStarlarkContext<*>.exports_files(
+fun BazelLibrary.exports_files(
     exports_files: List<Label>,
     visibility: List<Label>? = UnspecifiedList,
     licences: List<StringType>? = UnspecifiedList
@@ -103,7 +100,7 @@ fun BaseStarlarkContext<*>.exports_files(
 /**
  * exports_files Starlark function.
  */
-fun BaseStarlarkContext<*>.exports_files(
+fun BazelLibrary.exports_files(
     vararg exports_files: Label,
     visibility: List<Label>? = UnspecifiedList,
     licences: List<StringType>? = UnspecifiedList
@@ -118,7 +115,7 @@ fun BaseStarlarkContext<*>.exports_files(
 /**
  * select Starlark function.
  */
-inline fun <reified T> BaseStarlarkContext<*>.select(
+inline fun <reified T> GlobalLibrary.select(
     select: Map<Key, Value>,
     no_match_error: StringType? = UnspecifiedString
 ): T {
@@ -133,7 +130,7 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
 /**
  * select Starlark function.
  */
-inline fun <reified T> BaseStarlarkContext<*>.select(
+inline fun <reified T> GlobalLibrary.select(
     select: DictionaryContext.() -> Unit,
     no_match_error: StringType? = UnspecifiedString
 ): T {
@@ -145,8 +142,8 @@ inline fun <reified T> BaseStarlarkContext<*>.select(
     return functionCallExpression("select", args)
 }
 
-
-private fun BaseStarlarkContext<*>.test() {
+// TODO move to compilation tests
+private fun BuildContext.test() {
     val list: List<Label> = select(dict {})
     val list1: List<Label> = select({})
     val string: StringType = select(dict {})

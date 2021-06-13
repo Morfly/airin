@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-@file:Suppress("PropertyName", "SpellCheckingInspection")
+@file:Suppress("PropertyName", "SpellCheckingInspection", "FunctionName", "unused")
 
 package org.morfly.airin.starlark.library
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.feature.BazelLibrary
 import org.morfly.airin.starlark.lang.feature.FunctionCallContext
 import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 
@@ -29,7 +30,7 @@ import org.morfly.airin.starlark.lang.feature.registerFunctionCallStatement
 /**
  * http_archive Bazel rule.
  */
-fun ConfigurationContext<*>.http_archive(
+fun BazelLibrary.http_archive(
     name: Name,
     build_file: StringType? = UnspecifiedString,
     build_file_content: StringType? = UnspecifiedString,
@@ -86,7 +87,7 @@ fun ConfigurationContext<*>.http_archive(
 /**
  * http_archive Bazel rule.
  */
-fun ConfigurationContext<*>.http_archive(body: HttpArchiveContext.() -> Unit) =
+fun BazelLibrary.http_archive(body: HttpArchiveContext.() -> Unit) =
     registerFunctionCallStatement("http_archive", HttpArchiveContext(), body)
 
 class HttpArchiveContext : FunctionCallContext() {
@@ -115,7 +116,7 @@ class HttpArchiveContext : FunctionCallContext() {
 /**
  * http_file Bazel rule.
  */
-fun ConfigurationContext<*>.http_file(
+fun BazelLibrary.http_file(
     name: Name,
     auth_patterns: Map<Key, Value>? = UnspecifiedDictionary,
     canonical_id: StringType? = UnspecifiedString,
@@ -143,7 +144,7 @@ fun ConfigurationContext<*>.http_file(
 /**
  * http_file Bazel rule.
  */
-fun ConfigurationContext<*>.http_file(body: HttpFileContext.() -> Unit) =
+fun BazelLibrary.http_file(body: HttpFileContext.() -> Unit) =
     registerFunctionCallStatement("http_file", HttpFileContext(), body)
 
 class HttpFileContext : FunctionCallContext() {
@@ -162,7 +163,7 @@ class HttpFileContext : FunctionCallContext() {
 /**
  * http_jar Bazel rule.
  */
-fun ConfigurationContext<*>.http_jar(
+fun BazelLibrary.http_jar(
     name: Name,
     auth_patterns: Map<Key, Value>? = UnspecifiedDictionary,
     canonical_id: StringType? = UnspecifiedString,
@@ -190,7 +191,7 @@ fun ConfigurationContext<*>.http_jar(
 /**
  * http_jar Bazel rule.
  */
-fun ConfigurationContext<*>.http_jar(body: HttpJarContext.() -> Unit) =
+fun BazelLibrary.http_jar(body: HttpJarContext.() -> Unit) =
     registerFunctionCallStatement("http_jar", HttpJarContext(), body)
 
 class HttpJarContext : FunctionCallContext() {
@@ -205,11 +206,11 @@ class HttpJarContext : FunctionCallContext() {
 
 // ===== git_repository =====
 
-private fun ConfigurationContext<*>.git_repository() {
+private fun BazelLibrary.git_repository() {
     TODO()
 }
 
-private fun ConfigurationContext<*>.git_repository(body: GitRepositoryContext.() -> Unit) =
+private fun BazelLibrary.git_repository(body: GitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("git_repository", GitRepositoryContext(), body)
 
 private class GitRepositoryContext : FunctionCallContext() {
@@ -220,11 +221,11 @@ private class GitRepositoryContext : FunctionCallContext() {
 
 // ===== new_git_repository =====
 
-private fun ConfigurationContext<*>.new_git_repository() {
+private fun BazelLibrary.new_git_repository() {
     TODO()
 }
 
-private fun ConfigurationContext<*>.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
+private fun BazelLibrary.new_git_repository(body: NewGitRepositoryContext.() -> Unit) =
     registerFunctionCallStatement("new_git_repository", NewGitRepositoryContext(), body)
 
 private class NewGitRepositoryContext : FunctionCallContext() {

@@ -18,15 +18,14 @@
 
 package org.morfly.airin.starlark.elements
 
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 
 
 /**
  * Syntax element for a list expression.
  */
-class ListExpression<T>(val value: List<Expression?>) : Expression,
-    List<T> by emptyList() {
+class ListExpression<T>(val value: List<Expression>, items: List<T>) : Expression,
+    List<T> by ListTypeDelegate(items) {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -37,13 +36,13 @@ class ListExpression<T>(val value: List<Expression?>) : Expression,
  * Factory function for creating list expression object from the items of any type.
  */
 fun <T> ListExpression(list: List<T>): ListExpression<T> =
-    ListExpression(list.map(::Expression))
+    ListExpression(list.map(::Expression), list)
 
 /**
  * Syntax element for a dictionary expression.
  */
-class DictionaryExpression(val value: Map<Expression?, Expression?>) : Expression,
-    Map<Key, Value> by emptyMap() {
+class DictionaryExpression(val value: Map<Expression, Expression>) : Expression,
+    Map<Key, Value> by DictionaryTypeDelegate() {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -62,8 +61,8 @@ fun DictionaryExpression(dictionary: Map<*, *>): DictionaryExpression =
 /**
  * Syntax element for a tuple expression.
  */
-class TupleExpression<T>(val value: List<Expression?>) : Expression,
-    List<T> by emptyList() {
+class TupleExpression(val value: List<Expression>) : Expression,
+    TupleType by TupleTypeDelegate() {
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)
@@ -73,5 +72,5 @@ class TupleExpression<T>(val value: List<Expression?>) : Expression,
 /**
  * Factory function for creating tuple expression object from the items of any type.
  */
-fun <T> TupleExpression(list: List<T>): TupleExpression<T> =
-    TupleExpression(list.map(::Expression))
+fun TupleExpression(tuple: Tuple): TupleExpression =
+    TupleExpression(tuple.items.map(::Expression))

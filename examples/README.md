@@ -1,7 +1,7 @@
 # Airin Examples
 
 ## Migrating to Bazel
-- [multimodule android](migration/multimodule-android): Example of migrating simple multi-module Android projects.
+- [multimodule android](migration/android-simple-multimodule): Example of migrating simple multi-module Android projects.
 
 ### Project structure
 Example projects are configured to be migrated at once.

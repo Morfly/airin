@@ -1,10 +1,10 @@
 airin {
-    on {
+    constraints {
         projects(":app", ":lib")
     }
 
     templates {
-        on {
+        constraints {
             projects {
                 projects("")
                 subprojects("")

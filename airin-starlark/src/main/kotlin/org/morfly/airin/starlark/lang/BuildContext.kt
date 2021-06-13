@@ -19,14 +19,15 @@
 package org.morfly.airin.starlark.lang
 
 import org.morfly.airin.starlark.elements.BuildFile
-import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
+import org.morfly.airin.starlark.lang.api.LanguageScope
+import org.morfly.airin.starlark.lang.feature.BuildLibrary
 
 
 /**
  * Starlark language context that is specific to Bazel BUILD files.
  */
-@LanguageFeatureScope
-class BuildContext : ConfigurationContext<BuildContext>() {
+@LanguageScope
+class BuildContext : CommonStarlarkContext<BuildContext>(), BuildLibrary {
 
     override fun newContext() = BuildContext()
 }

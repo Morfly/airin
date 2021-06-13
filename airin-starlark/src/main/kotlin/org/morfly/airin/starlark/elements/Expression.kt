@@ -18,15 +18,14 @@
 
 package org.morfly.airin.starlark.elements
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
+import org.morfly.airin.starlark.lang.Tuple
 
 
 /**
  * Base type for all expression elements in a syntax tree.
  *
  * Possible expression types:
- *  null - as value of Expression? type corresponds to the 'None' type from Starlark,
+ *  [NoneValue],
  *  [StringLiteral], [IntegerLiteral], [FloatLiteral], [BooleanLiteral],
  *  [ListExpression],
  *  [DictionaryExpression],
@@ -48,29 +47,25 @@ sealed interface Expression : Element
  * In case the input value does not correspond to any Starlark element it will be converted [toString] and treated like
  * a [StringLiteral].
  */
-fun Expression(value: Any?): Expression? =
+fun Expression(value: Any?): Expression =
     when (value) {
-        null -> null
+        null -> NoneValue
         is Expression -> value
         is String -> StringLiteral(value)
         is Boolean -> BooleanLiteral(value)
         is List<*> -> ListExpression(value)
         is Map<*, *> -> DictionaryExpression(value)
-        is Int -> IntegerLiteral(value.toLong())
-        is Double -> FloatLiteral(value)
-        is Float -> FloatLiteral(value.toDouble())
-        is Long -> IntegerLiteral(value)
-        is Byte -> IntegerLiteral(value.toLong())
-        is Short -> IntegerLiteral(value.toLong())
+        is Tuple -> TupleExpression(value)
+        is Number -> NumberLiteral(value)
         else -> StringLiteral(value.toString())
     }
 
 /**
  * Creates an expression element of specific a specific type only in case the argument is not already an expression.
  */
-inline fun <T : Any> Expression(value: T?, builder: (value: T) -> Expression): Expression? =
+inline fun <T : Any> Expression(value: T?, builder: (value: T) -> Expression): Expression =
     when (value) {
-        null -> null
+        null -> NoneValue
         is Expression -> value
         else -> builder(value)
     }

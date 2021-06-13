@@ -23,6 +23,7 @@ import org.morfly.airin.starlark.elements.PositionMode.CONTINUE_LINE
 import org.morfly.airin.starlark.elements.PositionMode.NEW_LINE
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import org.morfly.airin.starlark.elements.NoneValue
 
 
 class ExpressionFormatterTests : ShouldSpec({
@@ -34,7 +35,7 @@ class ExpressionFormatterTests : ShouldSpec({
         context("NEW LINE mode") {
 
             should("format null as expression") {
-                val none: Expression? = null
+                val none = NoneValue
 
                 val builder = StringBuilder()
                 formatter.visit(none, position = 1, NEW_LINE, builder)
@@ -48,10 +49,10 @@ class ExpressionFormatterTests : ShouldSpec({
         context("CONTINUE LINE mode") {
 
             should("format null as expression") {
-                val none: Expression? = null
+                val none = NoneValue
 
                 val builder = StringBuilder()
-                formatter.visit(none, position = 1, CONTINUE_LINE, builder)
+                formatter.visit(NoneValue, position = 1, CONTINUE_LINE, builder)
 
                 val expectedResult = "None"
 

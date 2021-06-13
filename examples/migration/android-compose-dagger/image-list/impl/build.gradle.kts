@@ -44,6 +44,7 @@ dependencies {
     api(project(":image-list:api"))
     implementation(project(":core"))
     implementation(project(":data:api"))
+    implementation(project(":profile:api"))
 
     // ===== android =====
 

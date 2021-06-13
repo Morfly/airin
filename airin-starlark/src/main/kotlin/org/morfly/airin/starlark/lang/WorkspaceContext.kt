@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "unused")
 
 package org.morfly.airin.starlark.lang
 
 import org.morfly.airin.starlark.elements.WorkspaceFile
-import org.morfly.airin.starlark.lang.api.LanguageFeatureScope
+import org.morfly.airin.starlark.lang.api.LanguageScope
+import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
 
 
 /**
  * Starlark language context that is specific to Bazel WORKSPACE files.
  */
-@LanguageFeatureScope
-class WorkspaceContext : ConfigurationContext<WorkspaceContext>() {
+@LanguageScope
+class WorkspaceContext : CommonStarlarkContext<WorkspaceContext>(), WorkspaceLibrary {
 
     override fun newContext() = WorkspaceContext()
 }

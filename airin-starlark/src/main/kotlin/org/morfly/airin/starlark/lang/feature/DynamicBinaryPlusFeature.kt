@@ -20,9 +20,7 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.elements.BinaryOperator.PLUS
-import org.morfly.airin.starlark.lang.Key
-import org.morfly.airin.starlark.lang.StringType
-import org.morfly.airin.starlark.lang.Value
+import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 
 
@@ -72,6 +70,18 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     }
 
     /**
+     * String concatenation operator.
+     */
+    infix fun _NumberValueAccumulator.`+`(other: NumberType?): _NumberValueAccumulator {
+        holder.value = NumberBinaryOperation(
+            left = holder.value,
+            operator = PLUS,
+            right = Expression(other, ::NumberLiteral)
+        )
+        return this
+    }
+
+    /**
      * List concatenation operator.
      */
     infix fun <T> _ListValueAccumulator<T>.`+`(other: List<T>?): _ListValueAccumulator<T> {
@@ -79,6 +89,18 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
             left = holder.value,
             operator = PLUS,
             right = Expression(other, ::ListExpression)
+        )
+        return this
+    }
+
+    /**
+     * Tuple concatenation operator.
+     */
+    infix fun _TupleValueAccumulator.`+`(other: TupleType?): _TupleValueAccumulator {
+        holder.value = TupleBinaryOperation(
+            left = holder.value,
+            operator = PLUS,
+            right = Expression(other, ::TupleExpression)
         )
         return this
     }

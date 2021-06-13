@@ -20,6 +20,12 @@ android {
         }
     }
 
+    signingConfigs {
+        named("debug") {
+            storeFile = file("../debug.keystore")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -50,6 +56,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data:impl"))
     implementation(project(":image-list:impl"))
+    implementation(project(":profile:impl"))
 
     // ===== android =====
 
