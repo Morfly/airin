@@ -16,34 +16,37 @@
 
 @file:Suppress("FunctionName")
 
-package org.morfly.airin.sample.template.src
+package org.morfly.airin.sample.template.source
 
 
-fun activity_template(
+fun regular_file_template(
     packageName: String,
-    className: String,
     bindingClassName: String,
-    layoutName: String,
     viewModelClassName: String,
-    viewModelBindingPropertyName: String
+    objectName: String,
+    functionName: String,
+    viewModelBindingPropertyName: String,
+    layoutName: String
     /**
      *
      */
 ) = """
 package $packageName
 
-import android.app.Activity
-import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import $packageName.R
 import $packageName.databinding.$bindingClassName
+import android.app.Activity
 
 
-class $className : Activity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+object $objectName {
 
-        val binding: $bindingClassName = DataBindingUtil.setContentView(this, R.layout.$layoutName)
+    fun $functionName() {
+        println("$functionName")
+    }
+    
+    fun layout(activity: Activity) {
+        val binding: $bindingClassName = DataBindingUtil.setContentView(activity, R.layout.$layoutName)
         val viewModel = $viewModelClassName()
         binding.$viewModelBindingPropertyName = viewModel
     }

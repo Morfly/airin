@@ -82,7 +82,6 @@ class ProjectGenerator {
 
     private fun generateWorkspace() {
         val workspace = android_databinding_workspace(
-            "androidx-data-binding-sample",
             listOf(
                 "androidx.databinding:databinding-adapters:3.4.2",
                 "androidx.databinding:databinding-common:3.4.2",
@@ -124,10 +123,8 @@ class ProjectGenerator {
 
     private fun generateRootBuild() {
         val build = root_build_template(
-            binaryName = "app_bin",
             packageName = ROOT_PACKAGE_NAME,
             internalDeps = internalDeps,
-            externalDeps = emptyList()
         )
         bazelFileWriter.write(workspaceDir, build)
     }

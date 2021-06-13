@@ -1,4 +1,3 @@
-
 java_plugin(
     name = "compiler_annotation_processor",
     processor_class = "android.databinding.annotationprocessor.ProcessDataBinding",

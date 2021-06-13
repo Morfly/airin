@@ -16,5 +16,6 @@ android_binary(
         "//app",
         "//lib1",
         "//lib2",
-    ] + [artifact("androidx.databinding:databinding-runtime")],
+        artifact("androidx.databinding:databinding-runtime"),
+    ],
 )

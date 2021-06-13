@@ -4,9 +4,7 @@ load("@rules_jvm_external//:defs.bzl", "artifact")
 package(default_visibility = ["//visibility:public"])
 
 DATABINDING_LAYOUTS = ["src/main/res/layout/layout_lib3.xml"]
-
 VIEW_MODELS_WITH_RES_IMPORTS = []
-
 VIEW_MODELS = ["src/main/kotlin/org/morfly/airin/sample/lib3/Lib3ViewModel.kt"] + [
     "modify_imports_in_" + view_model_with_res_imports[0:-3]
     for view_model_with_res_imports in VIEW_MODELS_WITH_RES_IMPORTS
@@ -26,9 +24,7 @@ VIEW_MODELS = ["src/main/kotlin/org/morfly/airin/sample/lib3/Lib3ViewModel.kt"] 
 ]
 
 BINDING_ADAPTERS = ["src/main/kotlin/org/morfly/airin/sample/lib3/BindingAdapters.java"]
-
 EXCLUDED_LIB3_FILES = VIEW_MODELS + VIEW_MODELS_WITH_RES_IMPORTS + BINDING_ADAPTERS
-
 LIB3_FILES_WITH_RESOURCE_IMPORTS = glob(
     [
         "src/main/kotlin/**/*.kt",
@@ -36,7 +32,6 @@ LIB3_FILES_WITH_RESOURCE_IMPORTS = glob(
     ],
     exclude = EXCLUDED_LIB3_FILES,
 )
-
 LIB3_FILES = [
     "modify_imports_in_" + app_files_with_res_imports[0:-3]
     for app_files_with_res_imports in LIB3_FILES_WITH_RESOURCE_IMPORTS

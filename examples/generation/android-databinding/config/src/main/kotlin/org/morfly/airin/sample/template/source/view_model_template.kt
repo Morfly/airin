@@ -16,7 +16,7 @@
 
 @file:Suppress("FunctionName")
 
-package org.morfly.airin.sample.template.src
+package org.morfly.airin.sample.template.source
 
 
 fun view_model_template(

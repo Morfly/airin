@@ -19,10 +19,11 @@ package org.morfly.airin.sample.generator
 import org.morfly.airin.starlark.writer.FileWriter
 import org.morfly.airin.starlark.writer.StarlarkFileWriter
 import org.morfly.airin.sample.template.android_databinding_library_build
-import org.morfly.airin.sample.template.src.*
+import org.morfly.airin.sample.template.source.*
 import org.morfly.airin.sample.template.manifest.android_manifest_template
 import org.morfly.airin.sample.template.manifest.main_android_manifest_template
 import java.io.File
+import java.util.*
 
 
 class AndroidDataBindingModuleGenerator(
@@ -81,7 +82,7 @@ class AndroidDataBindingModuleGenerator(
     private fun generateSourceFiles(data: AndroidDataBindingModuleData) = with(data) {
         val adapterName = "text$moduleNumber"
         val vmPropertyName = "text"
-        val vmPropertyValue = "value from $moduleName"
+        val vmPropertyValue = "Hello from $moduleName"
         val vmVarName = "viewModel"
 
         with(fileWriter) {
@@ -107,11 +108,11 @@ class AndroidDataBindingModuleGenerator(
                 )
             )
             write(
-                File("$srcDir/${moduleName.capitalize()}.kt"), regular_file_template(
+                File("$srcDir/${moduleName.replaceFirstChar(Char::uppercase)}.kt"), regular_file_template(
                     packageName = packageName,
-                    objectName = moduleName.capitalize(),
+                    objectName = moduleName.replaceFirstChar(Char::uppercase),
                     functionName = moduleName,
-                    bindingClassName = "Layout${moduleName.capitalize()}Binding",
+                    bindingClassName = "Layout${moduleName.replaceFirstChar(Char::uppercase)}Binding",
                     viewModelClassName = viewModelClassName(moduleName),
                     viewModelBindingPropertyName = vmVarName,
                     layoutName = dataBindingLayoutName(moduleName)
@@ -135,10 +136,10 @@ class AndroidDataBindingModuleGenerator(
 }
 
 private fun viewModelClassName(prefix: String) =
-    "${prefix.capitalize()}ViewModel"
+    "${prefix.replaceFirstChar(Char::uppercase)}ViewModel"
 
 private fun dataBindingLayoutName(suffix: String) =
-    "layout_${suffix.toLowerCase()}"
+    "layout_${suffix.lowercase()}"
 
 
 private data class AndroidDataBindingModuleData(
