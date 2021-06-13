@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
                     CompositionLocalProvider(
                         LocalAppProvider provides appProvider,
                         LocalDataProvider provides appProvider,
-                        LocalCoreProvider provides appProvider
+                        LocalCoreProvider provides appProvider,
                     ) {
-                        Navigation()
+                        Navigation(onBackPressedDispatcher)
                     }
                 }
 

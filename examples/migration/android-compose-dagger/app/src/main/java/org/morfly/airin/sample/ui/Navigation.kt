@@ -2,6 +2,7 @@
 
 package org.morfly.airin.sample.ui
 
+import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +19,7 @@ import org.morfly.airin.sample.profile.ProfileEntry
 
 
 @Composable
-fun Navigation() {
+fun Navigation(onBackPressedDispatcher: OnBackPressedDispatcher) {
     val navController = rememberNavController()
     val destinations = LocalAppProvider.current.destinations
 
