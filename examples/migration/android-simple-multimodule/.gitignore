@@ -13,7 +13,4 @@ build/
 .externalNativeBuild
 .cxx
 local.properties
-/bazel-bin
-/bazel-multimodule-android
-/bazel-out
-/bazel-testlogs
+/bazel-*
