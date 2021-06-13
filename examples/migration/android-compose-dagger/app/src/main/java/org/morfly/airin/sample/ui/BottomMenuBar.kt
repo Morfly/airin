@@ -35,6 +35,10 @@ fun BottomMenuBar(navController: NavController, destinations: FeatureEntries) {
                     val route = destinations.route<ImageListEntry>()
                     navController.navigate(route) {
                         launchSingleTop = true
+                        popUpTo(route) {
+                            saveState = true
+                            inclusive = true
+                        }
                     }
                 }
         )

@@ -14,6 +14,7 @@ kt_android_library(
         "//core",
         "//data/impl",
         "//image-list/impl",
+        "//profile/impl",
         "//:dagger",
         artifact("androidx.compose.runtime:runtime"),
         artifact("androidx.core:core-ktx"),
@@ -35,7 +36,10 @@ android_binary(
     manifest_values = {
         "minSdkVersion": "21",
         "targetSdkVersion": "29",
+        "versionCode": "1",
+        "versionName": "1.0",
     },
+    debug_key = "//:debug.keystore",
     multidex = "native",
     incremental_dexing = 1,
     deps = [

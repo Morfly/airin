@@ -15,7 +15,8 @@ class RootBuild : GradleStandaloneTemplateProvider() {
             roomKtxTarget = Artifacts.ROOM_KTX_TARGET,
             kotlinReflectTarget = Artifacts.KOTLIN_REFLECT_TARGET,
             composePluginTarget = Tools.COMPOSE_PLUGIN_TARGET,
-            roomPluginLibraryTarget = Tools.ROOM_PLUGIN_LIBRARY_TARGET
+            roomPluginLibraryTarget = Tools.ROOM_PLUGIN_LIBRARY_TARGET,
+            debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME
         )
     )
 }

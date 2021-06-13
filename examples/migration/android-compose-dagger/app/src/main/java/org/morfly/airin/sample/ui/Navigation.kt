@@ -14,18 +14,24 @@ import androidx.navigation.compose.rememberNavController
 import org.morfly.airin.sample.core.entry
 import org.morfly.airin.sample.di.LocalAppProvider
 import org.morfly.airin.sample.imagelist.ImageListEntry
+import org.morfly.airin.sample.profile.ProfileEntry
 
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
     val destinations = LocalAppProvider.current.destinations
+
     val ImageListScreen = destinations.entry<ImageListEntry>()
+    val ProfileScreen = destinations.entry<ProfileEntry>()
 
     Box(Modifier.fillMaxSize()) {
         NavHost(navController, startDestination = ImageListScreen.route) {
-            composable(ImageListScreen.route) {
-                ImageListScreen(navController, destinations)
+            composable(ImageListScreen.route, ImageListScreen.args) {
+                ImageListScreen(navController, destinations, it.arguments)
+            }
+            composable(ProfileScreen.route, ProfileScreen.args) {
+                ProfileScreen(navController, destinations, it.arguments)
             }
         }
         Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.BottomCenter) {

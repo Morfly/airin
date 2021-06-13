@@ -30,7 +30,8 @@ fun kotlin_android_build(
     exportedTargets: List<String>,
     kotlinReflectTarget: String,
     hasDagger: Boolean,
-    roomDeps: RoomInfo?
+    roomDeps: RoomInfo?,
+    debugKeystoreFile: String
     /**
      *
      */
@@ -87,8 +88,11 @@ fun kotlin_android_build(
             manifest_values = dict {
                 "minSdkVersion" to "21"
                 "targetSdkVersion" to "29"
+                "versionCode" to "1"
+                "versionName" to "1.0"
             },
             multidex = "native",
+            debug_key = "//:$debugKeystoreFile",
             deps = list[
                     ":$targetName",
 

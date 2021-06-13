@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -37,7 +38,7 @@ import org.morfly.airin.sample.core.entity.Image as DomainImage
 private val userImageSize = 43.dp
 
 @Composable
-fun ImageItem(image: DomainImage) {
+fun ImageItem(image: DomainImage, onUserSelected: (userId: Long) -> Unit) {
     var glowColor by remember { mutableStateOf(Color.White) }
     val animatedGlowColor by animateColorAsState(
         targetValue = glowColor,
@@ -68,9 +69,18 @@ fun ImageItem(image: DomainImage) {
                     modifier = Modifier
                         .size(userImageSize)
                         .clip(RoundedCornerShape(50))
+                        .clickable { onUserSelected(image.user.id) }
                 )
                 Spacer(Modifier.width(10.dp))
-                Column(Modifier.padding(vertical = 2.dp)) {
+
+                Column(
+                    Modifier
+                        .padding(vertical = 2.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { onUserSelected(image.user.id) }
+                ) {
                     Text(text = image.user.name, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.weight(1f))
                     Text(text = "San Francisco", fontSize = 12.sp, fontWeight = FontWeight.Light)
@@ -141,6 +151,7 @@ fun PhotoImage(url: String, onDominantColorLoaded: (Color) -> Unit) {
                 val drawable = (state.result as DrawablePainter).drawable()
                 val color = drawable.findDominantColor()
                 onDominantColorLoaded(color)
+                @Suppress("UNUSED_VALUE")
                 dominantColorFound = true
             }
         }

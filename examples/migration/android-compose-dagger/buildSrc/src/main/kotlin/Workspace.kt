@@ -39,4 +39,8 @@ class Workspace : GradleStandaloneTemplateProvider() {
         val path = "$rootProjectDir/.bazelversion"
         FileWriter.write(File(path), bazelVersion)
     }
+
+    companion object {
+        const val DEBUG_KEYSTORE_FILE_NAME = "debug.keystore"
+    }
 }

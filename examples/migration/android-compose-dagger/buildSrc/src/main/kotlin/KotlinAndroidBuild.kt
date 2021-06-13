@@ -53,9 +53,9 @@ class KotlinAndroidBuild : GradlePerModuleTemplateProvider() {
                     roomCompilerLibraryTaget = Tools.ROOM_PLUGIN_LIBRARY_TARGET,
                     roomRuntimeTarget = Artifacts.ROOM_RUNTIME_TARGET,
                     roomKtxTarget = Artifacts.ROOM_KTX_TARGET,
-                ) else null
+                ) else null,
+                debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME
             )
         )
     }
-
 }

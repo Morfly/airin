@@ -6,6 +6,7 @@ import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.lang.bazel
 import org.morfly.airin.starlark.library.`package`
 import org.morfly.airin.starlark.library.alias
+import org.morfly.airin.starlark.library.exports_files
 
 
 fun root_build(
@@ -18,12 +19,15 @@ fun root_build(
     kotlinReflectTarget: String,
     composePluginTarget: String,
     roomPluginLibraryTarget: String,
+    debugKeystoreFile: String
     /**
      *
      */
 ) = BUILD.bazel {
 
     `package`(default_visibility = list["//visibility:public"])
+
+    exports_files(debugKeystoreFile)
 
     alias(
         name = javaToolchainTarget,

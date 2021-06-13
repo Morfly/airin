@@ -18,7 +18,7 @@ import org.morfly.airin.sample.imagelist.impl.ImageListViewModel
 
 
 @Composable
-fun ImageList(viewModel: ImageListViewModel) {
+fun ImageList(viewModel: ImageListViewModel, onUserSelected: (userId: Long) -> Unit) {
     val images = viewModel.images.collectAsLazyPagingItems()
     val searchSuggestion = remember { viewModel.searchSuggestion }
 
@@ -27,7 +27,7 @@ fun ImageList(viewModel: ImageListViewModel) {
             item { Spacer(Modifier.height(15.dp)) }
             items(images.itemCount) { index ->
                 images.getAsState(index).value?.let { image ->
-                    ImageItem(image)
+                    ImageItem(image, onUserSelected)
                 }
             }
             item { Spacer(Modifier.height(70.dp)) }

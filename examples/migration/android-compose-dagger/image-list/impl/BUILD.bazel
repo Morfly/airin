@@ -13,6 +13,7 @@ kt_android_library(
     deps = [
         "//core",
         "//data/api",
+        "//profile/api",
         "//image-list/api",
         "//:dagger",
         artifact("androidx.compose.runtime:runtime"),
