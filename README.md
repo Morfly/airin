@@ -118,7 +118,7 @@ In `buildSrc` directory or in any other place where you want to store Airin temp
 ```kotlin
 implementation("org.morfly.airin:airin-gradle:x.y.z")
 ```
-In the root `build.gradle` of your project apply Airin Gradle plugin:
+In the root `build.gradle.kts` of your project apply Airin Gradle plugin:
 ```kotlin
 plugins {
     id("org.morfly.airin")
