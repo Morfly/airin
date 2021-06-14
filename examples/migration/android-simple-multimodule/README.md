@@ -2,7 +2,7 @@
 
 Simple multimodule Android project that allows to demonstrate the migration from Gradle to Bazel using Airin.
 
-# How to build?
+## How to build?
 
 #### Step `1`
 Use `Android Studio` to build the application with Gradle or use:
@@ -20,7 +20,7 @@ Build and install the application with Bazel:
 bazelisk mobile-install //app:bin
 ```
 
-# Where to start?
+## Where to start?
 #### Step `1`
 Check the `buildSrc` directory that contains all the migration logic and Starlark templates.
 #### Step `2`
