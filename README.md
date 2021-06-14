@@ -120,6 +120,7 @@ dependencies {
 }
 ```
 <br>
+  
 Now you are ready to [configure the plugin](docs/airin_gradle_migration.md).
 
 ## Examples
