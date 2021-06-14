@@ -60,10 +60,10 @@ publishing {
                 // publishAirinMavenPublicationToMavenRepository
                 url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
-                    val sonatypeUsername: String by project
-                    val sonatypePassword: String by project
-                    username = sonatypeUsername
-                    password = sonatypePassword
+                    val sonatypeUsername: String? by project
+                    val sonatypePassword: String? by project
+                    username = sonatypeUsername ?: ""
+                    password = sonatypePassword ?: ""
                 }
             }
             maven {
