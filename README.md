@@ -99,7 +99,7 @@ In the `buildSrc/build.gradle` file add the following:
 dependencies {
     implementation "org.morfly.airin:airin-gradle:x.y.z"
   
-    // optional - with Android specific extensions
+    // optional - Android specific extensions
     implementation "org.morfly.airin:airin-gradle-android:x.y.z"
 }
 ```
