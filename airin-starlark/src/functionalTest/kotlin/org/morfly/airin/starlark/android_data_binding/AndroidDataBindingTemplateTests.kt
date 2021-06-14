@@ -48,9 +48,7 @@ class AndroidDataBindingTemplateTests : ShouldSpec({
             package(default_visibility = ["//visibility:public"])
             
             DATABINDING_LAYOUTS = ["src/main/res/layout/layout_lib1.xml"]
-            
             VIEW_MODELS_WITH_RES_IMPORTS = []
-            
             VIEW_MODELS = ["src/main/kotlin/org/morfly/airin/test/lib1/Lib1ViewModel.kt"] + [
                 "modify_imports_in_" + view_model_with_res_imports[0:-3]
                 for view_model_with_res_imports in VIEW_MODELS_WITH_RES_IMPORTS
@@ -70,9 +68,7 @@ class AndroidDataBindingTemplateTests : ShouldSpec({
             ]
             
             BINDING_ADAPTERS = ["src/main/kotlin/org/morfly/airin/test/lib1/BindingAdapters.java"]
-            
             EXCLUDED_LIB1_FILES = VIEW_MODELS + VIEW_MODELS_WITH_RES_IMPORTS + BINDING_ADAPTERS
-            
             LIB1_FILES_WITH_RESOURCE_IMPORTS = glob(
                 [
                     "src/main/kotlin/**/*.kt",
@@ -80,7 +76,6 @@ class AndroidDataBindingTemplateTests : ShouldSpec({
                 ],
                 exclude = EXCLUDED_LIB1_FILES,
             )
-            
             LIB1_FILES = [
                 "modify_imports_in_" + app_files_with_res_imports[0:-3]
                 for app_files_with_res_imports in LIB1_FILES_WITH_RESOURCE_IMPORTS
@@ -169,7 +164,6 @@ class AndroidDataBindingTemplateTests : ShouldSpec({
                 ["src/main/AndroidManifest.xml"],
                 visibility = ["//:__pkg__"],
             )
-            
         """.trimIndent()
 
         writer.write(null, file) shouldBe expectedResult

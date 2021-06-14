@@ -48,7 +48,7 @@ class AssignmentFormatterTests : ShouldSpec({
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
-            val expectedResult = "\n${___4}VARIABLE = None"
+            val expectedResult = "${___4}VARIABLE = None"
 
             builder.toString() shouldBe expectedResult
         }
@@ -60,7 +60,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = "value"
             """.trimMargin()
 
@@ -74,7 +73,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = 1
             """.trimMargin()
 
@@ -88,7 +86,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = 1.5
             """.trimMargin()
 
@@ -102,7 +99,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = True
             """.trimMargin()
 
@@ -115,7 +111,7 @@ class AssignmentFormatterTests : ShouldSpec({
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
-            val expectedResult = "\n${___4}VARIABLE = []"
+            val expectedResult = "${___4}VARIABLE = []"
 
             builder.toString() shouldBe expectedResult
         }
@@ -130,7 +126,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = ["item"]
             """.trimMargin()
 
@@ -147,7 +142,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = [
                 |${_______8}"item1",
                 |${_______8}"item2",
@@ -163,7 +157,7 @@ class AssignmentFormatterTests : ShouldSpec({
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
-            val expectedResult = "\n${___4}VARIABLE = {}"
+            val expectedResult = "${___4}VARIABLE = {}"
 
             builder.toString() shouldBe expectedResult
         }
@@ -178,7 +172,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = {"key": "value"}
             """.trimMargin()
 
@@ -200,7 +193,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = {
                 |${_______8}"key1": "value1",
                 |${_______8}"key2": 2,
@@ -216,7 +208,7 @@ class AssignmentFormatterTests : ShouldSpec({
             val builder = StringBuilder()
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
-            val expectedResult = "\n${___4}VARIABLE = ANOTHER_VARIABLE"
+            val expectedResult = "${___4}VARIABLE = ANOTHER_VARIABLE"
 
             builder.toString() shouldBe expectedResult
         }
@@ -236,7 +228,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE_3 = VARIABLE_1 + VARIABLE_2
             """.trimMargin()
 
@@ -258,7 +249,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = "string1" + "string2"
             """.trimMargin()
 
@@ -280,7 +270,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = [
                 |${_______8}"item1",
                 |${_______8}"item2",
@@ -313,7 +302,6 @@ class AssignmentFormatterTests : ShouldSpec({
             formatter.visit(assignment, position = 1, mode = NEW_LINE, builder)
 
             val expectedResult = """
-                |
                 |${___4}VARIABLE = {"key1": "value1"} + {
                 |${_______8}"key2": "value2",
                 |${_______8}"key3": 3,
