@@ -1,4 +1,6 @@
 # Airin
+[![Maven Central](https://img.shields.io/maven-central/v/org.morfly.airin/airin-starlark.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.morfly.airin%22%20AND%20a:%22airin-starlark%22)
+
 Airin is a tool for migrating Gradle projects to Bazel and generating Bazel build scripts.
 - **Starlark Template Engine**: Airin provides a declarative, typesafe template engine for generating Starlark code. Define
   templates for your Bazel configuration files in Kotlin DSL which closely resembles Starlark itself. Check
@@ -86,13 +88,15 @@ Use [the documentation](docs/airin_gradle_migration.md) to learn more about the 
 
 ## Installation
 
+Current version: [![Maven Central](https://img.shields.io/maven-central/v/org.morfly.airin/airin-starlark.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.morfly.airin%22%20AND%20a:%22airin-starlark%22)
+  
 ### Airin Starlark Template Engine
-
+  
 <details open>
 <summary>Kotlin </summary>
 
 ```kotlin
-implementation("org.morfly.airin:airin-starlark:0.1.0")
+implementation("org.morfly.airin:airin-starlark:x.y.z")
 ```
 </details>
 
@@ -100,23 +104,22 @@ implementation("org.morfly.airin:airin-starlark:0.1.0")
 <summary>Groovy</summary>
 
 ```groovy
-implementation "org.morfly.airin:airin-starlark:0.1.0"
+implementation "org.morfly.airin:airin-starlark:x.y.z"
 ```
 </details>
 
 ### Airin Gradle Plugin
-Open your root `build.gradle` file and add the following lines
 <details open>
 <summary>Kotlin</summary>
+  
+  
+In `buildSrc` directory or in any other place where you want to store Airin templates, open `build.gradle` file and add the Airin Gradle plugin dependency:
 
 ```kotlin
-buildscript {
-    
-    dependencies {
-        classpath("org.morfly.airin:airin-gradle:0.1.0")
-    }
-}
-
+implementation("org.morfly.airin:airin-gradle:x.y.z")
+```
+In the root `build.gradle` of your project apply Airin Gradle plugin:
+```kotlin
 plugins {
     id("org.morfly.airin")
 }
@@ -125,15 +128,15 @@ plugins {
 
 <details>
 <summary>Groovy</summary>
+  
+  
+In `buildSrc` directory or in any other place where you want to store Airin templates, open `build.gradle` file and add the Airin Gradle plugin dependency:
 
 ```groovy
-buildscript {
-    
-    dependencies {
-        classpath "org.morfly.airin:airin-gradle:0.1.0"
-    }
-}
-
+implementation "org.morfly.airin:airin-gradle:x.y.z"
+```
+In the root `build.gradle` of your project apply Airin Gradle plugin:
+```groovy
 plugins {
     id "org.morfly.airin"
 }
