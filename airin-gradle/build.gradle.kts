@@ -1,6 +1,8 @@
 plugins {
     id("java-gradle-plugin")
     kotlin("jvm")
+    id("org.jetbrains.dokka")
+    `maven-publish-config`
 }
 
 gradlePlugin {
@@ -16,5 +18,4 @@ dependencies {
     implementation(kotlin("stdlib"))
     api(project(":airin-starlark"))
     api(project(":airin-migration-core"))
-//    implementation("com.android.tools.build:gradle:4.1.0")
 }

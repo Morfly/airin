@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm")
+    id("org.jetbrains.dokka")
+    `maven-publish-config`
 }
 
 dependencies {
