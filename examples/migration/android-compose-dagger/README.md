@@ -1,5 +1,5 @@
 # Android Compose Dagger Sample
-This is a sample image browsing image that allows searching by specific queries. The app uses [_Pixabay API_](https://pixabay.com/api/docs/) as a backend for the image search feature.
+Android image browsing application. It uses [_Pixabay API_](https://pixabay.com/api/docs/) as a backend for the image search feature.
 
 The project is aimed to demonstrate how Airin can migrate to Bazel a multimodule Android Gradle application with the following technologies in use:
 - [_Jetpack Compose_](https://developer.android.com/jetpack/compose) including [_Paging 3_](https://developer.android.com/jetpack/androidx/releases/paging) and [_Navigation_](https://developer.android.com/jetpack/compose/navigation).
