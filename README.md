@@ -11,9 +11,9 @@ Airin is a tool for migrating Gradle projects to Bazel and generating Bazel buil
 
 ## How it works?
 
-### Step `1`
+#### Step `1`
 
-In `buildSrc` define a set of [Starlark templates](docs/airin_starlark_template_engine.md) for your project.
+In `buildSrc` directory define a set of [Starlark templates](docs/airin_starlark_template_engine.md) for your project.
 
 ```kotlin
 fun java_build(
@@ -34,11 +34,11 @@ fun java_build(
     )
 }
 ```
-### Step `2`
+#### Step `2`
 
 Also, in `buildSrc` implement [`TemplateProvider`](docs/airin_gradle_migration.md)'s for each type of your Gradle modules to correctly map the right templates to the right modules.
 
-### Step `3`
+#### Step `3`
 
 In root `build.gradle` file configure Airin Gradle plugin by registering your newly created template providers for each type of modules or usecases.
 
@@ -50,9 +50,9 @@ airin {
   
   templates {
     
-    register<Workspace>() // WORKSPACE file
-    register<JavaLibrary>() // Java library modules
-    register<AndroidApplication>() // Android application modules
+    register<Workspace>()
+    register<JavaLibrary>()
+    register<AndroidApplication>()
   }
 }
 ```
@@ -66,16 +66,17 @@ airin {
   
   templates {
     
-    register Workspace // WORKSPACE file
-    register JavaLibrary // Java library modules
-    register AndroidApplication // Android application modules
+    register Workspace
+    register JavaLibrary
+    register AndroidApplication
   }
 }
 ```
 </details>
 
-In the example above `Workspace`, `JavaLibrary` and `AndroidApplication` are template providers that implement `GradleTemplateProvider` interface.
-### Step `4`
+In the example above `Workspace`, `JavaLibrary` and `AndroidApplication` are Starlark code template providers that implement `GradleTemplateProvider` interface.
+  
+#### Step `4`
 
 Run the migration.
 
@@ -89,60 +90,37 @@ Use [the documentation](docs/airin_gradle_migration.md) to learn more about the 
 ## Installation
 
 Current version: [![Maven Central](https://img.shields.io/maven-central/v/org.morfly.airin/airin-starlark.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.morfly.airin%22%20AND%20a:%22airin-starlark%22)
+    
   
-### Airin Starlark Template Engine
+### Migration from Gradle
   
-<details open>
-<summary>Kotlin </summary>
-
-```kotlin
-implementation("org.morfly.airin:airin-starlark:x.y.z")
-```
-</details>
-
-<details>
-<summary>Groovy</summary>
-
+In the `buildSrc/build.gradle` file add the following:
 ```groovy
-implementation "org.morfly.airin:airin-starlark:x.y.z"
-```
-</details>
-
-### Airin Gradle Plugin
-<details open>
-<summary>Kotlin</summary>
+dependencies {
+    implementation "org.morfly.airin:airin-gradle:x.y.z"
   
-  
-In `buildSrc` directory or in any other place where you want to store Airin templates, open `build.gradle` file and add the Airin Gradle plugin dependency:
-
-```kotlin
-implementation("org.morfly.airin:airin-gradle:x.y.z")
-```
-In the root `build.gradle.kts` of your project apply Airin Gradle plugin:
-```kotlin
-plugins {
-    id("org.morfly.airin")
+    // optional - Android specific extensions
+    implementation "org.morfly.airin:airin-gradle-android:x.y.z"
 }
 ```
-</details>
-
-<details>
-<summary>Groovy</summary>
+Then, in the root `build.gradle` file apply Airin Gradle plugin:
   
-  
-In `buildSrc` directory or in any other place where you want to store Airin templates, open `build.gradle` file and add the Airin Gradle plugin dependency:
-
-```groovy
-implementation "org.morfly.airin:airin-gradle:x.y.z"
-```
-In the root `build.gradle` of your project apply Airin Gradle plugin:
 ```groovy
 plugins {
     id "org.morfly.airin"
 }
 ```
-</details>
-
+  
+  
+### Standalone Template Engine
+In case you need only Starlark code generator:
+```groovy
+dependencies {
+    implementation "org.morfly.airin:airin-starlark:x.y.z"
+}
+```
+<br>
+  
 Now you are ready to [configure the plugin](docs/airin_gradle_migration.md).
 
 ## Examples
