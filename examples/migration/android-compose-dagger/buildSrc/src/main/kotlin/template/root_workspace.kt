@@ -15,7 +15,7 @@ fun root_workspace(
      */
 ) = WORKSPACE {
 
-    workspace(name = "sample")
+    workspace(name = "android-compose-dagger")
 
     load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 

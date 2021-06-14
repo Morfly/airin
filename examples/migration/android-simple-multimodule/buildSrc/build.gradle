@@ -8,8 +8,11 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
-    implementation "com.android.tools.build:gradle:4.1.0" // temporary
-    implementation files(fileTree(dir: 'libs', includes: ['*.jar'])) // FIXME tmp
-//    implementation "org.morfly.airin:gradle-plugin:1.0.0-alpha01"
+//    implementation files(fileTree(dir: 'libs', includes: ['*.jar']))
+
+    def airinVersion = "0.2.0"
+    implementation "org.morfly.airin:airin-gradle:$airinVersion"
+    implementation "org.morfly.airin:airin-gradle-android:$airinVersion"
+
+    implementation "com.android.tools.build:gradle:4.1.0"
 }
