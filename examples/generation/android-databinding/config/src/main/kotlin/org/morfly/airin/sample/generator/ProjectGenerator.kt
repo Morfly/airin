@@ -18,17 +18,17 @@
 
 package org.morfly.airin.sample.generator
 
-import org.morfly.airin.starlark.writer.FileWriter
-import org.morfly.airin.starlark.writer.StarlarkFileWriter
 import org.morfly.airin.sample.template.android_databinding_workspace
 import org.morfly.airin.sample.template.other.android_databinding_bazelrc
 import org.morfly.airin.sample.template.root_build_template
 import org.morfly.airin.sample.template.tools_build
+import org.morfly.airin.starlark.writer.FileWriter
+import org.morfly.airin.starlark.writer.StarlarkFileWriter
 import java.io.File
 import java.util.*
 
 
-const val GENERATED_PROJECT_ROOT_DIR = "../generated-project"
+private const val GENERATED_PROJECT_ROOT_DIR = "../generated-project"
 private const val ROOT_PACKAGE_NAME = "org.morfly.airin.sample"
 
 
@@ -36,8 +36,6 @@ private const val ROOT_PACKAGE_NAME = "org.morfly.airin.sample"
  *
  */
 class ProjectGenerator {
-
-    private val internalDeps = LinkedList<String>()
 
     private val workspaceDir = File(GENERATED_PROJECT_ROOT_DIR)
 
@@ -55,41 +53,33 @@ class ProjectGenerator {
     /**
      *
      */
-    fun generate(numOfModules: Int, disableStrictJavaDeps: Boolean = false, depsOverlap: Int = 0) {
-        require(numOfModules > 0) { "number of data binding modules must be positive." }
+    fun generate(numOfModules: Int, disableStrictJavaDepsFlag: Boolean = false, depsOverlap: Int = 0) {
+        require(numOfModules > 0) { "number of data binding modules must be non-negative but was $numOfModules." }
+        require(depsOverlap >= 0) { "deps overlap number must not be negative but was $depsOverlap." }
 
         workspaceDir.mkdir()
 
         generateToolsBuild()
         generateWorkspace()
-        generateBazelRc(disableStrictJavaDeps)
+        generateBazelRc(disableStrictJavaDepsFlag)
         generateBazelversion()
 
+        val internalDeps = LinkedList<String>()
         for (i in (numOfModules - 1) downTo 0) {
             val label = moduleGenerator.generate(i, internalDeps, i == 0)
-            if (internalDeps.size > depsOverlap) {
-                internalDeps
-                    .subList(depsOverlap, internalDeps.size)
-                    .clear()
-            }
-            internalDeps.add(0, label)
-        }
 
-        generateRootBuild()
+            while (internalDeps.size > depsOverlap) {
+                internalDeps.removeLast()
+            }
+            internalDeps.addFirst(label)
+        }
+        generateRootBuild(internalDeps)
 
         internalDeps.clear()
     }
 
     private fun generateWorkspace() {
-        val workspace = android_databinding_workspace(
-            listOf(
-                "androidx.databinding:databinding-adapters:3.4.2",
-                "androidx.databinding:databinding-common:3.4.2",
-                "androidx.databinding:databinding-compiler:3.4.2",
-                "androidx.databinding:databinding-runtime:3.4.2",
-                "androidx.annotation:annotation:1.1.0",
-            )
-        )
+        val workspace = android_databinding_workspace()
         bazelFileWriter.write(workspaceDir, workspace)
     }
 
@@ -121,7 +111,7 @@ class ProjectGenerator {
         bazelFileWriter.write(workspaceDir, toolsBuild)
     }
 
-    private fun generateRootBuild() {
+    private fun generateRootBuild(internalDeps: List<String>) {
         val build = root_build_template(
             packageName = ROOT_PACKAGE_NAME,
             internalDeps = internalDeps,

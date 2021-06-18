@@ -18,14 +18,11 @@
 
 package org.morfly.airin.sample.template
 
-import org.morfly.airin.starlark.elements.ListReference
-import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.WORKSPACE
 import org.morfly.airin.starlark.library.*
 
 
 fun android_databinding_workspace(
-    artifactList: List<String>
     /**
      *
      */
@@ -51,28 +48,20 @@ fun android_databinding_workspace(
         url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" `%` RULES_JVM_EXTERNAL_TAG
     )
 
-    val DAGGER_TAG by "2.28.1"
-    val DAGGER_SHA by "9e69ab2f9a47e0f74e71fe49098bea908c528aa02fa0c5995334447b310d0cdd"
-
-    http_archive(
-        name = "dagger",
-        strip_prefix = "dagger-dagger-%s" `%` DAGGER_TAG,
-        sha256 = DAGGER_SHA,
-        urls = list["https://github.com/google/dagger/archive/dagger-%s.zip" `%` DAGGER_TAG]
-    )
-
-    val DAGGER_ARTIFACTS = ListReference<StringType>("DAGGER_ARTIFACTS")
-    val DAGGER_REPOSITORIES = ListReference<StringType>("DAGGER_REPOSITORIES")
-    load("@dagger//:workspace_defs.bzl", DAGGER_ARTIFACTS.name, DAGGER_REPOSITORIES.name)
-
     load("@rules_jvm_external//:defs.bzl", "maven_install")
 
     maven_install(
-        artifacts = artifactList `+` DAGGER_ARTIFACTS,
+        artifacts = list[
+                "androidx.databinding:databinding-adapters:3.4.2",
+                "androidx.databinding:databinding-common:3.4.2",
+                "androidx.databinding:databinding-compiler:3.4.2",
+                "androidx.databinding:databinding-runtime:3.4.2",
+                "androidx.annotation:annotation:1.1.0",
+        ],
         repositories = list[
                 "https://repo1.maven.org/maven2",
                 "https://maven.google.com"
-        ] `+` DAGGER_REPOSITORIES,
+        ],
         jetify = true,
         fail_on_missing_checksum = false
     )

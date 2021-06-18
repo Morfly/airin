@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-@file:Suppress("LocalVariableName", "FunctionName", "SpellCheckingInspection")
+@file:Suppress("LocalVariableName", "FunctionName", "SpellCheckingInspection", "EmptyRange")
 
 package org.morfly.airin.sample.template
 
 import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.lang.Label
 import org.morfly.airin.starlark.library.*
+import java.util.*
 
 
 fun android_databinding_library_build(
@@ -38,7 +39,7 @@ fun android_databinding_library_build(
      *
      */
 ) = BUILD(relativePath) {
-    val TARGET_NAME = targetName.toUpperCase()
+    val TARGET_NAME = targetName.uppercase()
 
     load("//tools/kotlin:kotlin.bzl", "kt_android_library")
     load("@rules_jvm_external//:defs.bzl", "artifact")
