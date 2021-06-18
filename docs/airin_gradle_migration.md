@@ -16,30 +16,8 @@ Create `buildSrc` directory in the root directory of your project.
 
 Create `build.gradle` file inside and configure it with Kotlin and add `Airin` as a dependency.
 
-<details open>
-<summary>Kotlin</summary>
 
-```groovy
-plugins {
-    kotlin("jvm") version "1.5.10"
-}
 
-repositories {
-    mavenCentral()
-    google()
-}
-
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.10")
-    implementation("com.android.tools.build:gradle:4.1.0") // temporary
-    implementation("org.morfly.airin:airin-gradle:0.1.0")
-}
-```
-
-</details>
-
-<details>
-<summary>Groovy</summary>
 
 ```groovy
 plugins {
@@ -52,13 +30,12 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
-    implementation "com.android.tools.build:gradle:4.1.0" // temporary
-    implementation "org.morfly.airin:airin-gradle:0.1.0"
+    implementation "org.morfly.airin:airin-gradle:0.2.0"
+    
+    // optional - Android specific extensions
+    implementation "org.morfly.airin:airin-gradle-android:0.2.0"
 }
 ```
-
-</details>
 
 [Learn more](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 about `buildSrc` from the official Gradle documentation.
@@ -131,43 +108,13 @@ class JavaLibrary : GradlePerModuleTemplateProvider() {
 
 ### Step `4` - Configuring Airing Gradle plugin
 
-In the root `build.gradle` file add Airin Gradle plugin to classpath.
-
-<details open>
-<summary>Kotlin</summary>
-
-```kotlin
-buildscript {
+In the root `build.gradle` file apply Airin Gradle plugin.
     
-    dependencies {
-        classpath("org.morfly.airin:airin-gradle:0.1.0")
-    }
-}
-
-plugins {
-    id("org.morfly.airin")
-}
-```
-
-</details>
-
-<details>
-<summary>Groovy</summary>
-
 ```groovy
-buildscript {
-    
-    dependencies {
-        classpath "org.morfly.airin:airin-gradle:0.1.0"
-    }
-}
-
 plugins {
     id "org.morfly.airin"
 }
 ```
-
-</details>
 
 After that use Airin dsl to configure it with the template providers that you've created earlier.
 
