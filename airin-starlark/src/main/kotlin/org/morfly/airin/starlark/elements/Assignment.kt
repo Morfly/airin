@@ -23,7 +23,10 @@ package org.morfly.airin.starlark.elements
 class Assignment(
     val name: String,
     override var value: Expression
-) : Statement, ValueHolder {
+) : Statement, ExpressionHolder<Assignment> {
+
+    override val host: Assignment
+        get() = this
 
     override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
         visitor.visit(this, position, mode, accumulator)

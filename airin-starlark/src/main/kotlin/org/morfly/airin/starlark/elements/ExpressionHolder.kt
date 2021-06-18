@@ -20,21 +20,9 @@ package org.morfly.airin.starlark.elements
 /**
  * Abstract syntax element that represents an element that holds an expression as a mutable property.
  */
-sealed interface ValueHolder : Element {
+sealed interface ExpressionHolder<H : Element> : Element {
+
+    val host: H
 
     var value: Expression
-}
-
-/**
- * Syntax element for a value that can be modified by the next elements during the syntax tree composition via DSL.
- *
- * @param value the expression that van be modified by the next elements in a syntax tree.
- */
-class DynamicValue(
-    override var value: Expression
-) : Expression, ValueHolder {
-
-    override fun <A> accept(visitor: ElementVisitor<A>, position: Int, mode: PositionMode, accumulator: A) {
-        visitor.visit(this, position, mode, accumulator)
-    }
 }

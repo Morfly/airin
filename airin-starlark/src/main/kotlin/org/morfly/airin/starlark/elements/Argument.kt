@@ -25,7 +25,10 @@ package org.morfly.airin.starlark.elements
 class Argument(
     val id: String,
     override var value: Expression
-) : ValueHolder {
+) : Element, ExpressionHolder<Argument> {
+
+    override val host: Argument
+        get() = this
 
     // comparison by id only
     override fun equals(other: Any?): Boolean {

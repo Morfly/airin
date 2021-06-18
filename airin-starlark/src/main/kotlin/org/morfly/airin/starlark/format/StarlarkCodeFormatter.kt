@@ -130,7 +130,7 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
         visit(element.value, position, CONTINUE_LINE, acc)
     }
 
-    override fun visit(element: DynamicValue, position: Int, mode: PositionMode, acc: Appendable) {
+    override fun visit(element: DynamicExpression, position: Int, mode: PositionMode, acc: Appendable) {
         visit(element.value, position, mode, acc)
     }
 

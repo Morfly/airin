@@ -35,7 +35,7 @@ class MappingFeatureTests : FeatureSpec({
                 kwargs.size shouldBe 1
                 kwargs.entries.first().let { (key, value) ->
                     key shouldBe StringLiteral("key")
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value shouldBe StringLiteral("value")
                 }
             }
@@ -50,7 +50,7 @@ class MappingFeatureTests : FeatureSpec({
                 kwargs.size shouldBe 1
                 kwargs.entries.first().let { (key, value) ->
                     key shouldBe StringLiteral("key")
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value.let { listExpr ->
                         listExpr.shouldBeTypeOf<ListExpression<*>>()
                         listExpr.value shouldBe listOf(StringLiteral("item"))
@@ -68,13 +68,13 @@ class MappingFeatureTests : FeatureSpec({
                 kwargs.size shouldBe 1
                 kwargs.entries.first().let { (key, value) ->
                     key shouldBe StringLiteral("key1")
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value.let { dictExpr ->
                         dictExpr.shouldBeTypeOf<DictionaryExpression>()
                         dictExpr.value.entries.size shouldBe 1
                         dictExpr.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key2")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value")
                         }
                     }
@@ -91,13 +91,13 @@ class MappingFeatureTests : FeatureSpec({
                 kwargs.size shouldBe 1
                 kwargs.entries.first().let { (key, value) ->
                     key shouldBe StringLiteral("key1")
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value.let { dictExpr ->
                         dictExpr.shouldBeTypeOf<DictionaryExpression>()
                         dictExpr.value.entries.size shouldBe 1
                         dictExpr.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key2")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value")
                         }
                     }
@@ -118,7 +118,7 @@ class MappingFeatureTests : FeatureSpec({
                     key.operator shouldBe BinaryOperator.PLUS
                     key.right shouldBe StringLiteral("1")
 
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value shouldBe StringLiteral("value")
                 }
             }
@@ -134,7 +134,7 @@ class MappingFeatureTests : FeatureSpec({
                 kwargs.entries.first().let { (key, value) ->
                     key shouldBe StringLiteral("key")
 
-                    value.shouldBeTypeOf<DynamicValue>()
+                    value.shouldBeTypeOf<DynamicExpression>()
                     value.value.let {
                         it.shouldBeTypeOf<StringBinaryOperation>()
                         it.left shouldBe StringLiteral("value")

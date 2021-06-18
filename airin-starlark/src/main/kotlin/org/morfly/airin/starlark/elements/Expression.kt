@@ -36,7 +36,7 @@ import org.morfly.airin.starlark.lang.Tuple
  *  [FunctionCall],
  *  [Reference],
  *  [SliceExpression],
- *  [DynamicValue],
+ *  [DynamicExpression],
  *  [RawText]: TODO.
  */
 sealed interface Expression : Element

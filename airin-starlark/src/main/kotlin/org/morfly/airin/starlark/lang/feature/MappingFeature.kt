@@ -42,71 +42,71 @@ internal interface MappingFeature : LanguageFeature, MappingHolder {
     /**
      * Mapping key to string value.
      */
-    infix fun Key.to(value: StringType): _StringValueAccumulator {
+    infix fun Key.to(value: StringType): _StringExpressionAccumulator<Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::StringLiteral))
+        val v = DynamicExpression(Expression(value, ::StringLiteral))
         kwargs[k] = v
-        return _StringValueAccumulator(v)
+        return _StringExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to number value.
      */
-    infix fun Key.to(value: NumberType): _NumberValueAccumulator {
+    infix fun Key.to(value: NumberType): _NumberExpressionAccumulator<Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::NumberLiteral))
+        val v = DynamicExpression(Expression(value, ::NumberLiteral))
         kwargs[k] = v
-        return _NumberValueAccumulator(v)
+        return _NumberExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to list value.
      */
-    infix fun <T> Key.to(value: List<T>): _ListValueAccumulator<T> {
+    infix fun <T> Key.to(value: List<T>): _ListExpressionAccumulator<T, Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::ListExpression))
+        val v = DynamicExpression(Expression(value, ::ListExpression))
         kwargs[k] = v
-        return _ListValueAccumulator(v)
+        return _ListExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to tuple value.
      */
-    infix fun Key.to(value: TupleType): _TupleValueAccumulator {
+    infix fun Key.to(value: TupleType): _TupleExpressionAccumulator<Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::TupleExpression))
+        val v = DynamicExpression(Expression(value, ::TupleExpression))
         kwargs[k] = v
-        return _TupleValueAccumulator(v)
+        return _TupleExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to dictionary value.
      */
-    infix fun <K : Key, V : Value> Key.to(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
+    infix fun <K : Key, V : Value> Key.to(value: Map<K, V>): _DictionaryExpressionAccumulator<K, V, Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::DictionaryExpression))
+        val v = DynamicExpression(Expression(value, ::DictionaryExpression))
         kwargs[k] = v
-        return _DictionaryValueAccumulator(v)
+        return _DictionaryExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to dictionary value.
      */
-    infix fun Key.to(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
+    infix fun Key.to(body: DictionaryContext.() -> Unit): _DictionaryExpressionAccumulator<Key, Value, Expression> {
         val value = DictionaryContext().apply(body).kwargs
         val k = Expression(this)
-        val v = DynamicValue(Expression(value, ::DictionaryExpression))
+        val v = DynamicExpression(Expression(value, ::DictionaryExpression))
         kwargs[k] = v
-        return _DictionaryValueAccumulator(v)
+        return _DictionaryExpressionAccumulator(v)
     }
 
     /**
      * Mapping key to value of any type.
      */
-    infix fun Key.to(value: Any?): _AnyValueAccumulator {
+    infix fun Key.to(value: Any?): _AnyExpressionAccumulator<Expression> {
         val k = Expression(this)
-        val v = DynamicValue(Expression(value))
+        val v = DynamicExpression(Expression(value))
         kwargs[k] = v
-        return _AnyValueAccumulator(v)
+        return _AnyExpressionAccumulator(v)
     }
 }

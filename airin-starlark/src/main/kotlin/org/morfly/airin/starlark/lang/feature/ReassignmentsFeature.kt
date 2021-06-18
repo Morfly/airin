@@ -32,55 +32,59 @@ internal interface ReassignmentsFeature : LanguageFeature, StatementsHolder {
     /**
      * String assignment operator.
      */
-    infix fun StringReference.`=`(value: StringType?): _StringValueAccumulator {
+    infix fun StringReference.`=`(value: StringType?): _StringExpressionAccumulator<Assignment> {
         val assignment = Assignment(name, value = Expression(value, ::StringLiteral))
         statements += assignment
-        return _StringValueAccumulator(assignment)
+        return _StringExpressionAccumulator(assignment)
     }
 
     /**
      * Number assignment operator.
      */
-    infix fun NumberReference.`=`(value: NumberType?): _NumberValueAccumulator {
+    infix fun NumberReference.`=`(value: NumberType?): _NumberExpressionAccumulator<Assignment> {
         val assignment = Assignment(name, value = Expression(value, ::NumberLiteral))
         statements += assignment
-        return _NumberValueAccumulator(assignment)
+        return _NumberExpressionAccumulator(assignment)
     }
 
     /**
      * List assignment operator.
      */
-    infix fun <T> ListReference<T>.`=`(value: List<T>?): _ListValueAccumulator<T> {
+    infix fun <T> ListReference<T>.`=`(value: List<T>?): _ListExpressionAccumulator<T, Assignment> {
         val assignment = Assignment(name, value = Expression(value, ::ListExpression))
         statements += assignment
-        return _ListValueAccumulator(assignment)
+        return _ListExpressionAccumulator(assignment)
     }
 
     /**
      * List assignment operator.
      */
-    infix fun TupleReference.`=`(value: TupleType?): _TupleValueAccumulator {
+    infix fun TupleReference.`=`(value: TupleType?): _TupleExpressionAccumulator<Assignment> {
         val assignment = Assignment(name, value = Expression(value, ::TupleExpression))
         statements += assignment
-        return _TupleValueAccumulator(assignment)
+        return _TupleExpressionAccumulator(assignment)
     }
 
     /**
      * Dictionary assignment operator.
      */
-    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(value: Map<Key, Value>?): _DictionaryValueAccumulator<K, V> {
+    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(
+        value: Map<Key, Value>?
+    ): _DictionaryExpressionAccumulator<K, V, Assignment> {
         val assignment = Assignment(name, value = Expression(value, ::DictionaryExpression))
         statements += assignment
-        return _DictionaryValueAccumulator(assignment)
+        return _DictionaryExpressionAccumulator(assignment)
     }
 
     /**
      * Dictionary assignment operator.
      */
-    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
+    infix fun <K : Key, V : Value> DictionaryReference<K, V>.`=`(
+        body: DictionaryContext.() -> Unit
+    ): _DictionaryExpressionAccumulator<K, V, Assignment> {
         val value = DictionaryContext().apply(body).kwargs
         val assignment = Assignment(name, value = DictionaryExpression(value))
         statements += assignment
-        return _DictionaryValueAccumulator(assignment)
+        return _DictionaryExpressionAccumulator(assignment)
     }
 }

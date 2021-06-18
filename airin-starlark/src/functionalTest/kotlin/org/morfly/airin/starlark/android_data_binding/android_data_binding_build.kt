@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("LocalVariableName", "EmptyRange", "SpellCheckingInspection")
+@file:Suppress("LocalVariableName", "EmptyRange", "SpellCheckingInspection", "FunctionName")
 
 package org.morfly.airin.starlark.android_data_binding
 

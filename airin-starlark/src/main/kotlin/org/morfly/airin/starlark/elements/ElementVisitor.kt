@@ -36,7 +36,7 @@ interface ElementVisitor<A> {
 
     fun visit(element: Assignment, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: DynamicValue, position: Int, mode: PositionMode, acc: A)
+    fun visit(element: DynamicExpression, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: BinaryOperation, position: Int, mode: PositionMode, acc: A)
 

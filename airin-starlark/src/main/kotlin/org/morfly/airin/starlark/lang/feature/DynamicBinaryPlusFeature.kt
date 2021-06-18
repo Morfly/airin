@@ -60,7 +60,9 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * String concatenation operator.
      */
-    infix fun _StringValueAccumulator.`+`(other: StringType?): _StringValueAccumulator {
+    infix fun <E : Element> _StringExpressionAccumulator<E>.`+`(
+        other: StringType?
+    ): _StringExpressionAccumulator<E> {
         holder.value = StringBinaryOperation(
             left = holder.value,
             operator = PLUS,
@@ -72,7 +74,9 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * String concatenation operator.
      */
-    infix fun _NumberValueAccumulator.`+`(other: NumberType?): _NumberValueAccumulator {
+    infix fun <E : Element> _NumberExpressionAccumulator<E>.`+`(
+        other: NumberType?
+    ): _NumberExpressionAccumulator<E> {
         holder.value = NumberBinaryOperation(
             left = holder.value,
             operator = PLUS,
@@ -84,7 +88,9 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * List concatenation operator.
      */
-    infix fun <T> _ListValueAccumulator<T>.`+`(other: List<T>?): _ListValueAccumulator<T> {
+    infix fun <T, E : Element> _ListExpressionAccumulator<T, E>.`+`(
+        other: List<T>?
+    ): _ListExpressionAccumulator<T, E> {
         holder.value = ListBinaryOperation<T>(
             left = holder.value,
             operator = PLUS,
@@ -96,7 +102,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * Tuple concatenation operator.
      */
-    infix fun _TupleValueAccumulator.`+`(other: TupleType?): _TupleValueAccumulator {
+    infix fun <E : Element> _TupleExpressionAccumulator<E>.`+`(other: TupleType?): _TupleExpressionAccumulator<E> {
         holder.value = TupleBinaryOperation(
             left = holder.value,
             operator = PLUS,
@@ -108,7 +114,9 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * Dictionary concatenation operator.
      */
-    infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(other: Map<*, Value>?): _DictionaryValueAccumulator<K, V> {
+    infix fun <K, V : Value, E : Element> _DictionaryExpressionAccumulator<K, V, E>.`+`(
+        other: Map<*, Value>?
+    ): _DictionaryExpressionAccumulator<K, V, E> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
             left = holder.value,
             operator = PLUS,
@@ -120,7 +128,9 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * Dictionary concatenation operator.
      */
-    infix fun <K, V : Value> _DictionaryValueAccumulator<K, V>.`+`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<K, V> {
+    infix fun <K, V : Value, E : Element> _DictionaryExpressionAccumulator<K, V, E>.`+`(
+        body: DictionaryContext.() -> Unit
+    ): _DictionaryExpressionAccumulator<K, V, E> {
         holder.value = DictionaryBinaryOperation<Key, Value>(
             left = holder.value,
             operator = PLUS,
@@ -132,7 +142,7 @@ internal interface DynamicBinaryPlusFeature : LanguageFeature {
     /**
      * Concatenation operator for values for with type does not matter.
      */
-    infix fun _AnyValueAccumulator.`+`(other: Any?): _AnyValueAccumulator {
+    infix fun <E : Element> _AnyExpressionAccumulator<E>.`+`(other: Any?): _AnyExpressionAccumulator<E> {
         holder.value = AnyBinaryOperation(
             left = holder.value,
             operator = PLUS,

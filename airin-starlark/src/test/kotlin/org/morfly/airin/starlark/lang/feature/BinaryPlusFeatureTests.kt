@@ -129,7 +129,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     left.value.entries.size shouldBe 1
                     left.value.entries.first().let { (key, value) ->
                         key shouldBe StringLiteral("key1")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                         value.value shouldBe StringLiteral("value1")
                     }
                 }
@@ -139,7 +139,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     right.value.entries.size shouldBe 1
                     right.value.entries.first().let { (key, value) ->
                         key shouldBe StringLiteral("key2")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                         value.value shouldBe StringLiteral("value2")
                     }
                 }
@@ -158,7 +158,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     left.value.entries.size shouldBe 1
                     left.value.entries.first().let { (key, value) ->
                         key shouldBe StringLiteral("key")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                         value.value shouldBe StringLiteral("value")
                     }
                 }
@@ -181,7 +181,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     right.value.entries.size shouldBe 1
                     right.value.entries.first().let { (key, value) ->
                         key shouldBe StringLiteral("key")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                         value.value shouldBe StringLiteral("value")
                     }
                 }
@@ -247,7 +247,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                         nestedLeft.value.entries.size shouldBe 1
                         nestedLeft.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key1")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value2")
                         }
                     }
@@ -257,7 +257,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                         nestedRight.value.entries.size shouldBe 1
                         nestedRight.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key2")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value2")
                         }
                     }
@@ -268,7 +268,7 @@ class BinaryPlusFeatureTests : FeatureSpec({
                     right.value.entries.size shouldBe 1
                     right.value.entries.first().let { (key, value) ->
                         key shouldBe StringLiteral("key3")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                         value.value shouldBe StringLiteral("value3")
                     }
                 }

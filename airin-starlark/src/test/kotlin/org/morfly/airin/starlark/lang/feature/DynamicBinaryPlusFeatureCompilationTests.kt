@@ -30,7 +30,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== String concatenation =====
     // ================================
 
-    val stringValue = _StringValueAccumulator(DynamicValue(StringLiteral("value")))
+    val stringValue = _StringExpressionAccumulator(DynamicExpression(StringLiteral("value")))
 
     val STRING_VARIABLE by "value"
 
@@ -45,7 +45,8 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== List concatenation =====
     // ==============================
 
-    val listValue = _ListValueAccumulator<StringType>(DynamicValue(ListExpression(listOf("item"))))
+    val listValue =
+        _ListExpressionAccumulator<StringType, Expression>(DynamicExpression(ListExpression(listOf("item"))))
 
     val LIST_VARIABLE by list["item"]
 
@@ -69,7 +70,8 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== Dictionary concatenation =====
     // ====================================
 
-    val dictValue = _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key" to "value"))))
+    val dictValue =
+        _DictionaryExpressionAccumulator<Key, Value, Expression>(DynamicExpression(DictionaryExpression(mapOf("key" to "value"))))
 
     val DICT_VARIABLE by dict {}
 
@@ -99,7 +101,7 @@ private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
     // ===== Other concatenations =========
     // ====================================
 
-    val value = _AnyValueAccumulator(DynamicValue(NoneValue))
+    val value = _AnyExpressionAccumulator(DynamicExpression(NoneValue))
 
     value `+` Any()
     value `+` null

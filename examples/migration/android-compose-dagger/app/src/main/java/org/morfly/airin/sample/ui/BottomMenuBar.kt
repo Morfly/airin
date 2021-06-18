@@ -37,7 +37,6 @@ fun BottomMenuBar(navController: NavController, destinations: FeatureEntries) {
                         launchSingleTop = true
                         popUpTo(route) {
                             saveState = true
-                            inclusive = true
                         }
                     }
                 }

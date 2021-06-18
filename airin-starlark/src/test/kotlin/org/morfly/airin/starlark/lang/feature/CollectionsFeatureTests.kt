@@ -95,7 +95,7 @@ class CollectionsFeatureTests : FeatureSpec({
                         it.size shouldBe 2
                         val (key, value) = it.entries.first()
                         key shouldBe StringLiteral("key1")
-                        value.shouldBeTypeOf<DynamicValue>()
+                        value.shouldBeTypeOf<DynamicExpression>()
                     }
                 }
             }

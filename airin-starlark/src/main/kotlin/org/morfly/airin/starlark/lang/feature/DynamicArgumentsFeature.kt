@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection")
+@file:Suppress("SpellCheckingInspection", "FunctionName", "unused")
 
 package org.morfly.airin.starlark.lang.feature
 
@@ -43,73 +43,73 @@ internal interface DynamicArgumentsFeature : LanguageFeature, ArgumentsHolder {
     /**
      * Operator for passing string argument.
      */
-    infix fun String.`=`(value: StringType): _StringValueAccumulator {
+    infix fun String.`=`(value: StringType): _StringExpressionAccumulator<*> {
         val argument = Argument(id = this, value = Expression(value, ::StringLiteral))
         fargs += argument
-        return _StringValueAccumulator(argument)
+        return _StringExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing integer argument.
      */
-    infix fun String.`=`(value: NumberType): _NumberValueAccumulator {
+    infix fun String.`=`(value: NumberType): _NumberExpressionAccumulator<*> {
         val argument = Argument(id = this, value = Expression(value, ::NumberLiteral))
         fargs += argument
-        return _NumberValueAccumulator(argument)
+        return _NumberExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing float argument.
      */
-    infix fun String.`=`(value: BooleanType): _BooleanValueAccumulator {
+    infix fun String.`=`(value: BooleanType): _BooleanExpressionAccumulator<*> {
         val argument = Argument(id = this, value = Expression(value, ::BooleanLiteral))
         fargs += argument
-        return _BooleanValueAccumulator(argument)
+        return _BooleanExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing list argument.
      */
-    infix fun <T> String.`=`(value: List<T>): _ListValueAccumulator<T> {
+    infix fun <T> String.`=`(value: List<T>): _ListExpressionAccumulator<T, *> {
         val argument = Argument(id = this, value = Expression(value, ::ListExpression))
         fargs += argument
-        return _ListValueAccumulator(argument)
+        return _ListExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing tuple argument.
      */
-    infix fun String.`=`(value: TupleType): _TupleValueAccumulator {
+    infix fun String.`=`(value: TupleType): _TupleExpressionAccumulator<*> {
         val argument = Argument(id = this, value = Expression(value, ::TupleExpression))
         fargs += argument
-        return _TupleValueAccumulator(argument)
+        return _TupleExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing dictionary argument.
      */
-    infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _DictionaryValueAccumulator<K, V> {
+    infix fun <K : Key, V : Value> String.`=`(value: Map<K, V>): _DictionaryExpressionAccumulator<K, V, *> {
         val argument = Argument(id = this, value = Expression(value, ::DictionaryExpression))
         fargs += argument
-        return _DictionaryValueAccumulator(argument)
+        return _DictionaryExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing dictionary argument.
      */
-    infix fun String.`=`(body: DictionaryContext.() -> Unit): _DictionaryValueAccumulator<Key, Value> {
+    infix fun String.`=`(body: DictionaryContext.() -> Unit): _DictionaryExpressionAccumulator<Key, Value, *> {
         val value = DictionaryContext().apply(body).kwargs
         val argument = Argument(id = this, value = DictionaryExpression(value))
         fargs += argument
-        return _DictionaryValueAccumulator(argument)
+        return _DictionaryExpressionAccumulator(argument)
     }
 
     /**
      * Operator for passing null or arguments of any other type.
      */
-    infix fun String.`=`(value: Any?): _AnyValueAccumulator {
+    infix fun String.`=`(value: Any?): _AnyExpressionAccumulator<*> {
         val argument = Argument(id = this, value = Expression(value))
         fargs += argument
-        return _AnyValueAccumulator(argument)
+        return _AnyExpressionAccumulator(argument)
     }
 }

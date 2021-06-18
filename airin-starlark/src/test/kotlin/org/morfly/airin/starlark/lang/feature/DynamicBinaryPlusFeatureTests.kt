@@ -16,13 +16,13 @@
 
 package org.morfly.airin.starlark.lang.feature
 
+import io.kotest.core.spec.style.FeatureSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.Key
 import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.Value
-import io.kotest.core.spec.style.FeatureSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 
 
 class DynamicBinaryPlusFeatureTests : FeatureSpec({
@@ -32,12 +32,12 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("string concatenation") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val string1 = _StringValueAccumulator(DynamicValue(StringLiteral("string1")))
+                val string1 = _StringExpressionAccumulator(DynamicExpression(StringLiteral("string1")))
                 val concat = string1 `+` "string2"
 
                 // assertions
-                concat.shouldBeTypeOf<_StringValueAccumulator>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_StringExpressionAccumulator<Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<StringBinaryOperation>()
                     it.left shouldBe StringLiteral("string1")
@@ -50,12 +50,12 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("string concatenation with null") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val string1 = _StringValueAccumulator(DynamicValue(StringLiteral("string1")))
+                val string1 = _StringExpressionAccumulator(DynamicExpression(StringLiteral("string1")))
                 val concat = string1 `+` null
 
                 // assertions
-                concat.shouldBeTypeOf<_StringValueAccumulator>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_StringExpressionAccumulator<Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<StringBinaryOperation>()
                     it.left shouldBe StringLiteral("string1")
@@ -68,12 +68,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("list concatenation") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val list1 = _ListValueAccumulator<StringType>(DynamicValue(ListExpression(listOf("item1"))))
+                val list1 = _ListExpressionAccumulator<StringType, Expression>(
+                    DynamicExpression(ListExpression(listOf("item1")))
+                )
                 val concat = list1 `+` list["item2"]
 
                 // assertions
-                concat.shouldBeTypeOf<_ListValueAccumulator<StringType>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_ListExpressionAccumulator<StringType, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     it.left.let { left ->
@@ -92,12 +94,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("list concatenation with null") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val list1 = _ListValueAccumulator<StringType>(DynamicValue(ListExpression(listOf("item1"))))
+                val list1 = _ListExpressionAccumulator<StringType, Expression>(
+                    DynamicExpression(ListExpression(listOf("item1")))
+                )
                 val concat = list1 `+` null
 
                 // assertions
-                concat.shouldBeTypeOf<_ListValueAccumulator<StringType>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_ListExpressionAccumulator<StringType, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     it.left.let { left ->
@@ -114,12 +118,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
                 val dict1 =
-                    _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key1" to "value1"))))
+                    _DictionaryExpressionAccumulator<Key, Value, Expression>(
+                        DynamicExpression(DictionaryExpression(mapOf("key1" to "value1")))
+                    )
                 val concat = dict1 `+` dict { "key2" to "value2" }
 
                 // assertions
-                concat.shouldBeTypeOf<_DictionaryValueAccumulator<Key, Value>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_DictionaryExpressionAccumulator<Key, Value, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<DictionaryBinaryOperation<Key, Value>>()
                     it.left.let { left ->
@@ -136,7 +142,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                         right.value.entries.size shouldBe 1
                         right.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key2")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value2")
                         }
                     }
@@ -148,12 +154,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
                 val dict1 =
-                    _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key1" to "value1"))))
+                    _DictionaryExpressionAccumulator<Key, Value, Expression>(
+                        DynamicExpression(DictionaryExpression(mapOf("key1" to "value1")))
+                    )
                 val concat = dict1 `+` { "key2" to "value2" }
 
                 // assertions
-                concat.shouldBeTypeOf<_DictionaryValueAccumulator<Key, Value>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_DictionaryExpressionAccumulator<Key, Value, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<DictionaryBinaryOperation<Key, Value>>()
                     it.left.let { left ->
@@ -170,7 +178,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                         right.value.entries.size shouldBe 1
                         right.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key2")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value2")
                         }
                     }
@@ -182,12 +190,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
                 val dict1 =
-                    _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key1" to "value1"))))
+                    _DictionaryExpressionAccumulator<Key, Value, Expression>(
+                        DynamicExpression(DictionaryExpression(mapOf("key1" to "value1")))
+                    )
                 val concat = dict1 `+` null
 
                 // assertions
-                concat.shouldBeTypeOf<_DictionaryValueAccumulator<Key, Value>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_DictionaryExpressionAccumulator<Key, Value, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<DictionaryBinaryOperation<Key, Value>>()
                     it.left.let { left ->
@@ -207,12 +217,12 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("multiple string concatenation") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val string1 = _StringValueAccumulator(DynamicValue(StringLiteral("string1")))
+                val string1 = _StringExpressionAccumulator(DynamicExpression(StringLiteral("string1")))
                 val concat = string1 `+` "string2" `+` "string3"
 
                 // assertions
-                concat.shouldBeTypeOf<_StringValueAccumulator>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_StringExpressionAccumulator<Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<StringBinaryOperation>()
                     it.left.let { left ->
@@ -230,12 +240,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
         scenario("multiple list concatenation") {
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
-                val list1 = _ListValueAccumulator<StringType>(DynamicValue(ListExpression(listOf("item1"))))
+                val list1 = _ListExpressionAccumulator<StringType, Expression>(
+                    DynamicExpression(ListExpression(listOf("item1")))
+                )
                 val concat = list1 `+` list["item2"] `+` list["item3"]
 
                 // assertions
-                concat.shouldBeTypeOf<_ListValueAccumulator<StringType>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_ListExpressionAccumulator<StringType, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<ListBinaryOperation<StringType>>()
                     it.left.let { left ->
@@ -263,12 +275,14 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
             DynamicBinaryPlusFeatureUnderTest().apply {
                 // given
                 val dict1 =
-                    _DictionaryValueAccumulator<Key, Value>(DynamicValue(DictionaryExpression(mapOf("key1" to "value1"))))
+                    _DictionaryExpressionAccumulator<Key, Value, Expression>(
+                        DynamicExpression(DictionaryExpression(mapOf("key1" to "value1")))
+                    )
                 val concat = dict1 `+` { "key2" to "value2" } `+` dict { "key3" to "value3" }
 
                 // assertions
-                concat.shouldBeTypeOf<_DictionaryValueAccumulator<Key, Value>>()
-                concat.holder.shouldBeTypeOf<DynamicValue>()
+                concat.shouldBeTypeOf<_DictionaryExpressionAccumulator<Key, Value, Expression>>()
+                concat.holder.shouldBeTypeOf<DynamicExpression>()
                 concat.holder.value.let {
                     it.shouldBeTypeOf<DictionaryBinaryOperation<Key, Value>>()
                     it.left.let { left ->
@@ -286,7 +300,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                             nestedRight.value.entries.size shouldBe 1
                             nestedRight.value.entries.first().let { (key, value) ->
                                 key shouldBe StringLiteral("key2")
-                                value.shouldBeTypeOf<DynamicValue>()
+                                value.shouldBeTypeOf<DynamicExpression>()
                                 value.value shouldBe StringLiteral("value2")
                             }
                         }
@@ -297,7 +311,7 @@ class DynamicBinaryPlusFeatureTests : FeatureSpec({
                         right.value.entries.size shouldBe 1
                         right.value.entries.first().let { (key, value) ->
                             key shouldBe StringLiteral("key3")
-                            value.shouldBeTypeOf<DynamicValue>()
+                            value.shouldBeTypeOf<DynamicExpression>()
                             value.value shouldBe StringLiteral("value3")
                         }
                     }
