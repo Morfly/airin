@@ -91,10 +91,6 @@ class StarlarkCodeFormatter(indentSize: Int = DEFAULT_INDENT_SIZE) : ElementVisi
             else -> true
         }
 
-    override fun visit(element: Expression, position: Int, mode: PositionMode, acc: Appendable) {
-        element.accept(this, position, mode, acc)
-    }
-
     override fun visit(element: NoneValue, position: Int, mode: PositionMode, acc: Appendable) {
         acc += when (mode) {
             NEW_LINE -> indent(position)

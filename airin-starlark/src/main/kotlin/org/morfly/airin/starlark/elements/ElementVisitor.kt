@@ -26,8 +26,6 @@ interface ElementVisitor<A> {
 
     fun visit(element: StarlarkFile, position: Int, mode: PositionMode, acc: A)
 
-    fun visit(element: Expression, position: Int, mode: PositionMode, acc: A)
-
     fun visit(element: NoneValue, position: Int, mode: PositionMode, acc: A)
 
     fun visit(element: ExpressionStatement, position: Int, mode: PositionMode, acc: A)
