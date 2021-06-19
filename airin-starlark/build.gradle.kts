@@ -1,11 +1,20 @@
 @file:Suppress("HasPlatformType")
 
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
     id("org.jetbrains.dokka")
     `maven-publish-config`
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
+    }
 }
 
 sourceSets {

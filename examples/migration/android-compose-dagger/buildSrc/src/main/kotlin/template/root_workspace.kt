@@ -2,7 +2,7 @@
 
 package template
 
-import org.morfly.airin.starlark.elements.ListReference
+import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.WORKSPACE
 import org.morfly.airin.starlark.library.*
 
@@ -32,9 +32,10 @@ fun root_workspace(
         urls = list["https://github.com/google/dagger/archive/dagger-%s.zip" `%` DAGGER_TAG],
     )
 
-    val DAGGER_ARTIFACTS = ListReference<String>("DAGGER_ARTIFACTS")
-    val DAGGER_REPOSITORIES = ListReference<String>("DAGGER_REPOSITORIES")
-    load("@dagger//:workspace_defs.bzl", DAGGER_ARTIFACTS.name, DAGGER_REPOSITORIES.name)
+    val (DAGGER_ARTIFACTS, DAGGER_REPOSITORIES) = load(
+        "@dagger//:workspace_defs.bzl",
+        "DAGGER_ARTIFACTS", "DAGGER_REPOSITORIES"
+    ).v<List<StringType>, List<StringType>>()
 
     val RULES_JVM_EXTERNAL_VERSION by "4.1"
     val RULES_JVM_EXTERNAL_SHA by "f36441aa876c4f6427bfb2d1f2d723b48e9d930b62662bf723ddfb8fc80f0140"

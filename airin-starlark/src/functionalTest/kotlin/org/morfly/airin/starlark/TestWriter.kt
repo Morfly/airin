@@ -11,4 +11,7 @@ class TestWriter : Writer<Nothing?, StarlarkFile, String> {
 
     override fun write(destination: Nothing?, content: StarlarkFile): String =
         formatter.format(content)
+
+    fun write(content: StarlarkFile): String =
+        write(destination = null, content)
 }

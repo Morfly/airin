@@ -20,7 +20,7 @@ import org.morfly.airin.starlark.elements.Statement
 
 
 /**
- * Language feature context.
+ * Base language context that others must inherit.
  */
 abstract class LanguageContext internal constructor(): StatementsHolder {
 

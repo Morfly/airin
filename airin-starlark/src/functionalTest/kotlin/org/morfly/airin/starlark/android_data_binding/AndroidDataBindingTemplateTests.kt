@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+@file:Suppress("SpellCheckingInspection")
+
 package org.morfly.airin.starlark.android_data_binding
 
-import org.morfly.airin.starlark.TestWriter
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import org.morfly.airin.starlark.TestWriter
 
 
 class AndroidDataBindingTemplateTests : ShouldSpec({
@@ -166,6 +168,6 @@ class AndroidDataBindingTemplateTests : ShouldSpec({
             )
         """.trimIndent()
 
-        writer.write(null, file) shouldBe expectedResult
+        writer.write(file) shouldBe expectedResult
     }
 })

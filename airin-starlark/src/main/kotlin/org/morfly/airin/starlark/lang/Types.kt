@@ -62,3 +62,8 @@ typealias Name = StringType
  * String type alias for the value representing Bazel label.
  */
 typealias Label = StringType
+
+/**
+ * TODO Placeholder for cases where generic parameter must be ignored
+ */
+typealias v = Unit
