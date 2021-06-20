@@ -19,7 +19,7 @@
 package template
 
 
-fun bazelrc(
+internal fun bazelrc(
     javaToolchainTarget: String
     /**
      *

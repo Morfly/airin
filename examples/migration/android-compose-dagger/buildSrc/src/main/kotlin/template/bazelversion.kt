@@ -19,4 +19,4 @@
 package template
 
 
-fun bazelversion() = "4.1.0"
+internal fun bazelversion() = "4.1.0"

@@ -16,5 +16,5 @@
 
 Each generation example consists of 2 directories:
 
-- `config` - contains the configuration for the project to be generated. Entry point is Main.kt file.
+- `config` - contains the configuration for the project to be generated. Entry point is `Main.kt` file.
 - `generated-project` - contains generated Bazel project.

@@ -8,7 +8,7 @@ kt_android_library(
     custom_package = "org.morfly.airin.sample.data.impl",
     manifest = "src/main/AndroidManifest.xml",
     exports = ["//data/api"],
-    visibility = ["//visibility:public"],
+    visibility = ["//app:__pkg__"],
     deps = [
         "//core",
         "//data/api",

@@ -21,7 +21,7 @@ package template
 import org.morfly.airin.starlark.lang.BUILD
 
 
-fun tools_java_build(
+internal fun tools_java_build(
     toolsDir: String,
     javaToolchainTargetName: String
     /**

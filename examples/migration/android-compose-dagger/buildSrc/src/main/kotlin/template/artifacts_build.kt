@@ -24,7 +24,7 @@ import org.morfly.airin.starlark.library.artifact
 import org.morfly.airin.starlark.library.java_import
 
 
-fun artifacts_build(
+internal fun artifacts_build(
     artifactsDir: String,
     roomRuntimeTargetName: String,
     roomKtxTargetName: String,

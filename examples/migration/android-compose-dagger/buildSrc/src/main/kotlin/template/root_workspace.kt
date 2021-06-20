@@ -23,7 +23,7 @@ import org.morfly.airin.starlark.lang.WORKSPACE
 import org.morfly.airin.starlark.library.*
 
 
-fun root_workspace(
+internal fun root_workspace(
     artifactList: List<String>,
     composeArtifactsWithoutVersion: List<String>
     /**

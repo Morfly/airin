@@ -25,7 +25,7 @@ import org.morfly.airin.starlark.library.java_plugin
 import org.morfly.airin.starlark.library.kt_compiler_plugin
 
 
-fun tools_android_build(
+internal fun tools_android_build(
     toolsDir: String,
     composePluginTargetName: String,
     roomPluginLibraryTargetName: String,

@@ -70,7 +70,9 @@ class KotlinAndroidBuild : GradlePerModuleTemplateProvider() {
                     roomRuntimeTarget = Artifacts.ROOM_RUNTIME_TARGET,
                     roomKtxTarget = Artifacts.ROOM_KTX_TARGET,
                 ) else null,
-                debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME
+                debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME,
+                isPublic = target.name != "impl",
+                injectorModule = "app"
             )
         )
     }

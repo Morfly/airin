@@ -24,7 +24,7 @@ import org.morfly.airin.starlark.library.kt_javac_options
 import org.morfly.airin.starlark.library.kt_kotlinc_options
 
 
-fun tools_kotlin_build(
+internal fun tools_kotlin_build(
     toolsDir: String,
     kotlinToolchainTargetName: String,
     kotlinVersion: String

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection")
+@file:Suppress("SpellCheckingInspection", "FunctionName")
 
 package template
 
@@ -27,14 +27,14 @@ import org.morfly.airin.starlark.library.glob
 import org.morfly.airin.starlark.library.kt_android_library
 
 
-data class RoomInfo(
+internal data class RoomInfo(
     val roomCompilerLibraryTaget: String,
     val roomRuntimeTarget: String,
     val roomKtxTarget: String
 )
 
 
-fun kotlin_android_build(
+internal fun kotlin_android_build(
     targetName: String,
     packageName: String,
     hasBinary: Boolean,
@@ -47,7 +47,9 @@ fun kotlin_android_build(
     kotlinReflectTarget: String,
     hasDagger: Boolean,
     roomDeps: RoomInfo?,
-    debugKeystoreFile: String
+    debugKeystoreFile: String,
+    isPublic: Boolean,
+    injectorModule: String
     /**
      *
      */
@@ -70,7 +72,9 @@ fun kotlin_android_build(
         if (exportedTargets.isNotEmpty()) {
             exports = exportedTargets
         }
-        visibility = list["//visibility:public"]
+        visibility =
+            if (isPublic) list["//visibility:public"]
+            else list["//$injectorModule:__pkg__"]
 
         deps = mutableListOf<Label>().also { deps ->
             // project modules

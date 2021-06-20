@@ -9,7 +9,7 @@ kt_android_library(
     manifest = "src/main/AndroidManifest.xml",
     plugins = ["//:jetpack_compose_compiler_plugin"],
     exports = ["//image-list/api"],
-    visibility = ["//visibility:public"],
+    visibility = ["//app:__pkg__"],
     deps = [
         "//core",
         "//data/api",

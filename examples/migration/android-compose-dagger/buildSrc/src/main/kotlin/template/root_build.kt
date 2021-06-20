@@ -25,7 +25,7 @@ import org.morfly.airin.starlark.library.alias
 import org.morfly.airin.starlark.library.exports_files
 
 
-fun root_build(
+internal fun root_build(
     toolsDir: String,
     artifactsDir: String,
     javaToolchainTarget: String,
