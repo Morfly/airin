@@ -153,7 +153,7 @@ airin {
 > In the example above the order will be the following:
 > 1. AndroidApplication - as it is the last registered provider
 > 2. JavaLibrary - as it is the only left `per module` provider
-> 3. Workspace - as all `standalone` providers are being evaluate in the end.
+> 3. Workspace - as all `standalone` providers are being evaluated in the end.
 
 ### Step `5` - Run the migration
 
