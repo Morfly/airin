@@ -1,5 +1,3 @@
-@file:Suppress("HasPlatformType")
-
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -8,6 +6,8 @@ plugins {
     id("org.jetbrains.dokka")
     `maven-publish-config`
 }
+
+description = "Declarative, type-safe template engine for generating Starlark code using Kotlin."
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
@@ -40,7 +40,5 @@ task<Test>("functionalTest") {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    val kotestVersion: String by rootProject.extra
-    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation(deps.bundles.kotest)
 }
