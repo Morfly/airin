@@ -82,7 +82,7 @@ data class Vararg(
 }
 
 fun Vararg.toArgument(): Arg =
-    Arg(shortName, fullName, fullType, isRequired)
+    Arg(shortName, underlyingName = "", fullType, isRequired)
 
 sealed interface TypeDescriptor : Descriptor
 
