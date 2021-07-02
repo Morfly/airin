@@ -11,16 +11,8 @@ pluginManagement {
         id("com.google.devtools.ksp") version kspVersion
     }
     repositories {
-        maven { url = uri("file://$rootDir/mavenLocal")}
         gradlePluginPortal()
         google()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if(requested.id.name == "ksp") {
-                useModule("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.5.20-dev-experimental-20210628")
-            }
-        }
     }
 }
 
@@ -28,7 +20,6 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        maven { url = uri("file://$rootDir/mavenLocal")}
         google()
         mavenCentral()
     }
