@@ -24,6 +24,16 @@ val airinPublications = mapOf<GradleProjectName, Publication>(
         description = "A declarative, type-safe Starlark template engine that allows writing Starlark code templates in Kotlin."
     ),
 
+    "airin-starlark-stdlib" to Publication(
+        name = "Airin Starlark Standard Library",
+        description = "A Kotlin DSL that represent common Starlark rules and functions that include Java, Android, Kotlin and more."
+    ),
+
+    "airin-starlark-libgen" to Publication(
+        name = "Airin Starlark Library Generator",
+        description = "A symbol processor for generating Kotlin DSL for custom Starlark rules and functions."
+    ),
+
     "airin-migration-core" to Publication(
         name = "Airin Migration Core",
         description = "Core APIs for migration to Bazel."

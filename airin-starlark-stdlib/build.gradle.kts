@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.dokka")
+    `maven-publish-config`
 }
 
 kotlin {
