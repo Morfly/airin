@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(project(":airin-starlark"))
 
+    implementation(kotlin("stdlib"))
     implementation(deps.ksp)
 }
