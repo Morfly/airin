@@ -13,6 +13,10 @@ kotlin {
     }
 }
 
+tasks.withType<Jar>().configureEach {
+    from("$buildDir/generated/ksp/main/kotlin")
+}
+
 dependencies {
     implementation(project(":airin-starlark"))
     ksp(project(":airin-starlark-libgen"))

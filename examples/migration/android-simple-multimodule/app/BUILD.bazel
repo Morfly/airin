@@ -9,6 +9,7 @@ kt_android_library(
     ]),
     custom_package = "com.morfly.airin.sample",
     manifest = "src/main/AndroidManifest.xml",
+    resource_files = glob(["src/main/res/**"]),
     deps = [
         "//lib",
         artifact("androidx.core:core-ktx"),
@@ -16,7 +17,6 @@ kt_android_library(
         artifact("com.google.android.material:material"),
         artifact("androidx.constraintlayout:constraintlayout"),
     ],
-    resource_files = glob(["src/main/res/**"]),
 )
 
 android_binary(

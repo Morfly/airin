@@ -36,7 +36,7 @@ import org.morfly.airin.starlark.lang.api.LibraryFunction
 private interface RegisterToolchains {
 
     // TODO introduce Starlark analog of vararg
-    @Argument(required = true)
+    @Argument(underlyingName = "", required = true)
     val toolchain: Label
 }
 

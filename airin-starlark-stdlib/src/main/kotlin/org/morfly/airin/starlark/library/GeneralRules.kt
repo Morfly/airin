@@ -39,7 +39,7 @@ private interface Alias {
     val name: Name
 
     @Argument(required = true)
-    val alias: Label
+    val actual: Label
 }
 
 
