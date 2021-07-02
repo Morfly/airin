@@ -22,5 +22,6 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.morfly.airin:airin-starlark:0.2.0")
+    implementation("org.morfly.airin:airin-starlark:0.3.0")
+    implementation("org.morfly.airin:airin-starlark-stdlib:0.3.0")
 }
