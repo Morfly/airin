@@ -153,7 +153,7 @@ The example below shows the use of a `Dynamic` return kind:
 )
 interface Glob {
     
-    @Argument(underlyingName = "", inline)
+    @Argument(underlyingName = "")
     val select: DictionaryType<Key, Value>?
 
     // Property name and type are ignored for the Dynamic return kind.
