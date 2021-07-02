@@ -31,7 +31,7 @@ import org.morfly.airin.starlark.lang.api.LibraryFunction
     scope = [Build],
     kind = Statement
 )
-private interface KtCompulerPlugin {
+private interface KtCompilerPlugin {
 
     @Argument(required = true)
     val name: Name
