@@ -28,9 +28,14 @@ typealias StringType = CharSequence
 typealias NumberType = Number
 
 /**
+ * TODO add description
+ */
+typealias BooleanBaseType<T> = Comparable<T>
+
+/**
  * Representation of an boolean type from Starlark.
  */
-typealias BooleanType = Comparable<Boolean>
+typealias BooleanType = BooleanBaseType<Boolean>
 
 /**
  * Representation of an tuple type from Starlark.
@@ -44,14 +49,28 @@ typealias ListType<T> = List<T>
 typealias DictionaryType<K, V> = Map<K, V>
 
 /**
+ *
+ */
+typealias VoidType = Unit
+
+/**
+ *
+ */
+typealias BaseKey = Any
+
+/**
  * Type alias for a dictionary key type.
  */
-typealias Key = Any?
+typealias Key = BaseKey?
 
+/**
+ *
+ */
+typealias BaseValue = Any
 /**
  * Type alias for a dictionary value type.
  */
-typealias Value = Any?
+typealias Value = BaseValue?
 
 /**
  * String type alias for the value representing name in Bazel.

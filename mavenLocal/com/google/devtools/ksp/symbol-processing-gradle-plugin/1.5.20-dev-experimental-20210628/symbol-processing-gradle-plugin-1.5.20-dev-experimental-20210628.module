@@ -1,0 +1,96 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.google.devtools.ksp",
+    "module": "symbol-processing-gradle-plugin",
+    "version": "1.5.20-dev-experimental-20210628",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "symbol-processing-gradle-plugin-1.5.20-dev-experimental-20210628.jar",
+          "url": "symbol-processing-gradle-plugin-1.5.20-dev-experimental-20210628.jar",
+          "size": 51259,
+          "sha512": "e37f1461685934d45de36ff16d0b65b2c780f814bc731d0fb2726a8c806ba0c959b9ff22f54e4ce174852bc5a932286e7e524d2b32a61a787b7be47e44fd9a21",
+          "sha256": "81b55d5ef4fec64507ce0f2e08afcc7c6a87fd9c623d83811d172c9c8a8d7add",
+          "sha1": "87df3ac3bc9280a1bc1faada6dc1ede13ec51fbd",
+          "md5": "4a8b9968c15540e4281be797ea607a75"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "1.5.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin",
+          "version": {
+            "requires": "1.5.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "symbol-processing-gradle-plugin-1.5.20-dev-experimental-20210628.jar",
+          "url": "symbol-processing-gradle-plugin-1.5.20-dev-experimental-20210628.jar",
+          "size": 51259,
+          "sha512": "e37f1461685934d45de36ff16d0b65b2c780f814bc731d0fb2726a8c806ba0c959b9ff22f54e4ce174852bc5a932286e7e524d2b32a61a787b7be47e44fd9a21",
+          "sha256": "81b55d5ef4fec64507ce0f2e08afcc7c6a87fd9c623d83811d172c9c8a8d7add",
+          "sha1": "87df3ac3bc9280a1bc1faada6dc1ede13ec51fbd",
+          "md5": "4a8b9968c15540e4281be797ea607a75"
+        }
+      ]
+    }
+  ]
+}

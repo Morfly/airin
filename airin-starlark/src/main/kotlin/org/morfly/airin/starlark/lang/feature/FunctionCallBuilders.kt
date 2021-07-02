@@ -22,7 +22,7 @@ import org.morfly.airin.starlark.lang.api.StatementsHolder
 import kotlin.reflect.KClass
 import kotlin.reflect.typeOf
 
-// FIXME
+
 // ===== Function call statements =====
 
 /**
@@ -32,18 +32,12 @@ fun StatementsHolder.registerFunctionCallStatement(name: String, args: Set<Argum
     statements += ExpressionStatement(VoidFunctionCall(name, args))
 }
 
-/**
- * Registers function statement in the Starlark file.
- */
-fun StatementsHolder.registerFunctionCallStatement(name: String, args: Map<String, *>) {
-    registerFunctionCallStatement(name, Arguments(args))
-}
 
 /**
  * Registers function statement in the Starlark file.
  */
-inline fun <T : FunctionCallContext> StatementsHolder.registerFunctionCallStatement(
-    name: String, context: T, body: T.() -> Unit
+inline fun <C : FunctionCallContext> StatementsHolder.registerFunctionCallStatement(
+    name: String, context: C, body: C.() -> Unit
 ) {
     val args = context.apply(body).fargs
     registerFunctionCallStatement(name, args)
@@ -60,8 +54,12 @@ fun stringFunctionCall(name: String, args: Set<Argument> = emptySet()): StringTy
 /**
  * Builds a function call expression that returns string type.
  */
-fun stringFunctionCall(name: String, args: Map<String, *>): StringType =
-    StringFunctionCall(name, args = Arguments(args))
+inline fun <C : FunctionCallContext> stringFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): StringType {
+    val args = context.apply(body).fargs
+    return stringFunctionCall(name, args)
+}
 
 /**
  * Builds a function call expression that returns list type.
@@ -72,20 +70,28 @@ fun <T> listFunctionCall(name: String, args: Set<Argument> = emptySet()): List<T
 /**
  * Builds a function call expression that returns list type.
  */
-fun <T> listFunctionCall(name: String, args: Map<String, *>): List<T> =
-    ListFunctionCall(name, args = Arguments(args))
+inline fun <T, C : FunctionCallContext> listFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): List<T> {
+    val args = context.apply(body).fargs
+    return listFunctionCall(name, args)
+}
 
 /**
- * Builds a function call expression that returns list type.
+ * Builds a function call expression that returns tuple type.
  */
-fun <T> tupleFunctionCall(name: String, args: Set<Argument> = emptySet()): TupleType =
+fun tupleFunctionCall(name: String, args: Set<Argument> = emptySet()): TupleType =
     TupleFunctionCall(name, args)
 
 /**
- * Builds a function call expression that returns list type.
+ * Builds a function call expression that returns tuple type.
  */
-fun <T> tupleFunctionCall(name: String, args: Map<String, *>): TupleFunctionCall =
-    TupleFunctionCall(name, args = Arguments(args))
+inline fun <C : FunctionCallContext> tupleFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): TupleType {
+    val args = context.apply(body).fargs
+    return tupleFunctionCall(name, args)
+}
 
 /**
  * Builds a function call expression that returns dictionary type.
@@ -96,8 +102,12 @@ fun dictFunctionCall(name: String, args: Set<Argument> = emptySet()): Map<Key, V
 /**
  * Builds a function call expression that returns dictionary type.
  */
-fun dictFunctionCall(name: String, args: Map<String, *>): Map<Key, Value> =
-    DictionaryFunctionCall(name, args = Arguments(args))
+inline fun <C : FunctionCallContext> dictFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): Map<Key, Value> {
+    val args = context.apply(body).fargs
+    return dictFunctionCall(name, args)
+}
 
 /**
  * Builds a function call expression that returns integer type.
@@ -108,8 +118,12 @@ fun numberFunctionCall(name: String, args: Set<Argument> = emptySet()): NumberTy
 /**
  * Builds a function call expression that returns integer type.
  */
-fun numberFunctionCall(name: String, args: Map<String, *>): NumberType =
-    numberFunctionCall(name, args = Arguments(args))
+inline fun <C : FunctionCallContext> numberFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): NumberType {
+    val args = context.apply(body).fargs
+    return numberFunctionCall(name, args)
+}
 
 /**
  * Builds a function call expression that returns boolean type.
@@ -120,8 +134,12 @@ fun booleanFunctionCall(name: String, args: Set<Argument> = emptySet()): Boolean
 /**
  * Builds a function call expression that returns boolean type.
  */
-fun booleanFunctionCall(name: String, args: Map<String, *>): BooleanType =
-    booleanFunctionCall(name, args = Arguments(args))
+inline fun <C : FunctionCallContext> booleanFunctionCall(
+    name: String, context: C, body: C.() -> Unit
+): BooleanType {
+    val args = context.apply(body).fargs
+    return booleanFunctionCall(name, args)
+}
 
 /**
  * Function call expression return type if which is specified by the caller.
@@ -136,7 +154,7 @@ inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> 
         Map::class.java.isAssignableFrom(T::class.java) -> DictionaryFunctionCall<Key, Value>(name, args)
         NumberType::class.java.isAssignableFrom(T::class.java) -> NumberFunctionCall(name, args)
         TupleType::class.java.isAssignableFrom(T::class.java) -> TupleFunctionCall(name, args)
-        Comparable::class.java.isAssignableFrom(T::class.java) -> {
+        BooleanBaseType::class.java.isAssignableFrom(T::class.java) -> {
             val type = typeOf<T>().arguments.first().type
             when (type?.classifier as? KClass<*>) {
                 Boolean::class -> BooleanFunctionCall(name, args)
@@ -151,5 +169,9 @@ inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> 
  *
  * Note: if the function you're building has a specific determined type DO NOT use this builder.
  */
-inline fun <reified T> functionCallExpression(name: String, args: Map<String, *>): T =
-    functionCallExpression(name, args = Arguments(args))
+inline fun <reified T, C : FunctionCallContext> functionCallExpression(
+    name: String, context: C, body: C.() -> Unit
+): T {
+    val args = context.apply(body).fargs
+    return functionCallExpression(name, args)
+}

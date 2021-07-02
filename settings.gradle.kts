@@ -2,13 +2,25 @@ enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
     // plugin versions are declared in gradle.properties
-    val kotlinPluginVersion: String by settings
-    val dokkaPluginVersion: String by settings
-    val kspPluginVersion: String by settings
+    val kotlinVersion: String by settings
+    val dokkaVersion: String by settings
+    val kspVersion: String by settings
     plugins {
-        kotlin("jvm") version kotlinPluginVersion
-        id("org.jetbrains.dokka") version dokkaPluginVersion
-        id("com.google.devtools.ksp") version kspPluginVersion
+        kotlin("jvm") version kotlinVersion
+        id("org.jetbrains.dokka") version dokkaVersion
+        id("com.google.devtools.ksp") version kspVersion
+    }
+    repositories {
+        maven { url = uri("file://$rootDir/mavenLocal")}
+        gradlePluginPortal()
+        google()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if(requested.id.name == "ksp") {
+                useModule("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.5.20-dev-experimental-20210628")
+            }
+        }
     }
 }
 
@@ -16,6 +28,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
+        maven { url = uri("file://$rootDir/mavenLocal")}
         google()
         mavenCentral()
     }
@@ -28,7 +41,8 @@ rootProject.name = "airin"
 
 include(
     ":airin-starlark",
-    ":airin-library-generator"
+    ":airin-library-generator",
+    ":airin-starlark-stdlib"
 )
 
 include(

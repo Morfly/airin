@@ -20,14 +20,16 @@ package org.morfly.airin.starlark.lang
 
 import org.morfly.airin.starlark.elements.BuildFile
 import org.morfly.airin.starlark.lang.api.LanguageScope
-import org.morfly.airin.starlark.lang.feature.BuildLibrary
+import org.morfly.airin.starlark.lang.api.BuildExpressionsLibrary
+import org.morfly.airin.starlark.lang.api.BuildStatementsLibrary
 
 
 /**
  * Starlark language context that is specific to Bazel BUILD files.
  */
 @LanguageScope
-class BuildContext : CommonStarlarkContext<BuildContext>(), BuildLibrary {
+class BuildContext : CommonStarlarkContext<BuildContext>(),
+    BuildStatementsLibrary, BuildExpressionsLibrary {
 
     override fun newContext() = BuildContext()
 }

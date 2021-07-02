@@ -1,11 +1,13 @@
 [versions]
 ksp = "1.5.20-1.0.0-beta03"
+kotlinPoet = "1.9.0"
 agp = "4.2.1"
 kotest = "4.6.0"
 
 [libraries]
-agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 ksp = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp"}
+kotlinPoet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlinPoet" }
+agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 

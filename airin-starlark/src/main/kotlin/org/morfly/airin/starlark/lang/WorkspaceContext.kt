@@ -20,14 +20,16 @@ package org.morfly.airin.starlark.lang
 
 import org.morfly.airin.starlark.elements.WorkspaceFile
 import org.morfly.airin.starlark.lang.api.LanguageScope
-import org.morfly.airin.starlark.lang.feature.WorkspaceLibrary
+import org.morfly.airin.starlark.lang.api.WorkspaceExpressionsLibrary
+import org.morfly.airin.starlark.lang.api.WorkspaceStatementsLibrary
 
 
 /**
  * Starlark language context that is specific to Bazel WORKSPACE files.
  */
 @LanguageScope
-class WorkspaceContext : CommonStarlarkContext<WorkspaceContext>(), WorkspaceLibrary {
+class WorkspaceContext : CommonStarlarkContext<WorkspaceContext>(),
+    WorkspaceStatementsLibrary, WorkspaceExpressionsLibrary {
 
     override fun newContext() = WorkspaceContext()
 }

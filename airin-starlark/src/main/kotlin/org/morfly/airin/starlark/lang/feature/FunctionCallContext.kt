@@ -23,6 +23,7 @@ import org.morfly.airin.starlark.lang.BooleanType
 import org.morfly.airin.starlark.lang.NumberType
 import org.morfly.airin.starlark.lang.StringType
 import org.morfly.airin.starlark.lang.TupleType
+import org.morfly.airin.starlark.lang.api.CommonExpressionsLibrary
 import org.morfly.airin.starlark.lang.api.LanguageScope
 import kotlin.reflect.KProperty
 
@@ -31,7 +32,7 @@ import kotlin.reflect.KProperty
  *
  */
 @LanguageScope
-open class FunctionCallContext : GlobalLibrary,
+open class FunctionCallContext : CommonExpressionsLibrary,
     DynamicArgumentsFeature, BinaryPlusFeature, DynamicBinaryPlusFeature,
     CollectionsFeature, BooleanValuesFeature,
     StringExtensionsFeature {

@@ -19,6 +19,7 @@
 package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.Expression
+import org.morfly.airin.starlark.lang.api.CommonExpressionsLibrary
 import org.morfly.airin.starlark.lang.api.LanguageScope
 
 
@@ -27,7 +28,7 @@ import org.morfly.airin.starlark.lang.api.LanguageScope
  * @see [CollectionsFeature].
  */
 @LanguageScope
-class DictionaryContext : GlobalLibrary,
+class DictionaryContext : CommonExpressionsLibrary,
     MappingFeature, DynamicBinaryPlusFeature, CollectionsFeature,
     StringExtensionsFeature {
 
