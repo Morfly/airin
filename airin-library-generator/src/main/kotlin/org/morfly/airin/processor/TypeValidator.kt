@@ -16,11 +16,10 @@
 
 package org.morfly.airin.processor
 
-import org.morfly.airin.VoidType
 import org.morfly.airin.starlark.lang.*
 
 
-typealias QualifiedName = String
+private typealias QualifiedName = String
 
 
 interface TypeValidator {
@@ -34,7 +33,7 @@ interface TypeValidator {
 
 class TypeValidatorImpl : TypeValidator {
 
-    private val voidType = VoidType::class.qualifiedName
+    private val voidType = Unit::class.qualifiedName
 
     override val allowedTypes = setOf(
         StringType::class.qualifiedName,

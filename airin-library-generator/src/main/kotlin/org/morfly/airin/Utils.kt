@@ -96,3 +96,11 @@ fun String.snakeToCamelCase(firstUppercase: Boolean = true): String {
         result.replaceFirstChar { it.uppercase() }
     else result
 }
+
+fun Map<*, Set<*>>.toDisplayableString(): String =
+    entries.joinToString(separator = ",\n") { (key, value) ->
+        "\t$key:\n" + value.joinToString(separator = ",\n") { "\t\t$it" }
+    }
+
+fun Set<*>.toDisplayableString(): String =
+    joinToString(separator = ", \n") { "\t$it" }

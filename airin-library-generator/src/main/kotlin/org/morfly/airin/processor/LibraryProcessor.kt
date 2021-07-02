@@ -45,15 +45,17 @@ class LibraryGenerator(
 ) : SymbolProcessor {
 
     private var lastRound = 0 // FIXME tmp
+    private var wasLastRoundClean = false // FIXME tmp
 
     private val libraryFiles = mutableMapOf<FilePath, GeneratedFile>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         // FIXME tmp fix for ksp that otherwise calls 'process' in an infinite loop.
-        if (lastRound++ > 1) return emptyList()
+        if (wasLastRoundClean && lastRound++ >= 1) return emptyList()
 
         val symbols = resolver.getSymbolsWithAnnotation(LibraryFunction::class.qualifiedName!!)
         val unableToProcess = symbols.filterNot { it.validate() }.toList()
+        if (unableToProcess.isEmpty()) wasLastRoundClean = true // FIXME tmp
 
         symbols.filterIsInstance<KSClassDeclaration>()
             .forEach { it.accept(Visitor(), Unit) }
@@ -165,14 +167,9 @@ class LibraryGenerator(
         private fun visitArgumentProperty(
             property: KSPropertyDeclaration, annotation: KSAnnotation?
         ) {
-            val type = property.type.getOrResolve()
-            val qualifiedName = type.declaration.qualifiedName!!.asString()
-            val actualQualifiedName: String = when (val declaration = type.declaration) {
-                is KSTypeAlias -> declaration.findActualType()
-                    .getOrResolve().declaration
-                    .qualifiedName!!.asString()
-                else -> qualifiedName
-            }
+            val actualQualifiedName = property.type.findActualType()
+                .getOrResolve().declaration
+                .qualifiedName!!.asString()
 
             val arguments = annotation?.arguments?.toMap()
             val propertyName = property.simpleName.asString()
@@ -236,33 +233,34 @@ class LibraryGenerator(
             }
         }
 
-        private fun visitTypeReference(typeRef: KSTypeReference): SpecifiedType {
+        private fun visitTypeReference(typeRef: KSTypeReference, visitGenericArguments: Boolean = true): SpecifiedType {
             // validation
-//            val typeName = typeRef.findActualType().getOrResolve().declaration.qualifiedName?.asString()
-//            if (!typeValidator.validate(typeName)) {
-//                val allowedTypes = typeValidator.allowedTypes
-//                val message = "Invalid type $typeName. Allowed types are: $allowedTypes"
-//                logger.error(message, typeRef)
-//            }
+            val typeName = typeRef.findActualType().getOrResolve().declaration.qualifiedName!!.asString()
+            if (!typeValidator.validate(typeName)) {
+                val allowedTypes = typeValidator.allowedTypes.toDisplayableString()
+                val message = "Invalid type $typeName. \nAllowed types are: \n$allowedTypes"
+                logger.error(message, typeRef)
+            }
 
             val genericArguments = mutableListOf<SpecifiedType>()
-            val typeArguments = typeRef.element?.typeArguments ?: emptyList()
-            for (arg in typeArguments) {
-                if (arg.variance == Variance.STAR) {
-                    val message = "A function argument type must not have a '*' variance."
-                    logger.error(message, arg)
-                    error(message)
-                }
-                arg.type?.let { ref ->
-//                    // validation
-//                    val typeArgumentName = ref.findActualType().getOrResolve().declaration.qualifiedName?.asString()
-//                    if (!typeValidator.validate(typeName, typeArgumentName)) {
-//                        val allowedTypes = typeValidator.allowedTypeArguments
-//                        val message =
-//                            "Invalid generic type argument $typeArgumentName. Allowed types are: $allowedTypes"
-//                        logger.error(message, ref)
-//                    }
-                    genericArguments += visitTypeReference(ref)
+            if (visitGenericArguments) {
+                val typeArguments = typeRef.element?.typeArguments ?: emptyList()
+                for (arg in typeArguments) {
+                    if (arg.variance == Variance.STAR) {
+                        val message = "A function argument type must not have a '*' variance."
+                        logger.error(message, arg)
+                    }
+                    arg.type?.let { ref ->
+                        // validation
+                        val typeArgName = ref.findActualType().getOrResolve().declaration.qualifiedName?.asString()
+                        if (!typeValidator.validate(typeName, typeArgName)) {
+                            val allowedTypes = typeValidator.allowedTypeArguments.toDisplayableString()
+                            val message =
+                                "Invalid generic type argument '$typeArgName'. \nAllowed types are: \n${allowedTypes}"
+                            logger.error(message, ref)
+                        }
+                        genericArguments += visitTypeReference(ref, visitGenericArguments)
+                    }
                 }
             }
 
@@ -274,7 +272,7 @@ class LibraryGenerator(
                 qualifiedName = typeDeclaration.qualifiedName!!.asString(),
                 packageName = typeDeclaration.packageName.asString(),
                 isMarkedNullable = resolvedType.isMarkedNullable,
-                actual = actualType?.let(::visitTypeReference),
+                actual = actualType?.let { visitTypeReference(it, visitGenericArguments = false) },
                 genericArguments
             )
         }
