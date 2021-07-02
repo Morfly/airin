@@ -3,6 +3,8 @@
 Airin provides a declarative, typesafe Starlark template engine with which you can easily describe you Bazel build
 scripts using Kotlin.
 
+Also, [learn more](airin_starlark_libgen.md) about generating DSL for custom rules and functions.
+
 ## Overview
 
 Here is the example of a basic usage of Airin Starlark template engine.
@@ -85,7 +87,7 @@ BUILD.bazel(relativePath = "some_dir") {
     // your template code
 }
 ```
-All `BUILD`, `BUILD.bazel`, `WORKSPACE` and `WORKSPACE.bazel` functions allow specifying a relative path.
+Both `BUILD` and `BUILD.bazel` functions allow specifying a relative path.
 
 ## Variables and Assignments
 

@@ -17,8 +17,6 @@ Create `buildSrc` directory in the root directory of your project.
 Create `build.gradle` file inside and configure it with Kotlin and add `Airin` as a dependency.
 
 
-
-
 ```groovy
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.5.10"
@@ -30,10 +28,14 @@ repositories {
 }
 
 dependencies {
-    implementation "org.morfly.airin:airin-gradle:0.2.0"
+    implementation "org.morfly.airin:airin-gradle:0.3.0"
     
-    // optional - Android specific extensions
-    implementation "org.morfly.airin:airin-gradle-android:0.2.0"
+    // Optional - Android specific extensions
+    implementation "org.morfly.airin:airin-gradle-android:0.3.0"
+    // Optional - Android Gradle plugin
+    implementation "com.android.tools.build:gradle:<version>"
+    // Optional - Kotlin Gradle plugin if using Jetpack Compose
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:<version>"
 }
 ```
 

@@ -88,19 +88,17 @@ Run the migration.
 Use [the documentation](docs/airin_gradle_migration.md) to learn more about the migration process.
 
 ## Installation
-
-Current version: [![Maven Central](https://img.shields.io/maven-central/v/org.morfly.airin/airin-starlark.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.morfly.airin%22%20AND%20a:%22airin-starlark%22)
-    
   
 ### Migration from Gradle
   
 In the `buildSrc/build.gradle` file add the following:
 ```groovy
 dependencies {
-    implementation "org.morfly.airin:airin-gradle:x.y.z"
+    // Gradle plugin
+    implementation "org.morfly.airin:airin-gradle:0.3.0"
   
-    // optional - Android specific extensions
-    implementation "org.morfly.airin:airin-gradle-android:x.y.z"
+    // Optional - Android specific extensions
+    implementation "org.morfly.airin:airin-gradle-android:0.3.0"
 }
 ```
 Then, in the root `build.gradle` file apply Airin Gradle plugin:
@@ -116,12 +114,23 @@ plugins {
 In case you need only Starlark code generator:
 ```groovy
 dependencies {
-    implementation "org.morfly.airin:airin-starlark:x.y.z"
+    // Starlark template engine
+    implementation "org.morfly.airin:airin-starlark:0.3.0"
+    // Collection of common rules and functions
+    implementation "org.morfly.airin:airin-starlark-stdlib:0.3.0"
+  
+    // Optional - Starlark rules and functions generator
+    ksp "org.morfly.airin:airin-starlark-libgen:0.3.0"
 }
 ```
+Don't forget to add `id("com.google.devtools.ksp")` to `plugins` section of your `build.gradle(.kts)` file if you are 
+using `ksp`.
+
 <br>
   
-Now you are ready to [configure the plugin](docs/airin_gradle_migration.md).
+Now you are ready for [the migration](docs/airin_gradle_migration.md).
+
+Also, [learn more](docs/airin_starlark_libgen.md) about generating DSL for custom rules and functions.
 
 ## Examples
 
