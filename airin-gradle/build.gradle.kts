@@ -17,5 +17,6 @@ gradlePlugin {
 dependencies {
     implementation(kotlin("stdlib"))
     api(project(":airin-starlark"))
+    api(project(":airin-starlark-stdlib"))
     api(project(":airin-migration-core"))
 }

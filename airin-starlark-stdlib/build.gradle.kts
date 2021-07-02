@@ -15,7 +15,7 @@ kotlin {
 
 dependencies {
     implementation(project(":airin-starlark"))
-    ksp(project(":airin-library-generator"))
+    ksp(project(":airin-starlark-libgen"))
 
     testImplementation(deps.bundles.kotest)
 }

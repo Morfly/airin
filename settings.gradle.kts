@@ -32,8 +32,8 @@ rootProject.name = "airin"
 
 include(
     ":airin-starlark",
-    ":airin-library-generator",
-    ":airin-starlark-stdlib"
+    ":airin-starlark-stdlib",
+    ":airin-starlark-libgen"
 )
 
 include(
