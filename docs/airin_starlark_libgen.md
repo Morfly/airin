@@ -2,10 +2,11 @@
 Airin provides by default a set of Bazel rules and functions that include Java, Kotlin, Android use cases and more.
 All of them are available in `airin-starlark-stdlib` artifact.
 
-These functions are represented with a typesafe Kotlin DSL. In case additional rules and functions required, Airin provides 
-the mechanism of generating them.
+These functions are represented with a typesafe Kotlin DSL that can be used for generating the corresponding code in Starlark. 
+If you need to usee additional rules and functions for your build scripts, Airin provides 
+the mechanism Kotlin DSL for them.
 
-With the power of Kotlin symbol processing (KSP) `airin-starlark-libgen` artifact enables this functionallity.
+With the power of Kotlin symbol processing (ksp) `airin-starlark-libgen` artifact enables this functionallity.
 
 ## Getting started
 
@@ -52,7 +53,7 @@ interface AndroidBinary {
 The above configuration will generate two types of Kotlin DSL functions that use `round` and `curly` brackets. 
 Both will generate the same Starlark function.
 
-The first one uses `round` backets and is more similar to the Sarlark one:
+The first one uses `round` backets and is more similar to its Sarlark counterpart:
 ```kotlin
 fun build() = BUILD.bazel {
     
@@ -60,13 +61,10 @@ fun build() = BUILD.bazel {
         name = "app",
         srcs = glob("src/main/kotlin/**/*.kt"),
         deps = list[":lib"],
-        manifest_values = dict {
-            "minSdkVersion" to "29"
-        }
     )
 }
 ```
-The second one uses `curly` brackets and provides more flexibility for the template:
+The second one uses `curly` brackets and provides more flexibility while describing build scripts:
 ```kotlin
 fun build(useLib: Boolean) = BUILD.bazel {
     
@@ -76,37 +74,38 @@ fun build(useLib: Boolean) = BUILD.bazel {
         if(useLib) {
             deps = list[":lib"]
         }
-        manifest_values = dict {
+        "manifest_values" `=` {
             "minSdkVersion" to "29"
         }
     }
 }
 ```
-You can use either of them depending on your use case.
+You can use either of them depending on your use case, as they will output the same Starlark code.
 
 ### Generation configuration
 
 The `@LibraryFunction` annotation has the following properties:
 
-|   param  | type            | enum options                   | description                                                                                          |
-|:--------:|-----------------|--------------------------------|------------------------------------------------------------------------------------------------------|
-| name     | String          |                                | Name of the generated function.                                                                      |
-| scope    | [FunctionScope] | Build Workspace Starlark       | Defines whether the function targets `BUILD`, `WORKSPACE` or `.bzl` files. Can be combined.          |
-| kind     | FunctionKind    | Statement Expression           | `Statement` is more applicable to rules while `Expression` can be used for functions such as `glob`. |
-| brackets | [BracketsKind]  | Round Curly                    | Defines the type of DSL function by brackets. Can be combined.                                       |
+|   param    | type              | enum options                     | description                                                                                          |
+|:----------:|-------------------|----------------------------------|------------------------------------------------------------------------------------------------------|
+| `name`     | `String`          |                                  | Name of the generated function.                                                                      |
+| `scope`    | [`FunctionScope`] | `Build`  `Workspace`  `Starlark` | Defines whether the function targets `BUILD`, `WORKSPACE` or `.bzl` files. Can be combined.          |
+| `kind`     | `FunctionKind`    | `Statement`  `Expression`        | `Statement` is more applicable to rules while `Expression` can be used for functions that return some value such as `glob`. |
+| `brackets` | [`BracketsKind`]  | `Round`  `Curly`                 | Defines the type of DSL function by brackets. Can be combined.                                       |
 
 ### Function arguments
 Each propety of the interface will be considered as a function argument except the one annotated with `@Returns` annotation.
 
-It is also possible to annotate properties with the `@Argument` annotation to adjust its behavior. However, it is not mandatory.
+It is also possible to annotate the property with the `@Argument` annotation to adjust the behavior of the corresponding argument.
+However, it is not mandatory.
 
 The `@Argument` annotation has the following properties:
 
-|      param     | type    | optional | description                                                                                                                         |
-|:--------------:|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------|
-| underlyingName | String  | true     | Name that will be generated for the Starlark function. If not set the name will be taken from the property itself.                  |
-| required       | Boolean | true     | Defines whether the argument is mandatory.                                                                                          |
-| vararg         | Boolean | true     | Defines whether Kotlin DSL representation will generate this argument as `vararg`. The function can have only one such an argument. |
+|      param       | type      | optional | description                                                                                                                         |
+|:----------------:|-----------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------|
+| `underlyingName` | `String`  | +        | Name that will be generated for the Starlark function. If not set the name will be taken from the property itself.                  |
+| `required`       | `Boolean` | +        | Defines whether the argument is mandatory.                                                                                          |
+| `vararg`         | `Boolean` | +        | Defines whether Kotlin DSL representation will generate this argument as `vararg`. The function can have only one such an argument. |
 
 The example below shows the use of `vararg` parameter:
 ```kotlin
@@ -135,13 +134,13 @@ val srcs: ListType<StringType> = glob(
 
 ### Return type
 The `@Returns` annotation specifies the return type of the generated function. Only function of `Expression` kind can have 
-explicitely specified return type. `Statement` functions have `Unit` return type by default.
+explicitly specified return type. `Statement` functions have `Unit` return type by default.
 
 The `@Returns` annotation has the following properties:
 
-| param | type       | optional     | description                                                                                                                                           |
-|:-----:|------------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| kind  | ReturnKind | Type Dynamic | Defines whether the generated Kotlin DSL function has a `specified return type`. Otherwise it will be `dynamically` inferred depending on the caller. |
+| param   | type         | enum options      | description                                                                                                                                           |
+|:-------:|--------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `kind`  | `ReturnKind` | `Type`  `Dynamic` | Defines whether the generated Kotlin DSL function has a `specified return type`. Otherwise it will be `dynamically` inferred depending on the caller. |
 
 The example below shows the use of a `Dynamic` return kind:
 
@@ -156,7 +155,7 @@ interface Glob {
     @Argument(underlyingName = "")
     val select: DictionaryType<Key, Value>?
 
-    // Property name and type are ignored for the Dynamic return kind.
+    // Property name and type are ignored 
     @Returns(kind = Dynamic)
     val returns: Any
 }
@@ -178,12 +177,10 @@ Arguments of generated functions could be of the following types:
 - `TupleType`
 - `Any`
 
-The types above that are named as `*Type` are imported from the `org.morfly.airin.starlark.lang` package.
-
-Item type of `ListType` arguments should follow the same rule above.
+Item type of `ListType` should follow the same rule above.
 
 In addition, types of keys and values of `DictionaryType` should be:
 - `Key` for keys
 - `Value` for values
 
-The `Key` and `Value` types are also imported from the `org.morfly.airin.starlark.lang` package.
+All the types above (except `Any`) are imported from the `org.morfly.airin.starlark.lang` package.
