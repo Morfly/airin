@@ -1,4 +1,4 @@
 subprojects {
     group = "org.morfly.airin"
-    version = "0.3.0"
+    version = "0.4.0"
 }
