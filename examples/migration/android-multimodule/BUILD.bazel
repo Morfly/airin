@@ -1,0 +1,9 @@
+load("@dagger//:workspace_defs.bzl", "dagger_rules")
+
+dagger_rules()
+
+java_import(
+    name = "kotlin_coroutines_jvm",
+    jars = glob(["third_party/coroutines/*.jar"]),
+    visibility = ["//visibility:public"],
+)

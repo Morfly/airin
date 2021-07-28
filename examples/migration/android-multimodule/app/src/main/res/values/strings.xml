@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Android Migration Sample</string>
+    <string name="image_content_description">image</string>
+    <string name="no_images">No images</string>
+</resources>
