@@ -4,6 +4,7 @@
 
 - [android simple multimodule](migration/android-simple-multimodule): Example with the simple multi-module Android
   application migrated from Gradle to Bazel.
+- [android multimodule](migration/android-multimodule): Example with another multi-module Android application migrated from Gradle to Bazel.
 - [android compose dagger](migration/android-compose-dagger): Example with the multi-module Android application migrated
   from Gradle to Bazel. The project includes Jetpack Compose, Dagger 2, Room and other libraries.
 
