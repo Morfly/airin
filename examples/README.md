@@ -1,5 +1,7 @@
 # Airin Examples
 
+![Example apps](examples.png)
+
 ## Migrating to Bazel
 
 - [android simple multimodule](migration/android-simple-multimodule): Example with the simple multi-module Android
