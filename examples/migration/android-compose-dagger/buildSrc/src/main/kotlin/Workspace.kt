@@ -20,9 +20,8 @@ import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
 import org.morfly.airin.starlark.elements.StarlarkFile
 import org.morfly.airin.starlark.writer.FileWriter
-import template.bazelrc
-import template.bazelversion
-import template.root_workspace
+import template.bazelrc_template
+import template.root_workspace_template
 import java.io.File
 
 
@@ -37,7 +36,7 @@ class Workspace : GradleStandaloneTemplateProvider() {
             it.group?.startsWith("androidx.compose") ?: false
         }
         return listOf(
-            root_workspace(
+            root_workspace_template(
                 artifactList = otherArtifacts.map { it.toString(includeVersion = true) },
                 composeArtifactsWithoutVersion = composeArtifacts.map { it.toString(includeVersion = false) }
             )
@@ -45,13 +44,13 @@ class Workspace : GradleStandaloneTemplateProvider() {
     }
 
     private fun createBazelRcFile(rootProjectDir: String) {
-        val bazelRc = bazelrc(javaToolchainTarget = Tools.JAVA_TOOLCHAIN_TARGET)
+        val bazelRc = bazelrc_template(javaToolchainTarget = ToolsBuild.JAVA_TOOLCHAIN_TARGET)
         val path = "$rootProjectDir/.bazelrc"
         FileWriter.write(File(path), bazelRc)
     }
 
     private fun createBazelVersionFile(rootProjectDir: String) {
-        val bazelVersion = bazelversion()
+        val bazelVersion = "4.1.0"
         val path = "$rootProjectDir/.bazelversion"
         FileWriter.write(File(path), bazelVersion)
     }

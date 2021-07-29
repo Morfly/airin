@@ -14,17 +14,17 @@ alias(
 
 alias(
     name = "room_runtime",
-    actual = "//artifacts:room_runtime",
+    actual = "//third_party:room_runtime",
 )
 
 alias(
     name = "room_ktx",
-    actual = "//artifacts:room_ktx",
+    actual = "//third_party:room_ktx",
 )
 
 alias(
     name = "kotlin_reflect",
-    actual = "//artifacts:kotlin_reflect",
+    actual = "//third_party:kotlin_reflect",
 )
 
 alias(

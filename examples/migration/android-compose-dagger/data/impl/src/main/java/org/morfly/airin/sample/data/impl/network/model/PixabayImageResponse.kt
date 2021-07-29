@@ -45,7 +45,7 @@ data class PixabayImage(
     val imageSize: Long,
     val views: Int,
     val downloads: Int,
-    val favorites: Int,
+    val favorites: Int?,
     val likes: Int,
     val comments: Int,
     @Json(name = "user_id") val userId: Long,

@@ -33,7 +33,7 @@ class DefaultDataMapper @Inject constructor() : DataMapper {
             tags = tags,
             views = views,
             downloads = downloads,
-            favorites = favorites,
+            favorites = favorites ?: 0,
             likes = likes,
             comments = comments,
             timestamp = System.nanoTime(),

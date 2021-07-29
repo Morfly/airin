@@ -65,8 +65,6 @@ class ImagesRemoteMediator(
                 .hits
                 .map { mapper.networkToStorage(it, query) }
 
-            println("imagesTTT: $images")
-
             val endOfPaginationReached = images.isEmpty()
 
             database.withTransaction {

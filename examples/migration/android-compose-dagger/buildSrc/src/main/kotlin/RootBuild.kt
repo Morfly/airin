@@ -17,21 +17,21 @@
 import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.root_build
+import template.root_build_template
 
 class RootBuild : GradleStandaloneTemplateProvider() {
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
-        root_build(
-            toolsDir = Tools.TOOLS_DIR,
-            artifactsDir = Artifacts.ARTIFACTS_DIR,
-            javaToolchainTarget = Tools.JAVA_TOOLCHAIN_TARGET,
-            kotlinToolchainTarget = Tools.KOTLIN_TOOLCHAIN_TARGET,
-            roomRuntimeTarget = Artifacts.ROOM_RUNTIME_TARGET,
-            roomKtxTarget = Artifacts.ROOM_KTX_TARGET,
-            kotlinReflectTarget = Artifacts.KOTLIN_REFLECT_TARGET,
-            composePluginTarget = Tools.COMPOSE_PLUGIN_TARGET,
-            roomPluginLibraryTarget = Tools.ROOM_PLUGIN_LIBRARY_TARGET,
+        root_build_template(
+            toolsDir = ToolsBuild.TOOLS_DIR,
+            artifactsDir = ThirdPartyBuild.ARTIFACTS_DIR,
+            javaToolchainTarget = ToolsBuild.JAVA_TOOLCHAIN_TARGET,
+            kotlinToolchainTarget = ToolsBuild.KOTLIN_TOOLCHAIN_TARGET,
+            roomRuntimeTarget = ThirdPartyBuild.ROOM_RUNTIME_TARGET,
+            roomKtxTarget = ThirdPartyBuild.ROOM_KTX_TARGET,
+            kotlinReflectTarget = ThirdPartyBuild.KOTLIN_REFLECT_TARGET,
+            composePluginTarget = ToolsBuild.COMPOSE_PLUGIN_TARGET,
+            roomPluginLibraryTarget = ToolsBuild.ROOM_PLUGIN_LIBRARY_TARGET,
             debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME
         )
     )

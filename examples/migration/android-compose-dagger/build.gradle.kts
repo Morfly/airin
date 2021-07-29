@@ -31,14 +31,13 @@ plugins {
 }
 
 airin {
-
     templates {
 
         register<Workspace>()
         register<RootBuild>()
-        register<Tools>()
-        register<Artifacts>()
-        register<KotlinAndroidBuild>()
+        register<ToolsBuild>()
+        register<ThirdPartyBuild>()
+        register<AndroidModuleBuild>()
     }
 
     artifacts {
