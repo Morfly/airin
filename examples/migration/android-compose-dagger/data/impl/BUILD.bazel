@@ -23,8 +23,8 @@ kt_android_library(
         artifact("androidx.paging:paging-runtime-ktx"),
         artifact("androidx.sqlite:sqlite-framework"),
         artifact("androidx.room:room-common"),
-        "//:androidx_room_room_compiler_library",
-        "//:room_runtime",
-        "//:room_ktx",
+        artifact("androidx.room:room-runtime"),
+        artifact("androidx.room:room-ktx"),
+        "//tools:androidx_room_room_compiler_library",
     ],
 )

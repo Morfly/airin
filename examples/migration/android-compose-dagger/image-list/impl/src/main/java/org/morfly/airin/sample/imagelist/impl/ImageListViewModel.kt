@@ -26,6 +26,7 @@ import org.morfly.airin.sample.core.ImagesRepository
 import org.morfly.airin.sample.core.di.lib.ScreenScoped
 import org.morfly.airin.sample.core.entity.Image
 import javax.inject.Inject
+import kotlin.experimental.ExperimentalTypeInference
 
 
 @ScreenScoped

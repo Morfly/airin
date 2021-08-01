@@ -1,42 +1,19 @@
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "define_kt_toolchain")
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
+load("@dagger//:workspace_defs.bzl", "dagger_rules")
+
 package(default_visibility = ["//visibility:public"])
 
 exports_files(["debug.keystore"])
 
-alias(
-    name = "java_toolchain",
-    actual = "//tools/java:java_toolchain",
-)
+default_java_toolchain(name = "java_toolchain")
 
-alias(
+define_kt_toolchain(
     name = "kotlin_toolchain",
-    actual = "//tools/kotlin:kotlin_toolchain",
+    api_version = "1.5",
+    jvm_target = "1.8",
+    language_version = "1.5",
+    experimental_use_abi_jars = False,
 )
-
-alias(
-    name = "room_runtime",
-    actual = "//third_party:room_runtime",
-)
-
-alias(
-    name = "room_ktx",
-    actual = "//third_party:room_ktx",
-)
-
-alias(
-    name = "kotlin_reflect",
-    actual = "//third_party:kotlin_reflect",
-)
-
-alias(
-    name = "jetpack_compose_compiler_plugin",
-    actual = "//tools/android:jetpack_compose_compiler_plugin",
-)
-
-alias(
-    name = "androidx_room_room_compiler_library",
-    actual = "//tools/android:androidx_room_room_compiler_library",
-)
-
-load("@dagger//:workspace_defs.bzl", "dagger_rules")
 
 dagger_rules()

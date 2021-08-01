@@ -8,7 +8,7 @@ kt_android_library(
     resource_files = glob(["src/main/res/**"]),
     custom_package = "org.morfly.airin.sample",
     manifest = "src/main/AndroidManifest.xml",
-    plugins = ["//:jetpack_compose_compiler_plugin"],
+    plugins = ["//tools:jetpack_compose_compiler_plugin"],
     visibility = ["//visibility:public"],
     deps = [
         "//core",
@@ -44,7 +44,6 @@ android_binary(
     incremental_dexing = 1,
     deps = [
         ":app",
-        "//:kotlin_reflect",
         artifact("com.google.guava:guava"),
     ],
     visibility = ["//visibility:public"],

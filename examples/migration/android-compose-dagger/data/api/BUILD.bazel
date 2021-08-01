@@ -7,7 +7,7 @@ kt_android_library(
     resource_files = glob(["src/main/res/**"]),
     custom_package = "org.morfly.airin.sample.data",
     manifest = "src/main/AndroidManifest.xml",
-    plugins = ["//:jetpack_compose_compiler_plugin"],
+    plugins = ["//tools:jetpack_compose_compiler_plugin"],
     visibility = ["//visibility:public"],
     deps = [
         "//core",
