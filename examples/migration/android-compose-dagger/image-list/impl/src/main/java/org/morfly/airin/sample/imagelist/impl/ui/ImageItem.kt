@@ -16,7 +16,7 @@
 
 package org.morfly.airin.sample.imagelist.impl.ui
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -35,14 +35,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.rememberCoilPainter
-import com.google.accompanist.imageloading.DrawablePainter
-import com.google.accompanist.imageloading.ImageLoadState
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import org.morfly.airin.sample.core.R
 import org.morfly.airin.sample.core.ui.findDominantColor
 import org.morfly.airin.sample.core.ui.glow
@@ -80,7 +83,7 @@ fun ImageItem(image: DomainImage, onUserSelected: (userId: Long) -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = rememberCoilPainter(image.user.imageUrl),
+                    painter = rememberImagePainter(data = image.user.imageUrl),
                     contentDescription = null,
                     modifier = Modifier
                         .size(userImageSize)
@@ -153,25 +156,26 @@ fun ImageItem(image: DomainImage, onUserSelected: (userId: Long) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun PhotoImage(url: String, onDominantColorLoaded: (Color) -> Unit) {
-    var dominantColorFound by remember { mutableStateOf(false) }
-    val painter = rememberCoilPainter(
-        request = url,
-        requestBuilder = { allowHardware(false) },
-        fadeIn = true
-    )
-    if (!dominantColorFound) {
-        when (val state = painter.loadState) {
-            is ImageLoadState.Success -> {
-                val drawable = (state.result as DrawablePainter).drawable()
-                val color = drawable.findDominantColor()
-                onDominantColorLoaded(color)
-                @Suppress("UNUSED_VALUE")
-                dominantColorFound = true
+    val painter = rememberImagePainter(
+        data = url,
+        builder = {
+            crossfade(true) // TODO: investigate why cross fade does not work
+            allowHardware(false)
+        },
+        onExecute = { _, curr ->
+            when (val state = curr.state) {
+                is ImagePainter.State.Success -> {
+                    val bitmap = (state.painter as? BitmapPainter)?.bitmap()
+                    val color = bitmap?.findDominantColor()
+                    color?.let(onDominantColorLoaded)
+                }
             }
+            true
         }
-    }
+    )
 
     Image(
         painter = painter,
@@ -242,8 +246,8 @@ private fun Comments(comments: String) {
     }
 }
 
-private fun DrawablePainter.drawable(): Drawable {
-    val field = javaClass.getDeclaredField("drawable")
+private fun BitmapPainter.bitmap(): Bitmap {
+    val field = javaClass.getDeclaredField("image")
     field.isAccessible = true
-    return field.get(this) as Drawable
+    return (field.get(this) as ImageBitmap).asAndroidBitmap()
 }

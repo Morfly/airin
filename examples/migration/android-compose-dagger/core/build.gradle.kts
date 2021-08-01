@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.activity:activity-compose:$composeActivityVersion")
     implementation("androidx.navigation:navigation-compose:$composeNavigationVersion")
-    implementation("com.google.accompanist:accompanist-coil:$composeCoilVersion")
+    implementation("io.coil-kt:coil-compose:$composeCoilVersion")
 
     // ===== paging =====
 

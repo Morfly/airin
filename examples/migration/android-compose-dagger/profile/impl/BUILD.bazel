@@ -25,7 +25,7 @@ kt_android_library(
         artifact("androidx.activity:activity-compose"),
         artifact("androidx.navigation:navigation-compose"),
         artifact("androidx.lifecycle:lifecycle-viewmodel-compose"),
-        artifact("com.google.accompanist:accompanist-coil"),
+        artifact("io.coil-kt:coil-compose"),
         artifact("androidx.paging:paging-compose"),
         artifact("androidx.paging:paging-runtime-ktx"),
     ],

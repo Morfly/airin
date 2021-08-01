@@ -67,7 +67,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:$composeActivityVersion")
     implementation("androidx.navigation:navigation-compose:$composeNavigationVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$composeViewModelVersion")
-    implementation("com.google.accompanist:accompanist-coil:$composeCoilVersion")
+    implementation("io.coil-kt:coil-compose:$composeCoilVersion")
     implementation("androidx.paging:paging-compose:$composePagingVersion")
 
     // ===== dagger =====

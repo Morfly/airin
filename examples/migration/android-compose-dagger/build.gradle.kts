@@ -6,7 +6,7 @@ buildscript {
     val composeNavigationVersion by extra("2.4.0-alpha05")
     val composeViewModelVersion by extra("1.0.0-alpha07")
     val composePagingVersion by extra("1.0.0-alpha12")
-    val composeCoilVersion by extra("0.15.0")
+    val composeCoilVersion by extra("1.3.1")
     val daggerVersion by extra("2.36")
     val pagingVersion by extra("3.0.0")
     val retrofitVersion by extra("2.9.0")

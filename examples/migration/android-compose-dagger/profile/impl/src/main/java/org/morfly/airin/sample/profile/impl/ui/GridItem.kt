@@ -26,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 
 
 @Composable
 fun GridItem(imageUrl: String) {
     Image(
-        painter = rememberCoilPainter(imageUrl),
+        painter = rememberImagePainter(imageUrl),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier

@@ -32,7 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import org.morfly.airin.sample.profile.impl.ProfileViewModel
 
 
@@ -48,7 +48,7 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
         // avatar
         if (avatarUrl != null) {
             Image(
-                painter = rememberCoilPainter(avatarUrl),
+                painter = rememberImagePainter(avatarUrl),
                 contentDescription = null,
                 Modifier
                     .padding(top = 30.dp)
