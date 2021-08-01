@@ -25,14 +25,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = rootProject.extra["composeVersion"] as String
-        kotlinCompilerVersion = rootProject.extra["kotlinVersion"] as String
     }
 }
 

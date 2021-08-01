@@ -17,28 +17,26 @@
 import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.tools_android_build_template
-import template.tools_java_build_template
-import template.tools_kotlin_build_template
+import template.tools_template
 
 
 class ToolsBuild : GradleStandaloneTemplateProvider() {
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
-        tools_java_build_template(
-            toolsDir = TOOLS_DIR,
-            javaToolchainTargetName = JAVA_TOOLCHAIN_TARGET
-        ),
-        tools_kotlin_build_template(
-            toolsDir = TOOLS_DIR,
-            kotlinToolchainTargetName = KOTLIN_TOOLCHAIN_TARGET,
-            kotlinVersion = KOTLIN_LANG_VERSION
-        ),
-        tools_android_build_template(
-            toolsDir = TOOLS_DIR,
-            composePluginTargetName = COMPOSE_PLUGIN_TARGET,
-            roomPluginLibraryTargetName = ROOM_PLUGIN_LIBRARY_TARGET
-        )
+//        tools_java_build_template(
+//            toolsDir = TOOLS_DIR,
+//            javaToolchainTargetName = JAVA_TOOLCHAIN_TARGET
+//        ),
+//        tools_kotlin_build_template(
+//            toolsDir = TOOLS_DIR,
+//            kotlinToolchainTargetName = KOTLIN_TOOLCHAIN_TARGET,
+//            kotlinVersion = KOTLIN_LANG_VERSION
+//        ),
+//        tools_android_build_template(
+//            toolsDir = TOOLS_DIR,
+//            composePluginTargetName = COMPOSE_PLUGIN_TARGET,
+//            roomPluginLibraryTargetName = ROOM_PLUGIN_LIBRARY_TARGET
+//        )
     )
 
     companion object {

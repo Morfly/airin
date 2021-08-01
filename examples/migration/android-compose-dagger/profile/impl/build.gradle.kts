@@ -30,7 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
         freeCompilerArgs = listOf(
             "-Xopt-in=kotlin.RequiresOptIn"
         )
@@ -40,7 +39,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = rootProject.extra["composeVersion"] as String
-        kotlinCompilerVersion = rootProject.extra["kotlinVersion"] as String
     }
 }
 

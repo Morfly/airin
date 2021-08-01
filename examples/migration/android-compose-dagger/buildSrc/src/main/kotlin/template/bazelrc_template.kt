@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("SpellCheckingInspection", "unused")
+@file:Suppress("SpellCheckingInspection", "unused", "FunctionName")
 
 package template
 
