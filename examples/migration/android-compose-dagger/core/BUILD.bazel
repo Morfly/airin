@@ -19,7 +19,6 @@ kt_android_library(
         artifact("androidx.compose.ui:ui"),
         artifact("androidx.compose.ui:ui-tooling"),
         artifact("androidx.compose.material:material"),
-        artifact("androidx.compose.foundation:foundation"),
         artifact("androidx.activity:activity-compose"),
         artifact("androidx.navigation:navigation-compose"),
         artifact("com.google.accompanist:accompanist-coil"),

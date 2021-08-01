@@ -19,27 +19,22 @@
 package template
 
 import org.morfly.airin.starlark.lang.BUILD
-import org.morfly.airin.starlark.library.aar_import
-import org.morfly.airin.starlark.library.artifact
-import org.morfly.airin.starlark.library.java_import
+import org.morfly.airin.starlark.library.*
 
 
 fun artifacts_build_template(
-    artifactsDir: String,
-    roomRuntimeTargetName: String,
-    roomKtxTargetName: String,
-    kotlinReflectTargetName: String
     /**
      *
      */
-) = BUILD(artifactsDir) {
+) = BUILD("third_party") {
     load("@rules_android//android:rules.bzl", "android_binary")
     load("@rules_jvm_external//:defs.bzl", "artifact")
 
+    `package`(default_visibility = list["//visibility:public"])
+
     aar_import(
-        name = roomRuntimeTargetName,
-        aar = "room-runtime-2.3.0.aar",
-        visibility = list["//:__pkg__"],
+        name = "room_runtime",
+        aar = "@maven_secondary//:v1/https/maven.google.com/androidx/room/room-runtime/2.3.0/room-runtime-2.3.0.aar",
         deps = list[
                 artifact("androidx.sqlite:sqlite"),
                 artifact("androidx.arch.core:core-common"),
@@ -47,17 +42,28 @@ fun artifacts_build_template(
         ],
     )
 
-    aar_import(
-        name = roomKtxTargetName,
-        aar = "room-ktx-2.3.0.aar",
-        visibility = list["//:__pkg__"],
+    java_import(
+        name = "kotlin_reflect",
+        jars = list["kotlin-reflect-1.5.10.jar_desugared.jar"],
+    )
+
+    java_library(
+        name = "sun_misc_stubs",
+        neverlink = True,
+        srcs = list[
+                "sun/misc/Signal.java",
+                "sun/misc/SignalHandler.java",
+        ],
+        visibility = list["//visibility:private"],
     )
 
     java_import(
-        name = kotlinReflectTargetName,
-        jars = list[
-                "kotlin-reflect-1.5.10.jar_desugared.jar",
+        name = "kotlinx_coroutines_core_jvm",
+        jars = list["@maven_secondary//:v1/https/repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.5.1/kotlinx-coroutines-core-jvm-1.5.1.jar"],
+        deps = list[
+                ":sun_misc_stubs",
+                artifact("org.jetbrains.kotlin:kotlin-stdlib-common"),
+                artifact("org.jetbrains.kotlin:kotlin-stdlib-jdk8"),
         ],
-        visibility = list["//:__pkg__"],
     )
 }

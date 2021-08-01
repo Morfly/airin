@@ -33,10 +33,10 @@ fun root_workspace_template(
 
     workspace(name = "android-compose-dagger")
 
-    load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
     val KOTLIN_COMPILER_VERSION by "1.5.10"
-    val COMPOSE_VERSION by "1.0.0-beta08"
+    val COMPOSE_VERSION by "1.0.0"
+
+    load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
     val DAGGER_TAG by "2.36"
     val DAGGER_SHA by "1e6d5c64d336af2e14c089124bf2bd9d449010db02534ce820abc6a7f0429c86"
@@ -66,8 +66,6 @@ fun root_workspace_template(
     )
 
     load("@rules_jvm_external//:defs.bzl", "maven_install")
-    load("@rules_jvm_external//:specs.bzl", "maven")
-
 
     val composeArtifacts = linkedSetOf<String>().also {
         it += composeArtifactsWithoutVersion
@@ -79,19 +77,28 @@ fun root_workspace_template(
         artifacts = DAGGER_ARTIFACTS `+` artifactList.sorted() + composeArtifacts + list[
                 "com.google.guava:guava:28.1-android"
         ],
-        excluded_artifacts = list[
-                "org.jetbrains.kotlin:kotlin-reflect",
-        ],
         override_targets = dict {
-            "org.jetbrains.kotlin:kotlin-stdlib" to "@com_github_jetbrains_kotlin//:kotlin-stdlib"
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to "@com_github_jetbrains_kotlin//:kotlin-stdlib-jdk7"
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "@com_github_jetbrains_kotlin//:kotlin-stdlib-jdk8"
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm" to "@//third_party:kotlinx_coroutines_core_jvm"
+            "org.jetbrains.kotlin:kotlin-reflect" to "@//third_party:kotlin_reflect"
+            "androidx.room:room-runtime" to "@//third_party:room_runtime"
         },
         repositories = DAGGER_REPOSITORIES `+` list[
                 "https://maven.google.com",
                 "https://repo1.maven.org/maven2",
         ],
     )
+
+    maven_install {
+        "name" `=` "maven_secondary"
+        artifacts = list[
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1",
+                "androidx.room:room-runtime:2.3.0",
+        ]
+        repositories = list[
+                "https://maven.google.com",
+                "https://repo1.maven.org/maven2",
+        ]
+    }
 
     val RULES_ANDROID_VERSION by "0.1.1"
     val RULES_ANDROID_SHA by "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806"
@@ -113,22 +120,20 @@ fun root_workspace_template(
         build_tools_version = "29.0.3",
     )
 
-    val RULES_KOTLIN_VERSION by "v1.5.0-alpha-3"
-    val RULES_KOTLIN_SHA by "eeae65f973b70896e474c57aa7681e444d7a5446d9ec0a59bb88c59fc263ff62"
+    val RULES_KOTLIN_VERSION by "c26007a1776a79d94bea7c257ef07a23bbc998d5"
+    val RULES_KOTLIN_SHA by "be7b1fac4f93fbb81eb79f2f44caa97e1dfa69d2734e4e184443acd9f5182386"
 
-    -"""
-    #http_archive(
-    #    name = "io_bazel_rules_kotlin",
-    #    sha256 = RULES_KOTLIN_SHA,
-    #    type = "tar.gz",
-    #    urls = ["https://github.com/bazelbuild/rules_kotlin/releases/download/%s/rules_kotlin_release.tgz" % RULES_KOTLIN_VERSION],
-    #)
-    """.trimIndent()
-
-    local_repository(
+    http_archive(
         name = "io_bazel_rules_kotlin",
-        path = "tools/rules_kotlin_1_5",
+        sha256 = RULES_KOTLIN_SHA,
+        strip_prefix = "rules_kotlin-%s" `%` RULES_KOTLIN_VERSION,
+        urls = list[
+                "https://github.com/bazelbuild/rules_kotlin/archive/%s.tar.gz" `%` RULES_KOTLIN_VERSION,
+        ],
     )
+
+    load("@io_bazel_rules_kotlin//kotlin:dependencies.bzl", "kt_download_local_dev_dependencies")
+    "kt_download_local_dev_dependencies"()
 
     load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kotlin_repositories")
 

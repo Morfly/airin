@@ -20,12 +20,12 @@ java_import(
 
 java_library(
     name = "sun_misc_stubs",
-    neverlink = True,
     srcs = [
         "sun/misc/Signal.java",
         "sun/misc/SignalHandler.java",
     ],
     visibility = ["//visibility:private"],
+    neverlink = True,
 )
 
 java_import(

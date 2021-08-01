@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package template
 
 import org.morfly.airin.starlark.lang.BUILD
@@ -5,8 +7,10 @@ import org.morfly.airin.starlark.library.*
 
 
 fun tools_template(
-
-) = BUILD {
+    /**
+     *
+     */
+) = BUILD("tools") {
     load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_compiler_plugin")
     load("@rules_jvm_external//:defs.bzl", "artifact")
 

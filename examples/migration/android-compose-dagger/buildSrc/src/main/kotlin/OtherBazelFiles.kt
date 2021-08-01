@@ -21,26 +21,17 @@ import org.morfly.airin.GradleStandaloneTemplateProvider
 import org.morfly.airin.starlark.elements.StarlarkFile
 import org.morfly.airin.starlark.writer.FileWriter
 import template.bazelrc_template
-import template.root_workspace_template
 import java.io.File
 
 
-class Workspace : GradleStandaloneTemplateProvider() {
+class OtherBazelFiles : GradleStandaloneTemplateProvider() {
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
         val rootProjectDir = target.rootDir
         createBazelRcFile(rootProjectDir.path)
         createBazelVersion(rootProjectDir.path)
 
-        val (composeArtifacts, otherArtifacts) = sharedData.allArtifacts.partition {
-            it.group?.startsWith("androidx.compose") ?: false
-        }
-        return listOf(
-            root_workspace_template(
-                artifactList = otherArtifacts.map { it.toString(includeVersion = true) },
-                composeArtifactsWithoutVersion = composeArtifacts.map { it.toString(includeVersion = false) }
-            )
-        )
+        return emptyList()
     }
 
     private fun createBazelRcFile(rootProjectDir: String) {
@@ -53,9 +44,5 @@ class Workspace : GradleStandaloneTemplateProvider() {
         val bazelVersion = "4.1.0"
         val path = "$rootProjectDir/.bazelversion"
         FileWriter.write(File(path), bazelVersion)
-    }
-
-    companion object {
-        const val DEBUG_KEYSTORE_FILE_NAME = "debug.keystore"
     }
 }

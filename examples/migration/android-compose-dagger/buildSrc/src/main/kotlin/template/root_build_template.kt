@@ -21,66 +21,34 @@ package template
 import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.lang.bazel
 import org.morfly.airin.starlark.library.`package`
-import org.morfly.airin.starlark.library.alias
+import org.morfly.airin.starlark.library.define_kt_toolchain
 import org.morfly.airin.starlark.library.exports_files
 
 
 fun root_build_template(
-    toolsDir: String,
-    artifactsDir: String,
-    javaToolchainTarget: String,
-    kotlinToolchainTarget: String,
-    roomRuntimeTarget: String,
-    roomKtxTarget: String,
-    kotlinReflectTarget: String,
-    composePluginTarget: String,
-    roomPluginLibraryTarget: String,
-    debugKeystoreFile: String
     /**
      *
      */
 ) = BUILD.bazel {
+    load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "define_kt_toolchain")
+    load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
+    load("@dagger//:workspace_defs.bzl", "dagger_rules")
 
     `package`(default_visibility = list["//visibility:public"])
 
-    exports_files(debugKeystoreFile)
+    exports_files(list["debug.keystore"])
 
-    alias(
-        name = javaToolchainTarget,
-        actual = "//$toolsDir/java:$javaToolchainTarget",
+    "default_java_toolchain" {
+        "name" `=` "java_toolchain"
+    }
+
+    define_kt_toolchain(
+        name = "kotlin_toolchain",
+        api_version = "1.5",
+        jvm_target = "1.8",
+        language_version = "1.5",
+        experimental_use_abi_jars = False,
     )
-
-    alias(
-        name = kotlinToolchainTarget,
-        actual = "//$toolsDir/kotlin:$kotlinToolchainTarget",
-    )
-
-    alias(
-        name = roomRuntimeTarget,
-        actual = "//$artifactsDir:$roomRuntimeTarget",
-    )
-
-    alias(
-        name = roomKtxTarget,
-        actual = "//$artifactsDir:$roomKtxTarget",
-    )
-
-    alias(
-        name = kotlinReflectTarget,
-        actual = "//$artifactsDir:$kotlinReflectTarget",
-    )
-
-    alias(
-        name = composePluginTarget,
-        actual = "//$toolsDir/android:$composePluginTarget",
-    )
-
-    alias(
-        name = roomPluginLibraryTarget,
-        actual = "//$toolsDir/android:$roomPluginLibraryTarget",
-    )
-
-    load("@dagger//:workspace_defs.bzl", "dagger_rules")
 
     "dagger_rules"()
 }

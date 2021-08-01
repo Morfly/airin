@@ -20,11 +20,10 @@ kt_android_library(
         artifact("com.squareup.retrofit2:converter-moshi"),
         artifact("com.squareup.okhttp3:logging-interceptor"),
         artifact("com.squareup.moshi:moshi-kotlin"),
-        artifact("androidx.paging:paging-runtime-ktx"),
-        artifact("androidx.sqlite:sqlite-framework"),
-        artifact("androidx.room:room-common"),
         artifact("androidx.room:room-runtime"),
         artifact("androidx.room:room-ktx"),
+        artifact("androidx.paging:paging-runtime-ktx"),
+        artifact("androidx.sqlite:sqlite-framework"),
         "//tools:androidx_room_room_compiler_library",
     ],
 )

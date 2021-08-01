@@ -27,27 +27,17 @@ import org.morfly.airin.starlark.library.glob
 import org.morfly.airin.starlark.library.kt_android_library
 
 
-data class RoomInfo(
-    val roomCompilerLibraryTaget: String,
-    val roomRuntimeTarget: String,
-    val roomKtxTarget: String
-)
-
-
 fun android_module_build_template(
     targetName: String,
     packageName: String,
     hasBinary: Boolean,
     hasCompose: Boolean,
-    composePluginTarget: String,
     manifestLocation: String,
     internalDeps: Set<String>,
     externalDeps: List<String>,
     exportedTargets: List<String>,
-    kotlinReflectTarget: String,
     hasDagger: Boolean,
-    roomDeps: RoomInfo?,
-    debugKeystoreFile: String,
+    hasRoom: Boolean,
     isPublic: Boolean,
     injectorModule: String
     /**
@@ -67,7 +57,7 @@ fun android_module_build_template(
         custom_package = packageName
         manifest = manifestLocation
         if (hasCompose) {
-            plugins = list["//:$composePluginTarget"]
+            plugins = list["//tools:jetpack_compose_compiler_plugin"]
         }
         if (exportedTargets.isNotEmpty()) {
             exports = exportedTargets
@@ -85,14 +75,11 @@ fun android_module_build_template(
             if (hasCompose) deps += artifact("androidx.compose.runtime:runtime")
             // other external artifacts
             deps += externalDeps.map { artifact(it) }
-            // room deps
-            if (roomDeps != null) deps += listOf(
-                artifact("androidx.sqlite:sqlite-framework"),
-                artifact("androidx.room:room-common"),
-                "//:${roomDeps.roomCompilerLibraryTaget}",
-                "//:${roomDeps.roomRuntimeTarget}",
-                "//:${roomDeps.roomKtxTarget}",
-            )
+            // room
+            if (hasRoom) {
+                deps += artifact("androidx.sqlite:sqlite-framework")
+                deps += "//tools:androidx_room_room_compiler_library"
+            }
         }
     }
 
@@ -112,11 +99,9 @@ fun android_module_build_template(
                 "versionName" to "1.0"
             },
             multidex = "native",
-            debug_key = "//:$debugKeystoreFile",
+            debug_key = "//:debug.keystore",
             deps = list[
                     ":$targetName",
-
-                    "//:$kotlinReflectTarget",
                     artifact("com.google.guava:guava"),
             ],
         )

@@ -14,18 +14,12 @@ java_plugin(
     name = "androidx_room_room_compiler_plugin",
     processor_class = "androidx.room.RoomProcessor",
     deps = [artifact("androidx.room:room-compiler")],
-    neverlink = True,
     visibility = ["//visibility:private"],
+    neverlink = True,
 )
 
 java_library(
     name = "androidx_room_room_compiler_library",
-#    exports = [
-#        artifact("androidx.room:room-common"),
-#        artifact("androidx.room:room-compiler"),
-#        artifact("androidx.room:room-runtime"),
-#        artifact("androidx.room:room-ktx"),
-#    ],
     exported_plugins = [":androidx_room_room_compiler_plugin"],
     neverlink = True,
 )

@@ -17,7 +17,6 @@
 import org.gradle.api.Project
 import org.morfly.airin.*
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.RoomInfo
 import template.android_module_build_template
 
 
@@ -36,14 +35,13 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
         val implModules = target.moduleDependencies(setOf("implementation"))
         val apiModules = target.moduleDependencies(setOf("api"))
 
-        val hasRoom = implArtifacts.any { it.name.startsWith("room") }
-        val hasDagger = kaptArtifacts.any { it.name.startsWith("dagger") }
+        val hasRoom = implArtifacts.any { it.group == "androidx.room" }
+        val hasDagger = kaptArtifacts.any { it.group == "com.google.dagger"}
 
         val manifest = target.relativePath(target.manifest!!)
 
         val formattedExternalDeps = implArtifacts.asSequence()
             .filter { it !in sharedData.ignoredArtifacts }
-            .filter { !it.name.startsWith("room") }
             .map { it.toString(includeVersion = false) }
             .toList()
         val formattedExports = apiModules.map { it.bazelLabel() }
@@ -55,22 +53,15 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
         return listOf(
             android_module_build_template(
                 targetName = target.name,
-                packageName = target.packageName!!,
+                packageName = target.packageName ?: "ERROR",
                 hasBinary = target.plugins.hasPlugin(ANDROID_APPLICATION),
                 hasCompose = target.isComposeEnabled,
-                composePluginTarget = ToolsBuild.COMPOSE_PLUGIN_TARGET,
                 manifestLocation = manifest,
                 internalDeps = formattedInternalDeps,
                 exportedTargets = formattedExports,
                 externalDeps = formattedExternalDeps,
-                kotlinReflectTarget = ThirdPartyBuild.KOTLIN_REFLECT_TARGET,
                 hasDagger = hasDagger,
-                roomDeps = if (hasRoom) RoomInfo(
-                    roomCompilerLibraryTaget = ToolsBuild.ROOM_PLUGIN_LIBRARY_TARGET,
-                    roomRuntimeTarget = ThirdPartyBuild.ROOM_RUNTIME_TARGET,
-                    roomKtxTarget = ThirdPartyBuild.ROOM_KTX_TARGET,
-                ) else null,
-                debugKeystoreFile = Workspace.DEBUG_KEYSTORE_FILE_NAME,
+                hasRoom = hasRoom,
                 isPublic = target.name != "impl",
                 injectorModule = "app"
             )

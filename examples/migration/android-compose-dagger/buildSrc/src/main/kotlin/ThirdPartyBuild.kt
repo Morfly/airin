@@ -24,19 +24,6 @@ import java.io.File
 class ThirdPartyBuild : GradleStandaloneTemplateProvider() {
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
-        artifacts_build_template(
-            artifactsDir = ARTIFACTS_DIR,
-            roomRuntimeTargetName = ROOM_RUNTIME_TARGET,
-            roomKtxTargetName = ROOM_KTX_TARGET,
-            kotlinReflectTargetName = KOTLIN_REFLECT_TARGET
-        )
+        artifacts_build_template()
     )
-
-    companion object {
-        const val ARTIFACTS_DIR = "third_party"
-
-        const val ROOM_RUNTIME_TARGET = "room_runtime"
-        const val ROOM_KTX_TARGET = "room_ktx"
-        const val KOTLIN_REFLECT_TARGET = "kotlin_reflect"
-    }
 }
