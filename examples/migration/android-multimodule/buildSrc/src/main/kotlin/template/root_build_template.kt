@@ -20,8 +20,7 @@ package template
 
 import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.lang.bazel
-import org.morfly.airin.starlark.library.glob
-import org.morfly.airin.starlark.library.java_import
+import org.morfly.airin.starlark.library.exports_files
 
 
 fun root_build_template(
@@ -30,6 +29,8 @@ fun root_build_template(
      */
 ) = BUILD.bazel {
     load("@dagger//:workspace_defs.bzl", "dagger_rules")
+
+    exports_files(list["debug.keystore"], visibility = list["//visibility:public"])
 
     "dagger_rules"()
 }

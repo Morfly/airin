@@ -8,5 +8,5 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app")
-include(":images")
+include ":app"
+include ":images"

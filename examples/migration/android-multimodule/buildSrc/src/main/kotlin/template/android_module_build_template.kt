@@ -61,7 +61,7 @@ fun android_module_build_template(
             },
             multidex = "native",
             incremental_dexing = 1,
-            debug_key = "debug.keystore",
+            debug_key = "//:debug.keystore",
             visibility = list["//visibility:public"],
             deps = list[":$name"],
         )

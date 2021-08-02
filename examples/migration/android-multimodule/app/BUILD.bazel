@@ -34,7 +34,7 @@ android_binary(
         "versionCode": "1",
         "versionName": "1.0",
     },
-    debug_key = "debug.keystore",
+    debug_key = "//:debug.keystore",
     multidex = "native",
     incremental_dexing = 1,
     deps = [":app"],
