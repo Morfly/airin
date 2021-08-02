@@ -21,12 +21,14 @@ airin {
         register<AndroidModuleBuild>()
         register<RootBuild>()
         register<Workspace>()
+        register<ThirdPartyBuild>()
     }
 
     artifacts {
         ignored = listOf(
             "com.google.dagger:dagger",
             "com.google.dagger:dagger-compiler",
+            "org.jetbrains.kotlin:kotlin-stdlib"
         )
     }
 }

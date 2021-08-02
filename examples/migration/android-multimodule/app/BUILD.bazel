@@ -11,6 +11,7 @@ kt_android_library(
     deps = [
         "//:dagger",
         "//images",
+        artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core"),
         artifact("androidx.core:core-ktx"),
         artifact("androidx.lifecycle:lifecycle-viewmodel-ktx"),
         artifact("androidx.lifecycle:lifecycle-runtime-ktx"),

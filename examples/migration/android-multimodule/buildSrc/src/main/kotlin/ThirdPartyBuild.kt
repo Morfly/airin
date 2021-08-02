@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName", "SpellCheckingInspection")
-
-package template
-
-import org.morfly.airin.starlark.lang.BUILD
-import org.morfly.airin.starlark.lang.bazel
-import org.morfly.airin.starlark.library.glob
-import org.morfly.airin.starlark.library.java_import
+import org.gradle.api.Project
+import org.morfly.airin.GradleStandaloneTemplateProvider
+import org.morfly.airin.starlark.elements.StarlarkFile
+import template.third_party_build_template
 
 
-fun root_build_template(
-    /**
-     *
-     */
-) = BUILD.bazel {
-    load("@dagger//:workspace_defs.bzl", "dagger_rules")
+class ThirdPartyBuild : GradleStandaloneTemplateProvider() {
 
-    "dagger_rules"()
+    override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
+        third_party_build_template()
+    )
 }

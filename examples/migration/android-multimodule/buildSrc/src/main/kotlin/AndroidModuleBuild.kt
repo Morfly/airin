@@ -45,7 +45,7 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
         return listOf(
             android_module_build_template(
                 name = target.name,
-                packageName = target.packageName ?: "<ERROR>",
+                packageName = target.packageName ?: "ERROR",
                 hasBinary = target.plugins.hasPlugin(ANDROID_APPLICATION),
                 artifactDeps = artifactDepsLabels,
                 moduleDeps = moduleDepsLabels

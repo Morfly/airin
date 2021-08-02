@@ -10,7 +10,7 @@ kt_android_library(
     resource_files = glob(["src/main/res/**"]),
     deps = [
         "//:dagger",
-        artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"),
+        artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core"),
         artifact("androidx.core:core-ktx"),
         artifact("androidx.appcompat:appcompat"),
         artifact("com.google.android.material:material"),
