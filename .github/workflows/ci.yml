@@ -26,4 +26,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run tests
-        run: ./gradlew airin-starlark:test
+        run: |
+          ./gradlew airin-starlark:test
+          ./gradlew airin-migration-core:test
