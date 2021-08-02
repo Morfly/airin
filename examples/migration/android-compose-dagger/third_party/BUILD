@@ -1,4 +1,9 @@
-load("@rules_android//android:rules.bzl", "android_binary")
+load(
+    "@rules_java//java:defs.bzl",
+    "java_library",
+    "java_import",
+)
+load("@rules_android//android:rules.bzl", "aar_import")
 load("@rules_jvm_external//:defs.bzl", "artifact")
 
 package(default_visibility = ["//visibility:public"])

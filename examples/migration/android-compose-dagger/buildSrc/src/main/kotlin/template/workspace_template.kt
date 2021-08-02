@@ -38,6 +38,19 @@ fun root_workspace_template(
 
     load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+    val RULES_JAVA_VERSION by "4.0.0"
+    val RULES_JAVA_SHA by "34b41ec683e67253043ab1a3d1e8b7c61e4e8edefbcad485381328c934d072fe"
+
+    http_archive(
+        name = "rules_java",
+        url = "https://github.com/bazelbuild/rules_java/releases/download/{v}/rules_java-{v}.tar.gz".format { "v" `=` RULES_JAVA_VERSION },
+        sha256 = RULES_JAVA_SHA,
+    )
+
+    load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+    "rules_java_dependencies"()
+    "rules_java_toolchains"()
+
     val DAGGER_TAG by "2.36"
     val DAGGER_SHA by "1e6d5c64d336af2e14c089124bf2bd9d449010db02534ce820abc6a7f0429c86"
 

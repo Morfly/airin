@@ -1,3 +1,8 @@
+load(
+    "@rules_java//java:defs.bzl",
+    "java_plugin",
+    "java_library",
+)
 load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_compiler_plugin")
 load("@rules_jvm_external//:defs.bzl", "artifact")
 
