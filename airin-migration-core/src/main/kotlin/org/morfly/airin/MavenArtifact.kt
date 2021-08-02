@@ -26,15 +26,25 @@ data class MavenArtifact(
     val group: String?,
     val name: String,
     val version: String?
-) : Dependency {
+) : Dependency, Labeled, BazelLabeled {
 
-    override fun toString(): String =
-        toString(includeVersion = true)
+    private val bazelLabelRegex = Regex("[^A-Za-z0-9]")
 
-    fun toString(includeVersion: Boolean): String {
+    override val label = label(version = true)
+    override val shortLabel = label(version = false)
+    override val defaultLabelFormat = BazelLabelFormat.FullRepo("maven")
+
+    fun label(version: Boolean): String {
         val g = if (group != null) "$group:" else ""
-        val v = if (includeVersion && version != null) ":$version" else ""
+        val v = if (version && this.version != null) ":${this.version}" else ""
         return "$g$name$v"
+    }
+
+    override fun bazelLabel(format: BazelLabelFormat): String = buildString {
+        val repoName = format.repoName ?: defaultLabelFormat.repoName
+        append("@$repoName")
+
+        append("//:${bazelLabelRegex.replace(shortLabel, "_")}")
     }
 
     override fun equals(other: Any?): Boolean {
@@ -61,11 +71,18 @@ data class MavenArtifact(
  */
 fun MavenArtifact(artifact: String): MavenArtifact {
     val components = artifact.split(":")
-    if (components.size !in 2..3)
-        error("Invalid artifact.")
-    return MavenArtifact(
-        group = components[0],
-        name = components[1],
-        version = components.getOrNull(2)
-    )
+    if (components.isEmpty()) error("Invalid artifact")
+
+    return when (components.size) {
+        1 -> MavenArtifact(group = null, name = components[0], version = null)
+        2 -> MavenArtifact(group = components[0], name = components[1], version = null)
+        3 -> MavenArtifact(group = components[0], name = components[1], version = components[2])
+        else -> MavenArtifact(
+            group = components[0],
+            name = components[1],
+            version = components
+                .subList(fromIndex = 2, toIndex = components.size)
+                .joinToString(separator = ":")
+        )
+    }
 }

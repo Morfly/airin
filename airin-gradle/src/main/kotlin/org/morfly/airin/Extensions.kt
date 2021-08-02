@@ -42,14 +42,21 @@ fun Project.dependencies(configs: Set<String> = defaultConfigurations): List<Dep
         .mapNotNull {
             when (it) {
                 is ExternalDependency -> MavenArtifact(it.group, it.name, it.version)
-                is ProjectDependency -> ProjectModule(
+                is ProjectDependency -> Module(
                     relativePath = rootProject.relativePath(it.dependencyProject.projectDir),
-                    label = it.dependencyProject.path
+                    name = it.dependencyProject.name,
+                    originalLabel = it.dependencyProject.path
                 )
                 else -> null
             }
         }
         .toList()
+
+/**
+ *
+ */
+fun Project.dependencies(vararg configs: String): List<Dependency> =
+    dependencies(setOf(*configs))
 
 /**
  *
@@ -66,16 +73,23 @@ fun Project.artifactDependencies(configs: Set<String> = defaultConfigurations): 
 /**
  *
  */
-fun Project.moduleDependencies(configs: Set<String> = defaultConfigurations): List<ProjectModule> =
+fun Project.artifactDependencies(vararg configs: String): List<MavenArtifact> =
+    artifactDependencies(setOf(*configs))
+
+/**
+ *
+ */
+fun Project.moduleDependencies(configs: Set<String> = defaultConfigurations): List<Module> =
     configurations
         .asSequence()
         .filter { it.name in configs }
         .flatMap { it.dependencies }
         .filterIsInstance<ProjectDependency>()
         .map {
-            ProjectModule(
+            Module(
                 relativePath = rootProject.relativePath(it.dependencyProject.projectDir),
-                label = it.dependencyProject.path
+                name = it.dependencyProject.name,
+                originalLabel = it.dependencyProject.path
             )
         }
         .toList()
@@ -83,14 +97,14 @@ fun Project.moduleDependencies(configs: Set<String> = defaultConfigurations): Li
 /**
  *
  */
-fun convertGradleLabelToBazel(gradleLabel: String): String =
-    gradleLabel
-        .split(":")
-        .filter { it.isNotBlank() }
-        .joinToString(prefix = "//", separator = "/")
+fun Project.moduleDependencies(vararg configs: String): List<Module> =
+    moduleDependencies(setOf(*configs))
 
-/**
- *
- */
-fun ProjectModule.bazelLabel(): String =
-    convertGradleLabelToBazel(label)
+///**
+// *
+// */
+//fun convertGradleLabelToBazel(gradleLabel: String): String =
+//    gradleLabel
+//        .split(":")
+//        .filter { it.isNotBlank() }
+//        .joinToString(prefix = "//", separator = "/")

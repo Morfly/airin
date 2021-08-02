@@ -7,4 +7,6 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":airin-starlark"))
+
+    testImplementation(deps.bundles.kotest)
 }
