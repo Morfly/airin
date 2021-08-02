@@ -26,7 +26,10 @@ android_binary(
     manifest_values = {
         "minSdkVersion": "21",
         "targetSdkVersion": "29",
+        "versionCode": "1",
+        "versionName": "1.0",
     },
+    debug_key = "debug.keystore",
     resource_files = glob(["src/main/res/**"]),
     deps = [":app"],
     visibility = ["//visibility:public"],

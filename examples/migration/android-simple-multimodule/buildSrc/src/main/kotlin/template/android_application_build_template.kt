@@ -30,8 +30,8 @@ import org.morfly.airin.starlark.library.kt_android_library
 /**
  *
  */
-fun android_application_build(
-    targetName: String,
+fun android_application_build_template(
+    name: String,
     packageName: String,
     moduleDependencies: List<Label>,
     artifactDependencies: List<String>
@@ -44,7 +44,7 @@ fun android_application_build(
     load("@rules_jvm_external//:defs.bzl", "artifact")
 
     kt_android_library(
-        name = targetName,
+        name = name,
         srcs = glob(
             "src/main/java/**/*.kt",
             "src/main/kotlin/**/*.kt",
@@ -63,8 +63,11 @@ fun android_application_build(
         manifest_values = dict {
             "minSdkVersion" to "21"
             "targetSdkVersion" to "29"
+            "versionCode" to "1"
+            "versionName" to "1.0"
         },
+        debug_key = "debug.keystore",
         visibility = list["//visibility:public"],
-        deps = list[":${targetName}"]
+        deps = list[":$name"]
     )
 }

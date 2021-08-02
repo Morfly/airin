@@ -29,8 +29,8 @@ import org.morfly.airin.starlark.library.kt_jvm_library
 /**
  *
  */
-fun kotlin_library_build(
-    targetName: String,
+fun kotlin_library_build_template(
+    name: String,
     moduleDependencies: List<Label>,
     artifactDependencies: List<String>
     /**
@@ -41,7 +41,7 @@ fun kotlin_library_build(
     load("@rules_jvm_external//:defs.bzl", "artifact")
 
     kt_jvm_library(
-        name = targetName,
+        name = name,
         srcs = glob(
             "src/main/java/**/*.kt",
             "src/main/kotlin/**/*.kt",

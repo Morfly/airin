@@ -16,20 +16,20 @@
 
 import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
+import org.morfly.airin.labels
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.android_workspace
+import template.workspace_template
 
 
 /**
  *
  */
-class AndroidWorkspace : GradleStandaloneTemplateProvider() {
+class Workspace : GradleStandaloneTemplateProvider() {
 
-    override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
-        val file = android_workspace(
-            workspaceName = "android-simple-multimodule",
-            artifactsList = sharedData.allArtifacts.map { it.toString(includeVersion = true) }
+    override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
+        workspace_template(
+            name = target.rootProject.name,
+            artifacts = sharedData.allArtifacts.labels()
         )
-        return listOf(file)
-    }
+    )
 }

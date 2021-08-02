@@ -8,11 +8,11 @@ repositories {
 }
 
 dependencies {
-//    implementation files(fileTree(dir: 'libs', includes: ['*.jar']))
+    implementation files(fileTree(dir: 'libs', includes: ['*.jar']))
 
     def airinVersion = "0.3.0"
-    implementation "org.morfly.airin:airin-gradle:$airinVersion"
-    implementation "org.morfly.airin:airin-gradle-android:$airinVersion"
+//    implementation "org.morfly.airin:airin-gradle:$airinVersion"
+//    implementation "org.morfly.airin:airin-gradle-android:$airinVersion"
 
-    implementation "com.android.tools.build:gradle:4.1.0"
+    implementation "com.android.tools.build:gradle:4.1.3"
 }

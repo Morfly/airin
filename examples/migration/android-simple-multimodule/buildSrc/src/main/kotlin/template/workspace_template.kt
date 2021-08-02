@@ -25,15 +25,15 @@ import org.morfly.airin.starlark.library.*
 /**
  *
  */
-fun android_workspace(
-    workspaceName: String,
-    artifactsList: List<String>
+fun workspace_template(
+    name: String,
+    artifacts: List<String>
     /**
      *
      */
 ) = WORKSPACE {
 
-    workspace(name = workspaceName)
+    workspace(name = name)
 
     android_sdk_repository(
         name = "androidsdk",
@@ -77,7 +77,7 @@ fun android_workspace(
     load("@rules_jvm_external//:defs.bzl", "maven_install")
 
     maven_install(
-        artifacts = artifactsList,
+        artifacts = artifacts,
         repositories = list[
                 "https://maven.google.com",
                 "https://repo1.maven.org/maven2"

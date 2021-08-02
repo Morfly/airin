@@ -17,35 +17,34 @@
 import org.gradle.api.Project
 import org.morfly.airin.*
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.kotlin_library_build
+import template.kotlin_library_build_template
 
 
 /**
  *
  */
-class KotlinLibrary : GradlePerModuleTemplateProvider() {
+class KotlinLibraryBuild : GradlePerModuleTemplateProvider() {
+
+    override fun canProvide(target: Project): Boolean = with(target.plugins) {
+        hasPlugin(KOTLIN_JVM) && !hasPlugin(APPLICATION) && !hasPlugin(ANDROID_LIBRARY)
+    }
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
-        val gradleConfigs = setOf("implementation", "api")
+        val moduleDepsLabels = target
+            .moduleDependencies("implementation", "api")
+            .bazelLabels()
 
-        val moduleDeps = target.moduleDependencies(gradleConfigs)
-            .map { it.bazelLabel() }
-
-        val artifactDeps = target.artifactDependencies(gradleConfigs)
+        val artifactDepsLabels = target
+            .artifactDependencies("implementation", "api")
             .filter { it !in sharedData.ignoredArtifacts }
-            .map { it.toString(includeVersion = false) }
+            .shortLabels()
 
         return listOf(
-            kotlin_library_build(
-                targetName = target.name,
-                moduleDependencies = moduleDeps,
-                artifactDependencies = artifactDeps
+            kotlin_library_build_template(
+                name = target.name,
+                moduleDependencies = moduleDepsLabels,
+                artifactDependencies = artifactDepsLabels
             )
         )
     }
-
-    override fun canProvide(target: Project): Boolean =
-        with(target.plugins) {
-            hasPlugin(KOTLIN_JVM) && !hasPlugin(APPLICATION)
-        }
 }
