@@ -35,6 +35,7 @@ import org.morfly.airin.starlark.lang.api.Returns
 )
 private interface MavenInstall {
 
+    val name: StringType?
     val artifacts: List<StringType?>?
     val repositories: List<StringType?>?
     val fail_on_missing_checksum: BooleanType?
