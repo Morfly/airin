@@ -45,15 +45,14 @@ fun workspace_template(
 
     // ===== kotlin =====
 
-    val rules_kotlin_version by "legacy-1.3.0"
-    val rules_kotlin_sha by "4fd769fb0db5d3c6240df8a9500515775101964eebdf85a3f9f0511130885fde"
+    val RULES_KOTLIN_VERSION by "v1.5.0-beta-2"
+    val RULES_KOTLIN_SHA by "eeae65f973b70896e474c57aa7681e444d7a5446d9ec0a59bb88c59fc263ff62"
 
     http_archive(
         name = "io_bazel_rules_kotlin",
-        urls = list["https://github.com/bazelbuild/rules_kotlin/archive/%s.zip" `%` rules_kotlin_version],
-        type = "zip",
-        strip_prefix = "rules_kotlin-%s" `%` rules_kotlin_version,
-        sha256 = rules_kotlin_sha
+        sha256 = RULES_KOTLIN_SHA,
+        type = "tar.gz",
+        urls = list["https://github.com/bazelbuild/rules_kotlin/releases/download/%s/rules_kotlin_release.tgz" `%` RULES_KOTLIN_VERSION],
     )
 
     load(
