@@ -28,32 +28,28 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
     }
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
-        val moduleDeps = mutableListOf<String>()
+        val moduleDepsLabels = mutableListOf<String>()
 
-        if (sharedData.ignoredArtifacts.any { it.group == "com.google.dagger" }) {
-            moduleDeps += "//:dagger"
-        }
+        if (sharedData.ignoredArtifacts.any { it.group == "com.google.dagger" })
+            moduleDepsLabels += "//:dagger"
 
-        if (sharedData.ignoredArtifacts.any { it.name.startsWith("kotlinx-coroutines") }) {
-            moduleDeps += "//:kotlin_coroutines_jvm"
-        }
+        moduleDepsLabels += target
+            .moduleDependencies("implementation")
+            .bazelLabels()
 
-        moduleDeps += target
-            .moduleDependencies(setOf("implementation"))
-            .map { it.bazelLabel() }
+        val artifactDepsLabels = target
+            .artifactDependencies("implementation")
+            .filter { it !in sharedData.ignoredArtifacts }
+            .shortLabels()
 
         return listOf(
             android_module_build_template(
                 name = target.name,
                 packageName = target.packageName ?: "<ERROR>",
                 hasBinary = target.plugins.hasPlugin(ANDROID_APPLICATION),
-                artifactDeps = target
-                    .artifactDependencies(setOf("implementation"))
-                    .filter { it !in sharedData.ignoredArtifacts }
-                    .asString(version = false),
-                moduleDeps = moduleDeps
+                artifactDeps = artifactDepsLabels,
+                moduleDeps = moduleDepsLabels
             )
         )
     }
-
 }

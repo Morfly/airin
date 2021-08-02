@@ -27,10 +27,6 @@ airin {
         ignored = listOf(
             "com.google.dagger:dagger",
             "com.google.dagger:dagger-compiler",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android",
-            "org.jetbrains.kotlin:kotlin-stdlib"
         )
     }
 }

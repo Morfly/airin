@@ -10,7 +10,6 @@ kt_android_library(
     resource_files = glob(["src/main/res/**"]),
     deps = [
         "//:dagger",
-        "//:kotlin_coroutines_jvm",
         "//images",
         artifact("androidx.core:core-ktx"),
         artifact("androidx.lifecycle:lifecycle-viewmodel-ktx"),
