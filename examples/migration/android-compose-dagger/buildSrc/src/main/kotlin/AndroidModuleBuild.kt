@@ -30,24 +30,24 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
 
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> {
-        val implArtifacts = target.artifactDependencies(setOf("implementation"))
-        val kaptArtifacts = target.artifactDependencies(setOf("kapt"))
-        val implModules = target.moduleDependencies(setOf("implementation"))
-        val apiModules = target.moduleDependencies(setOf("api"))
+        val implArtifacts = target.artifactDependencies("implementation")
+        val kaptArtifacts = target.artifactDependencies("kapt")
+        val implModules = target.moduleDependencies("implementation")
+        val apiModules = target.moduleDependencies("api")
 
         val hasRoom = implArtifacts.any { it.group == "androidx.room" }
-        val hasDagger = kaptArtifacts.any { it.group == "com.google.dagger"}
+        val hasDagger = kaptArtifacts.any { it.group == "com.google.dagger" }
 
         val manifest = target.relativePath(target.manifest!!)
 
-        val formattedExternalDeps = implArtifacts.asSequence()
+        val artifactDepsLabels = implArtifacts
             .filter { it !in sharedData.ignoredArtifacts }
-            .map { it.toString(includeVersion = false) }
-            .toList()
-        val formattedExports = apiModules.map { it.bazelLabel() }
-        val formattedInternalDeps = mutableSetOf<String>().also { deps ->
-            deps += implModules.map { it.bazelLabel() }
-            deps += formattedExports
+            .shortLabels()
+
+        val moduleExportsLabels = apiModules.bazelLabels()
+        val moduleDepsLabels = mutableSetOf<String>().also { deps ->
+            deps += implModules.bazelLabels()
+            deps += moduleExportsLabels
         }
 
         return listOf(
@@ -57,9 +57,9 @@ class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
                 hasBinary = target.plugins.hasPlugin(ANDROID_APPLICATION),
                 hasCompose = target.isComposeEnabled,
                 manifestLocation = manifest,
-                internalDeps = formattedInternalDeps,
-                exportedTargets = formattedExports,
-                externalDeps = formattedExternalDeps,
+                internalDeps = moduleDepsLabels,
+                exportedTargets = moduleExportsLabels,
+                externalDeps = artifactDepsLabels,
                 hasDagger = hasDagger,
                 hasRoom = hasRoom,
                 isPublic = target.name != "impl",

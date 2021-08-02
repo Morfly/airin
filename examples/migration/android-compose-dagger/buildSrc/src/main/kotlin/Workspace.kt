@@ -18,6 +18,8 @@
 
 import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
+import org.morfly.airin.labels
+import org.morfly.airin.shortLabels
 import org.morfly.airin.starlark.elements.StarlarkFile
 import org.morfly.airin.starlark.writer.FileWriter
 import template.bazelrc_template
@@ -37,8 +39,8 @@ class Workspace : GradleStandaloneTemplateProvider() {
         }
         return listOf(
             root_workspace_template(
-                artifactList = otherArtifacts.map { it.toString(includeVersion = true) },
-                composeArtifactsWithoutVersion = composeArtifacts.map { it.toString(includeVersion = false) }
+                artifactList = otherArtifacts.labels(),
+                composeArtifactsWithoutVersion = composeArtifacts.shortLabels()
             )
         )
     }
