@@ -3,7 +3,7 @@
 A multimodule Android project that allows to demonstrate the migration from Gradle to Bazel using Airin.
 
 <div>
-  <img align="center" src="app.png" alt="App screenshot" height="640">
+  <img align="center" src="app.png" alt="App screenshot" height="540">
 </div>
 
 ## How to build?
