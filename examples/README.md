@@ -1,6 +1,8 @@
 # Airin Examples
 
-![Example apps](examples.png)
+<div>
+  <img align="center" src="examples.png" alt="App architecture" width="720">
+</div>
 
 ## Migrating to Bazel
 
