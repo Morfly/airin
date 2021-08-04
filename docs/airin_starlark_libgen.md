@@ -26,10 +26,10 @@ repositories {
 In `dependencies` section add the following:
 ```groovy
 // Starlark template engine
-implementation "org.morfly.airin:airin-starlark:0.3.0"
+implementation "org.morfly.airin:airin-starlark:0.4.0"
 
 // Library generator
-ksp "org.morfly.airin:airin-starlark-libgen:0.3.0"
+ksp "org.morfly.airin:airin-starlark-libgen:0.4.0"
 ```
 
 ## Generating functions

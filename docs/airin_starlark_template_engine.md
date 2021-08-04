@@ -1,6 +1,6 @@
 # Airin Starlark Template Engine
 
-Airin provides a declarative, typesafe Starlark template engine with which you can easily describe you Bazel build
+Airin provides a declarative, typesafe Starlark template engine with which you can easily describe and generate Bazel build
 scripts using Kotlin.
 
 Also, [learn more](airin_starlark_libgen.md) about generating DSL for custom rules and functions.
@@ -38,7 +38,7 @@ fun main() {
 The example above will generate a `BUILD.bazel` file in `{project_root}/app` directory.
 
 See [example1](../examples/generation/android-databinding/config/src/main/kotlin/org/morfly/airin/sample/template/android_databinding_library_build.kt) 
-and [example2](../examples/migration/android-simple-multimodule/buildSrc/src/main/kotlin/template/android_workspace.kt) 
+and [example2](../examples/migration/android-simple-multimodule/buildSrc/src/main/kotlin/template/android_module_build_template.kt) 
 for more advanced usages of Airin template engine or check the complete [example projects](../examples). 
 
 ## Enter Starlark Scope

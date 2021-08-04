@@ -23,6 +23,7 @@ import org.morfly.airin.starlark.lang.bazel
 import org.morfly.airin.starlark.library.`package`
 import org.morfly.airin.starlark.library.define_kt_toolchain
 import org.morfly.airin.starlark.library.exports_files
+import org.morfly.airin.starlark.library.default_java_toolchain
 
 
 fun root_build_template(
@@ -38,9 +39,9 @@ fun root_build_template(
 
     exports_files(list["debug.keystore"])
 
-    "default_java_toolchain" {
-        "name" `=` "java_toolchain"
-    }
+    default_java_toolchain(
+        name = "java_toolchain"
+    )
 
     define_kt_toolchain(
         name = "kotlin_toolchain",

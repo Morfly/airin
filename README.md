@@ -1,12 +1,12 @@
 # Airin
 [![Maven Central](https://img.shields.io/maven-central/v/org.morfly.airin/airin-starlark.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.morfly.airin%22%20AND%20a:%22airin-starlark%22)
 
-Airin is a tool for migrating Gradle projects to Bazel and generating Bazel build scripts.
-- **Starlark Template Engine**: Airin provides a declarative, typesafe template engine for generating Starlark code. Define
+Airin is a framework for automated migration of your projects to Bazel build system. It consists of 2 primary components:
+- **Starlark Template Engine** - a declarative, typesafe Starlark template engine and code generator. Define
   templates for your Bazel configuration files in Kotlin DSL which closely resembles Starlark itself. Check
   [the documentation](docs/airin_starlark_template_engine.md) to learn more.
-- **Automated Migration to Bazel**: Airin provides a framework for migrating Gradle projects to Bazel. Define the set of
-  Bazel file templates for your project and configure Airin Gradle plugin to bring automation to your migration process.
+- **Automated Migration Component** - a plugin to the build system of your project (Gradle) for automating its migration to Bazel. Define the set of
+  Bazel file templates for your project and configure Airin Gradle plugin to migrate the project.
   Check [the documentation](docs/airin_gradle_migration.md) to learn more.
 
 ## How it works?
@@ -51,8 +51,8 @@ airin {
   templates {
     
     register<Workspace>()
-    register<JavaLibrary>()
-    register<AndroidApplication>()
+    register<KotlinModuleBuild>()
+    register<AndroidModuleBuild>()
   }
 }
 ```
@@ -67,14 +67,14 @@ airin {
   templates {
     
     register Workspace
-    register JavaLibrary
-    register AndroidApplication
+    register KotlinModuleBuild
+    register AndroidModuleBuild
   }
 }
 ```
 </details>
 
-In the example above `Workspace`, `JavaLibrary` and `AndroidApplication` are Starlark code template providers that implement `GradleTemplateProvider` interface.
+In the example above `Workspace`, `KotlinModuleBuild` and `AndroidModuleBuild` are Starlark code template providers that implement `GradleTemplateProvider` interface.
   
 #### Step `4`
 
@@ -85,7 +85,7 @@ Run the migration.
 ```
 <br>
 
-Use [the documentation](docs/airin_gradle_migration.md) to learn more about the migration process.
+See [the documentation](docs/airin_gradle_migration.md) to learn more about the migration process.
 
 ## Installation
   
@@ -94,11 +94,15 @@ Use [the documentation](docs/airin_gradle_migration.md) to learn more about the 
 In the `buildSrc/build.gradle` file add the following:
 ```groovy
 dependencies {
-    // Gradle plugin
-    implementation "org.morfly.airin:airin-gradle:0.3.0"
+    // Gradle plugin.
+    implementation "org.morfly.airin:airin-gradle:0.4.0"
   
-    // Optional - Android specific extensions
-    implementation "org.morfly.airin:airin-gradle-android:0.3.0"
+    // Optional - Android specific extensions.
+    implementation "org.morfly.airin:airin-gradle-android:0.4.0"
+    // Optional. Required for airin-gradle-android.
+    runtimeOnly("com.android.tools.build:gradle:<version>")
+    // Optional. Required for projects that use Jetpack Compose.
+    runtimeOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:<version>")
 }
 ```
 Then, in the root `build.gradle` file apply Airin Gradle plugin:
@@ -114,13 +118,13 @@ plugins {
 In case you need only Starlark code generator:
 ```groovy
 dependencies {
-    // Starlark template engine
-    implementation "org.morfly.airin:airin-starlark:0.3.0"
-    // Collection of common rules and functions
-    implementation "org.morfly.airin:airin-starlark-stdlib:0.3.0"
+    // Starlark template engine.
+    implementation "org.morfly.airin:airin-starlark:0.4.0"
+    // Collection of common rules and functions.
+    implementation "org.morfly.airin:airin-starlark-stdlib:0.4.0"
   
-    // Optional - Starlark rules and functions generator
-    ksp "org.morfly.airin:airin-starlark-libgen:0.3.0"
+    // Optional - Starlark rules and functions generator.
+    ksp "org.morfly.airin:airin-starlark-libgen:0.4.0"
 }
 ```
 Don't forget to add `id("com.google.devtools.ksp")` to `plugins` section of your `build.gradle(.kts)` file if you are 

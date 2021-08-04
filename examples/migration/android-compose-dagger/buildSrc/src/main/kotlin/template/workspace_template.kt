@@ -101,17 +101,17 @@ fun root_workspace_template(
         ],
     )
 
-    maven_install {
-        "name" `=` "maven_secondary"
+    maven_install(
+        name = "maven_secondary",
         artifacts = list[
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1",
                 "androidx.room:room-runtime:2.3.0",
-        ]
+        ],
         repositories = list[
                 "https://maven.google.com",
                 "https://repo1.maven.org/maven2",
         ]
-    }
+    )
 
     val RULES_ANDROID_VERSION by "0.1.1"
     val RULES_ANDROID_SHA by "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806"

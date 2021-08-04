@@ -28,14 +28,15 @@ repositories {
 }
 
 dependencies {
-    implementation "org.morfly.airin:airin-gradle:0.3.0"
-    
-    // Optional - Android specific extensions
-    implementation "org.morfly.airin:airin-gradle-android:0.3.0"
-    // Optional - Android Gradle plugin
-    implementation "com.android.tools.build:gradle:<version>"
-    // Optional - Kotlin Gradle plugin if using Jetpack Compose
-    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:<version>"
+    // Gradle plugin.
+    implementation "org.morfly.airin:airin-gradle:0.4.0"
+  
+    // Optional - Android specific extensions.
+    implementation "org.morfly.airin:airin-gradle-android:0.4.0"
+    // Optional. Required for airin-gradle-android.
+    runtimeOnly("com.android.tools.build:gradle:<version>")
+    // Optional. Required for projects that use Jetpack Compose.
+    runtimeOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:<version>")
 }
 ```
 
