@@ -19,13 +19,13 @@
 import org.gradle.api.Project
 import org.morfly.airin.*
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.android_application_build_template
+import template.android_module_build_template
 
 
 /**
  *
  */
-class AndroidApplicationBuild : GradlePerModuleTemplateProvider() {
+class AndroidModuleBuild : GradlePerModuleTemplateProvider() {
 
     override fun canProvide(target: Project): Boolean =
         target.plugins.hasPlugin(ANDROID_APPLICATION)
@@ -42,8 +42,9 @@ class AndroidApplicationBuild : GradlePerModuleTemplateProvider() {
             .shortLabels()
 
         return listOf(
-            android_application_build_template(
+            android_module_build_template(
                 name = target.name,
+                hasBinary = target.plugins.hasPlugin(ANDROID_APPLICATION),
                 packageName = target.packageName ?: "ERROR",
                 moduleDependencies = moduleDepsLabels,
                 artifactDependencies = artifactDepsLabels

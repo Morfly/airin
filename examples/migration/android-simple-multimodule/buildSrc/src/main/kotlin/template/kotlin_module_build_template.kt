@@ -29,7 +29,7 @@ import org.morfly.airin.starlark.library.kt_jvm_library
 /**
  *
  */
-fun kotlin_library_build_template(
+fun kotlin_module_build_template(
     name: String,
     moduleDependencies: List<Label>,
     artifactDependencies: List<String>

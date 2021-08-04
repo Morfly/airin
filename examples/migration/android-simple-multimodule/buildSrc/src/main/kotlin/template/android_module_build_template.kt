@@ -30,8 +30,9 @@ import org.morfly.airin.starlark.library.kt_android_library
 /**
  *
  */
-fun android_application_build_template(
+fun android_module_build_template(
     name: String,
+    hasBinary: Boolean,
     packageName: String,
     moduleDependencies: List<Label>,
     artifactDependencies: List<String>
@@ -55,19 +56,20 @@ fun android_application_build_template(
         deps = moduleDependencies + artifactDependencies.map { artifact(it) }
     )
 
-    android_binary(
-        name = "bin",
-        manifest = "src/main/AndroidManifest.xml",
-        custom_package = packageName,
-        resource_files = glob("src/main/res/**"),
-        manifest_values = dict {
-            "minSdkVersion" to "21"
-            "targetSdkVersion" to "29"
-            "versionCode" to "1"
-            "versionName" to "1.0"
-        },
-        debug_key = "debug.keystore",
-        visibility = list["//visibility:public"],
-        deps = list[":$name"]
-    )
+    if (hasBinary)
+        android_binary(
+            name = "bin",
+            manifest = "src/main/AndroidManifest.xml",
+            custom_package = packageName,
+            resource_files = glob("src/main/res/**"),
+            manifest_values = dict {
+                "minSdkVersion" to "21"
+                "targetSdkVersion" to "29"
+                "versionCode" to "1"
+                "versionName" to "1.0"
+            },
+            debug_key = "debug.keystore",
+            visibility = list["//visibility:public"],
+            deps = list[":$name"]
+        )
 }

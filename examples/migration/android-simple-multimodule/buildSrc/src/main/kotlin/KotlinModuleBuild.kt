@@ -17,13 +17,13 @@
 import org.gradle.api.Project
 import org.morfly.airin.*
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.kotlin_library_build_template
+import template.kotlin_module_build_template
 
 
 /**
  *
  */
-class KotlinLibraryBuild : GradlePerModuleTemplateProvider() {
+class KotlinModuleBuild : GradlePerModuleTemplateProvider() {
 
     override fun canProvide(target: Project): Boolean = with(target.plugins) {
         hasPlugin(KOTLIN_JVM) && !hasPlugin(APPLICATION) && !hasPlugin(ANDROID_LIBRARY)
@@ -40,7 +40,7 @@ class KotlinLibraryBuild : GradlePerModuleTemplateProvider() {
             .shortLabels()
 
         return listOf(
-            kotlin_library_build_template(
+            kotlin_module_build_template(
                 name = target.name,
                 moduleDependencies = moduleDepsLabels,
                 artifactDependencies = artifactDepsLabels

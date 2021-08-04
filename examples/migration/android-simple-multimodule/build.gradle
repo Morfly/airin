@@ -26,8 +26,8 @@ allprojects {
 airin {
     templates {
         register Workspace
-        register KotlinLibraryBuild
-        register AndroidApplicationBuild
+        register KotlinModuleBuild
+        register AndroidModuleBuild
     }
 
     artifacts {
