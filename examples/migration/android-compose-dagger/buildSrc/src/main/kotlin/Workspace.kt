@@ -23,7 +23,7 @@ import org.morfly.airin.shortLabels
 import org.morfly.airin.starlark.elements.StarlarkFile
 import org.morfly.airin.starlark.writer.FileWriter
 import template.bazelrc_template
-import template.root_workspace_template
+import template.workspace_template
 import java.io.File
 
 
@@ -38,7 +38,7 @@ class Workspace : GradleStandaloneTemplateProvider() {
             it.group?.startsWith("androidx.compose") ?: false
         }
         return listOf(
-            root_workspace_template(
+            workspace_template(
                 artifactList = otherArtifacts.labels(),
                 composeArtifactsWithoutVersion = composeArtifacts.shortLabels()
             )

@@ -22,7 +22,7 @@ import org.morfly.airin.starlark.lang.BUILD
 import org.morfly.airin.starlark.library.*
 
 
-fun artifacts_build_template(
+fun third_party_template(
     /**
      *
      */

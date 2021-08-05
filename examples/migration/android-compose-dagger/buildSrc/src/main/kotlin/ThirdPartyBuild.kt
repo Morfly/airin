@@ -17,13 +17,12 @@
 import org.gradle.api.Project
 import org.morfly.airin.GradleStandaloneTemplateProvider
 import org.morfly.airin.starlark.elements.StarlarkFile
-import template.artifacts_build_template
-import java.io.File
+import template.third_party_template
 
 
 class ThirdPartyBuild : GradleStandaloneTemplateProvider() {
 
     override fun provide(target: Project, relativePath: String): List<StarlarkFile> = listOf(
-        artifacts_build_template()
+        third_party_template()
     )
 }
