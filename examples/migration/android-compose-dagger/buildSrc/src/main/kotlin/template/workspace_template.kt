@@ -62,8 +62,7 @@ fun workspace_template(
     )
 
     val (DAGGER_ARTIFACTS, DAGGER_REPOSITORIES) = load(
-        "@dagger//:workspace_defs.bzl",
-        "DAGGER_ARTIFACTS", "DAGGER_REPOSITORIES"
+        "@dagger//:workspace_defs.bzl", "DAGGER_ARTIFACTS", "DAGGER_REPOSITORIES"
     ).v<List<StringType>, List<StringType>>()
 
     val RULES_JVM_EXTERNAL_VERSION by "4.1"
@@ -101,6 +100,12 @@ fun workspace_template(
         ],
     )
 
+    // Secondary maven artifact repository that works as a workaround for those artifacts
+    // that have problems loading with the primary 'maven_install' rule.
+    // It loads problematic artifacts separately which are being handled in the 'third-party'
+    // package.
+    // As a result, the primary 'maven-install' overrides problematic artifacts with the fixed ones
+    // from the 'third_party' package.
     maven_install(
         name = "maven_secondary",
         artifacts = list[

@@ -83,6 +83,12 @@ fun workspace_template(
         },
     )
 
+    // Secondary maven artifact repository that works as a workaround for those artifacts
+    // that have problems loading with the primary 'maven_install' rule.
+    // It loads problematic artifacts separately which are being handled in the 'third-party'
+    // package.
+    // As a result, the primary 'maven-install' overrides problematic artifacts with the fixed ones
+    // from the 'third_party' package.
     maven_install(
         name = "maven_secondary",
         artifacts = list["org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1"],
