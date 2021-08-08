@@ -42,7 +42,7 @@ fun ImageList(viewModel: ImageListViewModel, onUserSelected: (userId: Long) -> U
         LazyColumn {
             item { Spacer(Modifier.height(15.dp)) }
             items(images.itemCount) { index ->
-                images.getAsState(index).value?.let { image ->
+                images[index]?.let { image ->
                     ImageItem(image, onUserSelected)
                 }
             }
