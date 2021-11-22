@@ -10,7 +10,8 @@ Airin is a framework for automated migration of your projects to Bazel build sys
   Check [the documentation](docs/airin_gradle_migration.md) to learn more.
 
 ## Publications
-- [Automated migration of your projects to Bazel build system with Airin](https://proandroiddev.com/automated-migration-of-your-projects-to-bazel-build-system-with-airin-304fa8b3680c) on ProAndroidDev
+- [Automated migration of your projects to Bazel build system with Airin](https://proandroiddev.com/automated-migration-of-your-projects-to-bazel-build-system-with-airin-304fa8b3680c) on **ProAndroidDev**
+- [Automated migration to Bazel with Airin](https://www.youtube.com/watch?v=dz-CFEwJuko) at **BazelCon 2021**
 
 ## How it works?
 
