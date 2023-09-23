@@ -1,5 +1,3 @@
-enableFeaturePreview("VERSION_CATALOGS")
-
 pluginManagement {
     // plugin versions are declared in gradle.properties
     val kotlinVersion: String by settings

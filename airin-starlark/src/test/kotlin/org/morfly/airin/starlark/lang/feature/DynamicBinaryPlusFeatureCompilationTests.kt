@@ -26,6 +26,10 @@ import org.morfly.airin.starlark.lang.Value
 
 private fun DynamicBinaryPlusFeatureUnderCompilationTest.CompilationTests() {
 
+    dict {
+        "key1" to "value" `+` "1"
+    }
+
     // ================================
     // ===== String concatenation =====
     // ================================
