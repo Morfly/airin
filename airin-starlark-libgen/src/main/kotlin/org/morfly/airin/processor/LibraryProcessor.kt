@@ -44,18 +44,14 @@ class LibraryGenerator(
     private val logger: KSPLogger
 ) : SymbolProcessor {
 
-    private var lastRound = 0 // FIXME tmp
-    private var wasLastRoundClean = false // FIXME tmp
+    private var invoked = false
 
     private val libraryFiles = mutableMapOf<FilePath, GeneratedFile>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        // FIXME tmp fix for ksp that otherwise calls 'process' in an infinite loop.
-        if (wasLastRoundClean && lastRound++ >= 1) return emptyList()
+        if (invoked) return emptyList()
 
         val symbols = resolver.getSymbolsWithAnnotation(LibraryFunction::class.qualifiedName!!)
-        val unableToProcess = symbols.filterNot { it.validate() }.toList()
-        if (unableToProcess.isEmpty()) wasLastRoundClean = true // FIXME tmp
 
         symbols.filterIsInstance<KSClassDeclaration>()
             .forEach { it.accept(Visitor(), Unit) }
@@ -65,7 +61,8 @@ class LibraryGenerator(
             fileGenerator.generate(file)
         }
 
-        return unableToProcess
+        invoked = true
+        return emptyList()
     }
 
     private fun validate(file: GeneratedFile) {

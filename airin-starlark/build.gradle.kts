@@ -11,10 +11,16 @@ description = "Declarative, type-safe template engine for generating Starlark co
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = listOf(
             "-Xopt-in=kotlin.RequiresOptIn"
         )
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 sourceSets {

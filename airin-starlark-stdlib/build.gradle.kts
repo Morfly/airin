@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm")
     id("com.google.devtools.ksp")
@@ -15,8 +17,18 @@ kotlin {
     }
 }
 
-tasks.withType<Jar>().configureEach {
-    from("$buildDir/generated/ksp/main/kotlin")
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = listOf(
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
