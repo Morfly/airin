@@ -27,7 +27,7 @@ interface StringExtensionsFeature {
     fun StringType.format(body: FunctionCallContext.() -> Unit): StringType =
         StringFunctionCall(
             name = "format",
-            args = FunctionCallContext().apply(body).fargs,
+            args = FunctionCallContext().apply(body).fargs.asSet(),
             receiver = Expression(this, ::StringLiteral)
         )
 }

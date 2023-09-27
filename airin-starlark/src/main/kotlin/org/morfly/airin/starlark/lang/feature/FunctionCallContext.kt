@@ -37,35 +37,41 @@ open class FunctionCallContext : CommonExpressionsLibrary,
     CollectionsFeature, BooleanValuesFeature,
     StringExtensionsFeature {
 
-    override val fargs = linkedSetOf<Argument>()
+    override val fargs = linkedMapOf<String, Argument>()
 
-
-    operator fun <V> Set<Argument>.getValue(thisRef: Any?, property: KProperty<*>): V {
+    operator fun <V> Map<String, Argument>.getValue(thisRef: Any?, property: KProperty<*>): V {
         error("Unable to return value from a function argument.")
     }
 
-
-    operator fun <V : StringType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value, ::StringLiteral))
+    operator fun <V : StringType?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs[property.name] = Argument(id = property.name, value = Expression(value, ::StringLiteral))
     }
 
-    operator fun <V : NumberType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value, ::NumberLiteral))
+    operator fun <V : NumberType?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs[property.name] = Argument(id = property.name, value = Expression(value, ::NumberLiteral))
     }
 
-    operator fun <V : BooleanType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value, ::BooleanLiteral))
+    operator fun <V : BooleanType?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs[property.name] = Argument(id = property.name, value = Expression(value, ::BooleanLiteral))
     }
 
-    operator fun <T, V : List<T>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value, ::ListExpression))
+    operator fun <T, V : List<T>?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        append(
+            name = property.name,
+            value = Expression(value, ::ListExpression),
+            concatenation = { left, op, right -> ListBinaryOperation<T>(left, op, right) }
+        )
     }
 
-    operator fun <V : TupleType?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
-        fargs += Argument(id = property.name, value = Expression(value, ::TupleExpression))
+    operator fun <V : TupleType?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        fargs[property.name] = Argument(id = property.name, value = Expression(value, ::TupleExpression))
     }
 
-    operator fun <K, V, V1 : Map<K, V>?> Set<Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V1) {
-        fargs += Argument(id = property.name, value = Expression(value, ::DictionaryExpression))
+    operator fun <K, V, V1 : Map<K, V>?> Map<String, Argument>.setValue(thisRef: Any?, property: KProperty<*>, value: V1) {
+        append(
+            name = property.name,
+            value = Expression(value, ::DictionaryExpression),
+            concatenation = { left, op, right -> DictionaryBinaryOperation<K, V>(left, op, right) }
+        )
     }
 }

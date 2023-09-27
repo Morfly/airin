@@ -34,6 +34,10 @@ sourceSets {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 task<Test>("functionalTest") {
     description = "Runs the functional tests"
     group = "verification"

@@ -39,7 +39,7 @@ fun StatementsHolder.registerFunctionCallStatement(name: String, args: Set<Argum
 inline fun <C : FunctionCallContext> StatementsHolder.registerFunctionCallStatement(
     name: String, context: C, body: C.() -> Unit
 ) {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     registerFunctionCallStatement(name, args)
 }
 
@@ -57,7 +57,7 @@ fun stringFunctionCall(name: String, args: Set<Argument> = emptySet()): StringTy
 inline fun <C : FunctionCallContext> stringFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): StringType {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return stringFunctionCall(name, args)
 }
 
@@ -73,7 +73,7 @@ fun <T> listFunctionCall(name: String, args: Set<Argument> = emptySet()): List<T
 inline fun <T, C : FunctionCallContext> listFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): List<T> {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return listFunctionCall(name, args)
 }
 
@@ -89,7 +89,7 @@ fun tupleFunctionCall(name: String, args: Set<Argument> = emptySet()): TupleType
 inline fun <C : FunctionCallContext> tupleFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): TupleType {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return tupleFunctionCall(name, args)
 }
 
@@ -105,7 +105,7 @@ fun dictFunctionCall(name: String, args: Set<Argument> = emptySet()): Map<Key, V
 inline fun <C : FunctionCallContext> dictFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): Map<Key, Value> {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return dictFunctionCall(name, args)
 }
 
@@ -121,7 +121,7 @@ fun numberFunctionCall(name: String, args: Set<Argument> = emptySet()): NumberTy
 inline fun <C : FunctionCallContext> numberFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): NumberType {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return numberFunctionCall(name, args)
 }
 
@@ -137,7 +137,7 @@ fun booleanFunctionCall(name: String, args: Set<Argument> = emptySet()): Boolean
 inline fun <C : FunctionCallContext> booleanFunctionCall(
     name: String, context: C, body: C.() -> Unit
 ): BooleanType {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return booleanFunctionCall(name, args)
 }
 
@@ -146,7 +146,6 @@ inline fun <C : FunctionCallContext> booleanFunctionCall(
  *
  * Note: if the function you're building has a specific determined type DO NOT use this builder.
  */
-@OptIn(ExperimentalStdlibApi::class)
 inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> = emptySet()): T =
     when {
         StringType::class.java.isAssignableFrom(T::class.java) -> StringFunctionCall(name, args)
@@ -172,6 +171,6 @@ inline fun <reified T> functionCallExpression(name: String, args: Set<Argument> 
 inline fun <reified T, C : FunctionCallContext> functionCallExpression(
     name: String, context: C, body: C.() -> Unit
 ): T {
-    val args = context.apply(body).fargs
+    val args = context.apply(body).fargs.asSet()
     return functionCallExpression(name, args)
 }

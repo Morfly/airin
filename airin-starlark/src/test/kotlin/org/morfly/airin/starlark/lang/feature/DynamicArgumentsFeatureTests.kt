@@ -21,10 +21,9 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import org.morfly.airin.starlark.elements.*
 
+class DynamicArgumentsFeatureTests : FeatureSpec({
 
-class ArgumentsFeatureTests : FeatureSpec({
-
-    feature("arguments feature") {
+    feature("dynamic arguments feature") {
 
         scenario("string argument") {
             DynamicArgumentsFeatureUnderTest().apply {
@@ -33,7 +32,7 @@ class ArgumentsFeatureTests : FeatureSpec({
 
                 // assertions
                 fargs.size shouldBe 1
-                fargs.first().let { arg ->
+                fargs.entries.first().let { (_, arg) ->
                     arg.id shouldBe "string_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<StringLiteral>()
@@ -50,7 +49,7 @@ class ArgumentsFeatureTests : FeatureSpec({
 
                 // assertions
                 fargs.size shouldBe 1
-                fargs.first().let { arg ->
+                fargs.entries.first().let { (_, arg) ->
                     arg.id shouldBe "list_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<ListExpression<StringLiteral>>()
@@ -71,7 +70,7 @@ class ArgumentsFeatureTests : FeatureSpec({
 
                 // assertions
                 fargs.size shouldBe 1
-                fargs.first().let { arg ->
+                fargs.entries.first().let { (_, arg) ->
                     arg.id shouldBe "dict_arg"
                     arg.value.let { value ->
                         value.shouldBeTypeOf<DictionaryExpression>()
@@ -94,7 +93,7 @@ class ArgumentsFeatureTests : FeatureSpec({
 
                 // assertions
                 fargs.size shouldBe 1
-                fargs.first().let { arg ->
+                fargs.entries.first().let { (_, arg) ->
                     arg.id shouldBe "arg"
                     arg.value shouldBe NoneValue
                 }
@@ -105,5 +104,5 @@ class ArgumentsFeatureTests : FeatureSpec({
 
 
 private class DynamicArgumentsFeatureUnderTest : DynamicArgumentsFeature {
-    override val fargs = linkedSetOf<Argument>()
+    override val fargs = linkedMapOf<String, Argument>()
 }
