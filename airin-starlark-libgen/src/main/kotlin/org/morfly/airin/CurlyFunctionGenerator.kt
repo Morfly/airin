@@ -63,7 +63,7 @@ class CurlyFunctionGenerator(
      * @return name of the context class
      */
     private fun generateContext(file: OutputStream, function: GeneratedFunction): String {
-        val ctxClassName = function.shortName.snakeToCamelCase() + "Context"
+        val ctxClassName = function.annotatedClassName + "Context"
         val allArguments = mutableListOf<Arg>().also {
             if (function.vararg != null && function.vararg.shortName.isNotBlank())
                 it += function.vararg.toArgument()

@@ -20,6 +20,7 @@ import org.morfly.airin.starlark.elements.Expression
 import org.morfly.airin.starlark.elements.StringFunctionCall
 import org.morfly.airin.starlark.elements.StringLiteral
 import org.morfly.airin.starlark.lang.StringType
+import org.morfly.airin.starlark.lang.api.asSet
 
 
 interface StringExtensionsFeature {

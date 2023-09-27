@@ -42,6 +42,7 @@ data class GeneratedFile(
 
 data class GeneratedFunction(
     override val shortName: String,
+    val annotatedClassName: String,
     val arguments: List<Arg>,
     val vararg: Vararg?,
     val returnType: TypeDescriptor,

@@ -19,6 +19,7 @@ package org.morfly.airin.starlark.lang.feature
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
 import org.morfly.airin.starlark.lang.api.StatementsHolder
+import org.morfly.airin.starlark.lang.api.asSet
 import kotlin.reflect.KClass
 import kotlin.reflect.typeOf
 

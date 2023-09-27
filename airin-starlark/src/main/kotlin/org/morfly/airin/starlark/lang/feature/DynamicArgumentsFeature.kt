@@ -20,22 +20,10 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.elements.*
 import org.morfly.airin.starlark.lang.*
+import org.morfly.airin.starlark.lang.api.ArgumentsHolder
 import org.morfly.airin.starlark.lang.api.LanguageFeature
+import org.morfly.airin.starlark.lang.api.append
 
-
-/**
- * Defines an entity that collects argument elements.
- */
-internal interface ArgumentsHolder {
-
-    /**
-     *
-     */
-    val fargs: LinkedHashMap<String, Argument>
-}
-
-fun LinkedHashMap<String, Argument>.asSet() =
-    mapTo(linkedSetOf()) { it.value }
 
 /**
  * Feature of the Starlark template engine that provides operators for passsing arguments that were not initially
@@ -124,22 +112,4 @@ internal interface DynamicArgumentsFeature : LanguageFeature, ArgumentsHolder {
         fargs[this] = argument
         return _AnyExpressionAccumulator(argument)
     }
-}
-
-internal fun ArgumentsHolder.append(
-    name: String,
-    value: Expression,
-    concatenation: (Expression, BinaryOperator, Expression) -> BinaryOperation
-): Argument {
-    val argument = if (name !in fargs) {
-        Argument(id = name, value = value)
-    } else {
-        val leftExpression = fargs[name]!!.value
-        Argument(
-            id = name,
-            value = concatenation(leftExpression, BinaryOperator.PLUS, value)
-        )
-    }
-    fargs[name] = argument
-    return argument
 }

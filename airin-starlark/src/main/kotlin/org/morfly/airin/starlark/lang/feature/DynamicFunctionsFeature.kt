@@ -20,6 +20,7 @@ package org.morfly.airin.starlark.lang.feature
 
 import org.morfly.airin.starlark.lang.api.LanguageFeature
 import org.morfly.airin.starlark.lang.api.StatementsHolder
+import org.morfly.airin.starlark.lang.api.asSet
 
 
 /**

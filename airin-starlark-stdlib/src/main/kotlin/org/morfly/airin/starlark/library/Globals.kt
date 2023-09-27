@@ -46,7 +46,7 @@ private interface RegisterToolchains {
     scope = [Workspace],
     kind = Statement
 )
-interface Workspace {
+interface WorkspaceFunction {
 
     @Argument(required = true)
     val name: Name

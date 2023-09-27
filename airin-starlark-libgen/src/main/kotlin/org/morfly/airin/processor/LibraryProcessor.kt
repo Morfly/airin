@@ -127,6 +127,7 @@ class LibraryGenerator(
             }
             generatedFile.functions += GeneratedFunction(
                 shortName = name,
+                annotatedClassName = classDeclaration.simpleName.asString(),
                 arguments = functionArguments,
                 vararg = varargArgument,
                 returnType = returnType ?: VoidType,
