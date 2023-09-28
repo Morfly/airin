@@ -7,19 +7,10 @@ plugins {
     `maven-publish-config`
 }
 
-kotlin {
-    sourceSets {
-        main {
-            kotlin.srcDirs(
-                file("$buildDir/generated/ksp/main/kotlin"),
-            )
-        }
-    }
-}
-
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        languageVersion = "1.7"
         freeCompilerArgs = listOf(
             "-Xopt-in=kotlin.RequiresOptIn"
         )
