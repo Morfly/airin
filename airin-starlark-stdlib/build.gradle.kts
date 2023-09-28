@@ -12,7 +12,8 @@ tasks.withType<KotlinCompile>().configureEach {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         languageVersion = "1.7"
         freeCompilerArgs = listOf(
-            "-Xopt-in=kotlin.RequiresOptIn"
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xcontext-receivers"
         )
     }
 }
@@ -26,5 +27,6 @@ dependencies {
     implementation(project(":airin-starlark"))
     ksp(project(":airin-starlark-libgen"))
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
     testImplementation(deps.bundles.kotest)
 }

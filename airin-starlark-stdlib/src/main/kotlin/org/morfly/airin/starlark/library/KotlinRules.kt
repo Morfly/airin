@@ -169,7 +169,11 @@ private interface KtRegisterToolchains
 )
 private interface KotlinRepositories {
 
+    val is_bzlmod: StringType?
+    val compiler_repository_name: StringType?
+    val ksp_repository_name: StringType?
     val compiler_release: Map<Key, Value>?
+    val ksp_compiler_release: Map<Key, Value>?
 }
 
 
@@ -197,3 +201,5 @@ private interface KtJavacOptions {
     val name: Name
     // TODO add other args
 }
+
+//private interface

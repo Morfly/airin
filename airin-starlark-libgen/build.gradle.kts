@@ -10,6 +10,9 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         languageVersion = "1.7"
+        freeCompilerArgs = listOf(
+            "-Xcontext-receivers"
+        )
     }
 }
 
@@ -21,6 +24,6 @@ java {
 dependencies {
     implementation(project(":airin-starlark"))
 
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
     implementation(deps.ksp)
 }

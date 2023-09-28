@@ -50,7 +50,7 @@ task<Test>("functionalTest") {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
 
     testImplementation(deps.bundles.kotest)
 }
