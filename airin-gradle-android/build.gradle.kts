@@ -4,6 +4,10 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
+kotlin {
+    jvmToolchain(AirinMetadata.JVM_TOOLCHAIN_VERSION)
+}
+
 dependencies {
     implementation(projects.airinCore)
     implementation(projects.airinGradlePlugin)
