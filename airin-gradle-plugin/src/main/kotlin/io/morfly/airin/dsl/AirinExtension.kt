@@ -27,6 +27,6 @@ abstract class AirinExtension :
     override var onMissingComponent by property(Ignore)
 
     companion object {
-        const val NAME = "io/morfly/airin"
+        const val NAME = "airin"
     }
 }
