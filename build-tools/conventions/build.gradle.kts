@@ -13,6 +13,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        val airinMetadata by registering {
+            id = "airin.metadata"
+            implementationClass = "AirinMetadataPlugin"
+        }
         val mavenPublish by registering {
             id = "airin.maven.publish"
             implementationClass = "AirinMavenPublishPlugin"

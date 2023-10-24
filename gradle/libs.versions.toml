@@ -19,3 +19,6 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+# ===== Convention Plugins =====
+airin-maven-publish = { id = "airin.maven.publish", version.ref = "airinConventionPlugin" }
+airin-metadata = { id = "airin.metadata", version.ref = "airinConventionPlugin" }

@@ -2,7 +2,6 @@ package io.morfly.airin
 
 import io.morfly.airin.dsl.FeatureComponentsHolder
 import io.morfly.airin.dsl.PackageComponentProperties
-import io.morfly.pendant.starlark.lang.context.FileContext
 import org.gradle.api.Project
 import java.io.Serializable
 

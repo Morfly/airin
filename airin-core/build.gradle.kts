@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.airin.metadata)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -12,7 +13,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 kotlin {
     jvm {
-//        jvmToolchain(AirinMed.JVM_TOOLCHAIN_VERSION)
+        jvmToolchain(AirinMetadata.JVM_TOOLCHAIN_VERSION)
         testRuns.named("test") {
             executionTask.configure {
                 useJUnitPlatform()

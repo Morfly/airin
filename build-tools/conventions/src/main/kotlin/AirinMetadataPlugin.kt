@@ -1,3 +1,7 @@
+import io.morfly.airin.buildtools.AirinConventionPlugin
+
+class AirinMetadataPlugin : AirinConventionPlugin({})
+
 object AirinMetadata {
     const val JVM_TOOLCHAIN_VERSION = 8
     const val KOTLIN_LANGUAGE_VERSION = "1.7"
