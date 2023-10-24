@@ -5,7 +5,7 @@ import io.morfly.airin.label.Label
 import java.io.Serializable
 
 // TODO add gradlePath
-open class GradleProject(
+data class GradleProject(
     override val name: String,
     override val label: GradleLabel,
     override val path: String,
