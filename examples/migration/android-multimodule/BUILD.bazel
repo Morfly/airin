@@ -1,8 +1,0 @@
-load("@dagger//:workspace_defs.bzl", "dagger_rules")
-
-exports_files(
-    ["debug.keystore"],
-    visibility = ["//visibility:public"],
-)
-
-dagger_rules()

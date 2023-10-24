@@ -1,4 +1,0 @@
-rootProject.name = "android-simple-multimodule"
-
-include ':app'
-include ':lib'
