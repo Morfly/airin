@@ -10,3 +10,12 @@ dependencies {
     compileOnly(libs.gradlePlugin.kotlin)
     compileOnly(libs.gradlePlugin.mavenPublish)
 }
+
+gradlePlugin {
+    plugins {
+        val mavenPublish by registering {
+            id = "airin.maven.publish"
+            implementationClass = "AirinMavenPublishPlugin"
+        }
+    }
+}
