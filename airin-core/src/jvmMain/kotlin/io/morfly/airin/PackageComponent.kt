@@ -1,5 +1,7 @@
 package io.morfly.airin
 
+import io.morfly.pendant.starlark.lang.append
+
 abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder,
     ComponentsHolder<P> {
 
@@ -24,7 +26,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
 
         for (file in context.starlarkFiles.values.flatten()) {
             for (feature in features) {
-                file.modifiers += feature.modifiers
+                file.modifiers.append(feature.modifiers)
             }
         }
 

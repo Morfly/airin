@@ -28,7 +28,7 @@ abstract class RootModule : GradlePackageComponent() {
 
             load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-            _checkpoint("workspace_load_statements")
+            _checkpoint(CHECKPOINT_WORKSPACE_IMPORTS)
         }
 
         val mavenDependencies = "maven_dependencies".bzl {
@@ -49,8 +49,9 @@ abstract class RootModule : GradlePackageComponent() {
 
     companion object {
         const val ID_WORKSPACE = "workspace"
-        const val ID_BUILD = "workspace_build"
-        const val ID_MAVEN_DEPENDENCIES_BZL = "workspace_maven_dependencies_bzl"
-        const val ID_THIRD_PARTY_BUILD = "workspace_third_party_build"
+        const val ID_BUILD = "root_build"
+        const val ID_MAVEN_DEPENDENCIES_BZL = "root_maven_dependencies_bzl"
+        const val ID_THIRD_PARTY_BUILD = "root_third_party_build"
+        const val CHECKPOINT_WORKSPACE_IMPORTS = "${ID_WORKSPACE}_imports"
     }
 }

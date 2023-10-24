@@ -119,7 +119,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
 
             load("@rules_jvm_external//:defs.bzl", "maven_install")
             maven_install {
-                _id = "workspace_maven_install"
+                _id = ID_MAVEN_INSTALL
 
                 artifacts = MAVEN_ARTIFACTS
                 repositories = allowedRepositories
@@ -174,5 +174,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 build_tools_version = androidBuildToolsVersion,
             )
         }
+    }
+    companion object {
+        const val ID_MAVEN_INSTALL = "android_tools_maven_install"
     }
 }
