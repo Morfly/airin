@@ -1,0 +1,21 @@
+[versions]
+airin = "0.5.0"
+pendant = "0.5.0"
+kotlin = "1.9.10"
+kotlinCompat = "1.7.21"
+mavenPublish = "0.25.3"
+dokka = "1.9.0"
+airinConventionPlugin = "ignored"
+
+[libraries]
+pendant-starlark = { module = "io.morfly.pendant:pendant-starlark", version.ref = "pendant" }
+pendant-library-bazel = { module = "io.morfly.pendant:pendant-library-bazel", version.ref = "pendant" }
+# ===== Gradle plugins =====
+gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
