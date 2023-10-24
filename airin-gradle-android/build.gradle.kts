@@ -1,5 +1,7 @@
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.airin.maven.publish)
+    alias(libs.plugins.dokka)
 }
 
 dependencies {

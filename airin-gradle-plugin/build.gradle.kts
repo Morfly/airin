@@ -2,6 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.airin.maven.publish)
+    alias(libs.plugins.dokka)
 }
 
 tasks.withType<KotlinCompile>().configureEach {

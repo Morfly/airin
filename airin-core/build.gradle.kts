@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.airin.metadata)
+    alias(libs.plugins.airin.maven.publish)
+    alias(libs.plugins.dokka)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
