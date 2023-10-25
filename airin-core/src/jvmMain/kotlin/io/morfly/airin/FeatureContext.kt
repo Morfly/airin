@@ -1,27 +1,13 @@
 package io.morfly.airin
 
-import io.morfly.airin.label.BazelLabel
-import io.morfly.airin.label.Label
-import io.morfly.airin.label.MavenCoordinates
-import io.morfly.pendant.starlark.lang.Checkpoint
-import io.morfly.pendant.starlark.lang.ContextId
-import io.morfly.pendant.starlark.lang.Modifier
+import io.morfly.pendant.starlark.lang.ModifierCollection
 import io.morfly.pendant.starlark.lang.ModifiersHolder
 
-class FeatureContext : ModifiersHolder {
+class FeatureContext : ModifiersHolder, DependencyOverridesHolder, ConfigurationOverridesHolder {
 
-    override val modifiers =
-        linkedMapOf<ContextId, MutableMap<Checkpoint, MutableList<Modifier<*>>>>()
+    override val modifiers: ModifierCollection = linkedMapOf()
 
-    fun onConfiguration(configuraion: String, mapping: (String) -> String) {
+    override val dependencyOverrides: DependencyOverridesCollection = mutableMapOf()
 
-    }
-
-    fun onArtifact(group: String?, name: String, version: String?, override: MavenCoordinates.() -> Label?) {
-
-    }
-
-    fun test() {
-        onArtifact("", "", "") { null }
-    }
+    override val configurationOverrides = mutableMapOf<ConfigurationName, ConfigurationOverride>()
 }

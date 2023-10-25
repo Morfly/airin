@@ -93,7 +93,7 @@ class AirinGradlePlugin : Plugin<Project> {
             .mapValues { (_, dependencies) ->
                 dependencies.mapNotNull {
                     when (it) {
-                        is ExternalDependency -> MavenCoordinates(it.group, it.name, it.version)
+                        is ExternalDependency -> MavenCoordinates(it.group ?: "null", it.name, it.version)
                         is ProjectDependency -> GradleLabel(it.dependencyProject.path)
                         else -> null
                     }

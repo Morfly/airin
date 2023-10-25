@@ -24,19 +24,13 @@ abstract class AndroidLibraryModule: GradlePackageComponent() {
             load("@rules_jvm_external//:defs.bzl", "artifact")
 
             kt_android_library(
-                name = "navigation",
+                name = packageDescriptor.name,
                 srcs = glob(
                     "src/main/**/*.kt",
                     "src/debug/**/*.kt",
                 ),
-                custom_package = "com.turo.navigation",
-                manifest = "src/main/AndroidManifest.xml",
-                plugins = list["//tools/ksp:deeplink_dispatch"],
-                resource_files = glob(
-                    "src/main/res/**",
-                    "src/debug/res/**",
-                ),
                 visibility = list["//visibility:public"],
+                deps = list()
             )
         }
     }

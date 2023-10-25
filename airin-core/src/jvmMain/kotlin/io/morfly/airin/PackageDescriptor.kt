@@ -2,9 +2,6 @@ package io.morfly.airin
 
 import io.morfly.airin.label.Label
 
-
-typealias ConfigurationName = String
-
 interface PackageDescriptor : PropertiesHolder {
 
     val name: String
