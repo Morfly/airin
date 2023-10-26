@@ -19,9 +19,9 @@ class MigrationProcessor<P : PackageDescriptor>(
         val component = components[packageDescriptor.packageComponentId]!!
         val result = component.invoke(packageDescriptor)
 
-        for ((dir, builders) in result.starlarkFiles) {
+        for ((relativeDirPath, builders) in result.starlarkFiles) {
             for (builder in builders) {
-                val path = "${packageDescriptor.path}/$dir"
+                val path = "${packageDescriptor.dirPath}/$relativeDirPath"
                 val file = builder.build()
                 StarlarkFileWriter.write(path, file)
             }
