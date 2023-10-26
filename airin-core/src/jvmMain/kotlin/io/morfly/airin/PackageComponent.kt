@@ -9,10 +9,11 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
     final override val subcomponents = mutableListOf<Component<P>>()
 
     @InternalAirinApi
-    open fun invoke(packageDescriptor: P, invokeSubcomponents: Boolean = true): PackageContext {
+    open fun invoke(packageDescriptor: P, includeSubcomponents: Boolean = true): PackageContext {
         val context = PackageContext()
+        if (packageDescriptor.ignored) return context
 
-        if (!invokeSubcomponents) {
+        if (!includeSubcomponents) {
             context.onInvoke(packageDescriptor)
             return context
         }
@@ -21,10 +22,9 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
             .filterIsInstance<FeatureComponent<P>>()
             .filter { it.id in packageDescriptor.featureComponentIds }
             .map { it.invoke(packageDescriptor) }
-            .onEach { } // TODO filter ignored module
             .toList()
 
-        packageDescriptor.transformDependencies(features)
+        packageDescriptor.dependencies = packageDescriptor.transformDependencies(features)
         context.onInvoke(packageDescriptor)
 
         for (file in context.starlarkFiles.values.flatten()) {
@@ -42,7 +42,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
         val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
         for (feature in features) {
-            for ((configuration, labels) in dependencies) {
+            for ((configuration, labels) in this.originalDependencies) {
                 for (dependency in labels) {
                     val depOverride = feature.dependencyOverrides[dependency.toString()]?.get(configuration)
                     val configOverride = feature.configurationOverrides[configuration]

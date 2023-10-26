@@ -10,7 +10,7 @@ interface PackageDescriptor : PropertiesHolder {
 
     val label: Label
 
-    val path: String
+    val dirPath: String
 
     val ignored: Boolean
 
@@ -18,7 +18,9 @@ interface PackageDescriptor : PropertiesHolder {
 
     val featureComponentIds: Set<String>
 
-    val dependencies: Map<ConfigurationName, List<Label>>
+    val originalDependencies: Map<ConfigurationName, List<Label>>
+
+    var dependencies: Map<ConfigurationName, Set<Label>>
 
     val subpackages: List<PackageDescriptor>
 }

@@ -67,12 +67,12 @@ class AirinGradlePlugin : Plugin<Project> {
                 name = target.name,
                 isRoot = target.rootProject == target,
                 label = GradleLabel(projectPath = target.path, task = null),
-                path = target.projectDir.path,
+                dirPath = target.projectDir.path,
                 ignored = packageComponent == null,
                 packageComponentId = packageComponent?.id,
                 featureComponentIds = featureComponents.map { it.id }.toSet()
             )
-            project.dependencies = if (!project.ignored) prepareDependencies(target) else emptyMap()
+            project.originalDependencies = if (!project.ignored) prepareDependencies(target) else emptyMap()
             project.subpackages = target.childProjects.values.map(::traverse)
 
             if (!project.ignored && packageComponent != null) {
@@ -135,7 +135,7 @@ class AirinGradlePlugin : Plugin<Project> {
     private fun GradleProject.collectFilePaths(
         component: GradlePackageComponent
     ): List<String> {
-        val result = component.invoke(this, invokeSubcomponents = false)
+        val result = component.invoke(this, includeSubcomponents = false)
 
         return result.starlarkFiles.flatMap { (path, files) ->
             files.map { file ->
