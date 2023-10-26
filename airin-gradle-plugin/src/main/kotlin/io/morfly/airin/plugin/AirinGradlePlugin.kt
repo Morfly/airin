@@ -65,8 +65,8 @@ class AirinGradlePlugin : Plugin<Project> {
 
             val project = GradleProject(
                 name = target.name,
-                isRoot = target.rootProject == target,
-                label = GradleLabel(projectPath = target.path, task = null),
+                isRoot = target.rootProject.path == target.path,
+                label = GradleLabel(projectPath = target.path),
                 dirPath = target.projectDir.path,
                 ignored = packageComponent == null,
                 packageComponentId = packageComponent?.id,

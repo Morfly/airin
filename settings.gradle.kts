@@ -13,6 +13,11 @@ dependencyResolutionManagement {
         mavenCentral()
         mavenLocal()
     }
+    versionCatalogs {
+        val sampleLibs by creating {
+            from(files("gradle/sample-libs.versions.toml"))
+        }
+    }
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -26,4 +31,8 @@ include(
     "airin-core",
     "airin-gradle-plugin",
     "airin-gradle-android"
+)
+
+include(
+    "sample:app"
 )
