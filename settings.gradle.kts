@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
     includeBuild("build-tools")
 }
@@ -34,5 +35,6 @@ include(
 )
 
 include(
-    "sample:app"
+    "samples:android-multimodule",
+    "samples:android-multimodule:app"
 )
