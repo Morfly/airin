@@ -3,7 +3,11 @@ import io.morfly.airin.feature.JetpackComposeFeature
 import io.morfly.airin.module.RootModule
 
 plugins {
-    id("io.morfly.airin.android") version "0.5.0"
+    alias(sampleLibs.plugins.kotlin.android) apply false
+    alias(sampleLibs.plugins.kotlin.jvm) apply false
+    alias(sampleLibs.plugins.android.application) apply false
+    alias(sampleLibs.plugins.android.library) apply false
+    id("io.morfly.airin.android") version sampleLibs.versions.airin
 }
 
 airin {
