@@ -1,5 +1,6 @@
 import io.morfly.airin.feature.AndroidToolsFeature
 import io.morfly.airin.feature.JetpackComposeFeature
+import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
 
 plugins {
@@ -11,6 +12,7 @@ plugins {
 }
 
 airin {
+    register<AndroidLibraryModule>()
     register<RootModule> {
         include<AndroidToolsFeature>()
         include<JetpackComposeFeature>()

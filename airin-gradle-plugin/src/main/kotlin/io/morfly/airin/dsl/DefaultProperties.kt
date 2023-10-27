@@ -11,11 +11,12 @@ interface AirinProperties {
 }
 
 interface PackageComponentProperties {
-    var shared: Boolean
     var ignored: Boolean
+    var shared: Boolean
     var priority: Int
 }
 
 interface FeatureComponentProperties {
     var ignored: Boolean
+    var contributesToShared: Boolean
 }

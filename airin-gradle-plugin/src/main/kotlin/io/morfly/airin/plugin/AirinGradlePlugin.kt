@@ -42,7 +42,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    protected fun prepareComponents(components: List<Component<GradleProject>>): List<GradlePackageComponent> {
+    protected open fun prepareComponents(components: List<Component<GradleProject>>): List<GradlePackageComponent> {
         val sharedFeatureComponents = components
             .filterIsInstance<GradleFeatureComponent>()
         return components
@@ -50,7 +50,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .onEach { it.subcomponents += sharedFeatureComponents }
     }
 
-    protected fun prepareProjects(
+    protected open fun prepareProjects(
         root: Project,
         components: List<GradlePackageComponent>,
         properties: AirinProperties,
@@ -72,7 +72,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 packageComponentId = packageComponent?.id,
                 featureComponentIds = featureComponents.map { it.id }.toSet()
             )
-            project.originalDependencies = if (!project.ignored) prepareDependencies(target) else emptyMap()
+            project.originalDependencies =
+                if (!project.ignored) prepareDependencies(target)
+                else emptyMap()
             project.subpackages = target.childProjects.values.map(::traverse)
 
             if (!project.ignored && packageComponent != null) {
@@ -86,21 +88,21 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     }
 
     // TODO filter configurations
-    protected fun prepareDependencies(target: Project): Map<String, List<Label>> =
+    protected open fun prepareDependencies(target: Project): Map<String, List<Label>> =
         target.configurations
             .associateBy({ it.name }, { it.dependencies })
             .filter { (_, dependencies) -> dependencies.isNotEmpty() }
             .mapValues { (_, dependencies) ->
                 dependencies.mapNotNull {
                     when (it) {
-                        is ExternalDependency -> MavenCoordinates(it.group ?: "null", it.name, it.version)
+                        is ExternalDependency -> MavenCoordinates(it.group, it.name, it.version)
                         is ProjectDependency -> GradleLabel(it.dependencyProject.path)
                         else -> null
                     }
                 }
             }
 
-    protected fun Project.pickPackageComponent(
+    protected open fun Project.pickPackageComponent(
         components: List<GradlePackageComponent>,
         properties: AirinProperties
     ): GradlePackageComponent? {
@@ -124,7 +126,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    protected fun Project.pickFeatureComponents(
+    protected open fun Project.pickFeatureComponents(
         component: GradlePackageComponent
     ): List<GradleFeatureComponent> = component.subcomponents
         .filterIsInstance<GradleFeatureComponent>()
@@ -132,7 +134,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         .filter { it.canProcess(this) }
 
     @OptIn(InternalAirinApi::class)
-    protected fun GradleProject.collectFilePaths(
+    protected open fun GradleProject.collectFilePaths(
         component: GradlePackageComponent
     ): List<String> {
         val result = component.invoke(this, includeSubcomponents = false)

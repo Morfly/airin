@@ -8,7 +8,8 @@ abstract class GradleFeatureComponent : FeatureComponent<GradleProject>(),
     Serializable,
     FeatureComponentProperties {
 
-    override var ignored: Boolean by property(default = false)
+    override var ignored by property(default = false)
+    override var contributesToShared by property(default = false)
 
     internal lateinit var parentId: String
 
