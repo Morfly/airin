@@ -51,9 +51,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
         )
     )
 
-    override fun canProcess(target: Project): Boolean {
-        return target.plugins.hasPlugin("io.morfly.airin.android")
-    }
+    override fun canProcess(target: Project): Boolean =
+        target.plugins.hasPlugin("io.morfly.airin.android")
 
     override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
 
@@ -176,6 +175,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
             )
         }
     }
+
     companion object {
         const val ID_MAVEN_INSTALL = "android_tools_maven_install"
     }
