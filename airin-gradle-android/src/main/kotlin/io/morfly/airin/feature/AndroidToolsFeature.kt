@@ -32,6 +32,9 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
     var androidApiVersion by property(34)
     var androidBuildToolsVersion by property("34.0.0")
 
+    var kotlincVersion by property("1.8.21")
+    var kotlincSha by property("6e43c5569ad067492d04d92c28cdf8095673699d81ce460bd7270443297e8fd7")
+
     var rulesJavaVersion by property("6.5.0")
     var rulesJavaSha by property("160d1ebf33763124766fb35316329d907ca67f733238aa47624a8e3ff3cf2ef4")
 
@@ -139,18 +142,13 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 "@io_bazel_rules_kotlin//kotlin:repositories.bzl",
                 "kotlin_repositories",
                 "kotlinc_version",
-//                "ksp_version"
             )
 
             kotlin_repositories(
                 compiler_release = kotlinc_version(
-                    release = "1.8.21",
-                    sha256 = "6e43c5569ad067492d04d92c28cdf8095673699d81ce460bd7270443297e8fd7",
+                    release = kotlincVersion,
+                    sha256 = kotlincSha,
                 ),
-//                ksp_compiler_release = ksp_version(
-//                    release = "1.8.21-1.0.11",
-//                    sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
-//                ),
             )
 
             register_toolchains("//:kotlin_toolchain")

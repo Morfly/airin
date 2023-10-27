@@ -17,6 +17,5 @@ interface PackageComponentProperties {
 }
 
 interface FeatureComponentProperties {
-    val shared: Boolean
     var ignored: Boolean
 }

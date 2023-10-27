@@ -3,6 +3,7 @@ airin = "0.5.0"
 pendant = "0.5.0"
 kotlin = "1.9.10"
 kotlinCompat = "1.7.21"
+agp = "7.3.1"
 mavenPublish = "0.25.3"
 dokka = "1.9.0"
 airinConventionPlugin = "ignored"
@@ -13,6 +14,7 @@ pendant-library-bazel = { module = "io.morfly.pendant:pendant-library-bazel", ve
 # ===== Gradle plugins =====
 gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradlePlugin-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
+gradlePlugin-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

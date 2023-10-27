@@ -8,7 +8,6 @@ abstract class GradleFeatureComponent : FeatureComponent<GradleProject>(),
     Serializable,
     FeatureComponentProperties {
 
-    override val shared: Boolean by property(default = false)
     override var ignored: Boolean by property(default = false)
 
     internal lateinit var parentId: String
