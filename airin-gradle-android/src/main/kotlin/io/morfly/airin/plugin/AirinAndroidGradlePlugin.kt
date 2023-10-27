@@ -4,7 +4,12 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Project
 import com.android.build.api.dsl.CommonExtension
 
-class AirinAndroidGradlePlugin : AirinGradlePlugin()
+class AirinAndroidGradlePlugin : AirinGradlePlugin() {
+
+    companion object {
+        const val ID = "io.morfly.airin.android"
+    }
+}
 
 val Project.isComposeEnabled: Boolean
     get() = extensions.findByType(CommonExtension::class.java)?.buildFeatures?.compose ?: false
