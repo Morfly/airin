@@ -20,7 +20,7 @@ import org.gradle.api.file.RegularFile
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 
-class AirinGradlePlugin : Plugin<Project> {
+abstract class AirinGradlePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
@@ -42,7 +42,7 @@ class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    private fun prepareComponents(components: List<Component<GradleProject>>): List<GradlePackageComponent> {
+    protected fun prepareComponents(components: List<Component<GradleProject>>): List<GradlePackageComponent> {
         val sharedFeatureComponents = components
             .filterIsInstance<GradleFeatureComponent>()
         return components
@@ -50,7 +50,7 @@ class AirinGradlePlugin : Plugin<Project> {
             .onEach { it.subcomponents += sharedFeatureComponents }
     }
 
-    private fun prepareProjects(
+    protected fun prepareProjects(
         root: Project,
         components: List<GradlePackageComponent>,
         properties: AirinProperties,
@@ -86,7 +86,7 @@ class AirinGradlePlugin : Plugin<Project> {
     }
 
     // TODO filter configurations
-    private fun prepareDependencies(target: Project): Map<String, List<Label>> =
+    protected fun prepareDependencies(target: Project): Map<String, List<Label>> =
         target.configurations
             .associateBy({ it.name }, { it.dependencies })
             .filter { (_, dependencies) -> dependencies.isNotEmpty() }
@@ -100,7 +100,7 @@ class AirinGradlePlugin : Plugin<Project> {
                 }
             }
 
-    private fun Project.pickPackageComponent(
+    protected fun Project.pickPackageComponent(
         components: List<GradlePackageComponent>,
         properties: AirinProperties
     ): GradlePackageComponent? {
@@ -124,7 +124,7 @@ class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.pickFeatureComponents(
+    protected fun Project.pickFeatureComponents(
         component: GradlePackageComponent
     ): List<GradleFeatureComponent> = component.subcomponents
         .filterIsInstance<GradleFeatureComponent>()
@@ -132,7 +132,7 @@ class AirinGradlePlugin : Plugin<Project> {
         .filter { it.canProcess(this) }
 
     @OptIn(InternalAirinApi::class)
-    private fun GradleProject.collectFilePaths(
+    protected fun GradleProject.collectFilePaths(
         component: GradlePackageComponent
     ): List<String> {
         val result = component.invoke(this, includeSubcomponents = false)

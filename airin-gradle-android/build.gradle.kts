@@ -20,7 +20,7 @@ gradlePlugin {
     plugins {
         val airin by registering {
             id = "io.morfly.airin.android"
-            implementationClass = "io.morfly.airin.plugin.AirinGradlePlugin"
+            implementationClass = "io.morfly.airin.plugin.AirinAndroidGradlePlugin"
         }
     }
 }
