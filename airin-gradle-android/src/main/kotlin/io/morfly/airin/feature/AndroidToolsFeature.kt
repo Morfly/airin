@@ -38,8 +38,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
     var rulesJvmExternalVersion by property("4.5")
     var rulesJvmExternalSha by property("b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6")
 
-    var rulesKotlinVersion by property("1.8")
-    var rulesKotlinSha by property("01293740a16e474669aba5b5a1fe3d368de5832442f164e4fbfc566815a8bc3a")
+    var rulesKotlinVersion by property("1.8.1")
+    var rulesKotlinSha by property("a630cda9fdb4f56cf2dc20a4bf873765c41cf00e9379e8d59cd07b24730f4fde")
 
     var rulesAndroidVersion by property("0.1.1")
     var rulesAndroidSha by property("cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806")
@@ -139,7 +139,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 "@io_bazel_rules_kotlin//kotlin:repositories.bzl",
                 "kotlin_repositories",
                 "kotlinc_version",
-                "ksp_version"
+//                "ksp_version"
             )
 
             kotlin_repositories(
@@ -147,10 +147,10 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                     release = "1.8.21",
                     sha256 = "6e43c5569ad067492d04d92c28cdf8095673699d81ce460bd7270443297e8fd7",
                 ),
-                ksp_compiler_release = ksp_version(
-                    release = "1.8.21-1.0.11",
-                    sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
-                ),
+//                ksp_compiler_release = ksp_version(
+//                    release = "1.8.21-1.0.11",
+//                    sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
+//                ),
             )
 
             register_toolchains("//:kotlin_toolchain")
