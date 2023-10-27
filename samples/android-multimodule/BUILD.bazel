@@ -1,0 +1,12 @@
+load("@io_bazel_rules_kotlin//kotlin:core.bzl", "define_kt_toolchain")
+
+KOTLIN_VERSION = "1.8"
+
+JAVA_VERSION = "11"
+
+define_kt_toolchain(
+    name = "kotlin_toolchain",
+    api_version = KOTLIN_VERSION,
+    jvm_target = JAVA_VERSION,
+    language_version = KOTLIN_VERSION,
+)

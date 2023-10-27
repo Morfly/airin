@@ -1,0 +1,106 @@
+workspace(name = "airin-android-sample")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# Java
+RULES_JAVA_VERSION = "6.5.0"
+
+RULES_JAVA_SHA = "160d1ebf33763124766fb35316329d907ca67f733238aa47624a8e3ff3cf2ef4"
+
+http_archive(
+    name = "rules_java",
+    sha256 = RULES_JAVA_SHA,
+    urls = ["https://github.com/bazelbuild/rules_java/releases/download/{v}/rules_java-{v}.tar.gz".format(v = RULES_JAVA_VERSION)],
+)
+
+load(
+    "@rules_java//java:repositories.bzl",
+    "rules_java_dependencies",
+    "rules_java_toolchains",
+)
+
+rules_java_dependencies()
+
+rules_java_toolchains()
+
+# JVM External
+RULES_JVM_EXTERNAL_VERSION = "4.5"
+
+RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_VERSION,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_VERSION,
+)
+
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
+rules_jvm_external_setup()
+
+load("//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS")
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = MAVEN_ARTIFACTS,
+    repositories = [
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ],
+    version_conflict_policy = "pinned",
+)
+
+# Kotlin
+RULES_KOTLIN_VERSION = "1.8"
+
+RULES_KOTLIN_SHA = "01293740a16e474669aba5b5a1fe3d368de5832442f164e4fbfc566815a8bc3a"
+
+http_archive(
+    name = "io_bazel_rules_kotlin",
+    sha256 = RULES_KOTLIN_SHA,
+    urls = ["https://github.com/bazelbuild/rules_kotlin/releases/download/v%s/rules_kotlin_release.tgz" % RULES_KOTLIN_VERSION],
+)
+
+load(
+    "@io_bazel_rules_kotlin//kotlin:repositories.bzl",
+    "kotlin_repositories",
+    "kotlinc_version",
+)
+
+kotlin_repositories(
+    compiler_release = kotlinc_version(
+        release = "1.8.21",
+        sha256 = "6e43c5569ad067492d04d92c28cdf8095673699d81ce460bd7270443297e8fd7",
+    ),
+    #    ksp_compiler_release = ksp_version(
+    #        release = "1.8.21-1.0.11",
+    #        sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
+    #    ),
+)
+
+register_toolchains("//:kotlin_toolchain")
+
+# Android
+RULES_ANDROID_VERSION = "0.1.1"
+
+RULES_ANDROID_SHA = "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806"
+
+http_archive(
+    name = "rules_android",
+    sha256 = RULES_ANDROID_SHA,
+    strip_prefix = "rules_android-%s" % RULES_ANDROID_VERSION,
+    urls = ["https://github.com/bazelbuild/rules_android/archive/v%s.zip" % RULES_ANDROID_VERSION],
+)
+
+load("@rules_android//android:rules.bzl", "android_sdk_repository")
+
+android_sdk_repository(
+    name = "androidsdk",
+    api_level = 34,
+    build_tools_version = "34.0.0",
+)
