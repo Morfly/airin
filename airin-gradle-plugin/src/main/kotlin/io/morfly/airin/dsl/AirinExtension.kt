@@ -2,6 +2,7 @@ package io.morfly.airin.dsl
 
 import io.morfly.airin.Component
 import io.morfly.airin.ComponentConflictResolution.UsePriority
+import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleProject
 import io.morfly.airin.HasId
 import io.morfly.airin.MissingComponentResolution.Ignore
@@ -17,7 +18,7 @@ abstract class AirinExtension :
 
     override val id: String = "Airin"
 
-    override val subcomponents: MutableList<Component<GradleProject>> = mutableListOf()
+    override val subcomponents: MutableMap<ComponentId, Component<GradleProject>> = mutableMapOf()
 
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 

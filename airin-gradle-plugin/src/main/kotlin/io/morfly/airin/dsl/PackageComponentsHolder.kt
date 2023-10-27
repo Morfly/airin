@@ -18,6 +18,6 @@ interface PackageComponentsHolder : ComponentsHolder<GradleProject> {
     ) {
         val component = objects.newInstance(type)
         config?.execute(component)
-        subcomponents += component
+        subcomponents[component.id] = component
     }
 }

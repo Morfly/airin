@@ -18,5 +18,5 @@ interface PackageComponentProperties {
 
 interface FeatureComponentProperties {
     var ignored: Boolean
-    var contributesToShared: Boolean
+    var shared: Boolean
 }

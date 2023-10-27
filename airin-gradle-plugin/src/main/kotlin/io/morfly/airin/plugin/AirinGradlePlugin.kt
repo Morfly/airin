@@ -2,6 +2,7 @@ package io.morfly.airin.plugin
 
 import io.morfly.airin.Component
 import io.morfly.airin.ComponentConflictResolution
+import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleFeatureComponent
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
@@ -35,24 +36,40 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 outputFiles = outputFiles
             )
 
-            this.components.set(components.associateBy { it.id })
+            this.components.set(components)
             this.properties.set(inputs.properties)
             this.root.set(root)
             this.outputFiles.setFrom(outputFiles)
         }
     }
 
-    protected open fun prepareComponents(components: List<Component<GradleProject>>): List<GradlePackageComponent> {
-        val sharedFeatureComponents = components
+    protected open fun prepareComponents(
+        components: Map<ComponentId, Component<GradleProject>>
+    ): Map<ComponentId, GradlePackageComponent> {
+        // Feature components shared with every package component
+        val completelySharedFeatureComponents = components.values.asSequence()
             .filterIsInstance<GradleFeatureComponent>()
-        return components
+            .onEach { it.shared = true }
+            .associateBy { it.id }
+
+        // Feature components shared only with shared package components
+        val sharedFeatureComponents = components.values.asSequence()
             .filterIsInstance<GradlePackageComponent>()
-            .onEach { it.subcomponents += sharedFeatureComponents }
+            .flatMap { it.subcomponents.values }
+            .filterIsInstance<GradleFeatureComponent>()
+            .filter { it.shared }
+            .associateBy { it.id }
+
+        return components.values.asSequence()
+            .filterIsInstance<GradlePackageComponent>()
+            .onEach { it.subcomponents += completelySharedFeatureComponents }
+            .onEach { if (it.shared) it.subcomponents += sharedFeatureComponents }
+            .associateBy { it.id }
     }
 
     protected open fun prepareProjects(
         root: Project,
-        components: List<GradlePackageComponent>,
+        components: Map<ComponentId, GradlePackageComponent>,
         properties: AirinProperties,
         outputFiles: MutableList<RegularFile>
     ): GradleProject {
@@ -103,10 +120,10 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             }
 
     protected open fun Project.pickPackageComponent(
-        components: List<GradlePackageComponent>,
+        components: Map<ComponentId, GradlePackageComponent>,
         properties: AirinProperties
     ): GradlePackageComponent? {
-        val suitableComponents = components
+        val suitableComponents = components.values
             .filter { !it.ignored }
             .filter { it.canProcess(this) }
 
@@ -128,7 +145,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
     protected open fun Project.pickFeatureComponents(
         component: GradlePackageComponent
-    ): List<GradleFeatureComponent> = component.subcomponents
+    ): List<GradleFeatureComponent> = component.subcomponents.values
         .filterIsInstance<GradleFeatureComponent>()
         .filter { !it.ignored }
         .filter { it.canProcess(this) }

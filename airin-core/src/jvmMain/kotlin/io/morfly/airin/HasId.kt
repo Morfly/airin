@@ -1,5 +1,7 @@
 package io.morfly.airin
 
+typealias ComponentId = String
+
 interface HasId {
-    val id: String
+    val id: ComponentId
 }

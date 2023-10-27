@@ -22,6 +22,6 @@ interface FeatureComponentsHolder :
         val component = objects.newInstance(type)
         component.parentId = id
         config?.execute(component)
-        subcomponents += component
+        subcomponents[component.id] = component
     }
 }

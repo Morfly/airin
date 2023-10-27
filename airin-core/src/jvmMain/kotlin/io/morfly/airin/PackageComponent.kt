@@ -6,7 +6,7 @@ import io.morfly.pendant.starlark.lang.append
 abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder,
     ComponentsHolder<P> {
 
-    final override val subcomponents = mutableListOf<Component<P>>()
+    final override val subcomponents = mutableMapOf<ComponentId, Component<P>>()
 
     @InternalAirinApi
     open fun invoke(packageDescriptor: P, includeSubcomponents: Boolean = true): PackageContext {
@@ -18,7 +18,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
             return context
         }
 
-        val features = subcomponents.asSequence()
+        val features = subcomponents.values.asSequence()
             .filterIsInstance<FeatureComponent<P>>()
             .filter { it.id in packageDescriptor.featureComponentIds }
             .map { it.invoke(packageDescriptor) }

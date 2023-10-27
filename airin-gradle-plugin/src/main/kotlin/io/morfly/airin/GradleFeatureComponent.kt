@@ -9,7 +9,7 @@ abstract class GradleFeatureComponent : FeatureComponent<GradleProject>(),
     FeatureComponentProperties {
 
     override var ignored by property(default = false)
-    override var contributesToShared by property(default = false)
+    override var shared by property(default = false)
 
     internal lateinit var parentId: String
 
