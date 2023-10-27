@@ -1,4 +1,4 @@
-workspace(name = "airin-android-sample")
+workspace(name = "simple-android")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -70,6 +70,7 @@ load(
     "@io_bazel_rules_kotlin//kotlin:repositories.bzl",
     "kotlin_repositories",
     "kotlinc_version",
+    "ksp_version",
 )
 
 kotlin_repositories(
@@ -77,10 +78,10 @@ kotlin_repositories(
         release = "1.8.21",
         sha256 = "6e43c5569ad067492d04d92c28cdf8095673699d81ce460bd7270443297e8fd7",
     ),
-    #    ksp_compiler_release = ksp_version(
-    #        release = "1.8.21-1.0.11",
-    #        sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
-    #    ),
+    ksp_compiler_release = ksp_version(
+        release = "1.8.21-1.0.11",
+        sha256 = "2ce5a08fddd20ef07ac051615905453fe08c3ba3ce5afa5dc43a9b77aa64507d",
+    ),
 )
 
 register_toolchains("//:kotlin_toolchain")

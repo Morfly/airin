@@ -12,9 +12,8 @@ import org.gradle.api.Project
 
 abstract class RootModule : GradlePackageComponent() {
 
-    override fun canProcess(target: Project): Boolean {
-        return target.rootProject == target
-    }
+    override fun canProcess(target: Project): Boolean =
+        target.plugins.hasPlugin("io.morfly.airin.android")
 
     override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
         val build = BUILD.bazel {
@@ -41,6 +40,8 @@ abstract class RootModule : GradlePackageComponent() {
 
         val thirdPartyBuild = BUILD.bazel {
             _id = ID_THIRD_PARTY_BUILD
+
+            load("@rules_jvm_external//:defs.bzl", "artifact")
         }
 
         generate(build, workspace)

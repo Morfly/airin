@@ -29,8 +29,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
     var kotlinToolchainVersion by property("1.8")
     var kotlinJvmTarget by property("11")
 
-    var androidApiVersion by property(33)
-    var androidBuildToolsVersion by property("33.0.1")
+    var androidApiVersion by property(34)
+    var androidBuildToolsVersion by property("34.0.0")
 
     var rulesJavaVersion by property("6.5.0")
     var rulesJavaSha by property("160d1ebf33763124766fb35316329d907ca67f733238aa47624a8e3ff3cf2ef4")
@@ -52,7 +52,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
     )
 
     override fun canProcess(target: Project): Boolean {
-        return target.rootProject == target
+        return target.plugins.hasPlugin("io.morfly.airin.android")
     }
 
     override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
@@ -77,7 +77,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
 
         onContext<WorkspaceContext>(id = RootModule.ID_WORKSPACE) {
 
-            // Java
+            comment { "Java" }
             val RULES_JAVA_VERSION by rulesJavaVersion
             val RULES_JAVA_SHA by rulesJavaSha
 
@@ -85,7 +85,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 name = "rules_java",
                 sha256 = RULES_JAVA_SHA,
                 urls = list[
-                    "https://github.com/bazelbuild/rules_java/releases/download/%s/rules_java-%s.tar.gz" `%` RULES_JAVA_VERSION,
+                    "https://github.com/bazelbuild/rules_java/releases/download/{v}/rules_java-{v}.tar.gz".format { "v" `=` RULES_JAVA_VERSION }
                 ],
             )
             load(
@@ -96,7 +96,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
             rules_java_dependencies()
             rules_java_toolchains()
 
-            // Rules JVM external
+            comment { "JVM External" }
             val RULES_JVM_EXTERNAL_VERSION by rulesJvmExternalVersion
             val RULES_JVM_EXTERNAL_SHA by rulesJvmExternalSha
 
@@ -114,8 +114,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
             rules_jvm_external_setup()
 
             val MAVEN_ARTIFACTS = load(
-                "//:third_party/maven_dependencies.bzl", "MAVEN_ARTIFACTS"
-            ).v<ListType<StringType>>()
+                "//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS"
+            ).of<ListType<StringType>>()
 
             load("@rules_jvm_external//:defs.bzl", "maven_install")
             maven_install {
@@ -126,7 +126,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 version_conflict_policy = "pinned"
             }
 
-            // Kotlin
+            comment { "Kotlin" }
             val RULES_KOTLIN_VERSION by rulesKotlinVersion
             val RULES_KOTLIN_SHA by rulesKotlinSha
 
@@ -139,7 +139,8 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
             load(
                 "@io_bazel_rules_kotlin//kotlin:repositories.bzl",
                 "kotlin_repositories",
-                "kotlinc_version"
+                "kotlinc_version",
+                "ksp_version"
             )
 
             kotlin_repositories(
@@ -155,7 +156,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
 
             register_toolchains("//:kotlin_toolchain")
 
-            // Android
+            comment { "Android" }
             val RULES_ANDROID_VERSION by rulesAndroidVersion
             val RULES_ANDROID_SHA by rulesAndroidSha
 
