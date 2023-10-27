@@ -35,6 +35,6 @@ include(
 )
 
 include(
-    "samples:android-multimodule",
-    "samples:android-multimodule:app"
+    "samples:simple-android",
+    "samples:simple-android:app"
 )
