@@ -15,12 +15,8 @@ import org.gradle.api.Project
 
 abstract class AndroidLibraryModule : GradlePackageComponent() {
 
-    var includeDefaultSubcomponents by property(true)
-
     init {
-        if (includeDefaultSubcomponents) {
-            include<AndroidLibraryArtifactMappingFeature>()
-        }
+        include<AndroidLibraryArtifactMappingFeature>()
     }
 
     override fun canProcess(target: Project): Boolean = with(target.plugins) {
