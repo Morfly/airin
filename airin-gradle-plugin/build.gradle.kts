@@ -20,4 +20,5 @@ dependencies {
     implementation(projects.airinCore)
 
     implementation(libs.pendant.starlark)
+    implementation(libs.pendant.library.bazel)
 }

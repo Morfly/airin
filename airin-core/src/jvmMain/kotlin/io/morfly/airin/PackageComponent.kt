@@ -47,7 +47,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
                     val depOverride = feature.dependencyOverrides[dependency.toString()]?.get(configuration)
                     val configOverride = feature.configurationOverrides[configuration]
 
-                    val transformedConfig = depOverride?.configuration ?: configOverride?.configuration ?: configuration
+                    val transformedConfig = depOverride?.configuration ?: configOverride?.configuration ?: continue
                     val transformedDep = depOverride?.label ?: dependency
 
                     transformedDependencies.getOrPut(transformedConfig, ::mutableSetOf) += transformedDep

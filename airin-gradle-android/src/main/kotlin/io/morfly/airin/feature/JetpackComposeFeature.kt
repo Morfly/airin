@@ -7,7 +7,7 @@ import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.plugin.AirinAndroidGradlePlugin
 import io.morfly.airin.plugin.isComposeEnabled
-import io.morfly.pendant.starlark.AndroidLibraryContext
+import io.morfly.pendant.starlark.KtAndroidLibraryContext
 import io.morfly.pendant.starlark.artifact
 import io.morfly.pendant.starlark.kt_compiler_plugin
 import io.morfly.pendant.starlark.lang.context.BuildContext
@@ -20,8 +20,10 @@ abstract class JetpackComposeFeature : GradleFeatureComponent() {
         shared = true
     }
 
-    override fun canProcess(target: Project): Boolean =
-        target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
+    override fun canProcess(target: Project): Boolean {
+        println("TTAGG ${target.path}, composeEnabled: ${target.isComposeEnabled}")
+        return target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
+    }
 
     override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {
@@ -38,7 +40,7 @@ abstract class JetpackComposeFeature : GradleFeatureComponent() {
             )
         }
 
-        onContext<AndroidLibraryContext>(AndroidLibraryModule.ID_BUILD_TARGET_CALL) {
+        onContext<KtAndroidLibraryContext>(AndroidLibraryModule.ID_BUILD_TARGET_CALL) {
             plugins = list["//third_party:jetpack_compose_compiler_plugin"]
         }
     }

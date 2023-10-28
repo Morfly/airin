@@ -1,11 +1,12 @@
 package io.morfly.airin.dsl
 
 import io.morfly.airin.ComponentConflictResolution
+import io.morfly.airin.ConfigurationName
 import io.morfly.airin.MissingComponentResolution
 
 interface AirinProperties {
-    var allowedConfigurations: MutableSet<String>
-    var ignoredConfigurations: MutableSet<String>
+    var allowedConfigurations: MutableSet<ConfigurationName>
+    var ignoredConfigurations: MutableSet<ConfigurationName>
     var onComponentConflict: ComponentConflictResolution
     var onMissingComponent: MissingComponentResolution
 }

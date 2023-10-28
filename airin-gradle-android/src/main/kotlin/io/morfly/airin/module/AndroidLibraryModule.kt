@@ -1,8 +1,12 @@
 package io.morfly.airin.module
 
+import include
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.PackageContext
+import io.morfly.airin.applyDependenciesFrom
+import io.morfly.airin.feature.AndroidLibraryArtifactMappingFeature
+import io.morfly.airin.property
 import io.morfly.pendant.starlark.glob
 import io.morfly.pendant.starlark.kt_android_library
 import io.morfly.pendant.starlark.lang.context.BUILD
@@ -11,10 +15,17 @@ import org.gradle.api.Project
 
 abstract class AndroidLibraryModule : GradlePackageComponent() {
 
+    var includeDefaultSubcomponents by property(true)
+
+    init {
+        if (includeDefaultSubcomponents) {
+            include<AndroidLibraryArtifactMappingFeature>()
+        }
+    }
+
     override fun canProcess(target: Project): Boolean = with(target.plugins) {
         hasPlugin("com.android.library") || hasPlugin("com.android.application")
     }
-
 
     override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
         val build = BUILD.bazel {
@@ -30,18 +41,10 @@ abstract class AndroidLibraryModule : GradlePackageComponent() {
                 srcs = glob("src/main/**/*.kt")
                 custom_package = "io.morfly.airin.sample"
                 manifest = "src/main/AndroidManifest.xml"
-                plugins = list["//third_party:jetpack_compose_compiler_plugin"]
                 resource_files = glob("src/main/res/**")
                 visibility = list["//visibility:public"]
-//                deps = list[
-//                    artifact("androidx.compose.ui:ui"),
-//                    artifact("androidx.compose.ui:ui-graphics"),
-//                    artifact("androidx.compose.ui:ui-tooling-preview"),
-//                    artifact("androidx.compose.material3:material3"),
-//                    artifact("androidx.activity:activity-compose"),
-//                    artifact("androidx.core:core-ktx"),
-//                    artifact("androidx.lifecycle:lifecycle-runtime-ktx"),
-//                ]
+
+                applyDependenciesFrom(packageDescriptor)
             }
         }
         generate(build)
