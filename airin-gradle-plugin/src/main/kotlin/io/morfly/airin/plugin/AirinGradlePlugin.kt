@@ -109,7 +109,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         return traverse(root)
     }
 
-    // TODO filter configurations
     protected open fun prepareDependencies(
         target: Project,
         properties: AirinProperties

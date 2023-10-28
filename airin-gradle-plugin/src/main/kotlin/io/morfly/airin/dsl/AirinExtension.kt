@@ -18,7 +18,7 @@ abstract class AirinExtension :
 
     override val id: String = "Airin"
 
-    override val subcomponents: MutableMap<ComponentId, Component<GradleProject>> = mutableMapOf()
+    override val subcomponents: MutableMap<ComponentId, Component<GradleProject>> = linkedMapOf()
 
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 
