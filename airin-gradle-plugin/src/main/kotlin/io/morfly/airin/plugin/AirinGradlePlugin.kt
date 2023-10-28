@@ -24,6 +24,10 @@ import org.gradle.kotlin.dsl.register
 abstract class AirinGradlePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
+        require(target.rootProject.path == target.path) {
+            "Airin must be applied to the root project but was applied to ${target.path}!"
+        }
+
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
 
         target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
