@@ -1,11 +1,15 @@
 [versions]
 airin = "0.5.0"
 kotlin = "1.9.10"
+ksp = "1.9.10-1.0.13"
 agp = "8.1.2"
+dagger = "2.48.1"
 compose = "1.5.0"
 composeCompiler = "1.5.3"
+sampleConventionPlugin = "ignored"
 
 [libraries]
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 compose-bom = "androidx.compose:compose-bom:2023.10.01"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
@@ -17,9 +21,21 @@ compose-activity = "androidx.activity:activity-compose:1.8.0"
 androidx-core = "androidx.core:core-ktx:1.12.0"
 androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
 junit = "junit:junit:4.13.2"
+# ===== Gradle plugins =====
+gradlePlugin-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+# ===== Convention Plugins =====
+sample-android-common = { id = "sample.android.common", version.ref = "sampleConventionPlugin" }
+sample-android-library = { id = "sample.android.library", version.ref = "sampleConventionPlugin" }
+sample-android-application = { id = "sample.android.application", version.ref = "sampleConventionPlugin" }
+sample-android-compose = { id = "sample.android.compose", version.ref = "sampleConventionPlugin" }
+sample-metadata = { id = "sample.metadata", version.ref = "sampleConventionPlugin" }

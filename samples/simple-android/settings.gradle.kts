@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenLocal()
     }
+    includeBuild("../../build-tools")
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -24,5 +25,9 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "simple-android"
 
 include(
-    "app"
+    "app",
+    "feature-A",
+    "feature-B",
+    "library-A",
+    "library-B"
 )
