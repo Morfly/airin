@@ -4,8 +4,8 @@ import io.morfly.airin.ComponentConflictResolution
 import io.morfly.airin.MissingComponentResolution
 
 interface AirinProperties {
-    var allowedProjects: MutableSet<String>
-    var ignoredProjects: MutableSet<String>
+    var allowedConfigurations: MutableSet<String>
+    var ignoredConfigurations: MutableSet<String>
     var onComponentConflict: ComponentConflictResolution
     var onMissingComponent: MissingComponentResolution
 }

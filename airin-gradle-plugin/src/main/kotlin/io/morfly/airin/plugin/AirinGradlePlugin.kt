@@ -3,6 +3,7 @@ package io.morfly.airin.plugin
 import io.morfly.airin.Component
 import io.morfly.airin.ComponentConflictResolution
 import io.morfly.airin.ComponentId
+import io.morfly.airin.ConfigurationName
 import io.morfly.airin.GradleFeatureComponent
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
@@ -94,7 +95,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 featureComponentIds = featureComponents.map { it.id }.toSet()
             )
             project.originalDependencies =
-                if (!project.ignored) prepareDependencies(target)
+                if (!project.ignored) prepareDependencies(target, properties)
                 else emptyMap()
             project.subpackages = target.childProjects.values.map(::traverse)
 
@@ -109,8 +110,12 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     }
 
     // TODO filter configurations
-    protected open fun prepareDependencies(target: Project): Map<String, List<Label>> =
+    protected open fun prepareDependencies(
+        target: Project,
+        properties: AirinProperties
+    ): Map<String, List<Label>> =
         target.configurations
+            .filter { filterConfiguration(it.name, properties) }
             .associateBy({ it.name }, { it.dependencies })
             .filter { (_, dependencies) -> dependencies.isNotEmpty() }
             .mapValues { (_, dependencies) ->
@@ -122,6 +127,16 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     }
                 }
             }
+
+    protected open fun filterConfiguration(
+        configuration: ConfigurationName, properties: AirinProperties
+    ): Boolean {
+        if (configuration in properties.ignoredConfigurations) return false
+
+        return with(properties.allowedConfigurations) {
+            isEmpty() || any { configuration.contains(it, ignoreCase = true) }
+        }
+    }
 
     protected open fun Project.pickPackageComponent(
         components: Map<ComponentId, GradlePackageComponent>,

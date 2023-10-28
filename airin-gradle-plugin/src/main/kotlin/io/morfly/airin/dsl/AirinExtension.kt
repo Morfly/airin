@@ -22,8 +22,10 @@ abstract class AirinExtension :
 
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 
-    override var allowedProjects by property(mutableSetOf<String>())
-    override var ignoredProjects by property(mutableSetOf<String>())
+    override var allowedConfigurations by property(
+        mutableSetOf("implementation", "api", "kapt", "ksp")
+    )
+    override var ignoredConfigurations by property(mutableSetOf<String>())
     override var onComponentConflict by property(UsePriority)
     override var onMissingComponent by property(Ignore)
 
