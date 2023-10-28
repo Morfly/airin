@@ -1,3 +1,4 @@
+import io.morfly.airin.feature.AndroidBinaryFeature
 import io.morfly.airin.feature.AndroidToolsFeature
 import io.morfly.airin.feature.JetpackComposeFeature
 import io.morfly.airin.module.AndroidLibraryModule
@@ -11,10 +12,14 @@ plugins {
     id("io.morfly.airin.android") version sampleLibs.versions.airin
 }
 
+// If modifying components don't forget to run ./gradlew publishToMavenLocal --no-configuration-cache
+// Run ./gradlew simple-android:migrateToBazel to generate Bazel files.
 airin {
-    register<AndroidLibraryModule>()
+    register<AndroidLibraryModule> {
+        include<AndroidBinaryFeature>()
+        include<JetpackComposeFeature>()
+    }
     register<RootModule> {
         include<AndroidToolsFeature>()
-        include<JetpackComposeFeature>()
     }
 }

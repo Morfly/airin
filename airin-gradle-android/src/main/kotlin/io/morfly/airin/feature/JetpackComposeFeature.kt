@@ -16,6 +16,10 @@ import org.gradle.api.Project
 
 abstract class JetpackComposeFeature : GradleFeatureComponent() {
 
+    init {
+        shared = true
+    }
+
     override fun canProcess(target: Project): Boolean =
         target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
 

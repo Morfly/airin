@@ -11,9 +11,10 @@ import org.gradle.api.Project
 
 abstract class AndroidLibraryModule : GradlePackageComponent() {
 
-    override fun canProcess(target: Project): Boolean {
-        return target.plugins.hasPlugin("com.android.library")
+    override fun canProcess(target: Project): Boolean = with(target.plugins) {
+        hasPlugin("com.android.library") || hasPlugin("com.android.application")
     }
+
 
     override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
         val build = BUILD.bazel {

@@ -12,6 +12,10 @@ import org.gradle.api.Project
 
 abstract class RootModule : GradlePackageComponent() {
 
+    init {
+        shared = true
+    }
+
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 

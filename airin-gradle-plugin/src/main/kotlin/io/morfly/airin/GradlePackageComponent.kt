@@ -10,9 +10,9 @@ abstract class GradlePackageComponent : PackageComponent<GradleProject>(),
     FeatureComponentsHolder,
     PackageComponentProperties {
 
-    override var ignored by property(default = false)
-    override var shared by property(default = false)
-    override var priority by property(default = 1)
+    final override var ignored by property(default = false)
+    final override var shared by property(default = false)
+    final override var priority by property(default = 1)
 
     override val id: String = javaClass.simpleName
 
