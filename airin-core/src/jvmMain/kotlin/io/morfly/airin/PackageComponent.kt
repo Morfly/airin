@@ -24,7 +24,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
             .map { it.invoke(packageDescriptor) }
             .toList()
 
-        packageDescriptor.dependencies = packageDescriptor.transformDependencies(features)
+        packageDescriptor.applyDependencies(packageDescriptor.transformDependencies(features))
         context.onInvoke(packageDescriptor)
 
         for (file in context.starlarkFiles.values.flatten()) {

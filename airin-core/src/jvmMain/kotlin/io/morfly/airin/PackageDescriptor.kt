@@ -20,7 +20,9 @@ interface PackageDescriptor : PropertiesHolder {
 
     val originalDependencies: Map<ConfigurationName, List<Label>>
 
-    var dependencies: Map<ConfigurationName, Set<Label>>
+    val dependencies: Map<ConfigurationName, Set<Label>>
 
     val subpackages: List<PackageDescriptor>
+
+    fun applyDependencies(dependencies: Map<ConfigurationName, Set<Label>>)
 }
