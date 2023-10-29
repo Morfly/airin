@@ -9,16 +9,23 @@ data class GradleProject(
     override val label: GradleLabel,
     override val dirPath: String,
     override val isRoot: Boolean,
-    override val ignored: Boolean,
-    override val packageComponentId: String?,
-    override val featureComponentIds: Set<String>
 ) : PackageDescriptor, Serializable {
+
+    override val ignored: Boolean
+        get() = packageComponentId == null
+
+    override var packageComponentId: String? = null
+        internal set
+
+    override lateinit var featureComponentIds: Set<String>
+        internal set
 
     override lateinit var originalDependencies: Map<ConfigurationName, List<Label>>
         internal set
 
     override lateinit var dependencies: Map<ConfigurationName, Set<Label>>
         internal set
+
     override lateinit var subpackages: List<GradleProject>
         internal set
 

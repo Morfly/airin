@@ -15,6 +15,7 @@ pendant-library-bazel = { module = "io.morfly.pendant:pendant-library-bazel", ve
 gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradlePlugin-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
 gradlePlugin-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
+gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

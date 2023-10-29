@@ -6,7 +6,7 @@ import io.morfly.airin.GradleProject
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.plugin.AirinAndroidGradlePlugin
-import io.morfly.airin.plugin.isComposeEnabled
+import io.morfly.airin.composeEnabled
 import io.morfly.pendant.starlark.KtAndroidLibraryContext
 import io.morfly.pendant.starlark.artifact
 import io.morfly.pendant.starlark.kt_compiler_plugin
@@ -21,7 +21,7 @@ abstract class JetpackComposeFeature : GradleFeatureComponent() {
     }
 
     override fun canProcess(target: Project): Boolean =
-        target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
+        target.composeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
 
     override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {

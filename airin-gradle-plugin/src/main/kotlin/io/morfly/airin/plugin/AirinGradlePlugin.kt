@@ -9,6 +9,7 @@ import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.InternalAirinApi
 import io.morfly.airin.MissingComponentResolution
+import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
 import io.morfly.airin.label.GradleLabel
@@ -24,6 +25,8 @@ import org.gradle.kotlin.dsl.register
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
+    abstract val defaultDecoratorClass: Class<out GradleProjectDecorator>
+
     override fun apply(target: Project) {
         require(target.rootProject.path == target.path) {
             "Airin must be applied to the root project but was applied to ${target.path}!"
@@ -33,11 +36,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
         target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
             val components = prepareComponents(inputs.subcomponents)
+            val decorator = inputs.objects.newInstance(defaultDecoratorClass)
             val outputFiles = mutableListOf<RegularFile>()
             val root = prepareProjects(
                 root = target,
                 components = components,
                 properties = inputs,
+                decorator = decorator,
                 outputFiles = outputFiles
             )
 
@@ -76,6 +81,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         root: Project,
         components: Map<ComponentId, GradlePackageComponent>,
         properties: AirinProperties,
+        decorator: GradleProjectDecorator,
         outputFiles: MutableList<RegularFile>
     ): GradleProject {
 
@@ -90,14 +96,17 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 isRoot = target.rootProject.path == target.path,
                 label = GradleLabel(path = target.path, name = target.name),
                 dirPath = target.projectDir.path,
-                ignored = packageComponent == null,
-                packageComponentId = packageComponent?.id,
+            ).apply {
+                packageComponentId = packageComponent?.id
                 featureComponentIds = featureComponents.map { it.id }.toSet()
-            )
-            project.originalDependencies =
-                if (!project.ignored) prepareDependencies(target, properties)
-                else emptyMap()
-            project.subpackages = target.childProjects.values.map(::traverse)
+                originalDependencies =
+                    if (!ignored) prepareDependencies(target, properties)
+                    else emptyMap()
+                subpackages = target.childProjects.values.map(::traverse)
+            }
+            with(decorator) {
+                project.decorate(target)
+            }
 
             if (!project.ignored && packageComponent != null) {
                 outputFiles += project

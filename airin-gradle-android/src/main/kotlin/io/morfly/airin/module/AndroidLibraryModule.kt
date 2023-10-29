@@ -6,7 +6,7 @@ import io.morfly.airin.GradleProject
 import io.morfly.airin.PackageContext
 import io.morfly.airin.applyDependenciesFrom
 import io.morfly.airin.feature.AndroidLibraryArtifactMappingFeature
-import io.morfly.airin.property
+import io.morfly.airin.androidMetadata
 import io.morfly.pendant.starlark.glob
 import io.morfly.pendant.starlark.kt_android_library
 import io.morfly.pendant.starlark.lang.context.BUILD
@@ -35,7 +35,7 @@ abstract class AndroidLibraryModule : GradlePackageComponent() {
 
                 name = packageDescriptor.name
                 srcs = glob("src/main/**/*.kt")
-                custom_package = "io.morfly.airin.sample"
+                custom_package = packageDescriptor.androidMetadata?.packageName
                 manifest = "src/main/AndroidManifest.xml"
                 resource_files = glob("src/main/res/**")
                 visibility = list["//visibility:public"]

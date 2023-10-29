@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.pendant.starlark)
     implementation(libs.pendant.library.bazel)
     compileOnly(libs.gradlePlugin.android.api)
+    compileOnly(libs.gradlePlugin.android)
 }
 
 gradlePlugin {
