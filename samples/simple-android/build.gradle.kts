@@ -11,6 +11,7 @@ plugins {
     alias(sampleLibs.plugins.android.library) apply false
     alias(sampleLibs.plugins.ksp) apply false
     alias(sampleLibs.plugins.hilt.android) apply false
+
     id("io.morfly.airin.android") version sampleLibs.versions.airin
 }
 
