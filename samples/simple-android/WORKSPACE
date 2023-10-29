@@ -23,38 +23,6 @@ rules_java_dependencies()
 
 rules_java_toolchains()
 
-# JVM External
-RULES_JVM_EXTERNAL_VERSION = "4.5"
-
-RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
-
-http_archive(
-    name = "rules_jvm_external",
-    sha256 = RULES_JVM_EXTERNAL_SHA,
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_VERSION,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_VERSION,
-)
-
-load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
-
-rules_jvm_external_deps()
-
-load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
-
-rules_jvm_external_setup()
-
-load("//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS")
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-
-maven_install(
-    artifacts = MAVEN_ARTIFACTS,
-    repositories = [
-        "https://maven.google.com",
-        "https://repo1.maven.org/maven2",
-    ],
-    version_conflict_policy = "pinned",
-)
-
 # Kotlin
 RULES_KOTLIN_VERSION = "1.8.1"
 
@@ -97,4 +65,65 @@ android_sdk_repository(
     name = "androidsdk",
     api_level = 34,
     build_tools_version = "34.0.0",
+)
+
+DAGGER_VERSION = "2.48"
+
+DAGGER_SHA = "a796141af307e2b3a48b64a81ee163d96ffbfb41a71f0ea9cf8d26f930c80ca6"
+
+http_archive(
+    name = "dagger",
+    sha256 = DAGGER_SHA,
+    strip_prefix = "dagger-use-generated-class-instead-of-superclass",
+    urls = ["https://github.com/pswaminathan/dagger/archive/refs/heads/use-generated-class-instead-of-superclass.zip"],
+)
+
+load("@dagger//:repositories.bzl", "dagger_repositories")
+
+dagger_repositories()
+
+load("@dagger//:workspace_defs.bzl", "dagger_workspace")
+
+dagger_workspace()
+
+load("@dagger//:workspace_defs_2.bzl", "dagger_workspace_2")
+
+dagger_workspace_2()
+
+load(
+    "@dagger//:workspace_defs.bzl",
+    "HILT_ANDROID_ARTIFACTS",
+    "HILT_ANDROID_REPOSITORIES",
+)
+
+# JVM External
+RULES_JVM_EXTERNAL_VERSION = "4.5"
+
+RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_VERSION,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_VERSION,
+)
+
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
+rules_jvm_external_setup()
+
+load("//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS")
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = MAVEN_ARTIFACTS + HILT_ANDROID_ARTIFACTS,
+    repositories = [
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ] + HILT_ANDROID_REPOSITORIES,
+    version_conflict_policy = "pinned",
 )

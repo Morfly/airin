@@ -19,6 +19,10 @@ import org.gradle.api.Project
 
 abstract class HiltAndroidFeature : GradleFeatureComponent() {
 
+    init {
+        shared = true
+    }
+
     val daggerVersion by property("2.47")
     val daggerSha by property("154cdfa4f6f552a9873e2b4448f7a80415cb3427c4c771a50c6a8a8b434ffd0a")
 

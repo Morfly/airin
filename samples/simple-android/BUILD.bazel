@@ -10,3 +10,7 @@ define_kt_toolchain(
     jvm_target = JAVA_VERSION,
     language_version = KOTLIN_VERSION,
 )
+
+load("@dagger//:workspace_defs.bzl", "hilt_android_rules")
+
+hilt_android_rules()

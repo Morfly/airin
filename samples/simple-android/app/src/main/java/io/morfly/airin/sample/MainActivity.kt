@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import io.morfly.airin.sample.ui.theme.AirinSampleTheme
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint(ComponentActivity::class)
+class MainActivity : Hilt_MainActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AirinSampleTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

@@ -5,6 +5,10 @@ plugins {
     alias(sampleLibs.plugins.ksp)
 }
 
+hilt {
+    enableAggregatingTask = false
+}
+
 android {
     namespace = "io.morfly.airin.sample"
 
@@ -16,8 +20,8 @@ android {
 dependencies {
     implementation(projects.featureA)
     implementation(projects.featureB)
-    implementation(projects.libraryA)
-    implementation(projects.libraryB)
+//    implementation(projects.libraryA)
+//    implementation(projects.libraryB)
 
     implementation(sampleLibs.androidx.core)
     implementation(sampleLibs.androidx.lifecycle.runtime)
