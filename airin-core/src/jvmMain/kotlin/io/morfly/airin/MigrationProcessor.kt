@@ -1,30 +1,51 @@
 package io.morfly.airin
 
+import io.morfly.pendant.starlark.lang.context.FileContext
 import io.morfly.pendant.starlark.writer.StarlarkFileWriter
 
 class MigrationProcessor<P : PackageDescriptor>(
     private val components: Map<String, PackageComponent<P>>,
+    // TODO check generated files with outputs
 ) {
 
     @InternalAirinApi
     fun invoke(packageDescriptor: P) {
 
-        for (subpackage in packageDescriptor.subpackages) {
-            @Suppress("UNCHECKED_CAST")
-            invoke(subpackage as P)
+        val packages = mutableMapOf<ComponentId, MutableList<P>>()
+
+        fun traverse(pkg: P) {
+            val id = pkg.packageComponentId
+            if (id != null && !pkg.ignored) {
+                packages.getOrPut(id, ::mutableListOf) += pkg
+            }
+            for (subpackage in pkg.subpackages) {
+                @Suppress("UNCHECKED_CAST")
+                traverse(subpackage as P)
+            }
         }
+        traverse(packageDescriptor)
 
-        if (packageDescriptor.ignored || packageDescriptor.packageComponentId == null) return
+        // Processing packages following the order in which components were registered.
+        for ((id, component) in components) {
+            for (pkg in packages[id].orEmpty()) {
+                val result = component.invoke(pkg)
+                writeGeneratedFiles(pkg.dirPath, result.starlarkFiles)
+            }
+        }
+    }
 
-        val component = components[packageDescriptor.packageComponentId]!!
-        val result = component.invoke(packageDescriptor)
+    fun extractOutputFilePaths() {
+        TODO()
+    }
 
-        for ((relativeDirPath, builders) in result.starlarkFiles) {
+    private fun writeGeneratedFiles(dirPath: String, files: Map<String, List<FileContext>>) {
+        for ((relativeDirPath, builders) in files) {
             for (builder in builders) {
-                val path = "${packageDescriptor.dirPath}/$relativeDirPath"
+                val path = "$dirPath/$relativeDirPath"
                 val file = builder.build()
                 StarlarkFileWriter.write(path, file)
             }
         }
     }
+
 }
