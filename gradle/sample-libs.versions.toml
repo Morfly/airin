@@ -18,8 +18,12 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-activity = "androidx.activity:activity-compose:1.8.0"
+compose-navigation = "androidx.navigation:navigation-compose:2.7.4"
+compose-navigation-hilt = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidx-core = "androidx.core:core-ktx:1.12.0"
 androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 junit = "junit:junit:4.13.2"
 # ===== Gradle plugins =====
 gradlePlugin-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
@@ -32,7 +36,7 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 # ===== Convention Plugins =====
 sample-android-common = { id = "sample.android.common", version.ref = "sampleConventionPlugin" }
 sample-android-library = { id = "sample.android.library", version.ref = "sampleConventionPlugin" }
