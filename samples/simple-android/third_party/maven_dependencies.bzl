@@ -12,4 +12,6 @@ MAVEN_ARTIFACTS = [
     "androidx.lifecycle:lifecycle-runtime:2.6.1",
     "androidx.activity:activity-ktx:1.7.0",
     "androidx.compose.animation:animation-core:1.2.1",
+    "androidx.navigation:navigation-compose:2.7.4",
+    "androidx.hilt:hilt-navigation-compose:1.0.0",
 ]
