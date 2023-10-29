@@ -45,6 +45,8 @@ class DependencyOverrideContext {
 }
 
 sealed interface DependencyOverride {
+
     data class Override(val label: Label, val configuration: String? = null) : DependencyOverride
+
     data object Ignore : DependencyOverride
 }

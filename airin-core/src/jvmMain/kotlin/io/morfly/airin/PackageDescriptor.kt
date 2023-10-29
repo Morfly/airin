@@ -32,6 +32,7 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
 
     val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
+    // Process dependency overrides
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
@@ -54,6 +55,7 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
         }
     }
 
+    // Process configuration overrides for the remaining dependencies
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
@@ -62,8 +64,7 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
                 val configOverride = feature.configurationOverrides[configuration]
                 val config = configOverride?.configuration
                     ?: continue
-                val dep = dependency.asComparable()
-                transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
+                transformedDependencies.getOrPut(config, ::mutableSetOf) += dependency
             }
         }
     }

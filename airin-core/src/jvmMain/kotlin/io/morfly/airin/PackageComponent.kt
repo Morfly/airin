@@ -1,5 +1,6 @@
 package io.morfly.airin
 
+import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
 
 abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder,
@@ -20,10 +21,14 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
         val features = subcomponents.values.asSequence()
             .filterIsInstance<FeatureComponent<P>>()
             .filter { it.id in packageDescriptor.featureComponentIds }
+            .onEach { it.sharedProperties = sharedProperties }
             .map { it.invoke(packageDescriptor) }
             .toList()
 
         packageDescriptor.applyDependencies(packageDescriptor.transformDependencies(features))
+        allMavenArtifacts += packageDescriptor.dependencies.values.flatten()
+            .filterIsInstance<MavenCoordinates>()
+
         context.onInvoke(packageDescriptor)
 
         for (file in context.starlarkFiles.values.flatten()) {

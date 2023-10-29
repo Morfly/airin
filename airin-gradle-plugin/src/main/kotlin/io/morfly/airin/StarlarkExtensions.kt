@@ -8,7 +8,7 @@ fun FunctionCallContext.applyDependenciesFrom(packageDescriptor: GradleProject) 
     for ((configuration, dependencies) in packageDescriptor.dependencies) {
         configuration `=` dependencies.mapNotNull {
             when (it) {
-                is MavenCoordinates -> artifact(it.copy(version = null).toString())
+                is MavenCoordinates -> artifact(it.asComparable().toString())
                 else -> it.asBazelLabel()?.toString()
             }
         }

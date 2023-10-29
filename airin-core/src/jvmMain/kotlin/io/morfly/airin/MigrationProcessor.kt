@@ -25,8 +25,11 @@ class MigrationProcessor<P : PackageDescriptor>(
         }
         traverse(packageDescriptor)
 
-        // Processing packages following the order in which components were registered.
+        // Processing packages, following the order in which components were registered.
+        val sharedProperties = mutableMapOf<String, Any?>()
         for ((id, component) in components) {
+            component.sharedProperties = sharedProperties
+
             for (pkg in packages[id].orEmpty()) {
                 val result = component.invoke(pkg)
                 writeGeneratedFiles(pkg.dirPath, result.starlarkFiles)
