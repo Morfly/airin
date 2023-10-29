@@ -2,9 +2,11 @@ package io.morfly.airin.dsl
 
 import io.morfly.airin.ComponentConflictResolution
 import io.morfly.airin.ConfigurationName
+import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.MissingComponentResolution
 
 interface AirinProperties {
+    var projectDecorator: Class<out GradleProjectDecorator>
     var allowedConfigurations: MutableSet<ConfigurationName>
     var ignoredConfigurations: MutableSet<ConfigurationName>
     var onComponentConflict: ComponentConflictResolution

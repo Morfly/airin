@@ -7,9 +7,9 @@ import io.morfly.airin.ConfigurationName
 import io.morfly.airin.GradleFeatureComponent
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.InternalAirinApi
 import io.morfly.airin.MissingComponentResolution
-import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
 import io.morfly.airin.label.GradleLabel
@@ -25,7 +25,7 @@ import org.gradle.kotlin.dsl.register
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
-    abstract val defaultDecoratorClass: Class<out GradleProjectDecorator>
+    abstract val defaultProjectDecorator: Class<out GradleProjectDecorator>
 
     override fun apply(target: Project) {
         require(target.rootProject.path == target.path) {
@@ -35,14 +35,17 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
 
         target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+            val decoratorClass =
+                if (inputs.projectDecorator != GradleProjectDecorator::class.java) inputs.projectDecorator
+                else defaultProjectDecorator
+
             val components = prepareComponents(inputs.subcomponents)
-            val decorator = inputs.objects.newInstance(defaultDecoratorClass)
             val outputFiles = mutableListOf<RegularFile>()
             val root = prepareProjects(
                 root = target,
                 components = components,
                 properties = inputs,
-                decorator = decorator,
+                decorator = inputs.objects.newInstance(decoratorClass),
                 outputFiles = outputFiles
             )
 

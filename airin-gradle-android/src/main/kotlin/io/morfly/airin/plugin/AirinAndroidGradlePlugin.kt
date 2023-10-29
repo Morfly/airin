@@ -2,9 +2,9 @@ package io.morfly.airin.plugin
 
 import io.morfly.airin.AndroidProjectDecorator
 
-class AirinAndroidGradlePlugin : AirinGradlePlugin() {
+open class AirinAndroidGradlePlugin : AirinGradlePlugin() {
 
-    override val defaultDecoratorClass = AndroidProjectDecorator::class.java
+    override val defaultProjectDecorator = AndroidProjectDecorator::class.java
 
     companion object {
         const val ID = "io.morfly.airin.android"
