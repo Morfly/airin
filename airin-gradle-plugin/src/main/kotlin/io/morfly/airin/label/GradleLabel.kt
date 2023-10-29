@@ -20,12 +20,12 @@ data class GradleLabel(
     override fun asComparable(): Label = this
 
     override fun asBazelLabel(): BazelLabel {
-        val pkg = path
+        val path = path
             .trim()
             .split(":")
             .filter(String::isNotBlank)
-            .joinToString(prefix = "//", separator = "/")
-        return BazelLabel("$pkg:$name")
+            .joinToString(separator = "/")
+        return BazelLabel(path = path, target = name)
     }
 
     override fun toString() = stringLabel

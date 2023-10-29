@@ -30,7 +30,7 @@ abstract class AndroidBinaryFeature : GradleFeatureComponent() {
                     "versionName" to "1.0"
                 }
                 multidex = "native"
-                deps = list[":${packageDescriptor.name}_lib"]
+                deps = list[":${packageDescriptor.name}"]
             }
         }
     }

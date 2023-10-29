@@ -33,7 +33,7 @@ abstract class AndroidLibraryModule : GradlePackageComponent() {
             kt_android_library {
                 _id = ID_BUILD_TARGET_CALL
 
-                name = "${packageDescriptor.name}_lib"
+                name = packageDescriptor.name
                 srcs = glob("src/main/**/*.kt")
                 custom_package = "io.morfly.airin.sample"
                 manifest = "src/main/AndroidManifest.xml"

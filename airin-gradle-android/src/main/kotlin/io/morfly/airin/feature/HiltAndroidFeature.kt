@@ -61,11 +61,11 @@ abstract class HiltAndroidFeature : GradleFeatureComponent() {
         }
 
         onDependency(MavenCoordinates("com.google.dagger", "hilt-android")) {
-            overrideWith(BazelLabel("//:hilt-android"), "deps")
+            overrideWith(BazelLabel(path = "", target = "hilt-android"), "deps")
         }
 
         onDependency(MavenCoordinates("com.google.dagger", "hilt-android-compiler")) {
-            overrideWith(BazelLabel("//:hilt-android"), "deps")
+            overrideWith(BazelLabel(path = "", target = "hilt-android"), "deps")
         }
     }
 }
