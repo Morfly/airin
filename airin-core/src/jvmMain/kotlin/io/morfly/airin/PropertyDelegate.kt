@@ -3,7 +3,7 @@ package io.morfly.airin
 import java.io.Serializable
 import kotlin.reflect.KProperty
 
-class PropertyDelegate<V : Any>(private val defaultValue: V) : Serializable {
+class PropertyDelegate<V : Any>(val defaultValue: V) : Serializable {
 
     operator fun provideDelegate(
         holder: PropertiesHolder, property: KProperty<*>
