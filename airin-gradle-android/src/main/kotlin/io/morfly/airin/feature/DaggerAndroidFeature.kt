@@ -26,7 +26,7 @@ abstract class DaggerAndroidFeature : GradleFeatureComponent() {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,
-            checkpoint = RootModule.CHECKPOINT_WORKSPACE_IMPORTS
+            checkpoint = AndroidToolsFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
         ) {
             val DAGGER_VERSION by daggerVersion
             val DAGGER_SHA by daggerSha

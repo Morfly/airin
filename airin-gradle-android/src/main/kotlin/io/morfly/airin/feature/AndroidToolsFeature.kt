@@ -98,36 +98,6 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
             rules_java_dependencies()
             rules_java_toolchains()
 
-            comment { "JVM External" }
-            val RULES_JVM_EXTERNAL_VERSION by rulesJvmExternalVersion
-            val RULES_JVM_EXTERNAL_SHA by rulesJvmExternalSha
-
-            http_archive(
-                name = "rules_jvm_external",
-                sha256 = RULES_JVM_EXTERNAL_SHA,
-                strip_prefix = "rules_jvm_external-%s" `%` RULES_JVM_EXTERNAL_VERSION,
-                url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" `%` RULES_JVM_EXTERNAL_VERSION,
-            )
-
-            load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
-            rules_jvm_external_deps()
-
-            load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
-            rules_jvm_external_setup()
-
-            val MAVEN_ARTIFACTS = load(
-                "//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS"
-            ).of<ListType<StringType>>()
-
-            load("@rules_jvm_external//:defs.bzl", "maven_install")
-            maven_install {
-                _id = ID_MAVEN_INSTALL
-
-                artifacts = MAVEN_ARTIFACTS
-                repositories = allowedRepositories
-                version_conflict_policy = "pinned"
-            }
-
             comment { "Kotlin" }
             val RULES_KOTLIN_VERSION by rulesKotlinVersion
             val RULES_KOTLIN_SHA by rulesKotlinSha
@@ -171,10 +141,43 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
                 api_level = androidApiVersion,
                 build_tools_version = androidBuildToolsVersion,
             )
+
+            _checkpoint(CHECKPOINT_BEFORE_JVM_EXTERNAL)
+
+            comment { "JVM External" }
+            val RULES_JVM_EXTERNAL_VERSION by rulesJvmExternalVersion
+            val RULES_JVM_EXTERNAL_SHA by rulesJvmExternalSha
+
+            http_archive(
+                name = "rules_jvm_external",
+                sha256 = RULES_JVM_EXTERNAL_SHA,
+                strip_prefix = "rules_jvm_external-%s" `%` RULES_JVM_EXTERNAL_VERSION,
+                url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" `%` RULES_JVM_EXTERNAL_VERSION,
+            )
+
+            load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+            rules_jvm_external_deps()
+
+            load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+            rules_jvm_external_setup()
+
+            val MAVEN_ARTIFACTS = load(
+                "//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS"
+            ).of<ListType<StringType>>()
+
+            load("@rules_jvm_external//:defs.bzl", "maven_install")
+            maven_install {
+                _id = ID_MAVEN_INSTALL
+
+                artifacts = MAVEN_ARTIFACTS
+                repositories = allowedRepositories
+                version_conflict_policy = "pinned"
+            }
         }
     }
 
     companion object {
         const val ID_MAVEN_INSTALL = "android_tools_maven_install"
+        const val CHECKPOINT_BEFORE_JVM_EXTERNAL = "checkpoint_before_jvm_external"
     }
 }

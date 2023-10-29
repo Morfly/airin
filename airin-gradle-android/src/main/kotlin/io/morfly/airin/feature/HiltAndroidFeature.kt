@@ -23,8 +23,8 @@ abstract class HiltAndroidFeature : GradleFeatureComponent() {
         shared = true
     }
 
-    val daggerVersion by property("2.47")
-    val daggerSha by property("154cdfa4f6f552a9873e2b4448f7a80415cb3427c4c771a50c6a8a8b434ffd0a")
+    val daggerVersion by property("2.48")
+    val daggerSha by property("a796141af307e2b3a48b64a81ee163d96ffbfb41a71f0ea9cf8d26f930c80ca6")
 
     override fun canProcess(target: Project): Boolean = with(target.plugins) {
         hasPlugin("com.google.dagger.hilt.android") || hasPlugin("io.morfly.airin.android")
@@ -34,7 +34,7 @@ abstract class HiltAndroidFeature : GradleFeatureComponent() {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,
-            checkpoint = RootModule.CHECKPOINT_WORKSPACE_IMPORTS
+            checkpoint = AndroidToolsFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
         ) {
             val DAGGER_VERSION by daggerVersion
             val DAGGER_SHA by daggerSha
@@ -42,9 +42,18 @@ abstract class HiltAndroidFeature : GradleFeatureComponent() {
             http_archive(
                 name = "dagger",
                 sha256 = DAGGER_SHA,
-                strip_prefix = "dagger-dagger-%s" `%` DAGGER_VERSION,
-                urls = list["https://github.com/google/dagger/archive/dagger-%s.zip" `%` DAGGER_VERSION],
+                strip_prefix = "dagger-use-generated-class-instead-of-superclass",
+                urls = list["https://github.com/pswaminathan/dagger/archive/refs/heads/use-generated-class-instead-of-superclass.zip"],
             )
+
+            load("@dagger//:repositories.bzl", "dagger_repositories")
+            "dagger_repositories"()
+
+            load("@dagger//:workspace_defs.bzl", "dagger_workspace")
+            "dagger_workspace"()
+
+            load("@dagger//:workspace_defs_2.bzl", "dagger_workspace_2")
+            "dagger_workspace_2"()
 
             load(
                 "@dagger//:workspace_defs.bzl",
