@@ -10,6 +10,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.libraryB)
+
     implementation(sampleLibs.compose.navigation)
     implementation(sampleLibs.compose.navigation.hilt)
     implementation(sampleLibs.hilt.android)
