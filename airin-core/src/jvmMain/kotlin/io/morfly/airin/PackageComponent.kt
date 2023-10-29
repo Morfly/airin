@@ -25,7 +25,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
             .map { it.invoke(packageDescriptor) }
             .toList()
 
-        packageDescriptor.applyDependencies(packageDescriptor.transformDependencies(features))
+        packageDescriptor.dependencies = packageDescriptor.transformDependencies(features)
         allMavenArtifacts += packageDescriptor.dependencies.values.flatten()
             .filterIsInstance<MavenCoordinates>()
 

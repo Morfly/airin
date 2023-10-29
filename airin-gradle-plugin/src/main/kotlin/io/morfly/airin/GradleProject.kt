@@ -9,7 +9,7 @@ data class GradleProject(
     override val label: GradleLabel,
     override val dirPath: String,
     override val isRoot: Boolean,
-) : PackageDescriptor, Serializable {
+) : PackageDescriptor(), Serializable {
 
     override val ignored: Boolean
         get() = packageComponentId == null
@@ -24,14 +24,9 @@ data class GradleProject(
         internal set
 
     override lateinit var dependencies: Map<ConfigurationName, Set<Label>>
-        internal set
 
     override lateinit var subpackages: List<GradleProject>
         internal set
 
     override val properties = mutableMapOf<String, Any?>()
-
-    override fun applyDependencies(dependencies: Map<ConfigurationName, Set<Label>>) {
-        this.dependencies = dependencies
-    }
 }

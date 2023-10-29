@@ -2,29 +2,28 @@ package io.morfly.airin
 
 import io.morfly.airin.label.Label
 
-interface PackageDescriptor : PropertiesHolder {
+abstract class PackageDescriptor : PropertiesHolder {
 
-    val name: String
+    abstract val name: String
 
-    val isRoot: Boolean
+    abstract val isRoot: Boolean
 
-    val label: Label
+    abstract val label: Label
 
-    val dirPath: String
+    abstract val dirPath: String
 
-    val ignored: Boolean
+    abstract val ignored: Boolean
 
-    val packageComponentId: String?
+    abstract val packageComponentId: String?
 
-    val featureComponentIds: Set<String>
+    abstract val featureComponentIds: Set<String>
 
-    val originalDependencies: Map<ConfigurationName, List<Label>>
+    abstract val originalDependencies: Map<ConfigurationName, List<Label>>
 
-    val dependencies: Map<ConfigurationName, Set<Label>>
+    abstract var dependencies: Map<ConfigurationName, Set<Label>>
+        internal set
 
-    val subpackages: List<PackageDescriptor>
-
-    fun applyDependencies(dependencies: Map<ConfigurationName, Set<Label>>)
+    abstract val subpackages: List<PackageDescriptor>
 }
 
 fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, Set<Label>> {
