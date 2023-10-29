@@ -18,6 +18,8 @@ data class MavenCoordinates(
         }
     }
 
-    override fun shorten(): Label =
+    override fun asComparable(): Label =
         if (version != null) copy(version = null) else this
+
+    override fun asBazelLabel(): BazelLabel? = null
 }

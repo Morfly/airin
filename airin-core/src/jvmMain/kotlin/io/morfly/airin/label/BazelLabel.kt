@@ -6,5 +6,7 @@ data class BazelLabel(val label: String) : Label, Serializable {
 
     override fun toString() = label
 
-    override fun shorten(): Label = this
+    override fun asComparable(): Label = this
+
+    override fun asBazelLabel(): BazelLabel = this
 }

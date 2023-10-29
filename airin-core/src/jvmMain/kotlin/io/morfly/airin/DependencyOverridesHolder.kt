@@ -30,7 +30,7 @@ interface DependencyOverridesHolder {
             "Bazel labels are not allowed to be overridden!"
         }
         val context = DependencyOverrideContext()
-        val labelKey = label.shorten().toString()
+        val labelKey = label.asComparable().toString()
         dependencyOverrides.getOrPut(labelKey, ::mutableMapOf)[configuration] = context.override()
     }
 }

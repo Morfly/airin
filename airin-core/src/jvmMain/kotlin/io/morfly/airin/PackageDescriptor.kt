@@ -1,7 +1,6 @@
 package io.morfly.airin
 
 import io.morfly.airin.label.Label
-import io.morfly.airin.label.MavenCoordinates
 
 interface PackageDescriptor : PropertiesHolder {
 
@@ -31,42 +30,43 @@ interface PackageDescriptor : PropertiesHolder {
 fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, Set<Label>> {
     val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
+    val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
+
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
-                val overrides = feature.dependencyOverrides[dependency.shorten().toString()]
+                if (name == "app")
+                    println("TTAGG dep: ${dependency}")
+
+                val overrides = feature.dependencyOverrides[dependency.asComparable().toString()]
                 val depOverride = overrides?.get(configuration) ?: overrides?.get(null)
                 val configOverride = feature.configurationOverrides[configuration]
 
-                val isHilt = if (dependency is MavenCoordinates && this.name == "app") {
-                    "hilt" in dependency.name
-                } else false
-
-                when (depOverride) {
-                    is DependencyOverride.Ignore -> {}
-                    is DependencyOverride.Override -> {
-                        val config = depOverride.configuration
-                            ?: configOverride?.configuration
-                            ?: continue
-                        val dep = depOverride.label
-                        transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
-
-                        if (isHilt) {
-                            println("TTAGG override. $config : $dep")
-                        }
-                    }
-
-                    null -> {
-                        val config = configOverride?.configuration
-                            ?: continue
-                        val dep = dependency.shorten()
-                        transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
-
-                        if (isHilt) {
-                            println("TTAGG config. $config : $dep")
-                        }
-                    }
+                if (depOverride is DependencyOverride.Override) {
+                    val config = depOverride.configuration
+                        ?: configOverride?.configuration
+                        ?: continue
+                    val dep = depOverride.label
+                    transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
                 }
+
+                if (depOverride != null) {
+                    processedDependencies.getOrPut(configuration, ::mutableSetOf) += dependency
+                }
+            }
+        }
+    }
+
+    for (feature in features) {
+        for ((configuration, labels) in this.originalDependencies) {
+            for (dependency in labels) {
+                if (dependency in processedDependencies[configuration].orEmpty()) continue
+
+                val configOverride = feature.configurationOverrides[configuration]
+                val config = configOverride?.configuration
+                    ?: continue
+                val dep = dependency.asComparable()
+                transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
             }
         }
     }

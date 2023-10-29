@@ -16,7 +16,11 @@ data class GradleLabel(
         }
     }
 
-    override fun shorten(): Label = this
+    override fun asComparable(): Label = this
+
+    override fun asBazelLabel(): BazelLabel {
+        return BazelLabel("")
+    }
 
     override fun toString() = stringLabel
 }

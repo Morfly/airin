@@ -4,5 +4,7 @@ interface Label {
 
     override fun toString(): String
 
-    fun shorten(): Label
+    fun asComparable(): Label
+
+    fun asBazelLabel(): BazelLabel?
 }
