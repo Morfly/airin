@@ -22,7 +22,12 @@ open class AndroidProjectDecorator : GradleProjectDecorator {
         androidMetadata = AndroidMetadata(
             applicationId = target.applicationId,
             packageName = target.namespace ?: target.manifestPackageName,
-            composeEnabled = target.composeEnabled
+            composeEnabled = target.composeEnabled,
+            minSdkVersion = target.minSdkVersion,
+            compileSdkVersion = target.compileSdkVersion,
+            targetSdkVersion = target.targetSdkVersion,
+            versionCode = target.versionCode,
+            versionName = target.versionName
         )
     }
 }
@@ -35,6 +40,21 @@ val Project.composeEnabled: Boolean
 
 val Project.applicationId: String?
     get() = extensions.findByType(ApplicationExtension::class.java)?.defaultConfig?.applicationId
+
+val Project.minSdkVersion: Int?
+    get() = extensions.findByType(CommonExtension::class.java)?.defaultConfig?.minSdk
+
+val Project.targetSdkVersion: Int?
+    get() = extensions.findByType(ApplicationExtension::class.java)?.defaultConfig?.targetSdk
+
+val Project.compileSdkVersion: Int?
+    get() = extensions.findByType(CommonExtension::class.java)?.compileSdk
+
+val Project.versionCode: Int?
+    get() = extensions.findByType(ApplicationExtension::class.java)?.defaultConfig?.versionCode
+
+val Project.versionName: String?
+    get() = extensions.findByType(ApplicationExtension::class.java)?.defaultConfig?.versionName
 
 val Project.androidManifestFile: File?
     get() = extensions.findByType(BaseExtension::class.java)

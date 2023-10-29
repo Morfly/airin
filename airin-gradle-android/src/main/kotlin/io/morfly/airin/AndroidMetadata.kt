@@ -5,7 +5,12 @@ import java.io.Serializable
 data class AndroidMetadata(
     val applicationId: String?,
     val packageName: String?,
-    val composeEnabled: Boolean
+    val composeEnabled: Boolean,
+    val minSdkVersion: Int?,
+    val compileSdkVersion: Int?,
+    val targetSdkVersion: Int?,
+    val versionCode: Int?,
+    val versionName: String?
 ): Serializable {
 
     companion object {
