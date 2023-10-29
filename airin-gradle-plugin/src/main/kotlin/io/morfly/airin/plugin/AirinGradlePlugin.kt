@@ -88,7 +88,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             val project = GradleProject(
                 name = target.name,
                 isRoot = target.rootProject.path == target.path,
-                label = GradleLabel(projectPath = target.path),
+                label = GradleLabel(path = target.path, name = target.name),
                 dirPath = target.projectDir.path,
                 ignored = packageComponent == null,
                 packageComponentId = packageComponent?.id,
@@ -121,7 +121,10 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 dependencies.mapNotNull {
                     when (it) {
                         is ExternalDependency -> MavenCoordinates(it.group!!, it.name, it.version)
-                        is ProjectDependency -> GradleLabel(it.dependencyProject.path)
+                        is ProjectDependency -> with(it.dependencyProject) {
+                            GradleLabel(path = path, name = name)
+                        }
+
                         else -> null
                     }
                 }

@@ -35,9 +35,6 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
-                if (name == "app")
-                    println("TTAGG dep: ${dependency}")
-
                 val overrides = feature.dependencyOverrides[dependency.asComparable().toString()]
                 val depOverride = overrides?.get(configuration) ?: overrides?.get(null)
                 val configOverride = feature.configurationOverrides[configuration]
