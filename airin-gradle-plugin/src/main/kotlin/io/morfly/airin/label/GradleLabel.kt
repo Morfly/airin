@@ -16,5 +16,7 @@ data class GradleLabel(
         }
     }
 
+    override fun shorten(): Label = this
+
     override fun toString() = stringLabel
 }

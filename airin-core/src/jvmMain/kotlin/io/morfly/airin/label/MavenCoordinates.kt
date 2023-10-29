@@ -5,7 +5,7 @@ import java.io.Serializable
 data class MavenCoordinates(
     val group: String,
     val name: String,
-    val version: String?
+    val version: String? = null
 ) : Label, Serializable {
 
     override fun toString() = buildString {
@@ -17,4 +17,7 @@ data class MavenCoordinates(
             append(version)
         }
     }
+
+    override fun shorten(): Label =
+        if (version != null) copy(version = null) else this
 }

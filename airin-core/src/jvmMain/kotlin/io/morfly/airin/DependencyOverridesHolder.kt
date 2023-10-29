@@ -1,8 +1,7 @@
 package io.morfly.airin
 
+import io.morfly.airin.label.BazelLabel
 import io.morfly.airin.label.Label
-
-data class DependencyOverride(val label: Label, val configuration: String? = null)
 
 typealias StringLabel = String
 typealias DependencyOverridesCollection = MutableMap<StringLabel, MutableMap<ConfigurationName?, DependencyOverride>>
@@ -27,13 +26,25 @@ interface DependencyOverridesHolder {
         configuration: String? = null,
         override: DependencyOverrideContext.() -> DependencyOverride
     ) {
+        require(label !is BazelLabel) {
+            "Bazel labels are not allowed to be overridden!"
+        }
         val context = DependencyOverrideContext()
-        dependencyOverrides.getOrPut(label.toString(), ::mutableMapOf)[configuration] = context.override()
+        val labelKey = label.shorten().toString()
+        dependencyOverrides.getOrPut(labelKey, ::mutableMapOf)[configuration] = context.override()
     }
 }
 
 class DependencyOverrideContext {
 
-    fun overrideWith(label: Label, configuration: String? = null): DependencyOverride =
-        DependencyOverride(label, configuration)
+    fun overrideWith(label: Label, newConfiguration: String? = null): DependencyOverride.Override =
+        DependencyOverride.Override(label, newConfiguration)
+
+    fun ignore(): DependencyOverride.Ignore =
+        DependencyOverride.Ignore
+}
+
+sealed interface DependencyOverride {
+    data class Override(val label: Label, val configuration: String? = null) : DependencyOverride
+    data object Ignore : DependencyOverride
 }

@@ -20,10 +20,8 @@ abstract class JetpackComposeFeature : GradleFeatureComponent() {
         shared = true
     }
 
-    override fun canProcess(target: Project): Boolean {
-        println("TTAGG ${target.path}, composeEnabled: ${target.isComposeEnabled}")
-        return target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
-    }
+    override fun canProcess(target: Project): Boolean =
+        target.isComposeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
 
     override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {

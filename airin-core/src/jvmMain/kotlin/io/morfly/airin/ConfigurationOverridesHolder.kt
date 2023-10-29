@@ -18,6 +18,6 @@ interface ConfigurationOverridesHolder {
 
 class ConfigurationOverrideContext {
 
-    fun overrideWith(configuration: String): ConfigurationOverride =
-        ConfigurationOverride(configuration)
+    fun overrideWith(newConfiguration: String): ConfigurationOverride =
+        ConfigurationOverride(newConfiguration)
 }

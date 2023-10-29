@@ -1,5 +1,6 @@
 import io.morfly.airin.feature.AndroidBinaryFeature
 import io.morfly.airin.feature.AndroidToolsFeature
+import io.morfly.airin.feature.HiltAndroidFeature
 import io.morfly.airin.feature.JetpackComposeFeature
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
@@ -21,6 +22,7 @@ airin {
     register<AndroidLibraryModule> {
         include<AndroidBinaryFeature>()
         include<JetpackComposeFeature>()
+        include<HiltAndroidFeature>()
     }
     register<RootModule> {
         include<AndroidToolsFeature>()
