@@ -12,8 +12,8 @@ dependencies {
     api(projects.airinCore)
     api(projects.airinGradlePlugin)
 
-    implementation(libs.pendant.starlark)
-    implementation(libs.pendant.library.bazel)
+    api(libs.pendant.starlark)
+    api(libs.pendant.library.bazel)
     compileOnly(libs.gradlePlugin.android.api)
     compileOnly(libs.gradlePlugin.android)
 }

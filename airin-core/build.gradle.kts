@@ -25,8 +25,8 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                implementation(libs.pendant.starlark)
-                implementation(libs.pendant.library.bazel)
+                api(libs.pendant.starlark)
+                api(libs.pendant.library.bazel)
             }
         }
         val jvmTest by getting
