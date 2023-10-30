@@ -26,7 +26,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(libs.pendant.starlark)
-                api(libs.pendant.library.bazel)
             }
         }
         val jvmTest by getting
