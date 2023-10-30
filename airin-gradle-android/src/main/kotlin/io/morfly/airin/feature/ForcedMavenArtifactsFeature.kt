@@ -25,13 +25,6 @@ abstract class ForcedMavenArtifactsFeature : GradleFeatureComponent() {
         onContext<BzlContext>(id = RootModule.ID_MAVEN_DEPENDENCIES_BZL) {
 
             val FORCED_MAVEN_ARTIFACTS by artifacts
-            list[
-                "androidx.compose.compiler:compiler:1.4.7",
-                "androidx.lifecycle:lifecycle-runtime:2.6.1",
-                "androidx.activity:activity-ktx:1.7.0",
-                "androidx.compose.animation:animation-core:1.2.1",
-                "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1",
-            ]
         }
 
         onContext<WorkspaceContext>(
