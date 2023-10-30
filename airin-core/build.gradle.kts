@@ -9,6 +9,7 @@ plugins {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
+        languageVersion = AirinMetadata.KOTLIN_LANGUAGE_VERSION
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
@@ -23,8 +24,14 @@ kotlin {
         }
     }
     sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlin.compat.stdlib)
+            }
+        }
         val jvmMain by getting {
             dependencies {
+                implementation(libs.kotlin.compat.stdlib)
                 api(libs.pendant.starlark)
             }
         }

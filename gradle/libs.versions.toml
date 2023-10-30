@@ -9,6 +9,8 @@ dokka = "1.9.0"
 airinConventionPlugin = "ignored"
 
 [libraries]
+kotlin-compat-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinCompat" }
+# ===== Pendant =====
 pendant-starlark = { module = "io.morfly.pendant:pendant-starlark", version.ref = "pendant" }
 pendant-library-bazel = { module = "io.morfly.pendant:pendant-library-bazel", version.ref = "pendant" }
 # ===== Gradle plugins =====
