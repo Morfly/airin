@@ -9,8 +9,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(projects.airinCore)
-    implementation(projects.airinGradlePlugin)
+    api(projects.airinCore)
+    api(projects.airinGradlePlugin)
 
     implementation(libs.pendant.starlark)
     implementation(libs.pendant.library.bazel)

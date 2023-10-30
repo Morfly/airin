@@ -17,7 +17,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-    implementation(projects.airinCore)
+    api(projects.airinCore)
 
     implementation(libs.pendant.starlark)
     implementation(libs.pendant.library.bazel)
