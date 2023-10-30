@@ -16,7 +16,6 @@ abstract class RootModule : GradlePackageComponent() {
 
     val composeVersion by property("1.4.3")
     val composeMaterial3Version by property("1.1.1")
-    val composeCompilerVersion by property("1.4.7")
 
     init {
         shared = true
@@ -59,7 +58,6 @@ abstract class RootModule : GradlePackageComponent() {
         if (!group.startsWith("androidx.compose")) return this
 
         return when {
-            name == "compiler" -> copy(version = composeCompilerVersion)
             group.endsWith("material3") -> copy(version = composeMaterial3Version)
             else -> copy(version = composeVersion)
         }
