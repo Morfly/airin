@@ -6,9 +6,7 @@ import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleProject
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.HasId
-import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.MissingComponentResolution.Fail
-import io.morfly.airin.MissingComponentResolution.Ignore
 import io.morfly.airin.PropertiesHolder
 import io.morfly.airin.property
 
@@ -29,6 +27,7 @@ abstract class AirinExtension :
         GradleProjectDecorator::class.java
     )
     override var allowedProjects by property(emptySet<String>())
+    override var ignoredProjects by property(emptySet<String>())
     override var allowedConfigurations by property(
         mutableSetOf("implementation", "api", "kapt", "ksp")
     )

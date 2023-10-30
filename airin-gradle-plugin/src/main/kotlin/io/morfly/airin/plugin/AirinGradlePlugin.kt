@@ -88,6 +88,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         outputFiles: MutableList<RegularFile>,
     ): GradleProject {
         val allowedProjects = mutableSetOf<String>()
+        allowedProjects += properties.allowedProjects
+
+        fun GradleProject.isAllowed(): Boolean =
+            isRoot || properties.allowedProjects.isEmpty() || label.path in allowedProjects
+
+        fun GradleProject.isIgnored(): Boolean =
+            label.path in properties.ignoredProjects
 
         fun traverse(target: Project): GradleProject {
             val packageComponent = target.pickPackageComponent(components, properties)
@@ -101,10 +108,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 label = GradleLabel(path = target.path, name = target.name),
                 dirPath = target.projectDir.path,
             ).apply {
-                if (label.path in properties.allowedProjects || properties.allowedProjects.isEmpty())
-                    allowedProjects += label.path
-
-                if (label.path in allowedProjects || isRoot) {
+                if (isAllowed() && !isIgnored()) {
                     packageComponentId = packageComponent?.id
                     featureComponentIds = featureComponents.map { it.id }.toSet()
                 } else {
@@ -112,14 +116,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     featureComponentIds = emptySet()
                 }
                 originalDependencies =
-                    if (!ignored) prepareDependencies(target, properties)
+                    if (isAllowed()) prepareDependencies(target, properties)
                     else emptyMap()
 
-                if (label.path in allowedProjects) {
-                    originalDependencies.values.flatten()
-                        .filterIsInstance<GradleLabel>()
-                        .forEach { allowedProjects += it.path }
-                }
+                originalDependencies.values.flatten()
+                    .filterIsInstance<GradleLabel>()
+                    .forEach { allowedProjects += it.path }
+
                 subpackages = target.childProjects.values.map(::traverse)
             }
             with(decorator) {
