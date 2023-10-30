@@ -17,6 +17,7 @@ import io.morfly.airin.label.Label
 import io.morfly.airin.label.MavenCoordinates
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ExternalDependency
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.file.RegularFile
@@ -43,6 +44,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             val outputFiles = mutableListOf<RegularFile>()
             val root = prepareProjects(
                 root = target,
+                allowedProjects = filterAllowedProjects(target, inputs),
                 components = components,
                 properties = inputs,
                 decorator = inputs.objects.newInstance(decoratorClass),
@@ -82,22 +84,22 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
     protected open fun prepareProjects(
         root: Project,
+        allowedProjects: Set<String>,
         components: Map<ComponentId, GradlePackageComponent>,
         properties: AirinProperties,
         decorator: GradleProjectDecorator,
         outputFiles: MutableList<RegularFile>,
     ): GradleProject {
-        val allowedProjects = mutableSetOf<String>()
-        allowedProjects += properties.allowedProjects
-
-        fun GradleProject.isAllowed(): Boolean =
-            isRoot || properties.allowedProjects.isEmpty() || label.path in allowedProjects
-
-        fun GradleProject.isIgnored(): Boolean =
-            label.path in properties.ignoredProjects
 
         fun traverse(target: Project): GradleProject {
-            val packageComponent = target.pickPackageComponent(components, properties)
+            val isAllowed = properties.allowedProjects.isEmpty()
+                    || target.path in allowedProjects
+                    || target.path == root.path
+            val isSkipped = target.path in properties.ignoredProjects
+
+            val packageComponent =
+                if (isAllowed && !isSkipped) target.pickPackageComponent(components, properties)
+                else null
             val featureComponents =
                 if (packageComponent == null) emptyList()
                 else target.pickFeatureComponents(packageComponent)
@@ -108,20 +110,12 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 label = GradleLabel(path = target.path, name = target.name),
                 dirPath = target.projectDir.path,
             ).apply {
-                if (isAllowed() && !isIgnored()) {
-                    packageComponentId = packageComponent?.id
-                    featureComponentIds = featureComponents.map { it.id }.toSet()
-                } else {
-                    packageComponentId = null
-                    featureComponentIds = emptySet()
-                }
-                originalDependencies =
-                    if (isAllowed()) prepareDependencies(target, properties)
-                    else emptyMap()
+                packageComponentId = packageComponent?.id
+                featureComponentIds = featureComponents.map { it.id }.toSet()
 
-                originalDependencies.values.flatten()
-                    .filterIsInstance<GradleLabel>()
-                    .forEach { allowedProjects += it.path }
+                originalDependencies =
+                    if (isAllowed) prepareDependencies(target, properties)
+                    else emptyMap()
 
                 subpackages = target.childProjects.values.map(::traverse)
             }
@@ -139,12 +133,33 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         return traverse(root)
     }
 
+    protected open fun filterAllowedProjects(
+        root: Project,
+        properties: AirinProperties
+    ): Set<String> {
+        val allowedProjects = mutableSetOf<String>()
+        val allProjects = root.allprojects.associateBy { it.path }
+
+        val queue = ArrayDeque<Project>()
+        queue += properties.allowedProjects.mapNotNull { allProjects[it] }
+
+        while (queue.isNotEmpty()) {
+            val project = queue.removeFirst()
+            allowedProjects += project.path
+            queue += project.filterAllowedConfigurations(properties)
+                .flatMap { it.dependencies }
+                .filterIsInstance<ProjectDependency>()
+                .map { it.dependencyProject }
+                .onEach { allowedProjects += it.path }
+        }
+        return allowedProjects
+    }
+
     protected open fun prepareDependencies(
         target: Project,
         properties: AirinProperties
     ): Map<String, List<Label>> =
-        target.configurations
-            .filter { filterConfiguration(it.name, properties) }
+        target.filterAllowedConfigurations(properties)
             .associateBy({ it.name }, { it.dependencies })
             .filter { (_, dependencies) -> dependencies.isNotEmpty() }
             .mapValues { (_, dependencies) ->
@@ -160,13 +175,20 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 }
             }
 
+    private fun Project.filterAllowedConfigurations(
+        properties: AirinProperties
+    ): Sequence<Configuration> = configurations.asSequence()
+        .filter { filterConfiguration(it.name, properties) }
+
     protected open fun filterConfiguration(
         configuration: ConfigurationName, properties: AirinProperties
     ): Boolean {
         if (configuration in properties.ignoredConfigurations) return false
 
         return with(properties.allowedConfigurations) {
-            isEmpty() || any { configuration.contains(it, ignoreCase = true) }
+            isEmpty()
+                    || configuration in this
+                    || any { configuration.contains(it, ignoreCase = true) }
         }
     }
 
@@ -180,12 +202,12 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
         return when {
             suitableComponents.isEmpty() -> when (properties.onMissingComponent) {
-                MissingComponentResolution.Fail -> error("No package component found for $name")
+                MissingComponentResolution.Fail -> error("No package component found for $path")
                 MissingComponentResolution.Ignore -> null
             }
 
             suitableComponents.size > 1 -> when (properties.onComponentConflict) {
-                ComponentConflictResolution.Fail -> error("Unable to pick suitable package component for $name out of ${suitableComponents.map { it.javaClass }}")
+                ComponentConflictResolution.Fail -> error("Unable to pick suitable package component for $path out of ${suitableComponents.map { it.javaClass }}")
                 ComponentConflictResolution.UsePriority -> suitableComponents.maxByOrNull { it.priority }
                 ComponentConflictResolution.Ignore -> null
             }
