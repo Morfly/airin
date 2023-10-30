@@ -28,9 +28,9 @@ airin {
     register<RootModule> {
         include<AndroidToolsFeature>()
 
-        // When a conflict with transitive dependency versions happens, Gradle and Bazel resolve
-        // them differently. Where Gradle resolves them automatically for the most part, Bazel
-        // requires to explicitly specify the artifact version that should be resolved.
+        // When a conflict with transitive dependency versions occurs, Gradle and Bazel resolve
+        // them differently. While Gradle resolves them automatically for the most part, Bazel
+        // requires to explicitly force artifact versions.
         include<ForcedMavenArtifactsFeature> {
             artifacts = listOf(
                 "androidx.compose.compiler:compiler:1.4.7",

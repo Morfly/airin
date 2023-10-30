@@ -6,6 +6,8 @@ import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleProject
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.HasId
+import io.morfly.airin.MissingComponentResolution
+import io.morfly.airin.MissingComponentResolution.Fail
 import io.morfly.airin.MissingComponentResolution.Ignore
 import io.morfly.airin.PropertiesHolder
 import io.morfly.airin.property
@@ -23,13 +25,16 @@ abstract class AirinExtension :
 
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 
-    override var projectDecorator: Class<out GradleProjectDecorator> by property(GradleProjectDecorator::class.java)
+    override var projectDecorator: Class<out GradleProjectDecorator> by property(
+        GradleProjectDecorator::class.java
+    )
+    override var allowedTargets by property(emptySet<String>())
     override var allowedConfigurations by property(
         mutableSetOf("implementation", "api", "kapt", "ksp")
     )
     override var ignoredConfigurations by property(mutableSetOf<String>())
     override var onComponentConflict by property(UsePriority)
-    override var onMissingComponent by property(Ignore)
+    override var onMissingComponent by property(Fail)
 
     companion object {
         const val NAME = "airin"

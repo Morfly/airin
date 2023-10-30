@@ -85,8 +85,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         components: Map<ComponentId, GradlePackageComponent>,
         properties: AirinProperties,
         decorator: GradleProjectDecorator,
-        outputFiles: MutableList<RegularFile>
+        outputFiles: MutableList<RegularFile>,
     ): GradleProject {
+        val allowedTargets = mutableSetOf<String>()
 
         fun traverse(target: Project): GradleProject {
             val packageComponent = target.pickPackageComponent(components, properties)
@@ -100,11 +101,25 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 label = GradleLabel(path = target.path, name = target.name),
                 dirPath = target.projectDir.path,
             ).apply {
-                packageComponentId = packageComponent?.id
-                featureComponentIds = featureComponents.map { it.id }.toSet()
+                if (label.path in properties.allowedTargets || properties.allowedTargets.isEmpty())
+                    allowedTargets += label.path
+
+                if (label.path in allowedTargets || isRoot) {
+                    packageComponentId = packageComponent?.id
+                    featureComponentIds = featureComponents.map { it.id }.toSet()
+                } else {
+                    packageComponentId = null
+                    featureComponentIds = emptySet()
+                }
                 originalDependencies =
                     if (!ignored) prepareDependencies(target, properties)
                     else emptyMap()
+
+                if (label.path in allowedTargets) {
+                    originalDependencies.values.flatten()
+                        .filterIsInstance<GradleLabel>()
+                        .forEach { allowedTargets += it.path }
+                }
                 subpackages = target.childProjects.values.map(::traverse)
             }
             with(decorator) {
