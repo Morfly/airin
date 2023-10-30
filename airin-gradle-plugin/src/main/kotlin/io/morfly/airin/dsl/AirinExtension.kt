@@ -28,7 +28,7 @@ abstract class AirinExtension :
     override var projectDecorator: Class<out GradleProjectDecorator> by property(
         GradleProjectDecorator::class.java
     )
-    override var allowedTargets by property(emptySet<String>())
+    override var allowedProjects by property(emptySet<String>())
     override var allowedConfigurations by property(
         mutableSetOf("implementation", "api", "kapt", "ksp")
     )
