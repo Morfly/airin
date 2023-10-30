@@ -24,7 +24,7 @@ abstract class ForcedMavenArtifactsFeature : GradleFeatureComponent() {
 
         onContext<BzlContext>(id = RootModule.ID_MAVEN_DEPENDENCIES_BZL) {
 
-            val FORCED_MAVEN_DEPENDENCIES by artifacts
+            val FORCED_MAVEN_ARTIFACTS by artifacts
             list[
                 "androidx.compose.compiler:compiler:1.4.7",
                 "androidx.lifecycle:lifecycle-runtime:2.6.1",
@@ -38,11 +38,11 @@ abstract class ForcedMavenArtifactsFeature : GradleFeatureComponent() {
             id = RootModule.ID_WORKSPACE,
             checkpoint = AndroidToolsFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
         ) {
-            load("//third_party:maven_dependencies.bzl", "FORCED_MAVEN_DEPENDENCIES")
+            load("//third_party:maven_dependencies.bzl", "FORCED_MAVEN_ARTIFACTS")
         }
 
         onContext<MavenInstallContext>(id = AndroidToolsFeature.ID_MAVEN_INSTALL) {
-            artifacts = ListReference<StringType>("FORCED_MAVEN_DEPENDENCIES")
+            artifacts = ListReference<StringType>("FORCED_MAVEN_ARTIFACTS")
         }
     }
 }

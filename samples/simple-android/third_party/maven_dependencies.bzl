@@ -10,7 +10,7 @@ MAVEN_ARTIFACTS = [
     "androidx.hilt:hilt-navigation-compose:1.0.0",
 ]
 
-FORCED_MAVEN_DEPENDENCIES = [
+FORCED_MAVEN_ARTIFACTS = [
     "androidx.compose.compiler:compiler:1.4.7",
     "androidx.lifecycle:lifecycle-runtime:2.6.1",
     "androidx.activity:activity-ktx:1.7.0",

@@ -28,6 +28,6 @@ include(
     "app",
     "feature-A",
     "feature-B",
-    "library-A",
-    "library-B"
+//    "library-A",
+//    "library-B"
 )
