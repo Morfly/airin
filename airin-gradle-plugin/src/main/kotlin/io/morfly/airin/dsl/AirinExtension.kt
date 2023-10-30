@@ -6,7 +6,7 @@ import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleProject
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.HasId
-import io.morfly.airin.MissingComponentResolution.Fail
+import io.morfly.airin.MissingComponentResolution.Ignore
 import io.morfly.airin.PropertiesHolder
 import io.morfly.airin.property
 
@@ -33,7 +33,7 @@ abstract class AirinExtension :
     )
     override var ignoredConfigurations by property(mutableSetOf<String>())
     override var onComponentConflict by property(UsePriority)
-    override var onMissingComponent by property(Fail)
+    override var onMissingComponent by property(Ignore)
 
     companion object {
         const val NAME = "airin"
