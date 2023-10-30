@@ -67,6 +67,8 @@ android_sdk_repository(
     build_tools_version = "34.0.0",
 )
 
+load("//third_party:maven_dependencies.bzl", "FORCED_MAVEN_DEPENDENCIES")
+
 DAGGER_VERSION = "2.48"
 
 DAGGER_SHA = "a796141af307e2b3a48b64a81ee163d96ffbfb41a71f0ea9cf8d26f930c80ca6"
@@ -120,7 +122,7 @@ load("//third_party:maven_dependencies.bzl", "MAVEN_ARTIFACTS")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
-    artifacts = MAVEN_ARTIFACTS + HILT_ANDROID_ARTIFACTS,
+    artifacts = MAVEN_ARTIFACTS + FORCED_MAVEN_DEPENDENCIES + HILT_ANDROID_ARTIFACTS,
     repositories = [
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",

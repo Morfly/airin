@@ -3,6 +3,8 @@ package io.morfly.airin.module
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.PackageContext
+import io.morfly.airin.label.MavenCoordinates
+import io.morfly.airin.property
 import io.morfly.pendant.starlark.lang.context.BUILD
 import io.morfly.pendant.starlark.lang.context.WORKSPACE
 import io.morfly.pendant.starlark.lang.context.bazel
@@ -11,6 +13,10 @@ import io.morfly.pendant.starlark.workspace
 import org.gradle.api.Project
 
 abstract class RootModule : GradlePackageComponent() {
+
+    val composeVersion by property("1.4.3")
+    val composeMaterial3Version by property("1.1.1")
+    val composeCompilerVersion by property("1.4.7")
 
     init {
         shared = true
@@ -35,9 +41,7 @@ abstract class RootModule : GradlePackageComponent() {
         val mavenDependencies = "maven_dependencies".bzl {
             _id = ID_MAVEN_DEPENDENCIES_BZL
 
-            val MAVEN_ARTIFACTS by listOf(
-                "test"
-            )
+            val MAVEN_ARTIFACTS by allMavenArtifacts.map { it.withVersion().toString() }
         }
 
         val thirdPartyBuild = BUILD.bazel {
@@ -48,6 +52,17 @@ abstract class RootModule : GradlePackageComponent() {
 
         generate(build, workspace)
         generate(thirdPartyBuild, mavenDependencies, relativeDirPath = "third_party")
+    }
+
+    private fun MavenCoordinates.withVersion(): MavenCoordinates {
+        if (version != null) return this
+        if (!group.startsWith("androidx.compose")) return this
+
+        return when {
+            name == "compiler" -> copy(version = composeCompilerVersion)
+            group.endsWith("material3") -> copy(version = composeMaterial3Version)
+            else -> copy(version = composeVersion)
+        }
     }
 
     companion object {
