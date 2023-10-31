@@ -11,12 +11,13 @@ data class BazelLabel(
     private val stringLabel by lazy {
         buildString {
             if (workspace != null) {
-                append("@")
+                if (!workspace.startsWith("@")) append("@")
                 append(workspace)
             }
-            append("//")
+            if (!path.startsWith("//")) append("//")
             append(path)
             if (target != null) {
+                if (!path.startsWith(":")) append(":")
                 append(":")
                 append(target)
             }

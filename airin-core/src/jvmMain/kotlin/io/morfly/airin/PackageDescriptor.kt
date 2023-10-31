@@ -20,13 +20,13 @@ abstract class PackageDescriptor : PropertiesHolder {
 
     abstract val originalDependencies: Map<ConfigurationName, List<Label>>
 
-    abstract var dependencies: Map<ConfigurationName, Set<Label>>
+    abstract var dependencies: Map<ConfigurationName, List<Label>>
         internal set
 
     abstract val subpackages: List<PackageDescriptor>
 }
 
-fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, Set<Label>> {
+fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, List<Label>> {
     val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
     val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
@@ -67,5 +67,8 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
             }
         }
     }
+
     return transformedDependencies
+        .map { (config, deps) -> config to deps.sortedBy { it.toString() } }
+        .toMap()
 }

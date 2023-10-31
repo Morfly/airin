@@ -23,7 +23,7 @@ data class GradleProject(
     override lateinit var originalDependencies: Map<ConfigurationName, List<Label>>
         internal set
 
-    override lateinit var dependencies: Map<ConfigurationName, Set<Label>>
+    override lateinit var dependencies: Map<ConfigurationName, List<Label>>
 
     override lateinit var subpackages: List<GradleProject>
         internal set
