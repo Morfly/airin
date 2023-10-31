@@ -17,8 +17,7 @@ data class BazelLabel(
             if (!path.startsWith("//")) append("//")
             append(path)
             if (target != null) {
-                if (!path.startsWith(":")) append(":")
-                append(":")
+                if (!target.startsWith(":")) append(":")
                 append(target)
             }
         }

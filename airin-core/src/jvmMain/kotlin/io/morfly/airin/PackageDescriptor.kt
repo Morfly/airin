@@ -28,7 +28,6 @@ abstract class PackageDescriptor : PropertiesHolder {
 
 fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, List<Label>> {
     val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
-
     val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
     // Process dependency overrides
@@ -53,7 +52,6 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
             }
         }
     }
-
     // Process configuration overrides for the remaining dependencies
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
@@ -64,6 +62,14 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
                 val config = configOverride?.configuration
                     ?: continue
                 transformedDependencies.getOrPut(config, ::mutableSetOf) += dependency
+            }
+        }
+    }
+
+    for (feature in features) {
+        for ((configuration, dependencies) in feature.addedDependencies) {
+            for (dependency in dependencies) {
+                transformedDependencies.getOrPut(configuration, ::mutableSetOf) += dependency
             }
         }
     }
