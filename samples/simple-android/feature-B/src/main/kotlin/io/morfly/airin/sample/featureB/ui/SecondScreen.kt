@@ -13,7 +13,7 @@ fun SecondScreen(
     viewModel: SecondViewModel = hiltViewModel()
 ) {
     Text(
-        text = "FirstScreen",
+        text = "Second Screen",
         Modifier.clickable { onNextClick() }
     )
 }

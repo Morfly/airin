@@ -4,11 +4,11 @@ import io.morfly.airin.label.BazelLabel
 import io.morfly.airin.label.Label
 
 typealias StringLabel = String
-typealias DependencyOverridesCollection = MutableMap<StringLabel, MutableMap<ConfigurationName?, DependencyOverride>>
+typealias DependencyOverrideCollection = MutableMap<StringLabel, MutableMap<ConfigurationName?, DependencyOverride>>
 
 interface DependencyOverridesHolder {
 
-    val dependencyOverrides: DependencyOverridesCollection
+    val dependencyOverrides: DependencyOverrideCollection
 
     fun onDependency(
         label: String,

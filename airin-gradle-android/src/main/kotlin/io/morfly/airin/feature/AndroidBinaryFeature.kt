@@ -19,7 +19,6 @@ abstract class AndroidBinaryFeature : GradleFeatureComponent() {
         onContext<BuildContext>(AndroidLibraryModule.ID_BUILD) {
             android_binary {
                 name = "${packageDescriptor.name}_bin"
-                dex_shards = 5
                 incremental_dexing = 1
                 manifest = "src/main/AndroidManifest.xml"
                 manifest_values = dict {

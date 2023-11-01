@@ -10,12 +10,12 @@ kt_android_library(
     visibility = ["//visibility:public"],
     deps = [
         "//:hilt-android",
+        artifact("androidx.compose.material3:material3"),
         artifact("androidx.compose.ui:ui"),
         artifact("androidx.compose.ui:ui-graphics"),
         artifact("androidx.compose.ui:ui-tooling-preview"),
-        artifact("androidx.compose.material3:material3"),
-        artifact("androidx.navigation:navigation-compose"),
         artifact("androidx.hilt:hilt-navigation-compose"),
+        artifact("androidx.navigation:navigation-compose"),
     ],
     plugins = ["//third_party:jetpack_compose_compiler_plugin"],
 )

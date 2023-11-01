@@ -9,9 +9,9 @@ class FeatureContext : ModifiersHolder, DependencyOverridesHolder, Configuration
 
     override val modifiers: ModifierCollection = linkedMapOf()
 
-    override val dependencyOverrides: DependencyOverridesCollection = mutableMapOf()
+    override val dependencyOverrides: DependencyOverrideCollection = mutableMapOf()
 
-    override val configurationOverrides = mutableMapOf<ConfigurationName, ConfigurationOverride>()
+    override val configurationOverrides: ConfigurationOverrideCollection = mutableMapOf()
 
     override val addedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 }

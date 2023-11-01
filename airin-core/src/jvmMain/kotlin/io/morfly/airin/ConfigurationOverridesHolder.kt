@@ -3,21 +3,26 @@ package io.morfly.airin
 data class ConfigurationOverride(val configuration: String)
 
 typealias ConfigurationName = String
+typealias ConfigurationOverrideCollection = MutableMap<ConfigurationName, MutableList<ConfigurationOverride>>
 
 interface ConfigurationOverridesHolder {
 
-    val configurationOverrides: MutableMap<ConfigurationName, ConfigurationOverride>
+    val configurationOverrides: ConfigurationOverrideCollection
 
     fun onConfiguration(
         configuration: String,
-        override: ConfigurationOverrideContext.() -> ConfigurationOverride
+        override: ConfigurationOverrideContext.() -> Unit
     ) {
-        configurationOverrides[configuration] = ConfigurationOverrideContext().override()
+        val overrides = ConfigurationOverrideContext().apply(override).configurationOverrides
+        configurationOverrides.getOrPut(configuration, ::mutableListOf) += overrides
     }
 }
 
 class ConfigurationOverrideContext {
 
-    fun overrideWith(newConfiguration: String): ConfigurationOverride =
-        ConfigurationOverride(newConfiguration)
+    val configurationOverrides: MutableList<ConfigurationOverride> = mutableListOf()
+
+    fun overrideWith(newConfiguration: String) {
+        configurationOverrides += ConfigurationOverride(newConfiguration)
+    }
 }

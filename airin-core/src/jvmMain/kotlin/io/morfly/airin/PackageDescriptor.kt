@@ -36,14 +36,16 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
             for (dependency in labels) {
                 val overrides = feature.dependencyOverrides[dependency.asComparable().toString()]
                 val depOverride = overrides?.get(configuration) ?: overrides?.get(null)
-                val configOverride = feature.configurationOverrides[configuration]
+                val configOverrides = feature.configurationOverrides[configuration]
 
                 if (depOverride is DependencyOverride.Override) {
-                    val config = depOverride.configuration
-                        ?: configOverride?.configuration
+                    val configs = depOverride.configuration?.let(::listOf)
+                        ?: configOverrides?.map { it.configuration }
                         ?: continue
-                    val dep = depOverride.label
-                    transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
+                    for (config in configs) {
+                        val dep = depOverride.label
+                        transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
+                    }
                 }
 
                 if (depOverride != null) {
@@ -58,10 +60,11 @@ fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map
             for (dependency in labels) {
                 if (dependency in processedDependencies[configuration].orEmpty()) continue
 
-                val configOverride = feature.configurationOverrides[configuration]
-                val config = configOverride?.configuration
-                    ?: continue
-                transformedDependencies.getOrPut(config, ::mutableSetOf) += dependency
+                val configOverrides = feature.configurationOverrides[configuration]
+                for (override in configOverrides.orEmpty()) {
+                    val config = override.configuration
+                    transformedDependencies.getOrPut(config, ::mutableSetOf) += dependency
+                }
             }
         }
     }
