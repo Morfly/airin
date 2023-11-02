@@ -138,10 +138,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         properties: AirinProperties
     ): Set<String> {
         val allowedProjects = mutableSetOf<String>()
-        val allProjects = root.allprojects.associateBy { it.path }
 
         val queue = ArrayDeque<Project>()
-        queue += properties.allowedProjects.mapNotNull { allProjects[it] }
+        queue += properties.allowedProjects.map(root::project)
 
         while (queue.isNotEmpty()) {
             val project = queue.removeFirst()
