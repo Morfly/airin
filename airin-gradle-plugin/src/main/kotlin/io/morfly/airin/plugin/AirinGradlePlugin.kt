@@ -150,6 +150,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 .flatMap { it.dependencies }
                 .filterIsInstance<ProjectDependency>()
                 .map { it.dependencyProject }
+                .filter { it.path !in allowedProjects }
                 .onEach { allowedProjects += it.path }
         }
         return allowedProjects
