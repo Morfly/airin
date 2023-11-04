@@ -12,7 +12,7 @@ abstract class PackageDescriptor : PropertiesHolder {
 
     abstract val dirPath: String
 
-    abstract val ignored: Boolean
+    abstract val skipped: Boolean
 
     abstract val packageComponentId: String?
 
@@ -23,6 +23,7 @@ abstract class PackageDescriptor : PropertiesHolder {
     abstract var dependencies: Map<ConfigurationName, List<Label>>
         internal set
 
+    // TODO() remove
     abstract val subpackages: List<PackageDescriptor>
 }
 

@@ -1,3 +1,4 @@
+import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.feature.AndroidBinaryFeature
 import io.morfly.airin.feature.AndroidToolsFeature
 import io.morfly.airin.feature.ForcedMavenArtifactsFeature
@@ -20,6 +21,8 @@ plugins {
 // If modifying components don't forget to run ./gradlew publishToMavenLocal --no-configuration-cache
 // Run ./gradlew simple-android:migrateToBazel to generate Bazel files.
 airin {
+    inputProjects += setOf(":app")
+    onMissingComponent = MissingComponentResolution.Fail
     register<AndroidLibraryModule> {
         include<AndroidBinaryFeature>()
         include<JetpackComposeFeature>()

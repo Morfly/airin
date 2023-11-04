@@ -2,36 +2,37 @@ package io.morfly.airin.plugin
 
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
-import io.morfly.airin.InternalAirinApi
-import io.morfly.airin.MigrationProcessor
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.provider.MapProperty
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputFiles
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.OutputDirectories
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
 abstract class MigrateToBazelTask : DefaultTask() {
 
     @get:Input
-    abstract val components: MapProperty<String, GradlePackageComponent>
+    @get:Optional
+    abstract val component: Property<GradlePackageComponent>
 
     @get:Input
-    abstract val properties: MapProperty<String, Any?>
+    abstract val module: Property<GradleProject>
 
-    @get:Input
-    abstract val root: Property<GradleProject>
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
 
-    @get:OutputFiles
-    abstract val outputFiles: ConfigurableFileCollection
+    @get:OutputDirectories
+    @get:Optional
+    abstract val transitiveOutputDirs: ConfigurableFileCollection
 
     @TaskAction
-    @OptIn(InternalAirinApi::class)
     fun migrateToBazel() {
-        val processor = MigrationProcessor(components = components.get())
-
-        processor.invoke(root.get())
+        println("TTAGG migrateToBazel: ${module.get().label.path}")
+        println("TTAGG output: ${outputDir.get().asFile.path}")
+        println("TTAGG transitive: ${transitiveOutputDirs.map { it.path }}")
     }
 
     companion object {

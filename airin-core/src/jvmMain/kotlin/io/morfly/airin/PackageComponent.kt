@@ -11,7 +11,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
     @InternalAirinApi
     open fun invoke(packageDescriptor: P, includeSubcomponents: Boolean = true): PackageContext {
         val context = PackageContext()
-        if (packageDescriptor.ignored) return context
+        if (packageDescriptor.skipped) return context
 
         if (!includeSubcomponents) {
             context.onInvoke(packageDescriptor)

@@ -21,6 +21,9 @@ interface FeatureComponentsHolder :
     ) {
         val component = objects.newInstance(type)
         component.parentId = id
+        if (component.id in subcomponents) {
+            error("Duplicate component $type found in ${this.javaClass}!")
+        }
         config?.execute(component)
         subcomponents[component.id] = component
     }

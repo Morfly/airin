@@ -7,10 +7,10 @@ import io.morfly.airin.MissingComponentResolution
 
 interface AirinProperties {
     var projectDecorator: Class<out GradleProjectDecorator>
-    var allowedProjects: MutableSet<String>
-    var ignoredProjects: MutableSet<String>
-    var allowedConfigurations: MutableSet<ConfigurationName>
-    var ignoredConfigurations: MutableSet<ConfigurationName>
+    var inputProjects: MutableSet<String>
+    var skippedProjects: MutableSet<String>
+    var configurations: MutableSet<ConfigurationName>
+    var skippedConfigurations: MutableSet<ConfigurationName>
     var onComponentConflict: ComponentConflictResolution
     var onMissingComponent: MissingComponentResolution
 }

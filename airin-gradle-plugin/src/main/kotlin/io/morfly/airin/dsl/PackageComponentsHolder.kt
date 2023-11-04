@@ -17,6 +17,9 @@ interface PackageComponentsHolder : ComponentsHolder<GradleProject> {
         config: Action<B>? = null
     ) {
         val component = objects.newInstance(type)
+        if (component.id in subcomponents) {
+            error("Duplicate component $type found in ${this.javaClass}!")
+        }
         config?.execute(component)
         subcomponents[component.id] = component
     }

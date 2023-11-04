@@ -15,7 +15,7 @@ class MigrationProcessor<P : PackageDescriptor>(
 
         fun traverse(pkg: P) {
             val id = pkg.packageComponentId
-            if (id != null && !pkg.ignored) {
+            if (id != null && !pkg.skipped) {
                 packages.getOrPut(id, ::mutableListOf) += pkg
             }
             for (subpackage in pkg.subpackages) {
