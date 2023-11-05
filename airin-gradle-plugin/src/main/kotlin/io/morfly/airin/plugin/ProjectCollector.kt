@@ -4,12 +4,12 @@ import io.morfly.airin.dsl.AirinProperties
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 
-interface ProjectGraphBuilder {
+interface ProjectCollector {
 
     operator fun invoke(inputProject: Project): Map<ProjectPath, Project>
 }
 
-class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectGraphBuilder {
+class DependencyCollector(private val properties: AirinProperties) : ProjectCollector {
     private val cache = mutableMapOf<ProjectPath, Project>()
 
     override operator fun invoke(inputProject: Project): Map<ProjectPath, Project> {
@@ -38,7 +38,7 @@ class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectG
     }
 }
 
-class SubprojectGraphBuilder : ProjectGraphBuilder {
+class SubprojectCollector : ProjectCollector {
 
     override operator fun invoke(inputProject: Project): Map<ProjectPath, Project> {
         val projects = mutableMapOf<ProjectPath, Project>()

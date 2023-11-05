@@ -35,14 +35,16 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 else defaultProjectDecorator
             val decorator = inputs.objects.newInstance(decoratorClass)
 
-            val graphBuilder = DependencyGraphBuilder(inputs)
+            val collector = DependencyCollector(inputs)
             val transformer = DefaultProjectTransformer(components, inputs, decorator)
             for (inputProject in inputProjects) {
-                val allProjects = graphBuilder.invoke(inputProject)
+                val allProjects = collector.invoke(inputProject)
                 val allModules = transformer.invoke(allProjects)
 
                 for ((_, project, module, component) in allModules.values) {
-                    registerMigrateProjectToBazelTask(project, module, component)
+                    if (!module.skipped && component != null) {
+                        registerMigrateProjectToBazelTask(project, module, component)
+                    }
                 }
                 registerMigrateToBazel(
                     target = inputProject,
@@ -80,7 +82,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     private fun registerMigrateProjectToBazelTask(
         target: Project,
         module: GradleProject,
-        component: GradlePackageComponent?
+        component: GradlePackageComponent
     ) {
         if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
@@ -99,7 +101,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             for ((_, project) in allProjects) {
                 val dependency = project.tasks
                     .withType<MigrateProjectToBazelTask>()
-                    .first { it.name == MigrateProjectToBazelTask.NAME }
+                    .firstOrNull { it.name == MigrateProjectToBazelTask.NAME }
+                    ?: continue
 
                 dependsOn(dependency)
                 this.outputDirs.from(dependency.outputDir)
