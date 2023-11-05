@@ -7,7 +7,7 @@ abstract class Component<P : PackageDescriptor> : HasId, PropertiesHolder, Share
     final override val properties = mutableMapOf<String, Any?>()
 
     final override lateinit var sharedProperties: MutableMap<String, Any?>
-        internal set
+        @InternalAirinApi set
 
     override val sharedPropertiesAvailable
         get() = ::sharedProperties.isInitialized

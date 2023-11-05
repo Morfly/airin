@@ -11,16 +11,21 @@ data class ProjectRelation(
 
 interface ProjectGraphBuilder {
 
-    operator fun invoke(inputProjects: List<Project>): Map<ProjectPath, ProjectRelation>
+    operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation>
 }
 
 class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectGraphBuilder {
+    private val cache = mutableMapOf<ProjectPath, ProjectRelation>()
 
-    override operator fun invoke(inputProjects: List<Project>): Map<ProjectPath, ProjectRelation> {
+    override operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation> {
         val projects = mutableMapOf<ProjectPath, ProjectRelation>()
 
         fun traverse(project: Project) {
             if (project.path in projects) return
+            if (project.path in cache) {
+                projects[project.path] = cache[project.path]!!
+                return
+            }
 
             val dependencies = project.filterConfigurations(properties)
                 .flatMap { it.dependencies }
@@ -30,15 +35,16 @@ class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectG
 
             dependencies.forEach(::traverse)
         }
-        inputProjects.forEach(::traverse)
+        traverse(inputProject)
 
+        cache += projects
         return projects
     }
 }
 
 class SubprojectGraphBuilder : ProjectGraphBuilder {
 
-    override operator fun invoke(inputProjects: List<Project>): Map<ProjectPath, ProjectRelation> {
+    override operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation> {
         val projects = mutableMapOf<ProjectPath, ProjectRelation>()
 
         fun traverse(project: Project) {
@@ -50,7 +56,7 @@ class SubprojectGraphBuilder : ProjectGraphBuilder {
             subprojects.forEach(::traverse)
 
         }
-        inputProjects.forEach(::traverse)
+        traverse(inputProject)
 
         return projects
     }

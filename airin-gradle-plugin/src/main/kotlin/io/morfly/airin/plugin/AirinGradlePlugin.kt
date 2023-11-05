@@ -41,15 +41,19 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 else defaultProjectDecorator
             val decorator = inputs.objects.newInstance(decoratorClass)
 
-            val allProjects = DependencyGraphBuilder(inputs)
-                .invoke(inputProjects)
-            val allModules = DefaultProjectTransformer(components, inputs, decorator)
-                .invoke(allProjects)
+            val graphBuilder = DependencyGraphBuilder(inputs)
+            val transformer = DefaultProjectTransformer(components, inputs, decorator)
+            for (inputProject in inputProjects) {
+                val allProjects = graphBuilder.invoke(inputProject)
+                val allModules = transformer.invoke(allProjects)
 
-            var prev: ModuleConfiguration? = null
-            for (module in allModules.asReversed()) {
-                registerMigrateProjectToBazelTask(current = module, prev = prev)
-                prev = module
+                for ((_, module) in allModules) {
+                    registerMigrateProjectToBazelTask(module)
+                }
+                registerMigrateToBazel(
+                    module = allModules[inputProject.path]!!,
+                    allProjects = allProjects
+                )
             }
         }
     }
@@ -79,25 +83,28 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .associateBy { it.id }
     }
 
-    private fun registerMigrateProjectToBazelTask(
-        current: ModuleConfiguration,
-        prev: ModuleConfiguration?
+    private fun registerMigrateProjectToBazelTask(module: ModuleConfiguration) {
+        if (module.project.tasks.any { it.name == Task.migrateProjectToBazel.name }) return
+
+        module.project.tasks.register<MigrateProjectToBazelTask>(Task.migrateProjectToBazel.name) {
+            this.component.set(module.component)
+            this.module.set(module.module)
+            this.outputDir.set(module.project.outputDirectory())
+        }
+    }
+
+    private fun registerMigrateToBazel(
+        module: ModuleConfiguration,
+        allProjects: Map<ProjectPath, ProjectRelation>
     ) {
-        val taskName = Task.migrateProjectToBazel.name
+        module.project.tasks.register<MigrateToBazelTask>(Task.migrateToBazel.name) {
+            for ((_, relatedProjects) in allProjects) {
+                val dependency = relatedProjects.project.tasks
+                    .withType<MigrateProjectToBazelTask>()
+                    .first { it.name == Task.migrateProjectToBazel.name }
 
-        current.project.tasks.register<MigrateToBazelTask>(taskName) {
-            component.set(current.component)
-            module.set(current.module)
-            outputDir.set(current.project.outputDirectory())
-
-            if (prev != null) {
-                val dependency = prev.project.tasks
-                    .withType<MigrateToBazelTask>()
-                    .first { it.name == taskName }
                 dependsOn(dependency)
-
-                transitiveOutputDirs.from(dependency.outputDir)
-                transitiveOutputDirs.from(dependency.transitiveOutputDirs)
+                this.outputDirs.from(dependency.outputDir)
             }
         }
     }

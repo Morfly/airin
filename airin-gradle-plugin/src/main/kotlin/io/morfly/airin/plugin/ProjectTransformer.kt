@@ -18,7 +18,7 @@ import org.gradle.api.artifacts.ProjectDependency
 
 interface ProjectTransformer {
 
-    operator fun invoke(projects: Map<String, ProjectRelation>): List<ModuleConfiguration>
+    operator fun invoke(projects: Map<ProjectPath, ProjectRelation>): Map<ProjectPath, ModuleConfiguration>
 
     operator fun invoke(project: Project): GradleProject
 }
@@ -28,22 +28,29 @@ class DefaultProjectTransformer(
     private val properties: AirinProperties,
     private val decorator: GradleProjectDecorator
 ) : ProjectTransformer {
+    private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
-    override fun invoke(projects: Map<String, ProjectRelation>): List<ModuleConfiguration> {
-        val modules = mutableListOf<ModuleConfiguration>()
+    override fun invoke(projects: Map<ProjectPath, ProjectRelation>): Map<ProjectPath, ModuleConfiguration> {
+        val modules = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
         for ((path, relatedProjects) in projects) {
-            val project = relatedProjects.project
+            if (path in cache) {
+                modules[path] = cache[path]!!
+                continue
+            }
 
+            val project = relatedProjects.project
             val module = invoke(project)
-            modules += ModuleConfiguration(
+            modules[path] = ModuleConfiguration(
                 path = path,
                 project = project,
                 module = invoke(project),
                 component = module.packageComponentId?.let(components::getValue)
             )
         }
-        return modules.orderedByComponents()
+
+        cache += modules
+        return modules
     }
 
     override fun invoke(project: Project): GradleProject {
@@ -121,23 +128,4 @@ class DefaultProjectTransformer(
                 }
             }
         }
-
-    private fun List<ModuleConfiguration>.orderedByComponents(): List<ModuleConfiguration> {
-        val componentMapping = mutableMapOf<ComponentId, MutableList<ModuleConfiguration>>()
-
-        for (module in this) {
-            val componentId = module.component?.id
-            if (componentId != null) {
-                componentMapping.getOrPut(componentId, ::mutableListOf) += module
-            }
-        }
-
-        val sortedModules = mutableListOf<ModuleConfiguration>()
-        for ((id, _) in components) {
-            for (module in componentMapping[id].orEmpty()) {
-                sortedModules += module
-            }
-        }
-        return sortedModules
-    }
 }
