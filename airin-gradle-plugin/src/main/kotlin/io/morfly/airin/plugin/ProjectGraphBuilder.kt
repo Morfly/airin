@@ -4,8 +4,6 @@ import io.morfly.airin.dsl.AirinProperties
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 
-typealias ProjectPath = String
-
 data class ProjectRelation(
     val project: Project,
     val relatedProjects: List<Project>

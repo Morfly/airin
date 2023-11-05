@@ -16,6 +16,12 @@ import org.gradle.kotlin.dsl.withType
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
+    enum class Task {
+        migrateToBazel,
+        migrateProjectToBazel,
+        migrateRootToBazel,
+    }
+
     abstract val defaultProjectDecorator: Class<out GradleProjectDecorator>
 
     override fun apply(target: Project) {
@@ -26,11 +32,10 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
         target.gradle.projectsEvaluated {
             val modules = target.prepareModules(inputs)
-            println("TTAGG modules: ${modules.map { it.path }}")
 
             var prev: ModuleConfiguration? = null
             for (module in modules.asReversed()) {
-                registerMigrateToBazelTask(current = module, prev = prev)
+                registerMigrateProjectToBazelTask(current = module, prev = prev)
                 prev = module
             }
         }
@@ -76,13 +81,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .associateBy { it.id }
     }
 
-    private fun registerMigrateToBazelTask(
+    private fun registerMigrateProjectToBazelTask(
         current: ModuleConfiguration,
         prev: ModuleConfiguration?
     ) {
-        if (current.project.tasks.findByName(MigrateToBazelTask.NAME) != null) return
+        val taskName = Task.migrateProjectToBazel.name
 
-        current.project.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+        current.project.tasks.register<MigrateToBazelTask>(taskName) {
             component.set(current.component)
             module.set(current.module)
             outputDir.set(current.project.outputDirectory())
@@ -90,7 +95,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             if (prev != null) {
                 val dependency = prev.project.tasks
                     .withType<MigrateToBazelTask>()
-                    .first { it.name == MigrateToBazelTask.NAME }
+                    .first { it.name == taskName }
                 dependsOn(dependency)
 
                 transitiveOutputDirs.from(dependency.outputDir)
