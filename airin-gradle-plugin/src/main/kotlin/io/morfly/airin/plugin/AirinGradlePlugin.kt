@@ -31,29 +31,27 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
 
         target.gradle.projectsEvaluated {
-            val modules = target.prepareModules(inputs)
+            if (inputs.inputProjects.isEmpty()) error("TODO1")
+
+            val inputProjects = inputs.inputProjects.map(target::project)
+            val components = prepareComponents(inputs.subcomponents)
+            // TODO replace with null check instead of default
+            val decoratorClass =
+                if (inputs.projectDecorator != GradleProjectDecorator::class.java) inputs.projectDecorator
+                else defaultProjectDecorator
+            val decorator = inputs.objects.newInstance(decoratorClass)
+
+            val allProjects = DependencyGraphBuilder(inputs)
+                .invoke(inputProjects)
+            val allModules = DefaultProjectTransformer(components, inputs, decorator)
+                .invoke(allProjects)
 
             var prev: ModuleConfiguration? = null
-            for (module in modules.asReversed()) {
+            for (module in allModules.asReversed()) {
                 registerMigrateProjectToBazelTask(current = module, prev = prev)
                 prev = module
             }
         }
-    }
-
-    private fun Project.prepareModules(inputs: AirinExtension): List<ModuleConfiguration> {
-        if (inputs.inputProjects.isEmpty()) error("TEST")
-        // TODO check for empty inputs
-        val inputProjects = inputs.inputProjects.map(::project)
-        val components = prepareComponents(inputs.subcomponents)
-        // TODO replace with null check instead of default
-        val decoratorClass =
-            if (inputs.projectDecorator != GradleProjectDecorator::class.java) inputs.projectDecorator
-            else defaultProjectDecorator
-        val decorator = inputs.objects.newInstance(decoratorClass)
-
-        val allProjects = DependencyGraphBuilder(inputs).invoke(inputProjects)
-        return DefaultProjectTransformer(components, inputs, decorator).invoke(allProjects)
     }
 
     private fun prepareComponents(
