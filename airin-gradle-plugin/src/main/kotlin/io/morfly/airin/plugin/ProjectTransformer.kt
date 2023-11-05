@@ -16,11 +16,18 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.ExternalDependency
 import org.gradle.api.artifacts.ProjectDependency
 
+data class ModuleConfiguration(
+    val path: String,
+    val project: Project,
+    val module: GradleProject,
+    val component: GradlePackageComponent?
+)
+
 interface ProjectTransformer {
 
     operator fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration>
 
-    operator fun invoke(project: Project): GradleProject
+    operator fun invoke(project: Project): ModuleConfiguration
 }
 
 class DefaultProjectTransformer(
@@ -30,29 +37,12 @@ class DefaultProjectTransformer(
 ) : ProjectTransformer {
     private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
-    override fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration> {
-        val modules = mutableMapOf<ProjectPath, ModuleConfiguration>()
+    override fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration> =
+        projects.mapValues { (_, project) -> invoke(project) }
 
-        for ((path, project) in projects) {
-            if (path in cache) {
-                modules[path] = cache[path]!!
-                continue
-            }
+    override fun invoke(project: Project): ModuleConfiguration {
+        cache[project.path]?.let { return it }
 
-            val module = invoke(project)
-            modules[path] = ModuleConfiguration(
-                path = path,
-                project = project,
-                module = invoke(project),
-                component = module.packageComponentId?.let(components::getValue)
-            )
-        }
-
-        cache += modules
-        return modules
-    }
-
-    override fun invoke(project: Project): GradleProject {
         val isSkipped = project.path in properties.skippedProjects
 
         val packageComponent =
@@ -75,7 +65,14 @@ class DefaultProjectTransformer(
             module.decorate(project)
         }
 
-        return module
+        val config = ModuleConfiguration(
+            path = project.path,
+            project = project,
+            module = module,
+            component = module.packageComponentId?.let(components::getValue)
+        )
+        cache[project.path] = config
+        return config
     }
 
     private fun Project.pickPackageComponent(
