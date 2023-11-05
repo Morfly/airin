@@ -16,12 +16,6 @@ import org.gradle.kotlin.dsl.withType
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
-    enum class Task {
-        migrateToBazel,
-        migrateProjectToBazel,
-        migrateRootToBazel,
-    }
-
     abstract val defaultProjectDecorator: Class<out GradleProjectDecorator>
 
     override fun apply(target: Project) {
@@ -84,9 +78,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     }
 
     private fun registerMigrateProjectToBazelTask(module: ModuleConfiguration) {
-        if (module.project.tasks.any { it.name == Task.migrateProjectToBazel.name }) return
+        if (module.project.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
-        module.project.tasks.register<MigrateProjectToBazelTask>(Task.migrateProjectToBazel.name) {
+        module.project.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
             this.component.set(module.component)
             this.module.set(module.module)
             this.outputDir.set(module.project.outputDirectory())
@@ -97,11 +91,11 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         module: ModuleConfiguration,
         allProjects: Map<ProjectPath, ProjectRelation>
     ) {
-        module.project.tasks.register<MigrateToBazelTask>(Task.migrateToBazel.name) {
+        module.project.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
             for ((_, relatedProjects) in allProjects) {
                 val dependency = relatedProjects.project.tasks
                     .withType<MigrateProjectToBazelTask>()
-                    .first { it.name == Task.migrateProjectToBazel.name }
+                    .first { it.name == MigrateProjectToBazelTask.NAME }
 
                 dependsOn(dependency)
                 this.outputDirs.from(dependency.outputDir)
