@@ -41,11 +41,11 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 val allProjects = graphBuilder.invoke(inputProject)
                 val allModules = transformer.invoke(allProjects)
 
-                for ((_, module) in allModules) {
-                    registerMigrateProjectToBazelTask(module)
+                for ((_, project, module, component) in allModules.values) {
+                    registerMigrateProjectToBazelTask(project, module, component)
                 }
                 registerMigrateToBazel(
-                    module = allModules[inputProject.path]!!,
+                    target = inputProject,
                     allProjects = allProjects
                 )
             }
@@ -77,23 +77,27 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .associateBy { it.id }
     }
 
-    private fun registerMigrateProjectToBazelTask(module: ModuleConfiguration) {
-        if (module.project.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
+    private fun registerMigrateProjectToBazelTask(
+        target: Project,
+        module: GradleProject,
+        component: GradlePackageComponent?
+    ) {
+        if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
-        module.project.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
-            this.component.set(module.component)
-            this.module.set(module.module)
-            this.outputDir.set(module.project.outputDirectory())
+        target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
+            this.component.set(component)
+            this.module.set(module)
+            this.outputDir.set(target.outputDirectory())
         }
     }
 
     private fun registerMigrateToBazel(
-        module: ModuleConfiguration,
-        allProjects: Map<ProjectPath, ProjectRelation>
+        target: Project,
+        allProjects: Map<ProjectPath, Project>
     ) {
-        module.project.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
-            for ((_, relatedProjects) in allProjects) {
-                val dependency = relatedProjects.project.tasks
+        target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+            for ((_, project) in allProjects) {
+                val dependency = project.tasks
                     .withType<MigrateProjectToBazelTask>()
                     .first { it.name == MigrateProjectToBazelTask.NAME }
 

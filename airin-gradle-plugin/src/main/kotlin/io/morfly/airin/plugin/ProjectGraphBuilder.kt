@@ -4,21 +4,16 @@ import io.morfly.airin.dsl.AirinProperties
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 
-data class ProjectRelation(
-    val project: Project,
-    val relatedProjects: List<Project>
-)
-
 interface ProjectGraphBuilder {
 
-    operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation>
+    operator fun invoke(inputProject: Project): Map<ProjectPath, Project>
 }
 
 class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectGraphBuilder {
-    private val cache = mutableMapOf<ProjectPath, ProjectRelation>()
+    private val cache = mutableMapOf<ProjectPath, Project>()
 
-    override operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation> {
-        val projects = mutableMapOf<ProjectPath, ProjectRelation>()
+    override operator fun invoke(inputProject: Project): Map<ProjectPath, Project> {
+        val projects = mutableMapOf<ProjectPath, Project>()
 
         fun traverse(project: Project) {
             if (project.path in projects) return
@@ -27,11 +22,12 @@ class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectG
                 return
             }
 
-            val dependencies = project.filterConfigurations(properties)
+            val dependencies = project
+                .filterConfigurations(properties)
                 .flatMap { it.dependencies }
                 .filterIsInstance<ProjectDependency>()
                 .map { it.dependencyProject }
-            projects[project.path] = ProjectRelation(project, dependencies)
+            projects[project.path] = project
 
             dependencies.forEach(::traverse)
         }
@@ -44,14 +40,14 @@ class DependencyGraphBuilder(private val properties: AirinProperties) : ProjectG
 
 class SubprojectGraphBuilder : ProjectGraphBuilder {
 
-    override operator fun invoke(inputProject: Project): Map<ProjectPath, ProjectRelation> {
-        val projects = mutableMapOf<ProjectPath, ProjectRelation>()
+    override operator fun invoke(inputProject: Project): Map<ProjectPath, Project> {
+        val projects = mutableMapOf<ProjectPath, Project>()
 
         fun traverse(project: Project) {
             if (project.path in projects) return
 
             val subprojects = project.childProjects.map { it.value }
-            projects[project.path] = ProjectRelation(project, subprojects)
+            projects[project.path] = project
 
             subprojects.forEach(::traverse)
 

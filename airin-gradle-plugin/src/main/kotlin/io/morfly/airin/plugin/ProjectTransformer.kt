@@ -18,7 +18,7 @@ import org.gradle.api.artifacts.ProjectDependency
 
 interface ProjectTransformer {
 
-    operator fun invoke(projects: Map<ProjectPath, ProjectRelation>): Map<ProjectPath, ModuleConfiguration>
+    operator fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration>
 
     operator fun invoke(project: Project): GradleProject
 }
@@ -30,16 +30,15 @@ class DefaultProjectTransformer(
 ) : ProjectTransformer {
     private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
-    override fun invoke(projects: Map<ProjectPath, ProjectRelation>): Map<ProjectPath, ModuleConfiguration> {
+    override fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration> {
         val modules = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
-        for ((path, relatedProjects) in projects) {
+        for ((path, project) in projects) {
             if (path in cache) {
                 modules[path] = cache[path]!!
                 continue
             }
 
-            val project = relatedProjects.project
             val module = invoke(project)
             modules[path] = ModuleConfiguration(
                 path = path,
