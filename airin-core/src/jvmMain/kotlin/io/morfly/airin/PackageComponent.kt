@@ -8,6 +8,7 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
 
     final override val subcomponents = linkedMapOf<ComponentId, Component<P>>()
 
+    // TODO remove includeSubcomponents
     @InternalAirinApi
     open fun invoke(packageDescriptor: P, includeSubcomponents: Boolean = true): PackageContext {
         val context = PackageContext()

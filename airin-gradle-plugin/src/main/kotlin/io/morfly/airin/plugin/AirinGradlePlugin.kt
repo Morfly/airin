@@ -9,10 +9,12 @@ import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+
+const val AIRIN_TASK_GROUP = "Airin Bazel migration"
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
@@ -42,13 +44,28 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 val allModules = transformer.invoke(allProjects)
 
                 for ((_, project, module, component) in allModules.values) {
-                    if (!module.skipped && component != null) {
-                        registerMigrateProjectToBazelTask(project, module, component)
-                    }
+                    if (module.skipped || component == null) continue
+                    project.registerMigrateProjectToBazelTask(
+                        module = module,
+                        component = component
+                    )
                 }
-                registerMigrateToBazel(
-                    target = inputProject,
-                    allProjects = allProjects
+
+                val root = transformer.invoke(target)
+                val rootTaskName = inputProject.buildRootTaskName()
+                if (!root.module.skipped && root.component != null) {
+                    target.registerMigrateRootToBazel(
+                        name = rootTaskName,
+                        component = root.component,
+                        module = root.module,
+                        allComponents = components,
+                        allModules = allModules.mapValues { (_, config) -> config.module }
+                    )
+                }
+                inputProject.registerMigrateToBazel(
+                    root = target,
+                    rootTaskName = rootTaskName,
+                    allProjects = allProjects,
                 )
             }
         }
@@ -79,25 +96,27 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .associateBy { it.id }
     }
 
-    private fun registerMigrateProjectToBazelTask(
-        target: Project,
+    private fun Project.registerMigrateProjectToBazelTask(
         module: GradleProject,
         component: GradlePackageComponent
     ) {
-        if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
+        if (tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
-        target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
+        tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
+            group = AIRIN_TASK_GROUP
             this.component.set(component)
             this.module.set(module)
-            this.outputDir.set(target.outputDirectory())
+            this.outputDir.set(outputDirectory())
         }
     }
 
-    private fun registerMigrateToBazel(
-        target: Project,
-        allProjects: Map<ProjectPath, Project>
+    private fun Project.registerMigrateToBazel(
+        root: Project,
+        rootTaskName: String,
+        allProjects: Map<ProjectPath, Project>,
     ) {
-        target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+        tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+            group = AIRIN_TASK_GROUP
             for ((_, project) in allProjects) {
                 val dependency = project.tasks
                     .withType<MigrateProjectToBazelTask>()
@@ -105,11 +124,47 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     ?: continue
 
                 dependsOn(dependency)
-                this.outputDirs.from(dependency.outputDir)
+                if (dependency.outputDir.isPresent) {
+                    this.outputDirs.from(dependency.outputDir)
+                }
+            }
+
+            val rootTask = root.tasks
+                .withType<MigrateRootToBazel>()
+                .firstOrNull { it.name == rootTaskName }
+            if (rootTask != null) {
+                dependsOn(rootTask)
+                if (rootTask.outputDir.isPresent) {
+                    this.outputDirs.from(rootTask.outputDir)
+                }
             }
         }
     }
 
-    private fun Project.outputDirectory(): DirectoryProperty =
-        objects.directoryProperty().convention(layout.projectDirectory)
+    private fun Project.buildRootTaskName(): String {
+        val suffix = path
+            .split(":")
+            .filter(String::isNotBlank)
+            .joinToString(separator = "", transform = String::capitalized)
+        return "${MigrateRootToBazel.NAME}For$suffix"
+    }
+
+    private fun Project.registerMigrateRootToBazel(
+        name: String,
+        component: GradlePackageComponent,
+        module: GradleProject,
+        allComponents: Map<ComponentId, GradlePackageComponent>,
+        allModules: Map<ProjectPath, GradleProject>
+    ) {
+        tasks.register<MigrateRootToBazel>(name) {
+            group = AIRIN_TASK_GROUP
+            val filteredModules = allModules
+                .filter { (_, module) -> !module.skipped }
+                .filter { (path, _) -> path != this.path }
+            this.component.set(component)
+            this.module.set(module)
+            this.allComponents.set(allComponents)
+            this.allModules.set(filteredModules)
+        }
+    }
 }
