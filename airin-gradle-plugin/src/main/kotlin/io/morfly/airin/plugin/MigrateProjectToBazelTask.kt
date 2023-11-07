@@ -6,11 +6,11 @@ import io.morfly.airin.InternalAirinApi
 import io.morfly.pendant.starlark.lang.context.FileContext
 import io.morfly.pendant.starlark.writer.StarlarkFileWriter
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 abstract class MigrateProjectToBazelTask : DefaultTask() {
@@ -22,8 +22,8 @@ abstract class MigrateProjectToBazelTask : DefaultTask() {
     @get:Input
     abstract val module: Property<GradleProject>
 
-    @get:OutputDirectory
-    abstract val outputDir: DirectoryProperty
+    @get:OutputFile
+    abstract val outputFile: RegularFileProperty
 
     @OptIn(InternalAirinApi::class)
     @TaskAction

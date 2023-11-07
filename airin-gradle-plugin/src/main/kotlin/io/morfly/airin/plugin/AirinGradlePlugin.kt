@@ -113,7 +113,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
             this.component.set(component)
             this.module.set(module)
-            this.outputDir.set(target.outputDirectory())
+            this.outputFile.set(target.outputFile())
         }
     }
 
@@ -134,8 +134,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     ?: continue
 
                 dependsOn(dependencyTask)
-                if (dependencyTask.outputDir.isPresent) {
-                    this.outputDirs.from(dependencyTask.outputDir)
+                if (dependencyTask.outputFile.isPresent) {
+                    this.outputFiles.from(dependencyTask.outputFile)
                 }
             }
 
@@ -144,8 +144,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 .firstOrNull { it.name == rootTaskName }
             if (rootTask != null) {
                 dependsOn(rootTask)
-                if (rootTask.outputDir.isPresent) {
-                    this.outputDirs.from(rootTask.outputDir)
+                if (rootTask.outputFile.isPresent) {
+                    this.outputFiles.from(rootTask.outputFile)
                 }
             }
         }

@@ -8,12 +8,12 @@ import io.morfly.airin.InternalAirinApi
 import io.morfly.pendant.starlark.lang.context.FileContext
 import io.morfly.pendant.starlark.writer.StarlarkFileWriter
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 abstract class MigrateRootToBazel : DefaultTask() {
@@ -30,9 +30,10 @@ abstract class MigrateRootToBazel : DefaultTask() {
     @get:Input
     abstract val allModules: MapProperty<ProjectPath, GradleProject>
 
-    @get:OutputDirectory
+    @get:OutputFile
+    // TDOO remove optional
     @get:Optional
-    abstract val outputDir: DirectoryProperty
+    abstract val outputFile: RegularFileProperty
 
     @OptIn(InternalAirinApi::class)
     @TaskAction

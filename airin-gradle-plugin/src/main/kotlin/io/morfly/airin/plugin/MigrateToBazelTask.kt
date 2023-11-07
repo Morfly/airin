@@ -2,17 +2,17 @@ package io.morfly.airin.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.tasks.OutputDirectories
+import org.gradle.api.tasks.OutputFiles
 import org.gradle.api.tasks.TaskAction
 
 abstract class MigrateToBazelTask : DefaultTask() {
 
-    @get:OutputDirectories
-    abstract val outputDirs: ConfigurableFileCollection
+    @get:OutputFiles
+    abstract val outputFiles: ConfigurableFileCollection
 
     @TaskAction
     fun migrateToBazel() {
-        println("TTAGG ${outputDirs.map { it.path }}")
+        println("TTAGG ${outputFiles.map { it.path }}")
     }
 
     companion object {
