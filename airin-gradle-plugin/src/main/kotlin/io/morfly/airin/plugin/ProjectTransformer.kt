@@ -3,8 +3,8 @@ package io.morfly.airin.plugin
 import io.morfly.airin.ComponentConflictResolution
 import io.morfly.airin.ComponentId
 import io.morfly.airin.ConfigurationName
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradlePackageComponent
+import io.morfly.airin.FeatureComponent
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.MissingComponentResolution
@@ -19,7 +19,7 @@ import org.gradle.api.artifacts.ProjectDependency
 data class ModuleConfiguration(
     val module: GradleModule,
     // TODO make non-null
-    val component: GradlePackageComponent?
+    val component: ModuleComponent?
 )
 
 interface ProjectTransformer {
@@ -28,7 +28,7 @@ interface ProjectTransformer {
 }
 
 class DefaultProjectTransformer(
-    private val components: Map<ComponentId, GradlePackageComponent>,
+    private val components: Map<ComponentId, ModuleComponent>,
     private val properties: AirinProperties,
     private val decorator: GradleProjectDecorator,
     private val artifactCollector: ArtifactDependencyCollector
@@ -70,9 +70,9 @@ class DefaultProjectTransformer(
     }
 
     private fun Project.pickPackageComponent(
-        components: Map<ComponentId, GradlePackageComponent>,
+        components: Map<ComponentId, ModuleComponent>,
         properties: AirinProperties
-    ): GradlePackageComponent? {
+    ): ModuleComponent? {
         val suitableComponents = components.values
             .filter { !it.ignored }
             .filter { it.canProcess(this) }
@@ -94,9 +94,9 @@ class DefaultProjectTransformer(
     }
 
     private fun Project.pickFeatureComponents(
-        component: GradlePackageComponent
-    ): List<GradleFeatureComponent> = component.subcomponents.values
-        .filterIsInstance<GradleFeatureComponent>()
+        component: ModuleComponent
+    ): List<FeatureComponent> = component.subcomponents.values
+        .filterIsInstance<FeatureComponent>()
         .filter { !it.ignored }
         .filter { it.canProcess(this) }
 

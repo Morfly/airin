@@ -3,19 +3,18 @@ package io.morfly.airin
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
 
-// TODO rename
-abstract class PackageComponent<P : Module> : Component<P>(), PropertiesHolder,
-    ComponentsHolder<P> {
+abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesHolder,
+    ComponentsHolder<M> {
 
-    final override val subcomponents = linkedMapOf<ComponentId, Component<P>>()
+    final override val subcomponents = linkedMapOf<ComponentId, Component<M>>()
 
     @InternalAirinApi
-    open fun invoke(packageDescriptor: P): PackageContext {
+    open fun invoke(packageDescriptor: M): PackageContext {
         val context = PackageContext()
         if (packageDescriptor.skipped) return context
 
         val features = subcomponents.values.asSequence()
-            .filterIsInstance<FeatureComponent<P>>()
+            .filterIsInstance<AbstractFeatureComponent<M>>()
             .filter { it.id in packageDescriptor.featureComponentIds }
             .onEach { it.sharedProperties = sharedProperties }
             .map { it.invoke(packageDescriptor) }
@@ -36,5 +35,5 @@ abstract class PackageComponent<P : Module> : Component<P>(), PropertiesHolder,
         return context
     }
 
-    abstract fun PackageContext.onInvoke(packageDescriptor: P)
+    abstract fun PackageContext.onInvoke(packageDescriptor: M)
 }

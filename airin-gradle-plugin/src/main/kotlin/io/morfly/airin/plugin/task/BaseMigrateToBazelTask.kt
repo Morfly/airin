@@ -1,6 +1,6 @@
 package io.morfly.airin.plugin.task
 
-import io.morfly.airin.GradlePackageComponent
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
 import io.morfly.pendant.starlark.lang.context.FileContext
@@ -11,7 +11,7 @@ import org.gradle.api.provider.Property
 
 abstract class BaseMigrateToBazelTask : DefaultTask() {
 
-    abstract val component: Property<GradlePackageComponent>
+    abstract val component: Property<ModuleComponent>
 
     abstract val module: Property<GradleModule>
 
@@ -19,7 +19,7 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
 
     @OptIn(InternalAirinApi::class)
     protected fun setupSharedProperties(
-        component: GradlePackageComponent,
+        component: ModuleComponent,
         sharedProperties: MutableMap<String, Any?>
     ) {
         component.sharedProperties = sharedProperties

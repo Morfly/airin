@@ -1,7 +1,7 @@
 package io.morfly.airin.dsl
 
 import io.morfly.airin.ComponentsHolder
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.HasId
 import org.gradle.api.Action
@@ -15,7 +15,7 @@ interface FeatureComponentsHolder :
     @get:Inject
     val objects: ObjectFactory
 
-    fun <B : GradleFeatureComponent> include(
+    fun <B : FeatureComponent> include(
         type: Class<B>,
         config: Action<B>? = null
     ) {

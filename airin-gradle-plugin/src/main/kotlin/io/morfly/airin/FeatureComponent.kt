@@ -4,7 +4,7 @@ import io.morfly.airin.dsl.FeatureComponentProperties
 import org.gradle.api.Project
 import java.io.Serializable
 
-abstract class GradleFeatureComponent : FeatureComponent<GradleModule>(),
+abstract class FeatureComponent : AbstractFeatureComponent<GradleModule>(),
     Serializable,
     FeatureComponentProperties {
 

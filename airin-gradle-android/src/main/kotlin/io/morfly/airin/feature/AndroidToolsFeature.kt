@@ -1,7 +1,7 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.property
@@ -23,7 +23,7 @@ import io.morfly.pendant.starlark.rules_jvm_external_deps
 import io.morfly.pendant.starlark.rules_jvm_external_setup
 import org.gradle.api.Project
 
-abstract class AndroidToolsFeature : GradleFeatureComponent() {
+abstract class AndroidToolsFeature : FeatureComponent() {
 
     var kotlinToolchainVersion by property("1.8")
     var kotlinJvmTarget by property("11")

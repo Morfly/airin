@@ -1,6 +1,6 @@
 package io.morfly.airin.module
 
-import io.morfly.airin.GradlePackageComponent
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.PackageContext
 import io.morfly.airin.label.MavenCoordinates
@@ -12,7 +12,7 @@ import io.morfly.pendant.starlark.lang.context.bzl
 import io.morfly.pendant.starlark.workspace
 import org.gradle.api.Project
 
-abstract class RootModule : GradlePackageComponent() {
+abstract class RootModule : ModuleComponent() {
 
     val composeVersion by property("1.4.3")
     val composeMaterial3Version by property("1.1.1")

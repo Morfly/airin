@@ -1,7 +1,7 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.label.BazelLabel
 import io.morfly.airin.label.MavenCoordinates
@@ -17,7 +17,7 @@ import io.morfly.pendant.starlark.lang.onContext
 import io.morfly.pendant.starlark.lang.type.StringType
 import org.gradle.api.Project
 
-abstract class HiltAndroidFeature : GradleFeatureComponent() {
+abstract class HiltAndroidFeature : FeatureComponent() {
 
     init {
         shared = true

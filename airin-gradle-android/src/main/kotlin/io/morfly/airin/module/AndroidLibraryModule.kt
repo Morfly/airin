@@ -1,7 +1,7 @@
 package io.morfly.airin.module
 
 import include
-import io.morfly.airin.GradlePackageComponent
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.PackageContext
 import io.morfly.airin.applyDependenciesFrom
@@ -13,7 +13,7 @@ import io.morfly.pendant.starlark.lang.context.BUILD
 import io.morfly.pendant.starlark.lang.context.bazel
 import org.gradle.api.Project
 
-abstract class AndroidLibraryModule : GradlePackageComponent() {
+abstract class AndroidLibraryModule : ModuleComponent() {
 
     init {
         include<ArtifactMappingFeature>()

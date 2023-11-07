@@ -1,7 +1,7 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.androidMetadata
 import io.morfly.airin.module.AndroidLibraryModule
@@ -10,7 +10,7 @@ import io.morfly.pendant.starlark.lang.context.BuildContext
 import io.morfly.pendant.starlark.lang.onContext
 import org.gradle.api.Project
 
-abstract class AndroidBinaryFeature : GradleFeatureComponent() {
+abstract class AndroidBinaryFeature : FeatureComponent() {
 
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("com.android.application")

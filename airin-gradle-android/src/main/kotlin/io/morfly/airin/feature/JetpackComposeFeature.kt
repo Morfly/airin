@@ -1,7 +1,7 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
@@ -14,7 +14,7 @@ import io.morfly.pendant.starlark.lang.context.BuildContext
 import io.morfly.pendant.starlark.lang.onContext
 import org.gradle.api.Project
 
-abstract class JetpackComposeFeature : GradleFeatureComponent() {
+abstract class JetpackComposeFeature : FeatureComponent() {
 
     init {
         shared = true

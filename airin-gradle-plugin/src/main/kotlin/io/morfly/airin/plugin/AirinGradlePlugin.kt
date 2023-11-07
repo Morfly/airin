@@ -2,8 +2,8 @@ package io.morfly.airin.plugin
 
 import io.morfly.airin.Component
 import io.morfly.airin.ComponentId
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradlePackageComponent
+import io.morfly.airin.FeatureComponent
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
@@ -81,24 +81,24 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
     private fun prepareComponents(
         components: Map<ComponentId, Component<GradleModule>>
-    ): Map<ComponentId, GradlePackageComponent> {
+    ): Map<ComponentId, ModuleComponent> {
         // Feature components shared with every package component
         val topLevelSharedFeatureComponents = components.values.asSequence()
-            .filterIsInstance<GradleFeatureComponent>()
+            .filterIsInstance<FeatureComponent>()
             .onEach { it.shared = true }
             .associateBy { it.id }
 
         // Feature components shared only with shared package components
         val sharedFeatureComponents = components.values.asSequence()
-            .filterIsInstance<GradlePackageComponent>()
+            .filterIsInstance<ModuleComponent>()
             .flatMap { it.subcomponents.values }
-            .filterIsInstance<GradleFeatureComponent>()
+            .filterIsInstance<FeatureComponent>()
             .filter { it.shared }
             .associateBy { it.id }
 
         // Package components with added feature components
         return components.values.asSequence()
-            .filterIsInstance<GradlePackageComponent>()
+            .filterIsInstance<ModuleComponent>()
             .onEach { it.subcomponents += topLevelSharedFeatureComponents }
             .onEach { if (it.shared) it.subcomponents += sharedFeatureComponents }
             .associateBy { it.id }
@@ -166,7 +166,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         target: Project,
         name: String,
         projects: Map<ProjectPath, Project>,
-        components: Map<ComponentId, GradlePackageComponent>,
+        components: Map<ComponentId, ModuleComponent>,
         transformer: ProjectTransformer
     ) {
         target.tasks.register<MigrateRootToBazel>(name) {

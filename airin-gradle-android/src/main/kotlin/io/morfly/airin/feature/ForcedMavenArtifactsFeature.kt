@@ -1,7 +1,7 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.property
@@ -13,7 +13,7 @@ import io.morfly.pendant.starlark.lang.onContext
 import io.morfly.pendant.starlark.lang.type.StringType
 import org.gradle.api.Project
 
-abstract class ForcedMavenArtifactsFeature : GradleFeatureComponent() {
+abstract class ForcedMavenArtifactsFeature : FeatureComponent() {
 
     var artifacts by property(emptyList<String>())
 
