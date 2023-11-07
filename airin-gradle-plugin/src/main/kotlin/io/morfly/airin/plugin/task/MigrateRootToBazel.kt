@@ -1,10 +1,9 @@
 package io.morfly.airin.plugin.task
 
 import io.morfly.airin.ComponentId
-import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
-import io.morfly.airin.plugin.ProjectPath
+import io.morfly.airin.ModuleComponent
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.MapProperty
