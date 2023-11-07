@@ -180,6 +180,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             this.module.set(module)
             this.allComponents.set(components)
             this.allModules.set(allModules)
+            this.outputFile.set(target.outputFile())
         }
     }
 

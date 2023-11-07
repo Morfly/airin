@@ -11,9 +11,7 @@ abstract class MigrateToBazelTask : DefaultTask() {
     abstract val outputFiles: ConfigurableFileCollection
 
     @TaskAction
-    fun migrateToBazel() {
-        println("TTAGG ${outputFiles.map { it.path }}")
-    }
+    fun migrateToBazel() = Unit
 
     companion object {
         const val NAME = "migrateToBazel"
