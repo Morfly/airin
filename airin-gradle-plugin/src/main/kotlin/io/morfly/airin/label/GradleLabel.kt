@@ -17,7 +17,7 @@ data class GradleLabel(
         }
     }
 
-    override fun asComparable(): Label = this
+    override fun asShortLabel(): Label = this
 
     override fun asBazelLabel(): BazelLabel {
         val path = path

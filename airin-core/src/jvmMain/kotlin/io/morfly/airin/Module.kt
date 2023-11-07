@@ -34,7 +34,7 @@ fun Module.transformDependencies(features: List<FeatureContext>): Map<Configurat
     for (feature in features) {
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
-                val overrides = feature.dependencyOverrides[dependency.asComparable().toString()]
+                val overrides = feature.dependencyOverrides[dependency.asShortLabel().toString()]
                 val depOverride = overrides?.get(configuration) ?: overrides?.get(null)
                 val configOverrides = feature.configurationOverrides[configuration]
 

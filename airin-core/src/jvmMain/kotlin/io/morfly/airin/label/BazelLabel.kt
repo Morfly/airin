@@ -25,8 +25,7 @@ data class BazelLabel(
 
     override fun toString() = stringLabel
 
-    // TODO rename asShortLabel
-    override fun asComparable(): Label = this
+    override fun asShortLabel(): Label = this
 
     override fun asBazelLabel(): BazelLabel = this
 }
