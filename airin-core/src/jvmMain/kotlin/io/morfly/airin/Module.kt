@@ -30,55 +30,22 @@ fun Module.transformDependencies(features: List<FeatureContext>): Map<Configurat
     val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
     val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 
-    // Process dependency overrides
-    for (feature in features) {
-        for ((configuration, labels) in this.originalDependencies) {
-            for (dependency in labels) {
-                val overrides = feature.dependencyOverrides[dependency.asShortLabel().toString()]
-                val depOverrides: List<DependencyOverride>? = overrides?.get(configuration) ?: overrides?.get(null)
-                val configOverrides = feature.configurationOverrides[configuration]
-
-                for (depOverride in depOverrides.orEmpty()) {
-                    val configs = depOverride.configuration?.let(::listOf)
-                        ?: configOverrides?.map { it.configuration }
-                        ?: continue
-
-                    for (config in configs) {
-                        val dep = depOverride.label
-                        transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
-                    }
-                }
-
-                if (depOverrides != null) {
-                    processedDependencies.getOrPut(configuration, ::mutableSetOf) += dependency
-                }
-            }
-        }
-    }
-    // Process configuration overrides for the remaining dependencies
-    for (feature in features) {
-        for ((configuration, labels) in this.originalDependencies) {
-            for (dependency in labels) {
-                if (dependency in processedDependencies[configuration].orEmpty()) continue
-
-                val configOverrides = feature.configurationOverrides[configuration]
-                for (override in configOverrides.orEmpty()) {
-                    val config = override.configuration
-                    transformedDependencies.getOrPut(config, ::mutableSetOf) += dependency
-                }
-            }
-        }
+    fun append(dependencies: Map<ConfigurationName, Set<Label>>) {
+        for ((config, labels) in dependencies)
+            transformedDependencies.getOrPut(config, ::mutableSetOf) += labels
     }
 
-    for (feature in features) {
-        for ((configuration, dependencies) in feature.addedDependencies) {
-            for (dependency in dependencies) {
-                transformedDependencies.getOrPut(configuration, ::mutableSetOf) += dependency
-            }
-        }
-    }
+    DependencyOverrideProcessor(features, processedDependencies)
+        .invoke(this)
+        .also(::append)
+    ConfigurationOverrideProcessor(features, processedDependencies)
+        .invoke(this)
+        .also(::append)
+    AddedDependencyProcessor(features)
+        .invoke(this)
+        .also(::append)
 
-    return transformedDependencies
-        .map { (config, deps) -> config to deps.sortedBy { it.toString() } }
-        .toMap()
+    return transformedDependencies.mapValues { (_, dependencies) ->
+        dependencies.sortedBy(Label::toString)
+    }
 }
