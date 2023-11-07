@@ -27,6 +27,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
 
         target.gradle.projectsEvaluated {
+            if (!inputs.enabled) return@projectsEvaluated
+
             if (inputs.inputProjects.isEmpty()) error("TODO1")
 
             val inputProjects = inputs.inputProjects.map(target::project)
@@ -104,6 +106,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
         tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
             group = AIRIN_TASK_GROUP
+            checkConfigureOnDemandFlag()
+
             this.component.set(component)
             this.module.set(module)
             this.outputDir.set(outputDirectory())
@@ -117,6 +121,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     ) {
         tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
             group = AIRIN_TASK_GROUP
+            checkConfigureOnDemandFlag()
+
             for ((_, project) in allProjects) {
                 val dependency = project.tasks
                     .withType<MigrateProjectToBazelTask>()
@@ -158,6 +164,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     ) {
         tasks.register<MigrateRootToBazel>(name) {
             group = AIRIN_TASK_GROUP
+            checkConfigureOnDemandFlag()
+
             val filteredModules = allModules
                 .filter { (_, module) -> !module.skipped }
                 .filter { (path, _) -> path != this.path }
@@ -165,6 +173,12 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             this.module.set(module)
             this.allComponents.set(allComponents)
             this.allModules.set(filteredModules)
+        }
+    }
+
+    private fun Project.checkConfigureOnDemandFlag() {
+        require(properties["org.gradle.configureondemand"] != "true") {
+            "Configuration on demand is not supported by Airin. Please run the task with --no-configure-on-demand flag or disable the org.gradle.configureondemand property."
         }
     }
 }

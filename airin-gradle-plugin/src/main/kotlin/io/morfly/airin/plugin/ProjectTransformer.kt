@@ -18,8 +18,10 @@ import org.gradle.api.artifacts.ProjectDependency
 
 data class ModuleConfiguration(
     val path: String,
+    // TODO remove
     val project: Project,
     val module: GradleProject,
+    // TODO make non-null
     val component: GradlePackageComponent?
 )
 

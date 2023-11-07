@@ -24,6 +24,7 @@ abstract class AirinExtension :
 
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 
+    override var enabled by property(true)
     override var projectDecorator: Class<out GradleProjectDecorator> by property(
         GradleProjectDecorator::class.java
     )
@@ -36,6 +37,7 @@ abstract class AirinExtension :
     override var onComponentConflict by property(UsePriority)
     override var onMissingComponent by property(Ignore)
 
+    // TODO update
     fun migrate(project: Project) {
         inputProjects += project.path
     }

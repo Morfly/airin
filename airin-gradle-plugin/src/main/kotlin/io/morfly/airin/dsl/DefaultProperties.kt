@@ -6,8 +6,11 @@ import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.MissingComponentResolution
 
 interface AirinProperties {
+    var enabled: Boolean
     var projectDecorator: Class<out GradleProjectDecorator>
+    // TODO rename
     var inputProjects: MutableSet<String>
+    // TODO verify with project() function
     var skippedProjects: MutableSet<String>
     var configurations: MutableSet<ConfigurationName>
     var skippedConfigurations: MutableSet<ConfigurationName>
