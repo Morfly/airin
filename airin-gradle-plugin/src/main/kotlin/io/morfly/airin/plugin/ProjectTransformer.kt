@@ -18,7 +18,6 @@ import org.gradle.api.artifacts.ProjectDependency
 
 data class ModuleConfiguration(
     val module: GradleModule,
-    // TODO make non-null
     val component: ModuleComponent?
 )
 

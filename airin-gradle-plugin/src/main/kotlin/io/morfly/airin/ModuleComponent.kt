@@ -10,7 +10,6 @@ abstract class ModuleComponent : AbstractModuleComponent<GradleModule>(),
     FeatureComponentsHolder,
     PackageComponentProperties {
 
-    // TODO filter out ignored components
     final override var ignored by property(default = false)
     final override var shared by property(default = false)
     final override var priority by property(default = 1)
