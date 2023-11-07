@@ -39,10 +39,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 else defaultProjectDecorator
             val decorator = inputs.objects.newInstance(decoratorClass)
 
-            val collector = DependencyCollector(inputs)
-            val transformer = DefaultProjectTransformer(components, inputs, decorator)
+            val projectCollector = ProjectDependencyCollector(inputs)
+            val artifactCollector = ArtifactDependencyCollector(inputs)
+            val transformer = DefaultProjectTransformer(
+                components, inputs, decorator, artifactCollector
+            )
             for (inputProject in inputProjects) {
-                val allProjects = collector.invoke(inputProject)
+                val allProjects = projectCollector.invoke(inputProject)
                 val allModules = transformer.invoke(allProjects)
 
                 for ((_, project, module, component) in allModules.values) {

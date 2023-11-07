@@ -35,7 +35,8 @@ interface ProjectTransformer {
 class DefaultProjectTransformer(
     private val components: Map<ComponentId, GradlePackageComponent>,
     private val properties: AirinProperties,
-    private val decorator: GradleProjectDecorator
+    private val decorator: GradleProjectDecorator,
+    private val artifactCollector: ArtifactDependencyCollector
 ) : ProjectTransformer {
     private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()
 
@@ -61,7 +62,7 @@ class DefaultProjectTransformer(
             dirPath = project.projectDir.path,
             packageComponentId = packageComponent?.id,
             featureComponentIds = featureComponents.map { it.id }.toSet(),
-            originalDependencies = project.prepareDependencies(properties)
+            originalDependencies = project.prepareDependencies()
         )
         with(decorator) {
             module.decorate(project)
@@ -108,22 +109,19 @@ class DefaultProjectTransformer(
         .filter { !it.ignored }
         .filter { it.canProcess(this) }
 
-    private fun Project.prepareDependencies(
-        properties: AirinProperties
-    ): Map<ConfigurationName, List<Label>> = this
-        .filterConfigurations(properties)
-        .associateBy({ it.name }, { it.dependencies })
-        .filter { (_, dependencies) -> dependencies.isNotEmpty() }
-        .mapValues { (_, dependencies) ->
-            dependencies.mapNotNull {
-                when (it) {
-                    is ExternalDependency -> MavenCoordinates(it.group!!, it.name, it.version)
-                    is ProjectDependency -> with(it.dependencyProject) {
-                        GradleLabel(path = path, name = name)
-                    }
+    private fun Project.prepareDependencies(): Map<ConfigurationName, List<Label>> =
+        artifactCollector
+            .invoke(this)
+            .mapValues { (_, dependencies) ->
+                dependencies.mapNotNull {
+                    when (it) {
+                        is ExternalDependency -> MavenCoordinates(it.group!!, it.name, it.version)
+                        is ProjectDependency -> with(it.dependencyProject) {
+                            GradleLabel(path = path, name = name)
+                        }
 
-                    else -> null
+                        else -> null
+                    }
                 }
             }
-        }
 }
