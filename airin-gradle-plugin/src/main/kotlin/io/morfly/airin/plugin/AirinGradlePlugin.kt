@@ -177,7 +177,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     }
 
     private fun Project.checkConfigureOnDemandFlag() {
-        require(properties["org.gradle.configureondemand"] != "true") {
+        require(properties["org.gradle.configureondemand"] != "true" || !gradle.startParameter.isConfigureOnDemand) {
             "Configuration on demand is not supported by Airin. Please run the task with --no-configure-on-demand flag or disable the org.gradle.configureondemand property."
         }
     }
