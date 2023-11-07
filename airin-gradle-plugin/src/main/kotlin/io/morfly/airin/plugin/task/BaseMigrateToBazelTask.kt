@@ -1,4 +1,4 @@
-package io.morfly.airin.plugin
+package io.morfly.airin.plugin.task
 
 import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject

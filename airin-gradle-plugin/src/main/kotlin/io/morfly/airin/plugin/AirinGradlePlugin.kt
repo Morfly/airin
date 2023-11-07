@@ -7,6 +7,9 @@ import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
+import io.morfly.airin.plugin.task.MigrateProjectToBazelTask
+import io.morfly.airin.plugin.task.MigrateRootToBazel
+import io.morfly.airin.plugin.task.MigrateToBazelTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.configurationcache.extensions.capitalized

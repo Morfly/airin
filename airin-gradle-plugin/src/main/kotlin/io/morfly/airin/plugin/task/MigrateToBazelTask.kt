@@ -1,4 +1,4 @@
-package io.morfly.airin.plugin
+package io.morfly.airin.plugin.task
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
