@@ -40,17 +40,30 @@ abstract class MigrateProjectToBazelTask : DefaultTask() {
         }
 
         val outputs = component.invoke(module)
-        writeGeneratedFiles(module.dirPath, outputs.starlarkFiles)
+        val generatedFiles = writeGeneratedFiles(module.dirPath, outputs.starlarkFiles)
+            .joinToString(separator = "\n") { "${module.relativeDirPath}/$it" }
+
+        outputFile.get().asFile.writeText(generatedFiles)
     }
 
-    private fun writeGeneratedFiles(dirPath: String, files: Map<String, List<FileContext>>) {
+    private fun writeGeneratedFiles(
+        dirPath: String,
+        files: Map<String, List<FileContext>>
+    ): List<String> {
+        val relativeFilePaths = mutableListOf<String>()
+
         for ((relativeDirPath, builders) in files) {
             for (builder in builders) {
                 val path = "$dirPath/$relativeDirPath"
                 val file = builder.build()
                 StarlarkFileWriter.write(path, file)
+
+                relativeFilePaths +=
+                    if (relativeDirPath.isBlank()) file.name
+                    else "$relativeDirPath/${file.name}"
             }
         }
+        return relativeFilePaths
     }
 
     companion object {

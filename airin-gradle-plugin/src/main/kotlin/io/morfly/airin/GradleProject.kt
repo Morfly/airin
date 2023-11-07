@@ -8,6 +8,7 @@ data class GradleProject(
     override val name: String,
     override val label: GradleLabel,
     override val dirPath: String,
+    override val relativeDirPath: String,
     override val isRoot: Boolean,
     override val packageComponentId: String?,
     override val featureComponentIds: Set<String>,

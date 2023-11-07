@@ -52,6 +52,7 @@ class DefaultProjectTransformer(
             isRoot = project.rootProject.path == project.path,
             label = GradleLabel(path = project.path, name = project.name),
             dirPath = project.projectDir.path,
+            relativeDirPath = project.projectDir.relativeTo(project.rootDir).path,
             packageComponentId = packageComponent?.id,
             featureComponentIds = featureComponents.map { it.id }.toSet(),
             originalDependencies = project.prepareDependencies()
