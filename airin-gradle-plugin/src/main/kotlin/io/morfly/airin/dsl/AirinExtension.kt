@@ -24,9 +24,7 @@ abstract class AirinExtension :
     override val properties: MutableMap<String, Any?> = mutableMapOf()
 
     override var enabled by property(true)
-    override var projectDecorator: Class<out GradleProjectDecorator> by property(
-        GradleProjectDecorator::class.java
-    )
+    override var projectDecorator by property<Class<out GradleProjectDecorator>?>(null)
     override var targets by property(mutableSetOf<String>())
     override var skippedProjects by property(mutableSetOf<String>())
     override var configurations by property(

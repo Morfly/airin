@@ -37,10 +37,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
             val inputProjects = inputs.targets.map(target::project)
             val components = prepareComponents(inputs.subcomponents)
-            // TODO replace with null check instead of default
-            val decoratorClass =
-                if (inputs.projectDecorator != GradleProjectDecorator::class.java) inputs.projectDecorator
-                else defaultProjectDecorator
+
+            val decoratorClass = inputs.projectDecorator ?: defaultProjectDecorator
             val decorator = inputs.objects.newInstance(decoratorClass)
 
             val projectCollector = ProjectDependencyCollector(inputs)
