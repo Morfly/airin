@@ -5,7 +5,7 @@ import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.PackageContext
 import io.morfly.airin.applyDependenciesFrom
-import io.morfly.airin.feature.AndroidLibraryArtifactMappingFeature
+import io.morfly.airin.feature.ArtifactMappingFeature
 import io.morfly.airin.androidMetadata
 import io.morfly.pendant.starlark.glob
 import io.morfly.pendant.starlark.kt_android_library
@@ -16,7 +16,7 @@ import org.gradle.api.Project
 abstract class AndroidLibraryModule : GradlePackageComponent() {
 
     init {
-        include<AndroidLibraryArtifactMappingFeature>()
+        include<ArtifactMappingFeature>()
     }
 
     override fun canProcess(target: Project): Boolean = with(target.plugins) {

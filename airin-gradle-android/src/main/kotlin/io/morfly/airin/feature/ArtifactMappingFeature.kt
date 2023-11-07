@@ -6,7 +6,7 @@ import io.morfly.airin.GradleProject
 import io.morfly.airin.label.MavenCoordinates
 import org.gradle.api.Project
 
-abstract class AndroidLibraryArtifactMappingFeature : GradleFeatureComponent() {
+abstract class ArtifactMappingFeature : GradleFeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = true
 
@@ -28,6 +28,10 @@ abstract class AndroidLibraryArtifactMappingFeature : GradleFeatureComponent() {
         }
 
         onDependency(MavenCoordinates("org.jetbrains.kotlin", "kotlin-bom")) {
+            ignore()
+        }
+
+        onDependency(MavenCoordinates("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")) {
             ignore()
         }
 
