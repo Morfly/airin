@@ -173,8 +173,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             val (module, component) = transformer.invoke(target)
 
             val allModules = transformer.invoke(projects)
-                .mapValues { (_, config) -> config.module }
-                .filter { (_, module) -> !module.skipped }
+                .values
+                .map { it.module }
+                .filter { !it.skipped }
 
             this.component.set(component)
             this.module.set(module)

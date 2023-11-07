@@ -6,6 +6,7 @@ import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
 import io.morfly.airin.plugin.ProjectPath
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -26,7 +27,7 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     abstract val allComponents: MapProperty<ComponentId, ModuleComponent>
 
     @get:Input
-    abstract val allModules: MapProperty<ProjectPath, GradleModule>
+    abstract val allModules: ListProperty<GradleModule>
 
     @get:OutputFile
     abstract override val outputFile: RegularFileProperty
@@ -44,7 +45,7 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
 
     @OptIn(InternalAirinApi::class)
     private fun processModules(sharedProperties: MutableMap<String, Any?>) {
-        for ((_, module) in allModules.get()) {
+        for (module in allModules.get()) {
             val moduleComponent = allComponents.get().getValue(module.moduleComponentId!!)
             setupSharedProperties(moduleComponent, sharedProperties)
 
