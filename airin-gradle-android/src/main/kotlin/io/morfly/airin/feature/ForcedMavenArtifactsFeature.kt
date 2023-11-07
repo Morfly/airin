@@ -19,7 +19,7 @@ abstract class ForcedMavenArtifactsFeature : FeatureComponent() {
 
     override fun canProcess(target: Project) = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         if (artifacts.isEmpty()) return
 
         onContext<BzlContext>(id = RootModule.ID_MAVEN_DEPENDENCIES_BZL) {

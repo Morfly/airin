@@ -19,7 +19,7 @@ abstract class ParcelizeFeature : FeatureComponent() {
         hasPlugin("org.jetbrains.kotlin.plugin.parcelize") || hasPlugin(AirinAndroidGradlePlugin.ID)
     }
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {
 
             load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_compiler_plugin")

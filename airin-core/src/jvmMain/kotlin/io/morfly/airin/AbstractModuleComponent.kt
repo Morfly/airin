@@ -9,22 +9,22 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesH
     final override val subcomponents = linkedMapOf<ComponentId, Component<M>>()
 
     @InternalAirinApi
-    open fun invoke(packageDescriptor: M): PackageContext {
+    open fun invoke(module: M): PackageContext {
         val context = PackageContext()
-        if (packageDescriptor.skipped) return context
+        if (module.skipped) return context
 
         val features = subcomponents.values.asSequence()
             .filterIsInstance<AbstractFeatureComponent<M>>()
-            .filter { it.id in packageDescriptor.featureComponentIds }
+            .filter { it.id in module.featureComponentIds }
             .onEach { it.sharedProperties = sharedProperties }
-            .map { it.invoke(packageDescriptor) }
+            .map { it.invoke(module) }
             .toList()
 
-        packageDescriptor.dependencies = packageDescriptor.transformDependencies(features)
-        allMavenArtifacts += packageDescriptor.dependencies.values.flatten()
+        module.dependencies = module.transformDependencies(features)
+        allMavenArtifacts += module.dependencies.values.flatten()
             .filterIsInstance<MavenCoordinates>()
 
-        context.onInvoke(packageDescriptor)
+        context.onInvoke(module)
 
         for (file in context.starlarkFiles.values.flatten()) {
             for (feature in features) {
@@ -35,5 +35,5 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesH
         return context
     }
 
-    abstract fun PackageContext.onInvoke(packageDescriptor: M)
+    abstract fun PackageContext.onInvoke(module: M)
 }

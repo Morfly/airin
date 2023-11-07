@@ -2,6 +2,7 @@ package io.morfly.airin
 
 import io.morfly.pendant.starlark.lang.context.FileContext
 
+// TODO rename
 class PackageContext {
 
     val starlarkFiles = mutableMapOf<String, MutableList<FileContext>>()

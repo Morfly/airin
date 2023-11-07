@@ -56,7 +56,7 @@ abstract class AndroidToolsFeature : FeatureComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
 
         onContext<BuildContext>(id = RootModule.ID_BUILD) {
             load("@io_bazel_rules_kotlin//kotlin:core.bzl", "define_kt_toolchain")

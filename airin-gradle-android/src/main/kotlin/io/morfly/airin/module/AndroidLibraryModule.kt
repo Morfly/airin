@@ -23,7 +23,7 @@ abstract class AndroidLibraryModule : ModuleComponent() {
         hasPlugin("com.android.library") || hasPlugin("com.android.application")
     }
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun PackageContext.onInvoke(module: GradleModule) {
         val build = BUILD.bazel {
             _id = ID_BUILD
 
@@ -33,14 +33,14 @@ abstract class AndroidLibraryModule : ModuleComponent() {
             kt_android_library {
                 _id = ID_BUILD_TARGET_CALL
 
-                name = packageDescriptor.name
+                name = module.name
                 srcs = glob("src/main/**/*.kt")
-                custom_package = packageDescriptor.androidMetadata?.packageName
+                custom_package = module.androidMetadata?.packageName
                 manifest = "src/main/AndroidManifest.xml"
                 resource_files = glob("src/main/res/**")
                 visibility = list["//visibility:public"]
 
-                applyDependenciesFrom(packageDescriptor)
+                applyDependenciesFrom(module)
             }
         }
         generate(build)

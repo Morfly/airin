@@ -3,11 +3,11 @@ package io.morfly.airin
 abstract class AbstractFeatureComponent<M : Module> : Component<M>(), PropertiesHolder {
 
     @InternalAirinApi
-    open fun invoke(packageDescriptor: M): FeatureContext {
+    open fun invoke(module: M): FeatureContext {
         val context = FeatureContext()
-        context.onInvoke(packageDescriptor)
+        context.onInvoke(module)
         return context
     }
 
-    abstract fun FeatureContext.onInvoke(packageDescriptor: M)
+    abstract fun FeatureContext.onInvoke(module: M)
 }

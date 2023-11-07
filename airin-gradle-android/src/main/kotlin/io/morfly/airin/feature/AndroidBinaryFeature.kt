@@ -15,14 +15,14 @@ abstract class AndroidBinaryFeature : FeatureComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("com.android.application")
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         onContext<BuildContext>(AndroidLibraryModule.ID_BUILD) {
             android_binary {
-                name = "${packageDescriptor.name}_bin"
+                name = "${module.name}_bin"
                 incremental_dexing = 1
                 manifest = "src/main/AndroidManifest.xml"
                 manifest_values = dict {
-                    val data = packageDescriptor.androidMetadata
+                    val data = module.androidMetadata
 
                     "applicationId" to data?.applicationId
                     "minSdkVersion" to data?.minSdkVersion?.toString()
@@ -32,7 +32,7 @@ abstract class AndroidBinaryFeature : FeatureComponent() {
                     "versionName" to data?.versionName
                 }
                 multidex = "native"
-                deps = list[":${packageDescriptor.name}"]
+                deps = list[":${module.name}"]
             }
         }
     }

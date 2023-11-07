@@ -10,7 +10,7 @@ abstract class ArtifactMappingFeature : FeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         onConfiguration("implementation") {
             overrideWith("deps")
         }

@@ -45,7 +45,7 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     @OptIn(InternalAirinApi::class)
     private fun processModules(sharedProperties: MutableMap<String, Any?>) {
         for ((_, module) in allModules.get()) {
-            val moduleComponent = allComponents.get().getValue(module.packageComponentId!!)
+            val moduleComponent = allComponents.get().getValue(module.moduleComponentId!!)
             setupSharedProperties(moduleComponent, sharedProperties)
 
             val outputs = moduleComponent.invoke(module)

@@ -53,7 +53,7 @@ class DefaultProjectTransformer(
             label = GradleLabel(path = project.path, name = project.name),
             dirPath = project.projectDir.path,
             relativeDirPath = project.projectDir.relativeTo(project.rootDir).path,
-            packageComponentId = packageComponent?.id,
+            moduleComponentId = packageComponent?.id,
             featureComponentIds = featureComponents.map { it.id }.toSet(),
             originalDependencies = project.prepareDependencies()
         )
@@ -63,7 +63,7 @@ class DefaultProjectTransformer(
 
         val config = ModuleConfiguration(
             module = module,
-            component = module.packageComponentId?.let(components::getValue)
+            component = module.moduleComponentId?.let(components::getValue)
         )
         cache[project.path] = config
         return config

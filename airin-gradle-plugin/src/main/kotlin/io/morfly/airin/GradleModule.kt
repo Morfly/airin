@@ -10,13 +10,13 @@ data class GradleModule(
     override val dirPath: String,
     override val relativeDirPath: String,
     override val isRoot: Boolean,
-    override val packageComponentId: String?,
+    override val moduleComponentId: String?,
     override val featureComponentIds: Set<String>,
     override val originalDependencies: Map<ConfigurationName, List<Label>>
 ) : Module(), Serializable {
 
     override val skipped: Boolean
-        get() = packageComponentId == null
+        get() = moduleComponentId == null
 
     override lateinit var dependencies: Map<ConfigurationName, List<Label>>
 

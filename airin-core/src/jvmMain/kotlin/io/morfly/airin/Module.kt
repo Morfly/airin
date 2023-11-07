@@ -16,7 +16,7 @@ abstract class Module : PropertiesHolder {
 
     abstract val skipped: Boolean
 
-    abstract val packageComponentId: String?
+    abstract val moduleComponentId: String?
 
     abstract val featureComponentIds: Set<String>
 

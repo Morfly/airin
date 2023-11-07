@@ -11,7 +11,7 @@ abstract class JvmLibraryModule : ModuleComponent() {
         return false
     }
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun PackageContext.onInvoke(module: GradleModule) {
 
     }
 }

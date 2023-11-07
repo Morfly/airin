@@ -30,7 +30,7 @@ abstract class HiltAndroidFeature : FeatureComponent() {
         hasPlugin("com.google.dagger.hilt.android") || hasPlugin("io.morfly.airin.android")
     }
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,

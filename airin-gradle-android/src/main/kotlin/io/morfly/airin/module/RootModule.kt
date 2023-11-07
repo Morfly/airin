@@ -24,7 +24,7 @@ abstract class RootModule : ModuleComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleModule) {
+    override fun PackageContext.onInvoke(module: GradleModule) {
         val build = BUILD.bazel {
             _id = ID_BUILD
         }
@@ -32,7 +32,7 @@ abstract class RootModule : ModuleComponent() {
         val workspace = WORKSPACE {
             _id = ID_WORKSPACE
 
-            workspace(name = packageDescriptor.name)
+            workspace(name = module.name)
 
             load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
         }
