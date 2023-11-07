@@ -18,7 +18,7 @@ data class AndroidMetadata(
     }
 }
 
-var GradleProject.androidMetadata: AndroidMetadata?
+var GradleModule.androidMetadata: AndroidMetadata?
     get() = properties[AndroidMetadata.ID] as? AndroidMetadata
     set(value) {
         properties[AndroidMetadata.ID] = value

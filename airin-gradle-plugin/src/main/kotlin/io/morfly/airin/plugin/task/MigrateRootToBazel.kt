@@ -2,7 +2,7 @@ package io.morfly.airin.plugin.task
 
 import io.morfly.airin.ComponentId
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
 import io.morfly.airin.plugin.ProjectPath
 import org.gradle.api.file.RegularFileProperty
@@ -20,13 +20,13 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     abstract override val component: Property<GradlePackageComponent>
 
     @get:Input
-    abstract override val module: Property<GradleProject>
+    abstract override val module: Property<GradleModule>
 
     @get:Input
     abstract val allComponents: MapProperty<ComponentId, GradlePackageComponent>
 
     @get:Input
-    abstract val allModules: MapProperty<ProjectPath, GradleProject>
+    abstract val allModules: MapProperty<ProjectPath, GradleModule>
 
     @get:OutputFile
     abstract override val outputFile: RegularFileProperty

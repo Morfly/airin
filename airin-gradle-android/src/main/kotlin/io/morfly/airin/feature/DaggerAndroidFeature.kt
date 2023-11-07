@@ -2,7 +2,7 @@ package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.property
 import io.morfly.pendant.starlark.MavenInstallContext
@@ -22,7 +22,7 @@ abstract class DaggerAndroidFeature : GradleFeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,

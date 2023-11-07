@@ -2,7 +2,7 @@ package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.label.BazelLabel
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.airin.module.RootModule
@@ -30,7 +30,7 @@ abstract class HiltAndroidFeature : GradleFeatureComponent() {
         hasPlugin("com.google.dagger.hilt.android") || hasPlugin("io.morfly.airin.android")
     }
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,

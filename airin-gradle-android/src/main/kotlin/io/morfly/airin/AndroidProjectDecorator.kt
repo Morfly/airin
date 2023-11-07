@@ -12,7 +12,7 @@ private val xmlParser = XmlSlurper()
 
 open class AndroidProjectDecorator : GradleProjectDecorator {
 
-    override fun GradleProject.decorate(target: Project) {
+    override fun GradleModule.decorate(target: Project) {
         with(target.plugins) {
             if (!hasPlugin("com.android.application") && !hasPlugin("com.android.library")) {
                 return

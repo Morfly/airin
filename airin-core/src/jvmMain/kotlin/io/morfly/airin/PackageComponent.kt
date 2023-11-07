@@ -4,7 +4,7 @@ import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
 
 // TODO rename
-abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder,
+abstract class PackageComponent<P : Module> : Component<P>(), PropertiesHolder,
     ComponentsHolder<P> {
 
     final override val subcomponents = linkedMapOf<ComponentId, Component<P>>()

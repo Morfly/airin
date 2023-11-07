@@ -1,7 +1,7 @@
 package io.morfly.airin.module
 
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.PackageContext
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.airin.property
@@ -24,7 +24,7 @@ abstract class RootModule : GradlePackageComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun PackageContext.onInvoke(packageDescriptor: GradleModule) {
         val build = BUILD.bazel {
             _id = ID_BUILD
         }

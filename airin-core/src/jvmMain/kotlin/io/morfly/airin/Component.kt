@@ -2,7 +2,7 @@ package io.morfly.airin
 
 import io.morfly.airin.label.MavenCoordinates
 
-abstract class Component<P : PackageDescriptor> : HasId, PropertiesHolder, SharedPropertiesHolder {
+abstract class Component<P : Module> : HasId, PropertiesHolder, SharedPropertiesHolder {
 
     final override val properties = mutableMapOf<String, Any?>()
 

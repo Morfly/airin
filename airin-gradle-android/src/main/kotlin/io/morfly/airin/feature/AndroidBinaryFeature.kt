@@ -2,7 +2,7 @@ package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.androidMetadata
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.pendant.starlark.android_binary
@@ -15,7 +15,7 @@ abstract class AndroidBinaryFeature : GradleFeatureComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("com.android.application")
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
         onContext<BuildContext>(AndroidLibraryModule.ID_BUILD) {
             android_binary {
                 name = "${packageDescriptor.name}_bin"

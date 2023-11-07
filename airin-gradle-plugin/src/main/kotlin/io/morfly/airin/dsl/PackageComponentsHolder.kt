@@ -2,12 +2,12 @@ package io.morfly.airin.dsl
 
 import io.morfly.airin.ComponentsHolder
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 
-interface PackageComponentsHolder : ComponentsHolder<GradleProject> {
+interface PackageComponentsHolder : ComponentsHolder<GradleModule> {
 
     @get:Inject
     val objects: ObjectFactory

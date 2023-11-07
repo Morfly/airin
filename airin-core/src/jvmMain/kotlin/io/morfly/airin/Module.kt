@@ -2,7 +2,7 @@ package io.morfly.airin
 
 import io.morfly.airin.label.Label
 
-abstract class PackageDescriptor : PropertiesHolder {
+abstract class Module : PropertiesHolder {
 
     abstract val name: String
 
@@ -26,7 +26,7 @@ abstract class PackageDescriptor : PropertiesHolder {
         internal set
 }
 
-fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, List<Label>> {
+fun Module.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, List<Label>> {
     val transformedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
     val processedDependencies = mutableMapOf<ConfigurationName, MutableSet<Label>>()
 

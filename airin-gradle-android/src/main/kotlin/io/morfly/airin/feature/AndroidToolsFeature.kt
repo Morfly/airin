@@ -2,7 +2,7 @@ package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.property
 import io.morfly.pendant.starlark.android_sdk_repository
@@ -10,7 +10,6 @@ import io.morfly.pendant.starlark.define_kt_toolchain
 import io.morfly.pendant.starlark.http_archive
 import io.morfly.pendant.starlark.kotlin_repositories
 import io.morfly.pendant.starlark.kotlinc_version
-import io.morfly.pendant.starlark.ksp_version
 import io.morfly.pendant.starlark.lang.context.BuildContext
 import io.morfly.pendant.starlark.lang.context.WorkspaceContext
 import io.morfly.pendant.starlark.lang.onContext
@@ -57,7 +56,7 @@ abstract class AndroidToolsFeature : GradleFeatureComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
 
         onContext<BuildContext>(id = RootModule.ID_BUILD) {
             load("@io_bazel_rules_kotlin//kotlin:core.bzl", "define_kt_toolchain")

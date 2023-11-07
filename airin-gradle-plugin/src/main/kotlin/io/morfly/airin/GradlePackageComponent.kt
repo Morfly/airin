@@ -5,7 +5,7 @@ import io.morfly.airin.dsl.PackageComponentProperties
 import org.gradle.api.Project
 import java.io.Serializable
 
-abstract class GradlePackageComponent : PackageComponent<GradleProject>(),
+abstract class GradlePackageComponent : PackageComponent<GradleModule>(),
     Serializable,
     FeatureComponentsHolder,
     PackageComponentProperties {

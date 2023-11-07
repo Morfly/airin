@@ -1,6 +1,6 @@
 package io.morfly.airin
 
-abstract class FeatureComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder {
+abstract class FeatureComponent<P : Module> : Component<P>(), PropertiesHolder {
 
     @InternalAirinApi
     open fun invoke(packageDescriptor: P): FeatureContext {

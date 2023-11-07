@@ -2,7 +2,7 @@ package io.morfly.airin.dsl
 
 import io.morfly.airin.ComponentsHolder
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.HasId
 import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 interface FeatureComponentsHolder :
     HasId,
-    ComponentsHolder<GradleProject> {
+    ComponentsHolder<GradleModule> {
 
     @get:Inject
     val objects: ObjectFactory

@@ -4,7 +4,7 @@ import io.morfly.airin.Component
 import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleFeatureComponent
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
@@ -80,7 +80,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     }
 
     private fun prepareComponents(
-        components: Map<ComponentId, Component<GradleProject>>
+        components: Map<ComponentId, Component<GradleModule>>
     ): Map<ComponentId, GradlePackageComponent> {
         // Feature components shared with every package component
         val topLevelSharedFeatureComponents = components.values.asSequence()

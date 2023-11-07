@@ -1,7 +1,7 @@
 package io.morfly.airin.plugin.task
 
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
 import io.morfly.pendant.starlark.lang.context.FileContext
 import io.morfly.pendant.starlark.writer.StarlarkFileWriter
@@ -13,7 +13,7 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
 
     abstract val component: Property<GradlePackageComponent>
 
-    abstract val module: Property<GradleProject>
+    abstract val module: Property<GradleModule>
 
     abstract val outputFile: RegularFileProperty
 

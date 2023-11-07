@@ -2,7 +2,7 @@ package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
 import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.label.MavenCoordinates
 import org.gradle.api.Project
 
@@ -10,7 +10,7 @@ abstract class ArtifactMappingFeature : GradleFeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(packageDescriptor: GradleModule) {
         onConfiguration("implementation") {
             overrideWith("deps")
         }

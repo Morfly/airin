@@ -2,7 +2,7 @@ package io.morfly.airin.module
 
 import include
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.PackageContext
 import io.morfly.airin.applyDependenciesFrom
 import io.morfly.airin.feature.ArtifactMappingFeature
@@ -23,7 +23,7 @@ abstract class AndroidLibraryModule : GradlePackageComponent() {
         hasPlugin("com.android.library") || hasPlugin("com.android.application")
     }
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun PackageContext.onInvoke(packageDescriptor: GradleModule) {
         val build = BUILD.bazel {
             _id = ID_BUILD
 

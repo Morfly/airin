@@ -5,7 +5,7 @@ import io.morfly.airin.ComponentId
 import io.morfly.airin.ConfigurationName
 import io.morfly.airin.GradleFeatureComponent
 import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.dsl.AirinProperties
@@ -17,7 +17,7 @@ import org.gradle.api.artifacts.ExternalDependency
 import org.gradle.api.artifacts.ProjectDependency
 
 data class ModuleConfiguration(
-    val module: GradleProject,
+    val module: GradleModule,
     // TODO make non-null
     val component: GradlePackageComponent?
 )
@@ -47,7 +47,7 @@ class DefaultProjectTransformer(
             if (packageComponent == null) emptyList()
             else project.pickFeatureComponents(packageComponent)
 
-        val module = GradleProject(
+        val module = GradleModule(
             name = project.name,
             isRoot = project.rootProject.path == project.path,
             label = GradleLabel(path = project.path, name = project.name),
