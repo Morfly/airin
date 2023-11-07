@@ -20,25 +20,24 @@ class ProjectDependencyCollector(
     override operator fun invoke(inputProject: Project): Map<ProjectPath, Project> {
         val projects = mutableMapOf<ProjectPath, Project>()
 
-        fun traverse(project: Project) {
+        fun traverse(project: Project, transitive: Boolean) {
             if (project.path in projects) return
             if (project.path in cache) {
                 projects[project.path] = cache[project.path]!!
                 return
             }
+            projects[project.path] = project
+            if (!transitive) return
 
             val dependencies = project
                 .filterConfigurations(properties)
                 .flatMap { it.dependencies }
                 .filterIsInstance<ProjectDependency>()
                 .map { it.dependencyProject }
-            projects[project.path] = project
 
-            if (transitive) {
-                dependencies.forEach(::traverse)
-            }
+            dependencies.forEach { traverse(it, this.transitive) }
         }
-        traverse(inputProject)
+        traverse(inputProject, transitive = true)
 
         cache += projects
         return projects

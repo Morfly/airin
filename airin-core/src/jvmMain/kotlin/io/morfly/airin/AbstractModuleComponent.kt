@@ -9,8 +9,8 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesH
     final override val subcomponents = linkedMapOf<ComponentId, Component<M>>()
 
     @InternalAirinApi
-    open fun invoke(module: M): PackageContext {
-        val context = PackageContext()
+    open fun invoke(module: M): ModuleContext {
+        val context = ModuleContext()
         if (module.skipped) return context
 
         val features = subcomponents.values.asSequence()
@@ -35,5 +35,5 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesH
         return context
     }
 
-    abstract fun PackageContext.onInvoke(module: M)
+    abstract fun ModuleContext.onInvoke(module: M)
 }
