@@ -35,20 +35,21 @@ fun Module.transformDependencies(features: List<FeatureContext>): Map<Configurat
         for ((configuration, labels) in this.originalDependencies) {
             for (dependency in labels) {
                 val overrides = feature.dependencyOverrides[dependency.asShortLabel().toString()]
-                val depOverride = overrides?.get(configuration) ?: overrides?.get(null)
+                val depOverrides: List<DependencyOverride>? = overrides?.get(configuration) ?: overrides?.get(null)
                 val configOverrides = feature.configurationOverrides[configuration]
 
-                if (depOverride is DependencyOverride.Override) {
+                for (depOverride in depOverrides.orEmpty()) {
                     val configs = depOverride.configuration?.let(::listOf)
                         ?: configOverrides?.map { it.configuration }
                         ?: continue
+
                     for (config in configs) {
                         val dep = depOverride.label
                         transformedDependencies.getOrPut(config, ::mutableSetOf) += dep
                     }
                 }
 
-                if (depOverride != null) {
+                if (depOverrides != null) {
                     processedDependencies.getOrPut(configuration, ::mutableSetOf) += dependency
                 }
             }
