@@ -10,6 +10,7 @@ abstract class GradlePackageComponent : PackageComponent<GradleProject>(),
     FeatureComponentsHolder,
     PackageComponentProperties {
 
+    // TODO filter out ignored components
     final override var ignored by property(default = false)
     final override var shared by property(default = false)
     final override var priority by property(default = 1)

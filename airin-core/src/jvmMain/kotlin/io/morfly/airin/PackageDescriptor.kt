@@ -12,6 +12,7 @@ abstract class PackageDescriptor : PropertiesHolder {
 
     abstract val dirPath: String
 
+    // TODO remove
     abstract val skipped: Boolean
 
     abstract val packageComponentId: String?

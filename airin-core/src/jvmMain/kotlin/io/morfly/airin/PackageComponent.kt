@@ -3,6 +3,7 @@ package io.morfly.airin
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
 
+// TODO rename
 abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), PropertiesHolder,
     ComponentsHolder<P> {
 
