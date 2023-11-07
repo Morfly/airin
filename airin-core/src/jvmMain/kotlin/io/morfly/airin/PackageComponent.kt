@@ -9,16 +9,10 @@ abstract class PackageComponent<P : PackageDescriptor> : Component<P>(), Propert
 
     final override val subcomponents = linkedMapOf<ComponentId, Component<P>>()
 
-    // TODO remove includeSubcomponents
     @InternalAirinApi
-    open fun invoke(packageDescriptor: P, includeSubcomponents: Boolean = true): PackageContext {
+    open fun invoke(packageDescriptor: P): PackageContext {
         val context = PackageContext()
         if (packageDescriptor.skipped) return context
-
-        if (!includeSubcomponents) {
-            context.onInvoke(packageDescriptor)
-            return context
-        }
 
         val features = subcomponents.values.asSequence()
             .filterIsInstance<FeatureComponent<P>>()
