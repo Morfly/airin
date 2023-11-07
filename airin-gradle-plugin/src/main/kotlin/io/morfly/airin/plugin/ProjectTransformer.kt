@@ -17,9 +17,6 @@ import org.gradle.api.artifacts.ExternalDependency
 import org.gradle.api.artifacts.ProjectDependency
 
 data class ModuleConfiguration(
-    val path: String,
-    // TODO remove
-    val project: Project,
     val module: GradleProject,
     // TODO make non-null
     val component: GradlePackageComponent?
@@ -27,9 +24,7 @@ data class ModuleConfiguration(
 
 interface ProjectTransformer {
 
-    operator fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration>
-
-    operator fun invoke(project: Project): ModuleConfiguration
+    fun invoke(project: Project): ModuleConfiguration
 }
 
 class DefaultProjectTransformer(
@@ -39,9 +34,6 @@ class DefaultProjectTransformer(
     private val artifactCollector: ArtifactDependencyCollector
 ) : ProjectTransformer {
     private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()
-
-    override fun invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration> =
-        projects.mapValues { (_, project) -> invoke(project) }
 
     override fun invoke(project: Project): ModuleConfiguration {
         cache[project.path]?.let { return it }
@@ -69,8 +61,6 @@ class DefaultProjectTransformer(
         }
 
         val config = ModuleConfiguration(
-            path = project.path,
-            project = project,
             module = module,
             component = module.packageComponentId?.let(components::getValue)
         )
@@ -125,3 +115,6 @@ class DefaultProjectTransformer(
                 }
             }
 }
+
+fun ProjectTransformer.invoke(projects: Map<ProjectPath, Project>): Map<ProjectPath, ModuleConfiguration> =
+    projects.mapValues { (_, project) -> invoke(project) }

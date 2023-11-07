@@ -16,6 +16,7 @@ import org.gradle.api.tasks.TaskAction
 abstract class MigrateProjectToBazelTask : DefaultTask() {
 
     @get:Input
+    @get:Optional
     abstract val component: Property<GradlePackageComponent>
 
     @get:Input
@@ -27,6 +28,8 @@ abstract class MigrateProjectToBazelTask : DefaultTask() {
     @OptIn(InternalAirinApi::class)
     @TaskAction
     fun migrateProjectToBazel() {
+        if (!component.isPresent) return
+
         val component = component.get()
         val module = module.get()
 

@@ -46,30 +46,26 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             )
             for (inputProject in inputProjects) {
                 val allProjects = projectCollector.invoke(inputProject)
-                val allModules = transformer.invoke(allProjects)
+                    .filter { (path, _) -> path != target.path }
 
-                for ((_, project, module, component) in allModules.values) {
-                    if (module.skipped || component == null) continue
+                for (project in allProjects.values) {
                     registerMigrateProjectToBazelTask(
                         target = project,
-                        module = module,
-                        component = component
+                        transformer = transformer
                     )
                 }
 
-                val root = transformer.invoke(target)
                 val rootTaskName = inputProject.buildRootTaskName()
-                if (!root.module.skipped && root.component != null) {
-                    registerMigrateRootToBazel(
-                        target = target,
-                        name = rootTaskName,
-                        component = root.component,
-                        module = root.module,
-                        allComponents = components,
-                        allModules = allModules.mapValues { (_, config) -> config.module }
-                    )
-                }
-                inputProject.registerMigrateToBazel(
+                registerMigrateRootToBazel(
+                    target = target,
+                    name = rootTaskName,
+                    projects = allProjects,
+                    components = components,
+                    transformer = transformer
+                )
+
+                registerMigrateToBazel(
+                    target = inputProject,
                     root = target,
                     rootTaskName = rootTaskName,
                     allProjects = allProjects,
@@ -105,8 +101,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
     private fun registerMigrateProjectToBazelTask(
         target: Project,
-        module: GradleProject,
-        component: GradlePackageComponent
+        transformer: ProjectTransformer,
     ) {
         if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
@@ -114,30 +109,33 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             group = AIRIN_TASK_GROUP
             target.checkConfigureOnDemandFlag()
 
+            val (module, component) = transformer.invoke(target)
+
             this.component.set(component)
             this.module.set(module)
             this.outputDir.set(target.outputDirectory())
         }
     }
 
-    private fun Project.registerMigrateToBazel(
+    private fun registerMigrateToBazel(
+        target: Project,
         root: Project,
         rootTaskName: String,
         allProjects: Map<ProjectPath, Project>,
     ) {
-        tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+        target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
             group = AIRIN_TASK_GROUP
-            checkConfigureOnDemandFlag()
+            target.checkConfigureOnDemandFlag()
 
-            for ((_, project) in allProjects) {
-                val dependency = project.tasks
+            for ((_, dependencyProject) in allProjects) {
+                val dependencyTask = dependencyProject.tasks
                     .withType<MigrateProjectToBazelTask>()
                     .firstOrNull { it.name == MigrateProjectToBazelTask.NAME }
                     ?: continue
 
-                dependsOn(dependency)
-                if (dependency.outputDir.isPresent) {
-                    this.outputDirs.from(dependency.outputDir)
+                dependsOn(dependencyTask)
+                if (dependencyTask.outputDir.isPresent) {
+                    this.outputDirs.from(dependencyTask.outputDir)
                 }
             }
 
@@ -164,22 +162,24 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     private fun registerMigrateRootToBazel(
         target: Project,
         name: String,
-        component: GradlePackageComponent,
-        module: GradleProject,
-        allComponents: Map<ComponentId, GradlePackageComponent>,
-        allModules: Map<ProjectPath, GradleProject>
+        projects: Map<ProjectPath, Project>,
+        components: Map<ComponentId, GradlePackageComponent>,
+        transformer: ProjectTransformer
     ) {
         target.tasks.register<MigrateRootToBazel>(name) {
             group = AIRIN_TASK_GROUP
             target.checkConfigureOnDemandFlag()
 
-            val filteredModules = allModules
+            val (module, component) = transformer.invoke(target)
+
+            val allModules = transformer.invoke(projects)
+                .mapValues { (_, config) -> config.module }
                 .filter { (_, module) -> !module.skipped }
-                .filter { (path, _) -> path != this.path }
+
             this.component.set(component)
             this.module.set(module)
-            this.allComponents.set(allComponents)
-            this.allModules.set(filteredModules)
+            this.allComponents.set(components)
+            this.allModules.set(allModules)
         }
     }
 
