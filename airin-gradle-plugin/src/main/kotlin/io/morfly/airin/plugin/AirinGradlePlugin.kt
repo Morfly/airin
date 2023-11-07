@@ -7,6 +7,7 @@ import io.morfly.airin.GradlePackageComponent
 import io.morfly.airin.GradleProject
 import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
+import io.morfly.airin.dsl.AirinProperties
 import io.morfly.airin.plugin.task.MigrateProjectToBazelTask
 import io.morfly.airin.plugin.task.MigrateRootToBazel
 import io.morfly.airin.plugin.task.MigrateToBazelTask
@@ -32,9 +33,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         target.gradle.projectsEvaluated {
             if (!inputs.enabled) return@projectsEvaluated
 
-            if (inputs.inputProjects.isEmpty()) error("TODO1")
+            checkTargets(inputs)
 
-            val inputProjects = inputs.inputProjects.map(target::project)
+            val inputProjects = inputs.targets.map(target::project)
             val components = prepareComponents(inputs.subcomponents)
             // TODO replace with null check instead of default
             val decoratorClass =
@@ -52,6 +53,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     .filter { (path, _) -> path != target.path }
 
                 for (project in allProjects.values) {
+                    if (project.path in inputs.skippedProjects) continue
                     registerMigrateProjectToBazelTask(
                         target = project,
                         transformer = transformer
@@ -190,6 +192,12 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     private fun Project.checkConfigureOnDemandFlag() {
         require(properties["org.gradle.configureondemand"] != "true" || !gradle.startParameter.isConfigureOnDemand) {
             "Configuration on demand is not supported by Airin. Please run the task with --no-configure-on-demand flag or disable the org.gradle.configureondemand property."
+        }
+    }
+
+    private fun checkTargets(properties: AirinProperties) {
+        require(properties.targets.isNotEmpty()) {
+            "Migration targets must be configured with Airin"
         }
     }
 }

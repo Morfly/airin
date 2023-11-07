@@ -21,7 +21,7 @@ plugins {
 // If modifying components don't forget to run ./gradlew publishToMavenLocal --no-configuration-cache
 // Run ./gradlew simple-android:migrateToBazel to generate Bazel files.
 airin {
-    inputProjects += setOf(":app")
+    targets += setOf(":app")
     skippedProjects += setOf(":feature-A")
     onMissingComponent = MissingComponentResolution.Fail
     register<AndroidLibraryModule> {
