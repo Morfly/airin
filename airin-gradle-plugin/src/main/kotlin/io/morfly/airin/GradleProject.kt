@@ -20,9 +20,5 @@ data class GradleProject(
 
     override lateinit var dependencies: Map<ConfigurationName, List<Label>>
 
-    // TODO() remove
-    override lateinit var subpackages: List<GradleProject>
-        internal set
-
     override val properties = mutableMapOf<String, Any?>()
 }

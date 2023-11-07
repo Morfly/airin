@@ -32,7 +32,7 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
     protected fun processAndWrite() {
         val outputs = component.get().invoke(module.get())
         val generatedFiles = writeGeneratedFiles(outputs.starlarkFiles)
-        writeTaskOutputs(generatedFiles)
+        writeTaskOutputs(generatedFiles.sorted())
     }
 
     private fun writeGeneratedFiles(files: Map<String, List<FileContext>>): List<String> {
@@ -54,8 +54,12 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
     }
 
     private fun writeTaskOutputs(files: List<String>) {
-        val generatedFiles = files
-            .joinToString(separator = "\n") { "${module.get().relativeDirPath}/$it" }
+        val generatedFiles = files.joinToString(separator = "\n") {
+            val relativeDirPath = module.get().relativeDirPath
+
+            if (relativeDirPath.isBlank()) it
+            else "$relativeDirPath/$it"
+        }
 
         outputFile.get().asFile.writeText(generatedFiles)
     }

@@ -25,9 +25,6 @@ abstract class PackageDescriptor : PropertiesHolder {
 
     abstract var dependencies: Map<ConfigurationName, List<Label>>
         internal set
-
-    // TODO() remove
-    abstract val subpackages: List<PackageDescriptor>
 }
 
 fun PackageDescriptor.transformDependencies(features: List<FeatureContext>): Map<ConfigurationName, List<Label>> {
