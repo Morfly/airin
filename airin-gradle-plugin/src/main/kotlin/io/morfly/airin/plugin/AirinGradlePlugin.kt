@@ -112,7 +112,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
         target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
             group = AIRIN_TASK_GROUP
-            target.checkConfigureOnDemandFlag()
 
             val (module, component) = transformer.invoke(target)
 
@@ -130,7 +129,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     ) {
         target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
             group = AIRIN_TASK_GROUP
-            target.checkConfigureOnDemandFlag()
 
             for ((_, dependencyProject) in allProjects) {
                 val dependencyTask = dependencyProject.tasks
@@ -173,7 +171,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     ) {
         target.tasks.register<MigrateRootToBazel>(name) {
             group = AIRIN_TASK_GROUP
-            target.checkConfigureOnDemandFlag()
 
             val (module, component) = transformer.invoke(target)
 
@@ -186,12 +183,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             this.allComponents.set(components)
             this.allModules.set(allModules)
             this.outputFile.set(target.outputFile())
-        }
-    }
-
-    private fun Project.checkConfigureOnDemandFlag() {
-        require(properties["org.gradle.configureondemand"] != "true" || !gradle.startParameter.isConfigureOnDemand) {
-            "Configuration on demand is not supported by Airin. Please run the task with --no-configure-on-demand flag or disable the org.gradle.configureondemand property."
         }
     }
 
