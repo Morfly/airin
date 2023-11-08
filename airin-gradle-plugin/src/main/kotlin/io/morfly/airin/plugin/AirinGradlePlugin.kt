@@ -59,7 +59,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 }
 
                 val rootTaskName = inputProject.buildRootTaskName()
-                registerMigrateRootToBazel(
+                registerMigrateRootToBazelTask(
                     target = target,
                     name = rootTaskName,
                     projects = allProjects,
@@ -67,7 +67,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     transformer = transformer
                 )
 
-                registerMigrateToBazel(
+                registerMigrateToBazelTask(
                     target = inputProject,
                     root = target,
                     rootTaskName = rootTaskName,
@@ -119,7 +119,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    private fun registerMigrateToBazel(
+    private fun registerMigrateToBazelTask(
         target: Project,
         root: Project,
         rootTaskName: String,
@@ -160,7 +160,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         return "${MigrateRootToBazel.NAME}For$suffix"
     }
 
-    private fun registerMigrateRootToBazel(
+    private fun registerMigrateRootToBazelTask(
         target: Project,
         name: String,
         projects: Map<ProjectPath, Project>,
