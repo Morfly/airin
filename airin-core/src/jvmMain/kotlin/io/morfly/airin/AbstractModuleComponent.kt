@@ -3,8 +3,7 @@ package io.morfly.airin
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
 
-abstract class AbstractModuleComponent<M : Module> : Component<M>(), PropertiesHolder,
-    ComponentsHolder<M> {
+abstract class AbstractModuleComponent<M : Module> : Component<M>(), ComponentsHolder<M> {
 
     final override val subcomponents = linkedMapOf<ComponentId, Component<M>>()
 
