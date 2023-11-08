@@ -3,6 +3,7 @@ package io.morfly.airin.module
 import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.ModuleContext
+import io.morfly.airin.allMavenArtifacts
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.airin.property
 import io.morfly.pendant.starlark.lang.context.BUILD

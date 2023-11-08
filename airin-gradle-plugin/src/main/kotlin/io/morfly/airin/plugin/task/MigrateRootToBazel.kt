@@ -36,19 +36,16 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
         if (!component.isPresent) return
 
         val sharedProperties = mutableMapOf<String, Any?>()
-        setupSharedProperties(component.get(), sharedProperties)
         processModules(sharedProperties)
-
-        processAndWrite()
+        processAndWrite(sharedProperties)
     }
 
     @OptIn(InternalAirinApi::class)
     private fun processModules(sharedProperties: MutableMap<String, Any?>) {
         for (module in allModules.get()) {
             val moduleComponent = allComponents.get().getValue(module.moduleComponentId!!)
-            setupSharedProperties(moduleComponent, sharedProperties)
 
-            val outputs = moduleComponent.invoke(module)
+            val outputs = moduleComponent.invoke(module, sharedProperties)
             for ((_, builders) in outputs.starlarkFiles) {
                 for (builder in builders)
                     builder.build()

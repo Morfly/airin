@@ -8,19 +8,21 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), ComponentsH
     final override val subcomponents = linkedMapOf<ComponentId, Component<M>>()
 
     @InternalAirinApi
-    open fun invoke(module: M): ModuleContext {
-        val context = ModuleContext()
+    open fun invoke(
+        module: M,
+        sharedProperties: MutableMap<String, Any?>
+    ): ModuleContext {
+        val context = ModuleContext(sharedProperties)
         if (module.skipped) return context
 
         val features = subcomponents.values.asSequence()
             .filterIsInstance<AbstractFeatureComponent<M>>()
             .filter { it.id in module.featureComponentIds }
-            .onEach { it.sharedProperties = sharedProperties }
-            .map { it.invoke(module) }
+            .map { it.invoke(module, context.sharedProperties) }
             .toList()
 
         module.dependencies = module.transformDependencies(features)
-        allMavenArtifacts += module.dependencies.values.flatten()
+        context.allMavenArtifacts += module.dependencies.values.flatten()
             .filterIsInstance<MavenCoordinates>()
 
         context.onInvoke(module)

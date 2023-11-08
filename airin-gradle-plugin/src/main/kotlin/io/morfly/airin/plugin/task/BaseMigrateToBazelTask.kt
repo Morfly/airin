@@ -18,19 +18,8 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
     abstract val outputFile: RegularFileProperty
 
     @OptIn(InternalAirinApi::class)
-    protected fun setupSharedProperties(
-        component: ModuleComponent,
-        sharedProperties: MutableMap<String, Any?>
-    ) {
-        component.sharedProperties = sharedProperties
-        for ((_, feature) in component.subcomponents) {
-            feature.sharedProperties = sharedProperties
-        }
-    }
-
-    @OptIn(InternalAirinApi::class)
-    protected fun processAndWrite() {
-        val outputs = component.get().invoke(module.get())
+    protected fun processAndWrite(sharedProperties: MutableMap<String, Any?>) {
+        val outputs = component.get().invoke(module.get(), sharedProperties)
         val generatedFiles = writeGeneratedFiles(outputs.starlarkFiles)
         writeTaskOutputs(generatedFiles.sorted())
     }
