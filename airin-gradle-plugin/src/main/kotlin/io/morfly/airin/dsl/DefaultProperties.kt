@@ -26,3 +26,15 @@ interface FeatureComponentProperties {
     var ignored: Boolean
     var shared: Boolean
 }
+
+val defaultConfigurations
+    get() = mutableSetOf(
+        "implementation",
+        "debugImplementation",
+        "releaseImplementation",
+        "api",
+        "debugApi",
+        "releaseApi",
+        "kapt",
+        "ksp"
+    )

@@ -27,9 +27,7 @@ abstract class AirinExtension :
     override var projectDecorator by property<Class<out GradleProjectDecorator>?>(null)
     override var targets by property(mutableSetOf<String>())
     override var skippedProjects by property(mutableSetOf<String>())
-    override var configurations by property(
-        mutableSetOf("implementation", "api", "kapt", "ksp")
-    )
+    override var configurations by property(defaultConfigurations)
     override var skippedConfigurations by property(mutableSetOf<String>())
     override var onComponentConflict by property(UsePriority)
     override var onMissingComponent by property(Ignore)
