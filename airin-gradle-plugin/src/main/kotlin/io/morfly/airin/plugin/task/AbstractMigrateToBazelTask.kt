@@ -11,7 +11,7 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.Property
 import java.io.File
 
-abstract class BaseMigrateToBazelTask : DefaultTask() {
+abstract class AbstractMigrateToBazelTask : DefaultTask() {
 
     abstract val component: Property<ModuleComponent>
 

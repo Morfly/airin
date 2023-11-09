@@ -13,7 +13,7 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputFiles
 import org.gradle.api.tasks.TaskAction
 
-abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
+abstract class MigrateRootToBazel : AbstractMigrateToBazelTask() {
 
     @get:Input
     @get:Optional
