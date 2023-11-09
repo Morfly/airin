@@ -4,7 +4,7 @@ import io.morfly.airin.label.MavenCoordinates
 
 interface SharedPropertiesHolder {
 
-    val sharedProperties: MutableMap<String, Any?>
+    val sharedProperties: MutableMap<String, Any>
 }
 
 @Suppress("UNCHECKED_CAST")

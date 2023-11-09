@@ -21,7 +21,7 @@ abstract class AirinExtension :
 
     override val subcomponents: MutableMap<ComponentId, Component<GradleModule>> = linkedMapOf()
 
-    override val properties: MutableMap<String, Any?> = mutableMapOf()
+    override val properties: MutableMap<String, Any> = mutableMapOf()
 
     override var enabled by property(true)
     override var projectDecorator by property<Class<out GradleProjectDecorator>?>(null)

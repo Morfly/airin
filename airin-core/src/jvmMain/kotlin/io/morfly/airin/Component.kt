@@ -2,7 +2,7 @@ package io.morfly.airin
 
 abstract class Component<P : Module> : HasId, PropertiesHolder {
 
-    final override val properties = mutableMapOf<String, Any?>()
+    final override val properties = mutableMapOf<String, Any>()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

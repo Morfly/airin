@@ -20,7 +20,7 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
     abstract val outputFiles: ConfigurableFileCollection
 
     @OptIn(InternalAirinApi::class)
-    protected fun processAndWrite(sharedProperties: MutableMap<String, Any?>) {
+    protected fun processAndWrite(sharedProperties: MutableMap<String, Any>) {
         val outputs = component.get().invoke(module.get(), sharedProperties)
         writeGeneratedFiles(outputs.starlarkFiles)
     }

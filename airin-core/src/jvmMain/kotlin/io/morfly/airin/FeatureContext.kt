@@ -5,7 +5,7 @@ import io.morfly.pendant.starlark.lang.ModifierCollection
 import io.morfly.pendant.starlark.lang.ModifiersHolder
 
 class FeatureContext(
-    override val sharedProperties: MutableMap<String, Any?> = mutableMapOf()
+    override val sharedProperties: MutableMap<String, Any> = mutableMapOf()
 ) : ModifiersHolder, DependencyOverridesHolder, ConfigurationOverridesHolder, AddedDependencyHolder,
     SharedPropertiesHolder {
 

@@ -11,7 +11,7 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), ComponentsH
     @InternalAirinApi
     open fun invoke(
         module: M,
-        sharedProperties: MutableMap<String, Any?>
+        sharedProperties: MutableMap<String, Any>
     ): ModuleContext {
         val context = ModuleContext(sharedProperties)
         if (module.skipped) return context

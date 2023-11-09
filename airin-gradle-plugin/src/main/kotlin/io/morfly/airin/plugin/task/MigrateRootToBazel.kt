@@ -35,13 +35,13 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     fun migrateRootToBazel() {
         if (!component.isPresent) return
 
-        val sharedProperties = mutableMapOf<String, Any?>()
+        val sharedProperties = mutableMapOf<String, Any>()
         processModules(sharedProperties)
         processAndWrite(sharedProperties)
     }
 
     @OptIn(InternalAirinApi::class)
-    private fun processModules(sharedProperties: MutableMap<String, Any?>) {
+    private fun processModules(sharedProperties: MutableMap<String, Any>) {
         for (module in allModules.get()) {
             val moduleComponent = allComponents.get().getValue(module.moduleComponentId!!)
 

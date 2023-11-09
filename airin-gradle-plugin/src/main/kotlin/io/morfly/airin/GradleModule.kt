@@ -20,5 +20,5 @@ data class GradleModule(
 
     override lateinit var dependencies: Map<ConfigurationName, List<Label>>
 
-    override val properties = mutableMapOf<String, Any?>()
+    override val properties = mutableMapOf<String, Any>()
 }

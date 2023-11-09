@@ -25,7 +25,7 @@ abstract class MigrateProjectToBazelTask : BaseMigrateToBazelTask() {
     fun migrateProjectToBazel() {
         if (!component.isPresent) return
 
-        val sharedProperties = mutableMapOf<String, Any?>()
+        val sharedProperties = mutableMapOf<String, Any>()
         processAndWrite(sharedProperties)
     }
 
