@@ -3,11 +3,12 @@ package io.morfly.airin.plugin
 import io.morfly.airin.Component
 import io.morfly.airin.ComponentId
 import io.morfly.airin.FeatureComponent
-import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.GradleProjectDecorator
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
+import io.morfly.airin.extractFilePaths
 import io.morfly.airin.plugin.task.MigrateProjectToBazelTask
 import io.morfly.airin.plugin.task.MigrateRootToBazel
 import io.morfly.airin.plugin.task.MigrateToBazelTask
@@ -112,10 +113,11 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             group = AIRIN_TASK_GROUP
 
             val (module, component) = transformer.invoke(target)
+            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
 
             this.component.set(component)
             this.module.set(module)
-            this.outputFile.set(target.outputFile())
+            this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
     }
 
@@ -135,9 +137,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     ?: continue
 
                 dependsOn(dependencyTask)
-                if (dependencyTask.outputFile.isPresent) {
-                    this.outputFiles.from(dependencyTask.outputFile)
-                }
+                this.outputFiles.from(dependencyTask.outputFiles)
             }
 
             val rootTask = root.tasks
@@ -145,9 +145,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 .firstOrNull { it.name == rootTaskName }
             if (rootTask != null) {
                 dependsOn(rootTask)
-                if (rootTask.outputFile.isPresent) {
-                    this.outputFiles.from(rootTask.outputFile)
-                }
+                this.outputFiles.from(rootTask.outputFiles)
             }
         }
     }
@@ -176,12 +174,13 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 .values
                 .map { it.module }
                 .filter { !it.skipped }
+            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
 
             this.component.set(component)
             this.module.set(module)
             this.allComponents.set(components)
             this.allModules.set(allModules)
-            this.outputFile.set(target.outputFile())
+            this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
     }
 

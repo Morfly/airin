@@ -1,13 +1,15 @@
 package io.morfly.airin.plugin.task
 
-import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
+import io.morfly.airin.ModuleComponent
+import io.morfly.pendant.starlark.element.StarlarkFile
 import io.morfly.pendant.starlark.lang.context.FileContext
 import io.morfly.pendant.starlark.writer.StarlarkFileWriter
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.Property
+import java.io.File
 
 abstract class BaseMigrateToBazelTask : DefaultTask() {
 
@@ -15,41 +17,30 @@ abstract class BaseMigrateToBazelTask : DefaultTask() {
 
     abstract val module: Property<GradleModule>
 
-    abstract val outputFile: RegularFileProperty
+    abstract val outputFiles: ConfigurableFileCollection
 
     @OptIn(InternalAirinApi::class)
     protected fun processAndWrite(sharedProperties: MutableMap<String, Any?>) {
         val outputs = component.get().invoke(module.get(), sharedProperties)
-        val generatedFiles = writeGeneratedFiles(outputs.starlarkFiles)
-        writeTaskOutputs(generatedFiles.sorted())
+        writeGeneratedFiles(outputs.starlarkFiles)
     }
 
-    private fun writeGeneratedFiles(files: Map<String, List<FileContext>>): List<String> {
+    private fun writeGeneratedFiles(files: Map<String, List<FileContext>>) {
         val module = module.get()
-        val relativeFilePaths = mutableListOf<String>()
+        val outputFiles = outputFiles.files
 
         for ((relativeDirPath, builders) in files) {
             for (builder in builders) {
                 val path = "${module.dirPath}/$relativeDirPath"
                 val file = builder.build()
+                outputFiles.validateFilePath(path, file)
                 StarlarkFileWriter.write(path, file)
-
-                relativeFilePaths +=
-                    if (relativeDirPath.isBlank()) file.name
-                    else "$relativeDirPath/${file.name}"
             }
         }
-        return relativeFilePaths
     }
 
-    private fun writeTaskOutputs(files: List<String>) {
-        val generatedFiles = files.joinToString(separator = "\n") {
-            val relativeDirPath = module.get().relativeDirPath
-
-            if (relativeDirPath.isBlank()) it
-            else "$relativeDirPath/$it"
-        }
-
-        outputFile.get().asFile.writeText(generatedFiles)
+    private fun Set<File>.validateFilePath(path: String, file: StarlarkFile) {
+        val filePath = "$path/${file.name}"
+        require(File(filePath) in this) { "Invalid file path: $filePath" }
     }
 }

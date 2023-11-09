@@ -4,13 +4,13 @@ import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleModule
 import io.morfly.airin.InternalAirinApi
 import io.morfly.airin.ModuleComponent
-import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.OutputFiles
 import org.gradle.api.tasks.TaskAction
 
 abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
@@ -28,8 +28,8 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     @get:Input
     abstract val allModules: ListProperty<GradleModule>
 
-    @get:OutputFile
-    abstract override val outputFile: RegularFileProperty
+    @get:OutputFiles
+    abstract override val outputFiles: ConfigurableFileCollection
 
     @TaskAction
     fun migrateRootToBazel() {
