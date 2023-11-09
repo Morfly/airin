@@ -23,14 +23,14 @@ abstract class AirinExtension :
 
     override val properties: MutableMap<String, Any> = mutableMapOf()
 
-    override var enabled by property(true)
-    override var projectDecorator by property<Class<out GradleProjectDecorator>?>(null)
-    override var targets by property(mutableSetOf<String>())
-    override var skippedProjects by property(mutableSetOf<String>())
-    override var configurations by property(defaultConfigurations)
-    override var skippedConfigurations by property(mutableSetOf<String>())
-    override var onComponentConflict by property(UsePriority)
-    override var onMissingComponent by property(Ignore)
+    override var enabled by property(default = true)
+    override var projectDecorator by property<Class<out GradleProjectDecorator>?>(default = null)
+    override var targets by property(default = mutableSetOf<String>())
+    override var skippedProjects by property(default = mutableSetOf<String>())
+    override var configurations by property(default = defaultConfigurations)
+    override var skippedConfigurations by property(default = mutableSetOf<String>())
+    override var onComponentConflict by property(default = UsePriority)
+    override var onMissingComponent by property(default = Ignore)
 
     companion object {
         const val NAME = "airin"
