@@ -6,7 +6,7 @@ import io.morfly.airin.ConfigurationName
 import io.morfly.airin.FeatureComponent
 import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
-import io.morfly.airin.GradleProjectDecorator
+import io.morfly.airin.GradleModuleDecorator
 import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.dsl.AirinProperties
 import io.morfly.airin.label.GradleLabel
@@ -29,7 +29,7 @@ interface ProjectTransformer {
 class DefaultProjectTransformer(
     private val components: Map<ComponentId, ModuleComponent>,
     private val properties: AirinProperties,
-    private val decorator: GradleProjectDecorator,
+    private val decorator: GradleModuleDecorator,
     private val artifactCollector: ArtifactDependencyCollector
 ) : ProjectTransformer {
     private val cache = mutableMapOf<ProjectPath, ModuleConfiguration>()

@@ -4,7 +4,7 @@ import io.morfly.airin.Component
 import io.morfly.airin.ComponentId
 import io.morfly.airin.FeatureComponent
 import io.morfly.airin.GradleModule
-import io.morfly.airin.GradleProjectDecorator
+import io.morfly.airin.GradleModuleDecorator
 import io.morfly.airin.ModuleComponent
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
@@ -23,7 +23,7 @@ const val AIRIN_TASK_GROUP = "Airin Bazel migration"
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
-    abstract val defaultProjectDecorator: Class<out GradleProjectDecorator>
+    abstract val defaultProjectDecorator: Class<out GradleModuleDecorator>
 
     override fun apply(target: Project) {
         require(target.rootProject.path == target.path) {

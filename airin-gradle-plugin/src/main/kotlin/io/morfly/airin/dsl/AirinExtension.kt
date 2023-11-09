@@ -4,7 +4,7 @@ import io.morfly.airin.Component
 import io.morfly.airin.ComponentConflictResolution.UsePriority
 import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleModule
-import io.morfly.airin.GradleProjectDecorator
+import io.morfly.airin.GradleModuleDecorator
 import io.morfly.airin.HasId
 import io.morfly.airin.MissingComponentResolution.Ignore
 import io.morfly.airin.PropertiesHolder
@@ -24,13 +24,17 @@ abstract class AirinExtension :
     override val properties: MutableMap<String, Any> = mutableMapOf()
 
     override var enabled by property(default = true)
-    override var projectDecorator by property<Class<out GradleProjectDecorator>?>(default = null)
+    override var projectDecorator by property<Class<out GradleModuleDecorator>?>(default = null)
     override var targets by property(default = mutableSetOf<String>())
     override var skippedProjects by property(default = mutableSetOf<String>())
     override var configurations by property(default = defaultConfigurations)
     override var skippedConfigurations by property(default = mutableSetOf<String>())
     override var onComponentConflict by property(default = UsePriority)
     override var onMissingComponent by property(default = Ignore)
+
+    fun <D : GradleModuleDecorator> decorateWith(type: Class<D>) {
+        projectDecorator = type
+    }
 
     companion object {
         const val NAME = "airin"

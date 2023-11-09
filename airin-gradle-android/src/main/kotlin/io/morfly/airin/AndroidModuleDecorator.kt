@@ -10,7 +10,7 @@ import java.io.File
 
 private val xmlParser = XmlSlurper()
 
-open class AndroidProjectDecorator : GradleProjectDecorator {
+open class AndroidModuleDecorator : GradleModuleDecorator {
 
     override fun GradleModule.decorate(target: Project) {
         with(target.plugins) {

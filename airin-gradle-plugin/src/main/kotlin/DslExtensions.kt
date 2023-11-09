@@ -1,6 +1,6 @@
 import io.morfly.airin.FeatureComponent
+import io.morfly.airin.GradleModuleDecorator
 import io.morfly.airin.ModuleComponent
-import io.morfly.airin.GradleProjectDecorator
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.FeatureComponentsHolder
 import io.morfly.airin.dsl.PackageComponentsHolder
@@ -12,6 +12,6 @@ inline fun <reified C : ModuleComponent> PackageComponentsHolder.register(config
 inline fun <reified C : FeatureComponent> FeatureComponentsHolder.include(config: Action<C>? = null) =
     include(C::class.java, config)
 
-inline fun <reified D: GradleProjectDecorator> AirinExtension.decorateWith() {
-    projectDecorator = D::class.java
+inline fun <reified D : GradleModuleDecorator> AirinExtension.decorateWith() {
+    decorateWith(D::class.java)
 }
