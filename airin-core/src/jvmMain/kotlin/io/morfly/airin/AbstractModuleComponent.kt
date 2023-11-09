@@ -2,6 +2,7 @@ package io.morfly.airin
 
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.pendant.starlark.lang.append
+import io.morfly.pendant.starlark.lang.context.FileContext
 
 abstract class AbstractModuleComponent<M : Module> : Component<M>(), ComponentsHolder<M> {
 
@@ -37,4 +38,10 @@ abstract class AbstractModuleComponent<M : Module> : Component<M>(), ComponentsH
     }
 
     abstract fun ModuleContext.onInvoke(module: M)
+}
+
+fun <M : Module> AbstractModuleComponent<M>.extractFilePaths(module: M): Map<String, List<FileContext>> {
+    val context = ModuleContext()
+    context.onInvoke(module)
+    return context.starlarkFiles
 }
