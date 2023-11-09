@@ -4,5 +4,5 @@ import org.gradle.api.Project
 
 interface GradleModuleDecorator {
 
-    fun GradleModule.decorate(target: Project)
+    fun GradleModule.decorate(project: Project)
 }

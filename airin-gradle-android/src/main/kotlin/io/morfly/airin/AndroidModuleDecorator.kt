@@ -12,22 +12,22 @@ private val xmlParser = XmlSlurper()
 
 open class AndroidModuleDecorator : GradleModuleDecorator {
 
-    override fun GradleModule.decorate(target: Project) {
-        with(target.plugins) {
+    override fun GradleModule.decorate(project: Project) {
+        with(project.plugins) {
             if (!hasPlugin("com.android.application") && !hasPlugin("com.android.library")) {
                 return
             }
         }
 
         androidMetadata = AndroidMetadata(
-            applicationId = target.applicationId,
-            packageName = target.namespace ?: target.manifestPackageName,
-            composeEnabled = target.composeEnabled,
-            minSdkVersion = target.minSdkVersion,
-            compileSdkVersion = target.compileSdkVersion,
-            targetSdkVersion = target.targetSdkVersion,
-            versionCode = target.versionCode,
-            versionName = target.versionName
+            applicationId = project.applicationId,
+            packageName = project.namespace ?: project.manifestPackageName,
+            composeEnabled = project.composeEnabled,
+            minSdkVersion = project.minSdkVersion,
+            compileSdkVersion = project.compileSdkVersion,
+            targetSdkVersion = project.targetSdkVersion,
+            versionCode = project.versionCode,
+            versionName = project.versionName
         )
     }
 }
