@@ -23,6 +23,9 @@ abstract class MigrateRootToBazel : BaseMigrateToBazelTask() {
     abstract override val module: Property<GradleModule>
 
     @get:Input
+    abstract val properties: MapProperty<String, Any>
+
+    @get:Input
     abstract val allComponents: MapProperty<ComponentId, ModuleComponent>
 
     @get:Input

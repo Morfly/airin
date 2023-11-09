@@ -55,7 +55,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     if (project.path in inputs.skippedProjects) continue
                     registerMigrateProjectToBazelTask(
                         target = project,
-                        transformer = transformer
+                        transformer = transformer,
+                        properties = inputs.properties
                     )
                 }
 
@@ -65,7 +66,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     name = rootTaskName,
                     projects = allProjects,
                     components = components,
-                    transformer = transformer
+                    transformer = transformer,
+                    properties = inputs.properties
                 )
 
                 registerMigrateToBazelTask(
@@ -106,6 +108,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
     private fun registerMigrateProjectToBazelTask(
         target: Project,
         transformer: ProjectTransformer,
+        properties: Map<String, Any>,
     ) {
         if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
@@ -117,6 +120,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
             this.component.set(component)
             this.module.set(module)
+            this.properties.set(properties)
             this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
     }
@@ -163,7 +167,8 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         name: String,
         projects: Map<ProjectPath, Project>,
         components: Map<ComponentId, ModuleComponent>,
-        transformer: ProjectTransformer
+        transformer: ProjectTransformer,
+        properties: Map<String, Any>,
     ) {
         target.tasks.register<MigrateRootToBazel>(name) {
             group = AIRIN_TASK_GROUP
@@ -178,6 +183,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
             this.component.set(component)
             this.module.set(module)
+            this.properties.set(properties)
             this.allComponents.set(components)
             this.allModules.set(allModules)
             this.outputFiles.from(target.outputFiles(starlarkFiles))
