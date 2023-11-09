@@ -105,26 +105,6 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             .associateBy { it.id }
     }
 
-    private fun registerMigrateProjectToBazelTask(
-        target: Project,
-        transformer: ProjectTransformer,
-        properties: Map<String, Any>,
-    ) {
-        if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
-
-        target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
-            group = AIRIN_TASK_GROUP
-
-            val (module, component) = transformer.invoke(target)
-            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
-
-            this.component.set(component)
-            this.module.set(module)
-            this.properties.set(properties)
-            this.outputFiles.from(target.outputFiles(starlarkFiles))
-        }
-    }
-
     private fun registerMigrateToBazelTask(
         target: Project,
         root: Project,
@@ -151,6 +131,26 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 dependsOn(rootTask)
                 this.outputFiles.from(rootTask.outputFiles)
             }
+        }
+    }
+
+    private fun registerMigrateProjectToBazelTask(
+        target: Project,
+        transformer: ProjectTransformer,
+        properties: Map<String, Any>,
+    ) {
+        if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
+
+        target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
+            group = AIRIN_TASK_GROUP
+
+            val (module, component) = transformer.invoke(target)
+            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
+
+            this.component.set(component)
+            this.module.set(module)
+            this.properties.set(properties)
+            this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
     }
 
@@ -192,7 +192,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
 
     private fun checkTargets(properties: AirinProperties) {
         require(properties.targets.isNotEmpty()) {
-            "Migration targets must be configured with Airin"
+            "No targets configured for Bazel migration. Please configure targets property with Airin plugin."
         }
     }
 }
