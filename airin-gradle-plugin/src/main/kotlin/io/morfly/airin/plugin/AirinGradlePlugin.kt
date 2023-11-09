@@ -19,7 +19,7 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 
-const val AIRIN_TASK_GROUP = "Airin Bazel migration"
+const val AIRIN_TASK_GROUP = "Bazel migration"
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
