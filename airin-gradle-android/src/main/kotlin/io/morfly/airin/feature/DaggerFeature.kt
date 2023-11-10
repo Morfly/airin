@@ -1,8 +1,8 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.FeatureComponent
+import io.morfly.airin.GradleModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.property
 import io.morfly.pendant.starlark.MavenInstallContext
@@ -15,14 +15,14 @@ import io.morfly.pendant.starlark.lang.onContext
 import io.morfly.pendant.starlark.lang.type.StringType
 import org.gradle.api.Project
 
-abstract class DaggerFeature : GradleFeatureComponent() {
+abstract class DaggerFeature : FeatureComponent() {
 
     val daggerVersion by property("2.47")
     val daggerSha by property("154cdfa4f6f552a9873e2b4448f7a80415cb3427c4c771a50c6a8a8b434ffd0a")
 
     override fun canProcess(target: Project): Boolean = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,

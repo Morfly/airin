@@ -3,7 +3,7 @@ package io.morfly.airin
 import java.io.Serializable
 import kotlin.reflect.KProperty
 
-class PropertyDelegate<V : Any>(val defaultValue: V) : Serializable {
+class PropertyDelegate<V>(val defaultValue: V) : Serializable {
 
     operator fun provideDelegate(
         holder: PropertiesHolder, property: KProperty<*>
@@ -11,7 +11,11 @@ class PropertyDelegate<V : Any>(val defaultValue: V) : Serializable {
         require(property.name !in holder.properties) {
             "Property ${property.name} already exists in ${holder::class.simpleName}"
         }
-        holder.properties[property.name] = defaultValue
+        if (defaultValue != null) {
+            holder.properties[property.name] = defaultValue
+        } else {
+            holder.properties.remove(property.name)
+        }
         return this
     }
 
@@ -21,10 +25,14 @@ class PropertyDelegate<V : Any>(val defaultValue: V) : Serializable {
     }
 
     operator fun setValue(holder: PropertiesHolder, property: KProperty<*>, value: V) {
-        holder.properties[property.name] = value
+        if (value != null) {
+            holder.properties[property.name] = value
+        } else {
+            holder.properties.remove(property.name)
+        }
     }
 }
 
-fun <V : Any> PropertiesHolder.property(default: V): PropertyDelegate<V> {
+fun <V> PropertiesHolder.property(default: V): PropertyDelegate<V> {
     return PropertyDelegate(default)
 }

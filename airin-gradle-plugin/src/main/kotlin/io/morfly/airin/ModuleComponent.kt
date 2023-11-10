@@ -5,7 +5,7 @@ import io.morfly.airin.dsl.PackageComponentProperties
 import org.gradle.api.Project
 import java.io.Serializable
 
-abstract class GradlePackageComponent : PackageComponent<GradleProject>(),
+abstract class ModuleComponent : AbstractModuleComponent<GradleModule>(),
     Serializable,
     FeatureComponentsHolder,
     PackageComponentProperties {
@@ -16,5 +16,5 @@ abstract class GradlePackageComponent : PackageComponent<GradleProject>(),
 
     override val id: String = javaClass.simpleName
 
-    open fun canProcess(target: Project): Boolean = false
+    abstract fun canProcess(target: Project): Boolean
 }

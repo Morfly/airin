@@ -1,8 +1,9 @@
 package io.morfly.airin.module
 
-import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
-import io.morfly.airin.PackageContext
+import io.morfly.airin.ModuleComponent
+import io.morfly.airin.GradleModule
+import io.morfly.airin.ModuleContext
+import io.morfly.airin.allMavenArtifacts
 import io.morfly.airin.label.MavenCoordinates
 import io.morfly.airin.property
 import io.morfly.pendant.starlark.lang.context.BUILD
@@ -12,7 +13,7 @@ import io.morfly.pendant.starlark.lang.context.bzl
 import io.morfly.pendant.starlark.workspace
 import org.gradle.api.Project
 
-abstract class RootModule : GradlePackageComponent() {
+abstract class RootModule : ModuleComponent() {
 
     val composeVersion by property("1.4.3")
     val composeMaterial3Version by property("1.1.1")
@@ -24,7 +25,7 @@ abstract class RootModule : GradlePackageComponent() {
     override fun canProcess(target: Project): Boolean =
         target.plugins.hasPlugin("io.morfly.airin.android")
 
-    override fun PackageContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun ModuleContext.onInvoke(module: GradleModule) {
         val build = BUILD.bazel {
             _id = ID_BUILD
         }
@@ -32,7 +33,7 @@ abstract class RootModule : GradlePackageComponent() {
         val workspace = WORKSPACE {
             _id = ID_WORKSPACE
 
-            workspace(name = packageDescriptor.name)
+            workspace(name = module.name)
 
             load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
         }

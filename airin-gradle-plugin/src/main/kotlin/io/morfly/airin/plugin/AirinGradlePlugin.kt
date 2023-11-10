@@ -1,239 +1,198 @@
 package io.morfly.airin.plugin
 
 import io.morfly.airin.Component
-import io.morfly.airin.ComponentConflictResolution
 import io.morfly.airin.ComponentId
-import io.morfly.airin.ConfigurationName
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradlePackageComponent
-import io.morfly.airin.GradleProject
-import io.morfly.airin.GradleProjectDecorator
-import io.morfly.airin.InternalAirinApi
-import io.morfly.airin.MissingComponentResolution
+import io.morfly.airin.FeatureComponent
+import io.morfly.airin.GradleModule
+import io.morfly.airin.GradleModuleDecorator
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
-import io.morfly.airin.label.GradleLabel
-import io.morfly.airin.label.Label
-import io.morfly.airin.label.MavenCoordinates
+import io.morfly.airin.extractFilePaths
+import io.morfly.airin.plugin.task.MigrateProjectToBazelTask
+import io.morfly.airin.plugin.task.MigrateRootToBazel
+import io.morfly.airin.plugin.task.MigrateToBazelTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.artifacts.ExternalDependency
-import org.gradle.api.artifacts.ProjectDependency
-import org.gradle.api.file.RegularFile
+import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.withType
+
+const val AIRIN_TASK_GROUP = "Airin Bazel migration"
 
 abstract class AirinGradlePlugin : Plugin<Project> {
 
-    abstract val defaultProjectDecorator: Class<out GradleProjectDecorator>
+    abstract val defaultProjectDecorator: Class<out GradleModuleDecorator>
 
     override fun apply(target: Project) {
         require(target.rootProject.path == target.path) {
             "Airin must be applied to the root project but was applied to ${target.path}!"
         }
-
         val inputs = target.extensions.create<AirinExtension>(AirinExtension.NAME)
 
-        target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
-            val decoratorClass =
-                if (inputs.projectDecorator != GradleProjectDecorator::class.java) inputs.projectDecorator
-                else defaultProjectDecorator
+        target.gradle.projectsEvaluated {
+            if (!inputs.enabled) return@projectsEvaluated
 
+            checkTargets(inputs)
+
+            val inputProjects = inputs.targets.map(target::project)
             val components = prepareComponents(inputs.subcomponents)
-            val outputFiles = mutableListOf<RegularFile>()
-            val root = prepareProjects(
-                root = target,
-                allowedProjects = filterAllowedProjects(target, inputs),
-                components = components,
-                properties = inputs,
-                decorator = inputs.objects.newInstance(decoratorClass),
-                outputFiles = outputFiles
-            )
 
-            this.components.set(components)
-            this.properties.set(inputs.properties)
-            this.root.set(root)
-            this.outputFiles.setFrom(outputFiles)
+            val decoratorClass = inputs.projectDecorator ?: defaultProjectDecorator
+            val decorator = inputs.objects.newInstance(decoratorClass)
+
+            val projectCollector = ProjectDependencyCollector(inputs)
+            val artifactCollector = ArtifactDependencyCollector(inputs)
+            val transformer = DefaultProjectTransformer(
+                components, inputs, decorator, artifactCollector
+            )
+            for (inputProject in inputProjects) {
+                val allProjects = projectCollector.invoke(inputProject)
+                    .filter { (path, _) -> path != target.path }
+
+                for (project in allProjects.values) {
+                    if (project.path in inputs.skippedProjects) continue
+                    registerMigrateProjectToBazelTask(
+                        target = project,
+                        transformer = transformer,
+                        properties = inputs.properties
+                    )
+                }
+
+                val rootTaskName = inputProject.buildRootTaskName()
+                registerMigrateRootToBazelTask(
+                    target = target,
+                    name = rootTaskName,
+                    projects = allProjects,
+                    components = components,
+                    transformer = transformer,
+                    properties = inputs.properties
+                )
+
+                registerMigrateToBazelTask(
+                    target = inputProject,
+                    root = target,
+                    rootTaskName = rootTaskName,
+                    allProjects = allProjects,
+                )
+            }
         }
     }
 
-    protected open fun prepareComponents(
-        components: Map<ComponentId, Component<GradleProject>>
-    ): Map<ComponentId, GradlePackageComponent> {
+    private fun prepareComponents(
+        components: Map<ComponentId, Component<GradleModule>>
+    ): Map<ComponentId, ModuleComponent> {
         // Feature components shared with every package component
-        val completelySharedFeatureComponents = components.values.asSequence()
-            .filterIsInstance<GradleFeatureComponent>()
+        val topLevelSharedFeatureComponents = components.values.asSequence()
+            .filterIsInstance<FeatureComponent>()
             .onEach { it.shared = true }
             .associateBy { it.id }
 
         // Feature components shared only with shared package components
         val sharedFeatureComponents = components.values.asSequence()
-            .filterIsInstance<GradlePackageComponent>()
+            .filterIsInstance<ModuleComponent>()
             .flatMap { it.subcomponents.values }
-            .filterIsInstance<GradleFeatureComponent>()
+            .filterIsInstance<FeatureComponent>()
             .filter { it.shared }
             .associateBy { it.id }
 
+        // Package components with added feature components
         return components.values.asSequence()
-            .filterIsInstance<GradlePackageComponent>()
-            .onEach { it.subcomponents += completelySharedFeatureComponents }
+            .filterIsInstance<ModuleComponent>()
+            .onEach { it.subcomponents += topLevelSharedFeatureComponents }
             .onEach { if (it.shared) it.subcomponents += sharedFeatureComponents }
             .associateBy { it.id }
     }
 
-    protected open fun prepareProjects(
-        root: Project,
-        allowedProjects: Set<String>,
-        components: Map<ComponentId, GradlePackageComponent>,
-        properties: AirinProperties,
-        decorator: GradleProjectDecorator,
-        outputFiles: MutableList<RegularFile>,
-    ): GradleProject {
-
-        fun traverse(target: Project): GradleProject {
-            val isAllowed = properties.allowedProjects.isEmpty()
-                    || target.path in allowedProjects
-                    || target.path == root.path
-            val isSkipped = target.path in properties.ignoredProjects
-
-            val packageComponent =
-                if (isAllowed && !isSkipped) target.pickPackageComponent(components, properties)
-                else null
-            val featureComponents =
-                if (packageComponent == null) emptyList()
-                else target.pickFeatureComponents(packageComponent)
-
-            val project = GradleProject(
-                name = target.name,
-                isRoot = target.rootProject.path == target.path,
-                label = GradleLabel(path = target.path, name = target.name),
-                dirPath = target.projectDir.path,
-            ).apply {
-                packageComponentId = packageComponent?.id
-                featureComponentIds = featureComponents.map { it.id }.toSet()
-
-                originalDependencies =
-                    if (isAllowed) prepareDependencies(target, properties)
-                    else emptyMap()
-
-                subpackages = target.childProjects.values.map(::traverse)
-            }
-            with(decorator) {
-                project.decorate(target)
-            }
-
-            if (!project.ignored && packageComponent != null) {
-                outputFiles += project
-                    .collectFilePaths(packageComponent)
-                    .map(target.layout.projectDirectory::file)
-            }
-            return project
-        }
-        return traverse(root)
-    }
-
-    protected open fun filterAllowedProjects(
-        root: Project,
-        properties: AirinProperties
-    ): Set<String> {
-        val allowedProjects = mutableSetOf<String>()
-
-        val queue = ArrayDeque<Project>()
-        queue += properties.allowedProjects.map(root::project)
-
-        while (queue.isNotEmpty()) {
-            val project = queue.removeFirst()
-            allowedProjects += project.path
-            queue += project.filterAllowedConfigurations(properties)
-                .flatMap { it.dependencies }
-                .filterIsInstance<ProjectDependency>()
-                .map { it.dependencyProject }
-                .filter { it.path !in allowedProjects }
-                .onEach { allowedProjects += it.path }
-        }
-        return allowedProjects
-    }
-
-    protected open fun prepareDependencies(
+    private fun registerMigrateToBazelTask(
         target: Project,
-        properties: AirinProperties
-    ): Map<String, List<Label>> =
-        target.filterAllowedConfigurations(properties)
-            .associateBy({ it.name }, { it.dependencies })
-            .filter { (_, dependencies) -> dependencies.isNotEmpty() }
-            .mapValues { (_, dependencies) ->
-                dependencies.mapNotNull {
-                    when (it) {
-                        is ExternalDependency -> MavenCoordinates(it.group!!, it.name, it.version)
-                        is ProjectDependency -> with(it.dependencyProject) {
-                            GradleLabel(path = path, name = name)
-                        }
+        root: Project,
+        rootTaskName: String,
+        allProjects: Map<ProjectPath, Project>,
+    ) {
+        target.tasks.register<MigrateToBazelTask>(MigrateToBazelTask.NAME) {
+            group = AIRIN_TASK_GROUP
 
-                        else -> null
-                    }
-                }
+            for ((_, dependencyProject) in allProjects) {
+                val dependencyTask = dependencyProject.tasks
+                    .withType<MigrateProjectToBazelTask>()
+                    .firstOrNull { it.name == MigrateProjectToBazelTask.NAME }
+                    ?: continue
+
+                dependsOn(dependencyTask)
+                this.outputFiles.from(dependencyTask.outputFiles)
             }
 
-    private fun Project.filterAllowedConfigurations(
-        properties: AirinProperties
-    ): Sequence<Configuration> = configurations.asSequence()
-        .filter { filterConfiguration(it.name, properties) }
-
-    protected open fun filterConfiguration(
-        configuration: ConfigurationName, properties: AirinProperties
-    ): Boolean {
-        if (configuration in properties.ignoredConfigurations) return false
-
-        return with(properties.allowedConfigurations) {
-            isEmpty()
-                    || configuration in this
-                    || any { configuration.contains(it, ignoreCase = true) }
+            val rootTask = root.tasks
+                .withType<MigrateRootToBazel>()
+                .firstOrNull { it.name == rootTaskName }
+            if (rootTask != null) {
+                dependsOn(rootTask)
+                this.outputFiles.from(rootTask.outputFiles)
+            }
         }
     }
 
-    protected open fun Project.pickPackageComponent(
-        components: Map<ComponentId, GradlePackageComponent>,
-        properties: AirinProperties
-    ): GradlePackageComponent? {
-        val suitableComponents = components.values
-            .filter { !it.ignored }
-            .filter { it.canProcess(this) }
+    private fun registerMigrateProjectToBazelTask(
+        target: Project,
+        transformer: ProjectTransformer,
+        properties: Map<String, Any>,
+    ) {
+        if (target.tasks.any { it.name == MigrateProjectToBazelTask.NAME }) return
 
-        return when {
-            suitableComponents.isEmpty() -> when (properties.onMissingComponent) {
-                MissingComponentResolution.Fail -> error("No package component found for $path")
-                MissingComponentResolution.Ignore -> null
-            }
+        target.tasks.register<MigrateProjectToBazelTask>(MigrateProjectToBazelTask.NAME) {
+            group = AIRIN_TASK_GROUP
 
-            suitableComponents.size > 1 -> when (properties.onComponentConflict) {
-                ComponentConflictResolution.Fail -> error("Unable to pick suitable package component for $path out of ${suitableComponents.map { it.javaClass }}")
-                ComponentConflictResolution.UsePriority -> suitableComponents.maxByOrNull { it.priority }
-                ComponentConflictResolution.Ignore -> null
-            }
+            val (module, component) = transformer.invoke(target)
+            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
 
-            else -> suitableComponents.first()
+            this.component.set(component)
+            this.module.set(module)
+            this.properties.set(properties)
+            this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
     }
 
-    protected open fun Project.pickFeatureComponents(
-        component: GradlePackageComponent
-    ): List<GradleFeatureComponent> = component.subcomponents.values
-        .filterIsInstance<GradleFeatureComponent>()
-        .filter { !it.ignored }
-        .filter { it.canProcess(this) }
+    private fun Project.buildRootTaskName(): String {
+        val suffix = path
+            .split(":")
+            .filter(String::isNotBlank)
+            .joinToString(separator = "", transform = String::capitalized)
+        return "${MigrateRootToBazel.NAME}For$suffix"
+    }
 
-    @OptIn(InternalAirinApi::class)
-    protected open fun GradleProject.collectFilePaths(
-        component: GradlePackageComponent
-    ): List<String> {
-        val result = component.invoke(this, includeSubcomponents = false)
+    private fun registerMigrateRootToBazelTask(
+        target: Project,
+        name: String,
+        projects: Map<ProjectPath, Project>,
+        components: Map<ComponentId, ModuleComponent>,
+        transformer: ProjectTransformer,
+        properties: Map<String, Any>,
+    ) {
+        target.tasks.register<MigrateRootToBazel>(name) {
+            group = AIRIN_TASK_GROUP
 
-        return result.starlarkFiles.flatMap { (path, files) ->
-            files.map { file ->
-                if (path.isEmpty()) file.fileName
-                else "$path/${file.fileName}"
-            }
+            val (module, component) = transformer.invoke(target)
+
+            val allModules = transformer.invoke(projects)
+                .values
+                .map { it.module }
+                .filter { !it.skipped }
+            val starlarkFiles = component?.extractFilePaths(module).orEmpty()
+
+            this.component.set(component)
+            this.module.set(module)
+            this.properties.set(properties)
+            this.allComponents.set(components)
+            this.allModules.set(allModules)
+            this.outputFiles.from(target.outputFiles(starlarkFiles))
+        }
+    }
+
+    private fun checkTargets(properties: AirinProperties) {
+        require(properties.targets.isNotEmpty()) {
+            "No targets configured for Bazel migration. Please configure targets property with Airin plugin."
         }
     }
 }

@@ -1,16 +1,16 @@
 package io.morfly.airin.feature
 
+import io.morfly.airin.FeatureComponent
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.GradleModule
 import io.morfly.airin.label.MavenCoordinates
 import org.gradle.api.Project
 
-abstract class AndroidLibraryArtifactMappingFeature : GradleFeatureComponent() {
+abstract class ArtifactMappingFeature : FeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = true
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         onConfiguration("implementation") {
             overrideWith("deps")
         }
@@ -27,12 +27,10 @@ abstract class AndroidLibraryArtifactMappingFeature : GradleFeatureComponent() {
             overrideWith("plugins")
         }
 
-        onDependency(MavenCoordinates("org.jetbrains.kotlin", "kotlin-bom")) {
-            ignore()
-        }
+        onDependency(MavenCoordinates("org.jetbrains.kotlin", "kotlin-bom")) {}
 
-        onDependency(MavenCoordinates("androidx.compose", "compose-bom")) {
-            ignore()
-        }
+        onDependency(MavenCoordinates("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")) {}
+
+        onDependency(MavenCoordinates("androidx.compose", "compose-bom")) {}
     }
 }

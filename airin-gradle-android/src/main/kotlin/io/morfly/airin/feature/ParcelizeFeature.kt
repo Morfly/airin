@@ -1,8 +1,8 @@
 package io.morfly.airin.feature
 
 import io.morfly.airin.FeatureContext
-import io.morfly.airin.GradleFeatureComponent
-import io.morfly.airin.GradleProject
+import io.morfly.airin.FeatureComponent
+import io.morfly.airin.GradleModule
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.plugin.AirinAndroidGradlePlugin
@@ -13,13 +13,13 @@ import io.morfly.pendant.starlark.lang.context.BuildContext
 import io.morfly.pendant.starlark.lang.onContext
 import org.gradle.api.Project
 
-abstract class ParcelizeFeature : GradleFeatureComponent() {
+abstract class ParcelizeFeature : FeatureComponent() {
 
     override fun canProcess(target: Project): Boolean = with(target.plugins) {
         hasPlugin("org.jetbrains.kotlin.plugin.parcelize") || hasPlugin(AirinAndroidGradlePlugin.ID)
     }
 
-    override fun FeatureContext.onInvoke(packageDescriptor: GradleProject) {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {
 
             load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_compiler_plugin")

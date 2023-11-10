@@ -1,18 +1,8 @@
 package io.morfly.airin
 
-import io.morfly.airin.label.MavenCoordinates
+abstract class Component<P : Module> : HasId, PropertiesHolder {
 
-abstract class Component<P : PackageDescriptor> : HasId, PropertiesHolder, SharedPropertiesHolder {
-
-    final override val properties = mutableMapOf<String, Any?>()
-
-    final override lateinit var sharedProperties: MutableMap<String, Any?>
-        internal set
-
-    override val sharedPropertiesAvailable
-        get() = ::sharedProperties.isInitialized
-
-    val allMavenArtifacts: MutableSet<MavenCoordinates> by sharedProperty(mutableSetOf())
+    final override val properties = mutableMapOf<String, Any>()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
