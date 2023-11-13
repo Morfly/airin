@@ -19,7 +19,7 @@ class AirinMavenPublishPlugin : AirinConventionPlugin({
 
         pom {
             name.set("Airin")
-            description.set("TODO")
+            description.set("Tool for automated migration of Gradle projects to Bazel.")
             inceptionYear.set("2023")
             url.set("https://github.com/Morfly/airin")
             licenses {
