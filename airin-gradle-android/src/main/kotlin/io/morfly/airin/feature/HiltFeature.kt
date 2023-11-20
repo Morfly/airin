@@ -26,7 +26,7 @@ abstract class HiltFeature : FeatureComponent() {
     val daggerVersion by property("2.48")
     val daggerSha by property("a796141af307e2b3a48b64a81ee163d96ffbfb41a71f0ea9cf8d26f930c80ca6")
 
-    override fun canProcess(target: Project): Boolean = with(target.plugins) {
+    override fun canProcess(project: Project): Boolean = with(project.plugins) {
         hasPlugin("com.google.dagger.hilt.android") || hasPlugin("io.morfly.airin.android")
     }
 

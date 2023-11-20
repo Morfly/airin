@@ -19,7 +19,7 @@ abstract class AndroidLibraryModule : ModuleComponent() {
         include<ArtifactMappingFeature>()
     }
 
-    override fun canProcess(target: Project): Boolean = with(target.plugins) {
+    override fun canProcess(project: Project): Boolean = with(project.plugins) {
         hasPlugin("com.android.library") || hasPlugin("com.android.application")
     }
 

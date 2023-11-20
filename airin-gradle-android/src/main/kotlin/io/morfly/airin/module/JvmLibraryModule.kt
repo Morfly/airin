@@ -7,7 +7,7 @@ import org.gradle.api.Project
 
 abstract class JvmLibraryModule : ModuleComponent() {
 
-    override fun canProcess(target: Project): Boolean {
+    override fun canProcess(project: Project): Boolean {
         return false
     }
 

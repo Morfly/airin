@@ -20,7 +20,7 @@ abstract class DaggerAndroidFeature : FeatureComponent() {
     val daggerVersion by property("2.47")
     val daggerSha by property("154cdfa4f6f552a9873e2b4448f7a80415cb3427c4c771a50c6a8a8b434ffd0a")
 
-    override fun canProcess(target: Project): Boolean = true
+    override fun canProcess(project: Project): Boolean = true
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
 

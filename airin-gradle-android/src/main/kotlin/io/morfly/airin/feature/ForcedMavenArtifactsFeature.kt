@@ -17,7 +17,7 @@ abstract class ForcedMavenArtifactsFeature : FeatureComponent() {
 
     var artifacts by property(emptyList<String>())
 
-    override fun canProcess(target: Project) = true
+    override fun canProcess(project: Project) = true
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
         if (artifacts.isEmpty()) return

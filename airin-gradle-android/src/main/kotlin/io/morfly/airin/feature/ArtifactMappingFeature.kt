@@ -8,7 +8,7 @@ import org.gradle.api.Project
 
 abstract class ArtifactMappingFeature : FeatureComponent() {
 
-    override fun canProcess(target: Project): Boolean = true
+    override fun canProcess(project: Project): Boolean = true
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
         onConfiguration("implementation") {

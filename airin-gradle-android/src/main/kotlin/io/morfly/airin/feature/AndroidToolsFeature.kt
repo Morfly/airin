@@ -53,8 +53,8 @@ abstract class AndroidToolsFeature : FeatureComponent() {
         )
     )
 
-    override fun canProcess(target: Project): Boolean =
-        target.plugins.hasPlugin("io.morfly.airin.android")
+    override fun canProcess(project: Project): Boolean =
+        project.plugins.hasPlugin("io.morfly.airin.android")
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
 

@@ -16,5 +16,5 @@ abstract class ModuleComponent : AbstractModuleComponent<GradleModule>(),
 
     override val id: String = javaClass.simpleName
 
-    abstract fun canProcess(target: Project): Boolean
+    abstract fun canProcess(project: Project): Boolean
 }

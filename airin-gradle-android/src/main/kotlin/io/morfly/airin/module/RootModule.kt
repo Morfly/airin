@@ -22,8 +22,8 @@ abstract class RootModule : ModuleComponent() {
         shared = true
     }
 
-    override fun canProcess(target: Project): Boolean =
-        target.plugins.hasPlugin("io.morfly.airin.android")
+    override fun canProcess(project: Project): Boolean =
+        project.plugins.hasPlugin("io.morfly.airin.android")
 
     override fun ModuleContext.onInvoke(module: GradleModule) {
         val build = BUILD.bazel {

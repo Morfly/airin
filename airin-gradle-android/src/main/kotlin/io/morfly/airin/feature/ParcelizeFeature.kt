@@ -15,7 +15,7 @@ import org.gradle.api.Project
 
 abstract class ParcelizeFeature : FeatureComponent() {
 
-    override fun canProcess(target: Project): Boolean = with(target.plugins) {
+    override fun canProcess(project: Project): Boolean = with(project.plugins) {
         hasPlugin("org.jetbrains.kotlin.plugin.parcelize") || hasPlugin(AirinAndroidGradlePlugin.ID)
     }
 

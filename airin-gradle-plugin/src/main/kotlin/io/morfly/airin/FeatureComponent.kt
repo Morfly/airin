@@ -15,5 +15,5 @@ abstract class FeatureComponent : AbstractFeatureComponent<GradleModule>(),
 
     override val id: String by lazy { "$parentId/${javaClass.simpleName}" }
 
-    abstract fun canProcess(target: Project): Boolean
+    abstract fun canProcess(project: Project): Boolean
 }

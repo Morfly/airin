@@ -12,8 +12,8 @@ import org.gradle.api.Project
 
 abstract class AndroidBinaryFeature : FeatureComponent() {
 
-    override fun canProcess(target: Project): Boolean =
-        target.plugins.hasPlugin("com.android.application")
+    override fun canProcess(project: Project): Boolean =
+        project.plugins.hasPlugin("com.android.application")
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
         onContext<BuildContext>(AndroidLibraryModule.ID_BUILD) {

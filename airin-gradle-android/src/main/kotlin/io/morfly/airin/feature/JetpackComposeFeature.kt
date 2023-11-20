@@ -20,8 +20,8 @@ abstract class JetpackComposeFeature : FeatureComponent() {
         shared = true
     }
 
-    override fun canProcess(target: Project): Boolean =
-        target.composeEnabled || target.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
+    override fun canProcess(project: Project): Boolean =
+        project.composeEnabled || project.plugins.hasPlugin(AirinAndroidGradlePlugin.ID)
 
     override fun FeatureContext.onInvoke(module: GradleModule) {
         onContext<BuildContext>(id = RootModule.ID_THIRD_PARTY_BUILD) {
