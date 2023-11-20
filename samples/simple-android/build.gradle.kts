@@ -2,7 +2,7 @@ import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.feature.AndroidBinaryFeature
 import io.morfly.airin.feature.AndroidToolsFeature
 import io.morfly.airin.feature.ForcedMavenArtifactsFeature
-import io.morfly.airin.feature.HiltAndroidFeature
+import io.morfly.airin.feature.HiltFeature
 import io.morfly.airin.feature.JetpackComposeFeature
 import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
@@ -27,7 +27,7 @@ airin {
     register<AndroidLibraryModule> {
         include<AndroidBinaryFeature>()
         include<JetpackComposeFeature>()
-        include<HiltAndroidFeature>()
+        include<HiltFeature>()
     }
     register<RootModule> {
         include<AndroidToolsFeature>()

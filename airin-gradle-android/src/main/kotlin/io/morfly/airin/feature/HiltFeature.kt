@@ -17,7 +17,7 @@ import io.morfly.pendant.starlark.lang.onContext
 import io.morfly.pendant.starlark.lang.type.StringType
 import org.gradle.api.Project
 
-abstract class HiltAndroidFeature : FeatureComponent() {
+abstract class HiltFeature : FeatureComponent() {
 
     init {
         shared = true
