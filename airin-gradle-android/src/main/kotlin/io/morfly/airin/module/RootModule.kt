@@ -1,7 +1,7 @@
 package io.morfly.airin.module
 
-import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.ModuleContext
 import io.morfly.airin.allMavenArtifacts
 import io.morfly.airin.label.MavenCoordinates
@@ -41,7 +41,14 @@ abstract class RootModule : ModuleComponent() {
         val mavenDependencies = "maven_dependencies".bzl {
             _id = ID_MAVEN_DEPENDENCIES_BZL
 
-            val MAVEN_ARTIFACTS by allMavenArtifacts.map { it.withVersion().toString() }
+            val MAVEN_ARTIFACTS by list {
+                _id = ID_MAVEN_ARTIFACTS
+                _sortedWith(compareBy { it })
+
+                allMavenArtifacts
+                    .map { it.withVersion() }
+                    .forEach { item(it.toString()) }
+            }
         }
 
         val thirdPartyBuild = BUILD.bazel {
@@ -69,5 +76,6 @@ abstract class RootModule : ModuleComponent() {
         const val ID_BUILD = "root_build"
         const val ID_MAVEN_DEPENDENCIES_BZL = "root_maven_dependencies_bzl"
         const val ID_THIRD_PARTY_BUILD = "root_third_party_build"
+        const val ID_MAVEN_ARTIFACTS = "root_maven_dependencies_artifacts"
     }
 }

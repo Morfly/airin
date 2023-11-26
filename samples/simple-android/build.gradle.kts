@@ -37,7 +37,6 @@ airin {
         // requires to explicitly force artifact versions.
         include<ForcedMavenArtifactsFeature> {
             artifacts = listOf(
-                "androidx.compose.compiler:compiler:1.4.7",
                 "androidx.lifecycle:lifecycle-runtime:2.6.1",
                 "androidx.activity:activity-ktx:1.7.0",
                 "androidx.compose.animation:animation-core:1.2.1",

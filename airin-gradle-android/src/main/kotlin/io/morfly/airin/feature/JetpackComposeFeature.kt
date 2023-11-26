@@ -7,11 +7,14 @@ import io.morfly.airin.module.AndroidLibraryModule
 import io.morfly.airin.module.RootModule
 import io.morfly.airin.plugin.AirinAndroidGradlePlugin
 import io.morfly.airin.composeEnabled
+import io.morfly.airin.module.RootModule.Companion.ID_MAVEN_ARTIFACTS
 import io.morfly.pendant.starlark.KtAndroidLibraryContext
 import io.morfly.pendant.starlark.artifact
 import io.morfly.pendant.starlark.kt_compiler_plugin
 import io.morfly.pendant.starlark.lang.context.BuildContext
+import io.morfly.pendant.starlark.lang.context.ListContext
 import io.morfly.pendant.starlark.lang.onContext
+import io.morfly.pendant.starlark.lang.type.StringType
 import org.gradle.api.Project
 
 abstract class JetpackComposeFeature : FeatureComponent() {
@@ -36,6 +39,10 @@ abstract class JetpackComposeFeature : FeatureComponent() {
                     artifact("androidx.compose.compiler:compiler"),
                 ],
             )
+        }
+
+        onContext<ListContext<StringType>>(id = ID_MAVEN_ARTIFACTS) {
+            item("androidx.compose.compiler:compiler:1.4.7")
         }
 
         onContext<KtAndroidLibraryContext>(AndroidLibraryModule.ID_BUILD_TARGET_CALL) {
