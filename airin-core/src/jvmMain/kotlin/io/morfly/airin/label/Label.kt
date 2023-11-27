@@ -22,5 +22,5 @@ interface Label {
 
     fun asShortLabel(): Label
 
-    fun asBazelLabel(): BazelLabel?
+    fun asBazelLabel(): BazelLabel
 }

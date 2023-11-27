@@ -62,6 +62,6 @@ fun Module.transformDependencies(features: List<FeatureContext>): Map<Configurat
         .also(::append)
 
     return transformedDependencies.mapValues { (_, dependencies) ->
-        dependencies.sortedBy(Label::toString)
+        dependencies.sortedBy { it.asBazelLabel().toString() }
     }
 }

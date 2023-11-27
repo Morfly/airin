@@ -22,10 +22,10 @@ import io.morfly.pendant.starlark.lang.context.FunctionCallContext
 
 fun FunctionCallContext.applyDependenciesFrom(module: GradleModule) {
     for ((configuration, dependencies) in module.dependencies) {
-        configuration `=` dependencies.mapNotNull {
+        configuration `=` dependencies.map {
             when (it) {
                 is MavenCoordinates -> artifact(it.asShortLabel().toString())
-                else -> it.asBazelLabel()?.toString()
+                else -> it.asBazelLabel().toString()
             }
         }
     }

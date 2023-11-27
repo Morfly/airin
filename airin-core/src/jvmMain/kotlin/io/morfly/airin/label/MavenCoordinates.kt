@@ -18,6 +18,8 @@ package io.morfly.airin.label
 
 import java.io.Serializable
 
+private val nonAlphaNumericRegex by lazy { "[^A-Za-z0-9 ]".toRegex() }
+
 data class MavenCoordinates(
     val group: String,
     val name: String,
@@ -37,5 +39,9 @@ data class MavenCoordinates(
     override fun asShortLabel(): Label =
         if (version != null) copy(version = null) else this
 
-    override fun asBazelLabel(): BazelLabel? = null
+    override fun asBazelLabel() = BazelLabel(
+        workspace = "maven",
+        path = "",
+        target = asShortLabel().toString().replace(nonAlphaNumericRegex, "_")
+    )
 }

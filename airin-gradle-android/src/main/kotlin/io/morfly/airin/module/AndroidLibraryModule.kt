@@ -17,12 +17,11 @@
 package io.morfly.airin.module
 
 import include
-import io.morfly.airin.ModuleComponent
 import io.morfly.airin.GradleModule
+import io.morfly.airin.ModuleComponent
 import io.morfly.airin.ModuleContext
-import io.morfly.airin.applyDependenciesFrom
-import io.morfly.airin.feature.ArtifactMappingFeature
 import io.morfly.airin.androidMetadata
+import io.morfly.airin.feature.ArtifactMappingFeature
 import io.morfly.pendant.starlark.glob
 import io.morfly.pendant.starlark.kt_android_library
 import io.morfly.pendant.starlark.lang.context.BUILD
@@ -44,7 +43,6 @@ abstract class AndroidLibraryModule : ModuleComponent() {
             _id = ID_BUILD
 
             load("@io_bazel_rules_kotlin//kotlin:android.bzl", "kt_android_library")
-            load("@rules_jvm_external//:defs.bzl", "artifact")
 
             kt_android_library {
                 _id = ID_BUILD_TARGET_CALL
@@ -56,7 +54,9 @@ abstract class AndroidLibraryModule : ModuleComponent() {
                 resource_files = glob("src/main/res/**")
                 visibility = list["//visibility:public"]
 
-                applyDependenciesFrom(module)
+                for ((config, deps) in module.dependencies) {
+                    config `=` deps.map { it.asBazelLabel().toString() }
+                }
             }
         }
         generate(build)
