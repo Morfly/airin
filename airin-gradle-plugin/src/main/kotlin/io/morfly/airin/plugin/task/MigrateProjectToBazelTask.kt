@@ -1,5 +1,6 @@
 package io.morfly.airin.plugin.task
 
+import io.morfly.airin.ComponentId
 import io.morfly.airin.GradleModule
 import io.morfly.airin.ModuleComponent
 import org.gradle.api.file.ConfigurableFileCollection
@@ -15,6 +16,10 @@ abstract class MigrateProjectToBazelTask : AbstractMigrateToBazelTask() {
     @get:Input
     @get:Optional
     abstract override val component: Property<ModuleComponent>
+
+    @get:Input
+    @get:Optional
+    abstract val componentProperties: MapProperty<ComponentId, Map<String, Any>>
 
     @get:Input
     abstract override val module: Property<GradleModule>

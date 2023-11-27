@@ -26,6 +26,10 @@ abstract class MigrateRootToBazel : AbstractMigrateToBazelTask() {
     abstract val properties: MapProperty<String, Any>
 
     @get:Input
+    @get:Optional
+    abstract val allComponentProperties: MapProperty<ComponentId, Map<String, Any>>
+
+    @get:Input
     abstract val allComponents: MapProperty<ComponentId, ModuleComponent>
 
     @get:Input

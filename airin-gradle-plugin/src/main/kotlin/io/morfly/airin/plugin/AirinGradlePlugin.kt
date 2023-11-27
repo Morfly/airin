@@ -148,6 +148,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
             val starlarkFiles = component?.extractFilePaths(module).orEmpty()
 
             this.component.set(component)
+            this.componentProperties.set(component?.extractProperties())
             this.module.set(module)
             this.properties.set(properties)
             this.outputFiles.from(target.outputFiles(starlarkFiles))
@@ -181,13 +182,30 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                 .filter { !it.skipped }
             val starlarkFiles = component?.extractFilePaths(module).orEmpty()
 
+            val componentProperties = components
+                .map { (_, component) -> component.extractProperties() }
+                .flatMap { it.entries }
+                .associate { (id, properties) -> id to properties }
+
             this.component.set(component)
+            this.allComponentProperties.set(componentProperties)
             this.module.set(module)
             this.properties.set(properties)
             this.allComponents.set(components)
             this.allModules.set(allModules)
             this.outputFiles.from(target.outputFiles(starlarkFiles))
         }
+    }
+
+    private fun ModuleComponent.extractProperties(): Map<ComponentId, Map<String, Any>> {
+        val allProperties = mutableMapOf<ComponentId, Map<String, Any>>()
+
+        for ((id, component) in subcomponents) {
+            allProperties += id to component.properties
+        }
+        allProperties += id to properties
+
+        return allProperties
     }
 
     private fun checkTargets(properties: AirinProperties) {
