@@ -18,6 +18,9 @@ package io.morfly.airin
 
 import org.gradle.api.Project
 
+/**
+ * Decorates the [GradleModule] with additional information retrieved from Gradle [Project].
+ */
 interface GradleModuleDecorator {
 
     fun GradleModule.decorate(project: Project)

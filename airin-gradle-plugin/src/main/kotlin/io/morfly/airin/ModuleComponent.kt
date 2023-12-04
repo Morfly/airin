@@ -17,14 +17,18 @@
 package io.morfly.airin
 
 import io.morfly.airin.dsl.FeatureComponentsHolder
-import io.morfly.airin.dsl.PackageComponentProperties
+import io.morfly.airin.dsl.ModuleComponentProperties
 import org.gradle.api.Project
 import java.io.Serializable
 
+/**
+ * The main responsibility of a module component is to generate Bazel files for a certain type of
+ * project modules.
+ */
 abstract class ModuleComponent : AbstractModuleComponent<GradleModule>(),
     Serializable,
     FeatureComponentsHolder,
-    PackageComponentProperties {
+    ModuleComponentProperties {
 
     final override var ignored by property(default = false)
     final override var shared by property(default = false)
@@ -32,5 +36,8 @@ abstract class ModuleComponent : AbstractModuleComponent<GradleModule>(),
 
     override val id: String = javaClass.simpleName
 
+    /**
+     * Contains the logic that defines if this component could be applied to a given Gradle module.
+     */
     abstract fun canProcess(project: Project): Boolean
 }

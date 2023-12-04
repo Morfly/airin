@@ -18,9 +18,21 @@ package io.morfly.airin.label
 
 import java.io.Serializable
 
+/**
+ * Representation of a label for Gradle tasks and projects.
+ */
 data class GradleLabel(
+    /**
+     * Gradle project path including the name.
+     */
     val path: String,
+    /**
+     * Gradle project name, without the path.
+     */
     val name: String,
+    /**
+     * Gradle task name.
+     */
     val task: String? = null
 ) : Label, Serializable {
 

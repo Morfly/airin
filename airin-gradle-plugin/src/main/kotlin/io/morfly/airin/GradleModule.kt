@@ -20,6 +20,9 @@ import io.morfly.airin.label.GradleLabel
 import io.morfly.airin.label.Label
 import java.io.Serializable
 
+/**
+ * Representation of a Gradle module containing the related information about it.
+ */
 data class GradleModule(
     override val name: String,
     override val label: GradleLabel,

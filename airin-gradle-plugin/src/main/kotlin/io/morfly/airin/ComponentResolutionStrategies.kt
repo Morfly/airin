@@ -18,13 +18,37 @@ package io.morfly.airin
 
 import java.io.Serializable
 
+/**
+ * A resolution strategy in case no component found for a Gradle module.
+ */
 enum class MissingComponentResolution : Serializable {
+    /**
+     * Fail the build if no component found for the module.
+     */
     Fail,
+
+    /**
+     * Ignore the module if no component found for it.
+     */
     Ignore
 }
 
+/**
+ * A resolution strategy in case more than one module component can be applied to a module.
+ */
 enum class ComponentConflictResolution : Serializable {
+    /**
+     * Fail the build in case of a conflict.
+     */
     Fail,
+
+    /**
+     * Pick a component with the highest [ModuleComponent.priority].
+     */
     UsePriority,
+
+    /**
+     * Ignore a module in case of a conflict.
+     */
     Ignore
 }

@@ -28,6 +28,9 @@ interface PackageComponentsHolder : ComponentsHolder<GradleModule> {
     @get:Inject
     val objects: ObjectFactory
 
+    /**
+     * Register [ModuleComponent] in Airin Gradle plugin for migrating a corresponding type of modules.
+     */
     fun <B : ModuleComponent> register(
         type: Class<B>,
         config: Action<B>? = null

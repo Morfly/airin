@@ -48,6 +48,10 @@ abstract class AirinExtension :
     override var onComponentConflict by property(default = UsePriority)
     override var onMissingComponent by property(default = Ignore)
 
+    /**
+     * Specify a custom [GradleModuleDecorator].
+     * Allows adding additional data to [GradleModule] instances.
+     */
     fun <D : GradleModuleDecorator> decorateWith(type: Class<D>) {
         projectDecorator = type
     }
