@@ -24,6 +24,11 @@ class ModuleContext(
 
     val starlarkFiles = mutableMapOf<String, MutableList<FileContext>>()
 
+    /**
+     * Registers a Bazel file to be generated during the migration.
+     *
+     * @param relativeDirPath - denotes a file path relative to the module location.
+     */
     fun generate(vararg files: FileContext, relativeDirPath: String = "") {
         for (file in files) {
             starlarkFiles.getOrPut(relativeDirPath.fixPath(), ::mutableListOf) += file

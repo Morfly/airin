@@ -18,6 +18,10 @@ package io.morfly.airin
 
 import io.morfly.airin.label.MavenCoordinates
 
+/**
+ * Properties used by components during the migration process. Could be shared between the module
+ * and feature components withing the migration of a single module.
+ */
 interface SharedPropertiesHolder {
 
     val sharedProperties: MutableMap<String, Any>

@@ -26,6 +26,14 @@ interface DependencyOverridesHolder {
 
     val dependencyOverrides: DependencyOverrideCollection
 
+    /**
+     * Overrides the label for the dependency marked with [label] in Gradle.
+     * Optionally, the dependency could be filtered by the [configuration] name. This means that
+     * if the dependency is assigned to another configuration, it won't be overridden.
+     *
+     * Gradle's configuration names are translated to argument names passed in corresponding
+     * Starlark rules in Bazel.
+     */
     fun onDependency(
         label: String,
         configuration: String? = null,
@@ -39,6 +47,15 @@ interface DependencyOverridesHolder {
             .getOrPut(configuration, ::mutableListOf) += overrides
     }
 
+    /**
+     * Overrides the label for the dependency marked with [label] in Gradle.
+     * Optionally, a [configuration] could be used to explicitly override a configuration name for
+     * the dependency. Otherwise, the configuration override from
+     * [ConfigurationOverridesHolder.onConfiguration] will take effect.
+     *
+     * Gradle's configuration names are translated to argument names passed in corresponding
+     * Starlark rules in Bazel.
+     */
     fun <D : Label> onDependency(
         label: D,
         configuration: String? = null,
@@ -59,6 +76,13 @@ class DependencyOverrideContext {
 
     val dependencyOverrides = mutableListOf<DependencyOverride>()
 
+    /**
+     * Overrides the dependency with [label].
+     *
+     * Optionally, it is possible to override a configuration for this particular dependency with
+     * the [newConfiguration]. Otherwise, the configuration override from
+     * [ConfigurationOverridesHolder.onConfiguration] will take effect.
+     */
     fun overrideWith(label: Label, newConfiguration: String? = null) {
         dependencyOverrides += DependencyOverride(label, newConfiguration)
     }

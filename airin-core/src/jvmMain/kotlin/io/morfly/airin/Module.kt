@@ -18,26 +18,59 @@ package io.morfly.airin
 
 import io.morfly.airin.label.Label
 
+/**
+ * A module representation that holds all the information about it.
+ */
 abstract class Module : PropertiesHolder {
 
+    /**
+     * Module name.
+     */
     abstract val name: String
 
+    /**
+     * Checks if it is a root module.
+     */
     abstract val isRoot: Boolean
 
+    /**
+     * Module label.
+     */
     abstract val label: Label
 
+    /**
+     * Module location in the file system.
+     */
     abstract val dirPath: String
 
+    /**
+     * Module location in relation to the project directory.
+     */
     abstract val relativeDirPath: String
 
+    /**
+     * Checks if the module is skipped during the migration to Bazel.
+     */
     abstract val skipped: Boolean
 
+    /**
+     * Id of a selected module component. Module is [skipped] if it is null.
+     */
     abstract val moduleComponentId: String?
 
+    /**
+     * Set of selected feature components.
+     */
     abstract val featureComponentIds: Set<String>
 
+    /**
+     * Dependencies as per the configuration in the original build system.
+     */
     abstract val originalDependencies: Map<ConfigurationName, List<Label>>
 
+    /**
+     * Mapped dependencies to be declared in the Bazel target.
+     */
     abstract var dependencies: Map<ConfigurationName, List<Label>>
         internal set
 }

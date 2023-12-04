@@ -18,9 +18,18 @@ package io.morfly.airin.label
 
 interface Label {
 
+    /**
+     * String representation of a label.
+     */
     override fun toString(): String
 
+    /**
+     * Provides a short version of the label.
+     */
     fun asShortLabel(): Label
 
+    /**
+     * Converts a label to [BazelLabel].
+     */
     fun asBazelLabel(): BazelLabel
 }

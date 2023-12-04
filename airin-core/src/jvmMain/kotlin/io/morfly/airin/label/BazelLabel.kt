@@ -18,6 +18,13 @@ package io.morfly.airin.label
 
 import java.io.Serializable
 
+/**
+ * Represents a Bazel label.
+ *
+ * @param workspace workspace name
+ * @param path package path excluding the target name
+ * @param target target name or can be null if it's the same as the directory it is declared in.
+ */
 data class BazelLabel(
     val workspace: String? = null,
     val path: String,

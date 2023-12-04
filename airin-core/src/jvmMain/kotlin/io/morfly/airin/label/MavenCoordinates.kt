@@ -19,6 +19,11 @@ package io.morfly.airin.label
 import io.morfly.airin.nonAlphaNumericRegex
 import java.io.Serializable
 
+/**
+ * Label that represents artifact coordinates.
+ *
+ * A short version of the label omits the artifact version.
+ */
 data class MavenCoordinates(
     val group: String,
     val name: String,
@@ -35,9 +40,15 @@ data class MavenCoordinates(
         }
     }
 
+    /**
+     * Returns a shortened version of the label without the artifact version.
+     */
     override fun asShortLabel(): Label =
         if (version != null) copy(version = null) else this
 
+    /**
+     * Converts the label to Bazel label as per rules_jvm_external.
+     */
     override fun asBazelLabel() = BazelLabel(
         workspace = "maven",
         path = "",

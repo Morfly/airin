@@ -25,6 +25,14 @@ interface ConfigurationOverridesHolder {
 
     val configurationOverrides: ConfigurationOverrideCollection
 
+    /**
+     * Overrides the configuration name for all dependencies under the [configuration].
+     * If the [override] block is left empty, all the dependencies that belong to the
+     * [configuration] will be ignored.
+     *
+     * Gradle's configuration names are translated to argument names passed in corresponding
+     * Starlark rules in Bazel.
+     */
     fun onConfiguration(
         configuration: String,
         override: ConfigurationOverrideContext.() -> Unit
@@ -38,6 +46,9 @@ class ConfigurationOverrideContext {
 
     val configurationOverrides: MutableList<ConfigurationOverride> = mutableListOf()
 
+    /**
+     * Assigns a new configuration name for dependencies.
+     */
     fun overrideWith(newConfiguration: String) {
         configurationOverrides += ConfigurationOverride(newConfiguration)
     }
