@@ -50,7 +50,7 @@ abstract class HiltFeature : FeatureComponent() {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,
-            checkpoint = AndroidToolsFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
+            checkpoint = AndroidToolchainFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
         ) {
             val DAGGER_VERSION by daggerVersion
             val DAGGER_SHA by daggerSha
@@ -84,7 +84,7 @@ abstract class HiltFeature : FeatureComponent() {
             hilt_android_rules()
         }
 
-        onContext<MavenInstallContext>(id = AndroidToolsFeature.ID_MAVEN_INSTALL) {
+        onContext<MavenInstallContext>(id = AndroidToolchainFeature.ID_MAVEN_INSTALL) {
             artifacts = ListReference<StringType>("HILT_ANDROID_ARTIFACTS")
             repositories = ListReference<StringType>("HILT_ANDROID_REPOSITORIES")
         }

@@ -39,7 +39,7 @@ import io.morfly.pendant.starlark.rules_jvm_external_deps
 import io.morfly.pendant.starlark.rules_jvm_external_setup
 import org.gradle.api.Project
 
-abstract class AndroidToolsFeature : FeatureComponent() {
+abstract class AndroidToolchainFeature : FeatureComponent() {
 
     var kotlinToolchainVersion by property("1.8")
     var kotlinJvmTarget by property("11")

@@ -45,12 +45,12 @@ abstract class ForcedMavenArtifactsFeature : FeatureComponent() {
 
         onContext<WorkspaceContext>(
             id = RootModule.ID_WORKSPACE,
-            checkpoint = AndroidToolsFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
+            checkpoint = AndroidToolchainFeature.CHECKPOINT_BEFORE_JVM_EXTERNAL
         ) {
             load("//third_party:maven_dependencies.bzl", "FORCED_MAVEN_ARTIFACTS")
         }
 
-        onContext<MavenInstallContext>(id = AndroidToolsFeature.ID_MAVEN_INSTALL) {
+        onContext<MavenInstallContext>(id = AndroidToolchainFeature.ID_MAVEN_INSTALL) {
             artifacts = ListReference<StringType>("FORCED_MAVEN_ARTIFACTS")
         }
     }
