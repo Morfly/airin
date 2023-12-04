@@ -1,6 +1,6 @@
 import io.morfly.airin.MissingComponentResolution
 import io.morfly.airin.feature.AndroidBinaryFeature
-import io.morfly.airin.feature.AndroidToolsFeature
+import io.morfly.airin.feature.AndroidToolchainFeature
 import io.morfly.airin.feature.ForcedMavenArtifactsFeature
 import io.morfly.airin.feature.HiltFeature
 import io.morfly.airin.feature.JetpackComposeFeature
@@ -30,7 +30,7 @@ airin {
         include<HiltFeature>()
     }
     register<RootModule> {
-        include<AndroidToolsFeature>()
+        include<AndroidToolchainFeature>()
 
         // When a conflict with transitive dependency versions occurs, Gradle and Bazel resolve
         // them differently. While Gradle resolves them automatically for the most part, Bazel
