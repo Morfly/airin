@@ -25,6 +25,7 @@ import io.morfly.airin.ModuleComponent
 import io.morfly.airin.dsl.AirinExtension
 import io.morfly.airin.dsl.AirinProperties
 import io.morfly.airin.extractFilePaths
+import io.morfly.airin.nonAlphaNumericRegex
 import io.morfly.airin.plugin.task.MigrateProjectToBazelTask
 import io.morfly.airin.plugin.task.MigrateRootToBazel
 import io.morfly.airin.plugin.task.MigrateToBazelTask
@@ -76,7 +77,7 @@ abstract class AirinGradlePlugin : Plugin<Project> {
                     )
                 }
 
-                val rootTaskName = inputProject.buildRootTaskName()
+                val rootTaskName = buildRootTaskNameFor(inputProject)
                 registerMigrateRootToBazelTask(
                     target = target,
                     name = rootTaskName,
@@ -171,9 +172,9 @@ abstract class AirinGradlePlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.buildRootTaskName(): String {
-        val suffix = path
-            .split(":")
+    private fun buildRootTaskNameFor(project: Project): String {
+        val suffix = project.path
+            .split(nonAlphaNumericRegex)
             .filter(String::isNotBlank)
             .joinToString(separator = "", transform = String::capitalized)
         return "${MigrateRootToBazel.NAME}For$suffix"

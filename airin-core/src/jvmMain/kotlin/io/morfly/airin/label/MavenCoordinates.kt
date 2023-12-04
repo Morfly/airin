@@ -16,9 +16,8 @@
 
 package io.morfly.airin.label
 
+import io.morfly.airin.nonAlphaNumericRegex
 import java.io.Serializable
-
-private val nonAlphaNumericRegex by lazy { "[^A-Za-z0-9 ]".toRegex() }
 
 data class MavenCoordinates(
     val group: String,
