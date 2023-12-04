@@ -24,6 +24,12 @@ interface AddedDependencyHolder {
 
     val addedDependencies: AddedDependencyCollection
 
+    /**
+     * Add new dependency to a migrated Bazel module.
+     *
+     * @param label the label representation of a new dependency.
+     * @param configuration the name of a rule parameter it is assigned to.
+     */
     fun addDependency(label: Label, configuration: String) {
         addedDependencies.getOrPut(configuration, ::mutableSetOf) += label
     }
