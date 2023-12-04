@@ -22,7 +22,6 @@ plugins {
 // Run ./gradlew simple-android:migrateToBazel to generate Bazel files.
 airin {
     targets += setOf(":app")
-    skippedProjects += setOf(":feature-A")
     onMissingComponent = MissingComponentResolution.Fail
     register<AndroidLibraryModule> {
         include<AndroidBinaryFeature>()
