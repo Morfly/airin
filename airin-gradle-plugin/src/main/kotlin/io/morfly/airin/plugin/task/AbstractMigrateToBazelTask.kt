@@ -25,14 +25,21 @@ import io.morfly.pendant.starlark.writer.StarlarkFileWriter
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.OutputFiles
 import java.io.File
 
 abstract class AbstractMigrateToBazelTask : DefaultTask() {
 
+    @get:Input
+    @get:Optional
     abstract val component: Property<ModuleComponent>
 
+    @get:Input
     abstract val module: Property<GradleModule>
 
+    @get:OutputFiles
     abstract val outputFiles: ConfigurableFileCollection
 
     @OptIn(InternalAirinApi::class)
