@@ -3,6 +3,7 @@ repo_name: Airin
 repo_url: https://github.com/morfly/airin
 site_description: "A tool for automated migration of Android projects from Gradle to Bazel."
 site_author: Pavlo Stavytskyi
+remote_branch: gh-pages
 
 theme:
   name: material
