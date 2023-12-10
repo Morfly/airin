@@ -16,7 +16,7 @@ plugins {
     id("io.morfly.airin.android") version "x.y.z"
 }
 ```
-## Plugin configuration
+## Overview
 ```kotlin
 // root build.gradle.kts
 airin {
@@ -35,6 +35,12 @@ airin {
     }
 }
 ```
+### Available Gradle tasks
+```shell
+./gradlew app:migrateToBazel --no-configure-on-demand
+```
+
+
 ## Module components
 ### Generating Bazel files
 ### Dependencies
