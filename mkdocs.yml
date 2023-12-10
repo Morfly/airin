@@ -1,4 +1,26 @@
 site_name: Airin
+repo_name: Airin
+repo_url: https://github.com/morfly/airin
+site_description: "A tool for automated migration of Android projects from Gradle to Bazel."
+site_author: Pavlo Stavytskyi
 
 theme:
   name: material
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+  - 'Introduction': index.md
+  - 'Gradle plugin configuration': index.md
+  - 'Running the migration': index.md
+  - 'Module components': index.md
+  - 'Feature components': index.md
+  - 'Shared components': index.md
+  - 'Properties': index.md
