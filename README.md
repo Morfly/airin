@@ -13,8 +13,13 @@ Airin is a tool for the automated migration of Gradle Android projects to Bazel.
 To facilitate the migration of Android apps to Bazel, Airin provides a Gradle plugin that upon configuration, 
 analyzes the Gradle project structure and replicates it with Bazel by generating the corresponding Bazel files.
 
+To enable Starlark code generation in Kotlin, Airin is bundled with [Pendant](https://github.com/Morfly/pendant), 
+an open-source declarative and type-safe Starlark code generator.
+
+> You can learn more about Airin and the design behind it in a [blog post](https://morfly.medium.com/6dc79d298628) at Turo Engineering.
+
 ### Installation
-To initiate Bazel adoption, apply Airin Gradle plugin in your root `build.gradle.kts` file.
+Apply Airin Gradle plugin in your root `build.gradle.kts` file.
 ```kotlin
 // root build.gradle.kts
 plugins {
@@ -83,8 +88,11 @@ To configure Airin Gradle plugin use `airin` extension in the root `build.gradle
 - `migrateRootToBazelFor***` - registered for a root project and complements migration for specific migration target, where the `***` is a name of a migration target. E.g. `:migrateRootToBazelForApp`.
 
 ### Components
+TODO
 
 ## Module components
+Module component is responsible for generating Bazel files for specific types of modules.
+
 Every module component is an abstract class that extends the ModuleComponent base class and implements 2 functions, `canProcess` and `onInvoke`.
 ```kotlin
 abstract class AndroidLibraryModule : ModuleComponent {
@@ -95,10 +103,10 @@ abstract class AndroidLibraryModule : ModuleComponent {
 }
 ```
 
-- `canProcess` is invoked during the Gradle Configuration phase and is aimed to filter Gradle modules to which this component is applicable.
+- `canProcess` is invoked during the Gradle Configuration phase and is aimed to filter Gradle modules to which this component is applicable. Only one module component can be selected for every module in the codebase.
 - `onInvoke` is invoked during the Gradle Execution phase and contains the main logic of the component the purpose of which is to generate Bazel files for the module.
 
-The easiest way to determine the module type is by examining its applied plugins. For example, an Android library module in Gradle typically relies upon the `com.android.library plugin`.
+The easiest way to determine the module type is by examining its applied plugins. For example, an Android library module in Gradle typically relies upon the `com.android.library` plugin.
 
 ```kotlin
 abstract class AndroidLibraryModule : ModuleComponent {
@@ -108,7 +116,90 @@ abstract class AndroidLibraryModule : ModuleComponent {
 }
 ```
 ### Generating Bazel files
+The main responsibility of module components is generating Bazel files. 
+To do this, Airin leverages Pendant, a Kotlin DSL that provides a declarative API for generating Starlark code. This is done in `onInvoke`.
+
+```kotlin
+abstract class AndroidLibraryModule : ModuleComponent {
+
+  override fun ModuleContext.onInvoke(module: GradleModule) { 
+    val file = BUILD.bazel {
+        ...
+    }
+    generate(file)
+  }
+}
+```
+You can use various builders for different types of Bazel types.
+```kotlin
+val build = BUILD { ... }
+val buildWithExt = BUILD.bazel { ... }
+val workspace = WORKSPACE { ... }
+val workspaceWithExt = WORKSPACE.bazel { ... }
+val mavenDependencies = "maven_dependencies".bzl { ... }
+```
+To write the file in the file system, use `generate` call. By default, the file is generated in the same directory as the currently processed module. 
+Additionally, you can use `relativePath` to specify a subdirectory for a generated file.
+```kotlin
+generate(build)
+generate(mavenDependencies, relativePath = "third_party")
+```
+
+The actual content of a generated Starlark file is built using [Pendant](https://github.com/Morfly/pendant).
+
+```kotlin
+override fun ModuleContext.onInvoke(module: GradleModule) {
+  val file = BUILD.bazel {
+    load("@io_bazel_rules_kotlin//kotlin:android.bzl", "kt_android_library")
+  
+    kt_android_library {
+      name = module.name
+      srcs = glob("src/main/**/*.kt")
+      custom_package = module.androidMetadata?.packageName
+      manifest = "src/main/AndroidManifest.xml"
+      resource_files = glob("src/main/res/**")
+    }
+  }
+
+  generate(file)
+}
+```
+
+> You can find an in-depth overview of Pendant on [GitHub](https://github.com/Morfly/pendant) and in the talk at [droidcon NYC 2022](https://www.droidcon.com/2022/09/29/advanced-techniques-for-building-kotlin-dsls/).
+
 ### Dependencies
+A Bazel target can possess various types of dependencies, each represented by different function parameters.
+
+```python
+# BUILD.bazel
+kt_android_library(
+  ...
+  deps = [...],
+  exports = [...],
+  plugins = [...],
+)
+```
+A GradleModule instance provides dependencies mapped per configuration, represented with an argument name. To designate dependencies in the generated code, the `=` function (enclosed in backticks) is used to represent an argument passed to a function.
+
+```python
+kt_android_library {
+  ...
+  for ((config, deps) in module.dependencies) {
+    config `=` deps.map { it.asBazelLabel().toString() }
+  }
+}
+```
+As a result, the following Starlark code is generated.
+
+```python
+# generated Bazel script
+kt_android_library(
+  ...
+  plugins = [...],
+  deps = [...],
+  exports = [...],
+)
+```
 ## Feature components
 ### Dependency overrides
 ### Configuration overrides
