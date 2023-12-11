@@ -9,10 +9,12 @@ Airin is a tool for the automated migration of Gradle Android projects to Bazel.
 - [Properties](#properties)
 - [Decorators](#decorators)
 
-## Installation
-
 ## Overview
+To facilitate the migration of Android apps to Bazel, Airin provides a Gradle plugin. This plugin, upon configuration, 
+analyzes the Gradle project structure and replicates it with Bazel by generating the corresponding Bazel files.
+
 ### Installation
+To initiate Bazel adoption, apply Airin Gradle plugin in your root `build.gradle.kts` file.
 ```kotlin
 // root build.gradle.kts
 plugins {
@@ -20,6 +22,9 @@ plugins {
 }
 ```
 ### Configuration
+Next, in the same `build.gradle.kts` file, use the `airin` extension to configure the plugin and adjust it specifically 
+for your project.
+
 ```kotlin
 // root build.gradle.kts
 airin {
@@ -29,7 +34,6 @@ airin {
         include<JetpackComposeFeature>()
         include<HiltFeature>()
         include<ParcelizeFeature>()
-        ...
     }
     register<JvmLibraryModule>()
 
@@ -38,13 +42,22 @@ airin {
     }
 }
 ```
+Read next sections in the documentation to learn more about the available configuration options for the Airin plugin.
+
 ### Migration
+Finally, after configuring the plugin, execute the corresponding Gradle task to initiate the automated migration to 
+Bazel. This task will analyze the Gradle project structure and, based on the Airin plugin configuration, generate 
+corresponding Bazel files within the project.
 ```shell
 ./gradlew app:migrateToBazel --no-configure-on-demand
 ```
 ## Gradle plugin
+In most cases, your project will include custom Gradle logic or plugins that lack open-source Bazel alternatives. 
+This necessitates the development of custom Bazel solutions for those specific cases. Once completed, these solutions 
+can be incorporated into Airin, enabling it to generate the Starlark code exactly as you need.
 ### Configuration options
-**Targets**.
+
+**Migration targets**.
 
 **Resolution strategies**.
 
