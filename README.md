@@ -226,7 +226,7 @@ There could be multiple types of shared components.
 - **Shared feature component** — contributes to every shared module component.
 - **Top-level feature component** — does not belong to any module component specifically and contributes to all module components, even non-shared ones.
 
-- This is how they are declared in a Gradle plugin.
+This is how they are declared in a Gradle plugin.
 
 ```kotlin
 // root build.gradle.kts
@@ -243,17 +243,72 @@ airin {
   include<AllPublicFeature>()
 }
 ```
-Let's analyze the example above.
-- `HiltFeature` - configures Hilt for a Bazel module.
-  - Contributes to `AndroidLibraryModule` because they are directly connected.
-  - Contributes to `RootModule` because they are both shared.
+Here is what's happening in the example above.
+- `HiltFeature` - feature component that configures Hilt for a Bazel module.
+  - Contributes to `AndroidLibraryModule` because they are directly connected. Includes Hilt in Bazel scripts in each Android library module.
+  - Contributes to `RootModule` because they are both shared. Configures Hilt in a Bazel workspace.
 - `AllPublicFeature` 
-  - contributes to `AndroidLibraryModule` and `RootModule` because it's a top-level feature component.
+  - contributes to `AndroidLibraryModule` and `RootModule` because it's a top-level feature component. Configures default public visibility in each Bazel file.
 
+> Refer to examples of [`AndroidLibraryModule`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/module/AndroidLibraryModule.kt), 
+> [`HiltFeature`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/feature/HiltFeature.kt) 
+> and [`RootModule`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/module/RootModule.kt) to learn more.
 
 ## Properties
-### Shared properties
+Both module and feature components ...
+```kotlin
+// root build.gradle.kts
+airin {
+  register<RootModule> {
+    include<AndroidToolchainFeature> {
+      rulesKotlinVersion = "1.8.1"
+      rulesKotlinSha = "a630cda9fdb4f56cf2dc20a4bf873765c41cf00e9379e8d59cd07b24730f4fde"
+    }
+  }
+}
+```
 
+```kotlin
+abstract class AndroidToolchainFeature : FeatureComponent() {
+  val rulesKotlinVersion: String by property(default = "1.8.1")
+  val rulesKotlinSha: String by property(default = "a630cda9fdb4f56cf2dc20a4bf873765c41cf00e9379e8d59cd07b24730f4fde")
+
+  override fun FeatureContext.onInvoke(module: GradleModule) {
+    ...
+  }
+}
+```
+
+> Refer to the example of [`AndroidToolchainFeature`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/feature/AndroidToolchainFeature.kt) to learn more.
+
+### Default properties
+There are a few default properties that are available in each component.
+- `shared` - makes a component shared, as described in [shared components](#shared-components) section.
+- `ignored` - excludes the component from the migration process.
+- `priority` - applied only to module components and defines the priority of the component. It complements `ComponentConflictResolution.UsePriority`, so that a component with a highest priority is select for a module in case of a conflict.
+
+### Shared properties
+Regular properties are defined during the Gradle configuration phase and are common in all modules that use a certain component.
+
+Shared properties, on the other hand, are used during the Gradle execution phase and allow sharing the data between related module and shared components within a single module.
+
+```kotlin
+abstract class HiltFeature : FeatureComponent() {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
+        sharedProperties["myProperty"] = "value"
+    }
+}
+```
+
+```kotlin
+abstract class AndroidLibraryModule : FeatureComponent() {
+    override fun FeatureContext.onInvoke(module: GradleModule) {
+        val myProperty = sharedProperties["myProperty"] as String
+    }
+}
+```
+
+The components are invoked following the order specified in `airin` extension, so that for each module, feature components are invoked prior to the module component.
 ## Decorators
 
 ## License
