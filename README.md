@@ -179,7 +179,7 @@ kt_android_library(
   plugins = [...],
 )
 ```
-A GradleModule instance provides dependencies mapped per configuration, represented with an argument name. To designate dependencies in the generated code, the `=` function (enclosed in backticks) is used to represent an argument passed to a function.
+A `GradleModule` instance provides dependencies mapped per configuration, represented with an argument name. To designate dependencies in the generated code, the `=` function (enclosed in backticks) is used to represent an argument passed to a function.
 
 ```python
 kt_android_library {
@@ -247,15 +247,15 @@ Here is what's happening in the example above.
 - `HiltFeature` - feature component that configures Hilt for a Bazel module.
   - Contributes to `AndroidLibraryModule` because they are directly connected. Includes Hilt in Bazel scripts in each Android library module.
   - Contributes to `RootModule` because they are both shared. Configures Hilt in a Bazel workspace.
-- `AllPublicFeature` 
-  - contributes to `AndroidLibraryModule` and `RootModule` because it's a top-level feature component. Configures default public visibility in each Bazel file.
+- `AllPublicFeature` - feature component that configures default public visibility in a Bazel file.
+  - contributes to `AndroidLibraryModule` and `RootModule` because it's a top-level feature component.
 
 > Refer to examples of [`AndroidLibraryModule`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/module/AndroidLibraryModule.kt), 
 > [`HiltFeature`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/feature/HiltFeature.kt) 
 > and [`RootModule`](https://github.com/Morfly/airin/blob/d2810f569b5da84ec61106a8c85d2b3566b1f7a8/airin-gradle-android/src/main/kotlin/io/morfly/airin/module/RootModule.kt) to learn more.
 
 ## Properties
-Both module and feature components ...
+Both module and feature components TODO
 ```kotlin
 // root build.gradle.kts
 airin {
