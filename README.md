@@ -66,8 +66,8 @@ To configure Airin Gradle plugin use `airin` extension in the root `build.gradle
 - `targets` - configure migration targets. A `migrateToBazel` task as assigned to each migration target and triggers the migration for all its dependencies as well as the root module of the project.
 - `skippedProjects` - ignore these Gradle projects during the Bazel migration.
 - `configurations` - specify allowed Gradle dependency configurations during the migration. All the rest dependencies will be ignored in Bazel.
-- `register` - register a module component that targets a specific type of modules.
-- `include` - include a feature component in a module component that targets specific build features included in the module. Must be applied under the specific module component. 
+- `register` - register a module component that targets a specific type of modules. See [module components](#module-components).
+- `include` - include a feature component in a module component that targets specific build features included in the module. Must be applied under the specific module component. See [feature components](#feature-components).
 - `onComponentConflict` - configure the behavior when Airin finds more then one module component that can migrate a module.
   - `Fail` - fail the build.
   - `UsePriority` - pick one with higher priority.
@@ -75,12 +75,38 @@ To configure Airin Gradle plugin use `airin` extension in the root `build.gradle
 - `onMissingComponent` - configure the behavior when Airin can't find any module component to migrate a module.
   - `Fail` - fail the build.
   - `Ignore` - ignore the module.
+- `decorateWith` - register a custom module decorator. See [decorators](#decorators).
 
 ### Gradle tasks
+- `migrateToBazel` - registered for each migration target that is explicitly specified in `airin` plugin extension. Triggers the migration for the module, its direct and transitive dependencies and a root module.
+- `migrateProjectToBazel` - registered for all dependencies of migration targets. Triggers migration only for this module.
+- `migrateRootToBazelFor***` - registered for a root project and complements migration for specific migration target, where the `***` is a name of a migration target. E.g. `:migrateRootToBazelForApp`.
 
 ### Components
 
 ## Module components
+Every module component is an abstract class that extends the ModuleComponent base class and implements 2 functions, `canProcess` and `onInvoke`.
+```kotlin
+abstract class AndroidLibraryModule : ModuleComponent {
+
+  override fun canProcess(project: Project): Boolean {...}
+
+  override fun ModuleContext.onInvoke(module: GradleModule) {...}
+}
+```
+
+- `canProcess` is invoked during the Gradle Configuration phase and is aimed to filter Gradle modules to which this component is applicable.
+- `onInvoke` is invoked during the Gradle Execution phase and contains the main logic of the component the purpose of which is to generate Bazel files for the module.
+
+The easiest way to determine the module type is by examining its applied plugins. For example, an Android library module in Gradle typically relies upon the `com.android.library plugin`.
+
+```kotlin
+abstract class AndroidLibraryModule : ModuleComponent {
+
+  override fun canProcess(project: Project): Boolean =
+    project.plugins.hasPlugin("com.android.library")
+}
+```
 ### Generating Bazel files
 ### Dependencies
 ## Feature components
