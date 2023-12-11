@@ -1,5 +1,5 @@
 [versions]
-airin = "0.5.1"
+airin = "0.5.2"
 kotlin = "1.9.10"
 ksp = "1.9.10-1.0.13"
 agp = "8.1.2"
