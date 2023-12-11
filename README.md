@@ -63,9 +63,9 @@ Finally, after the plugin is configured, the migration to Bazel is triggered wit
 ### Configuration options
 To configure Airin Gradle plugin use `airin` extension in the root `build.gradle.kts` file.
 
-- `targets` - configure migration targets. A `migrateToBazel` task as assigned to each migration target and triggers the migration for all its dependencies as well as the root module of the project. E.g. `targets += setOf("app")`.
-- `skippedProjects` - ignore these Gradle projects during the Bazel migration. E.g. `skippedProjects += setOf(":payments-feature")`.
-- `configurations` - specify allowed Gradle dependency configurations during the migration. All the rest dependencies will be ignored in Bazel. E.g. `configurations += setOf("implementation", "api")`
+- `targets` - configure migration targets. A `migrateToBazel` task as assigned to each migration target and triggers the migration for all its dependencies as well as the root module of the project.
+- `skippedProjects` - ignore these Gradle projects during the Bazel migration.
+- `configurations` - specify allowed Gradle dependency configurations during the migration. All the rest dependencies will be ignored in Bazel.
 - `register` - register a module component that targets a specific type of modules.
 - `include` - include a feature component in a module component that targets specific build features included in the module. Must be applied under the specific module component. 
 - `onComponentConflict` - configure the behavior when Airin finds more then one module component that can migrate a module.
