@@ -71,8 +71,8 @@ To configure Airin Gradle plugin use `airin` extension in the root `build.gradle
 - `targets` - configure migration targets. A `migrateToBazel` task as assigned to each migration target and triggers the migration for all its dependencies as well as the root module of the project.
 - `skippedProjects` - ignore these Gradle projects during the Bazel migration.
 - `configurations` - specify allowed Gradle dependency configurations during the migration. All the rest dependencies will be ignored in Bazel.
-- `register` - register a module component that targets a specific type of modules. See [module components](#module-components).
-- `include` - include a feature component in a module component that targets specific build features included in the module. Must be applied under the specific module component. See [feature components](#feature-components).
+- `register` - register a [module component](#module-components) that targets a specific type of modules. See [module components](#module-components).
+- `include` - include a [feature component](#feature-components) in a module component that targets specific build features included in the module. Must be applied under the specific module component. See [feature components](#feature-components).
 - `onComponentConflict` - configure the behavior when Airin finds more then one module component that can migrate a module.
   - `Fail` - fail the build.
   - `UsePriority` - pick one with higher priority.
@@ -86,9 +86,6 @@ To configure Airin Gradle plugin use `airin` extension in the root `build.gradle
 - `migrateToBazel` - registered for each migration target that is explicitly specified in `airin` plugin extension. Triggers the migration for the module, its direct and transitive dependencies and a root module.
 - `migrateProjectToBazel` - registered for all dependencies of migration targets. Triggers migration only for this module.
 - `migrateRootToBazelFor***` - registered for a root project and complements migration for specific migration target, where the `***` is a name of a migration target. E.g. `:migrateRootToBazelForApp`.
-
-### Components
-TODO
 
 ## Module components
 Module component is responsible for generating Bazel files for specific types of modules.
@@ -310,7 +307,48 @@ abstract class AndroidLibraryModule : FeatureComponent() {
 
 The components are invoked following the order specified in `airin` extension, so that for each module, feature components are invoked prior to the module component.
 ## Decorators
+Decorators allow extracting an additional information about Gradle modules that will automatically decorate instances of `GradleModule` in
+`onInvoke` calls of each module and feature component during the migration.
 
+By default, `io.morfly.airin.android` Gradle plugin employs [`AndroidModuleDecorator`](https://github.com/Morfly/airin/blob/3bad5940d680423d3af130e1053a04b7e7d78a72/airin-gradle-android/src/main/kotlin/io/morfly/airin/AndroidModuleDecorator.kt). 
+Its purpose is to provide additional information about modules extracted from Android Gradle plugin, such as package name, enabled build features, etc.
+
+The simple example of a module decorator could be found below.
+```kotlin
+open class AndroidModuleDecorator : GradleModuleDecorator {
+
+  override fun GradleModule.decorate(project: Project) { 
+    // make sure this is the right type of modules
+    if (!project.plugins.hasPlugin("com.android.library")) return
+        
+    // prepared the additional data
+    val androidMetadata = AndroidMetadata(
+      namespace = extensions.findByType(CommonExtension::class.java)?.namespace
+    )
+      
+    // decorate the module instance
+    this.properties["androidMetadata"] = androidMetadata
+  }
+}
+```
+After the decorator is declared, all that is left is to apply it in the `airin` plugin configuration.
+```kotlin
+// root build.gradle.kts
+airin {
+    decorateWith<AndroidModuleDecorator>()
+}
+```
+
+As a result, you can extract this data in your custom components.
+```kotlin
+abstract class MyFeatureComponent : FeatureComponent() {
+
+    override fun FeatureContext.onInvoke(module: GradleModule) {
+        val myData = module.properties["androidMetadata"]
+    }
+}
+```
+> Refer to the example of [`AndroidModuleDecorator`](https://github.com/Morfly/airin/blob/3bad5940d680423d3af130e1053a04b7e7d78a72/airin-gradle-android/src/main/kotlin/io/morfly/airin/AndroidModuleDecorator.kt) to learn more.
 ## License
 
     Copyright 2023 Pavlo Stavytskyi.
