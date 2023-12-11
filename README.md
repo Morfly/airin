@@ -10,7 +10,7 @@ Airin is a tool for the automated migration of Gradle Android projects to Bazel.
 - [Decorators](#decorators)
 
 ## Overview
-To facilitate the migration of Android apps to Bazel, Airin provides a Gradle plugin. This plugin, upon configuration, 
+To facilitate the migration of Android apps to Bazel, Airin provides a Gradle plugin that upon configuration, 
 analyzes the Gradle project structure and replicates it with Bazel by generating the corresponding Bazel files.
 
 ### Installation
@@ -42,31 +42,43 @@ airin {
     }
 }
 ```
-Read next sections in the documentation to learn more about the available configuration options for the Airin plugin.
+A few things are happening in the script above:
+- An`app` module and all its dependencies will be migrated to Bazel.
+- Modules classified as Android library, JVM library and root module will be migrated to Bazel.
+- If any Android library module optionally uses technologies like Jetpack Compose, Hilt or Parcelize, they will be reflected in Bazel too.
+
+Continue reading the documentation to find more details about components and plugin configuration.
 
 ### Migration
-Finally, after configuring the plugin, execute the corresponding Gradle task to initiate the automated migration to 
-Bazel. This task will analyze the Gradle project structure and, based on the Airin plugin configuration, generate 
-corresponding Bazel files within the project.
+Finally, after the plugin is configured, the migration to Bazel is triggered with a corresponding Gradle task.
 ```shell
 ./gradlew app:migrateToBazel --no-configure-on-demand
 ```
+
+> Airin plugin needs to analyze the project dependency graph during the configuration phase. 
+> Therefore, [configuration on demand](https://docs.gradle.org/current/userguide/multi_project_configuration_and_execution.html#sec:configuration_on_demand) must be disabled when running the migration. 
+
 ## Gradle plugin
-In most cases, your project will include custom Gradle logic or plugins that lack open-source Bazel alternatives. 
-This necessitates the development of custom Bazel solutions for those specific cases. Once completed, these solutions 
-can be incorporated into Airin, enabling it to generate the Starlark code exactly as you need.
+
 ### Configuration options
+To configure Airin Gradle plugin use `airin` extension in the root `build.gradle.kts` file.
 
-**Migration targets**.
+- `targets` - configure migration targets. A `migrateToBazel` task as assigned to each migration target and triggers the migration for all its dependencies as well as the root module of the project. E.g. `targets += setOf("app")`.
+- `skippedProjects` - ignore these Gradle projects during the Bazel migration. E.g. `skippedProjects += setOf(":payments-feature")`.
+- `configurations` - specify allowed Gradle dependency configurations during the migration. All the rest dependencies will be ignored in Bazel. E.g. `configurations += setOf("implementation", "api")`
+- `register` - register a module component that targets a specific type of modules.
+- `include` - include a feature component in a module component that targets specific build features included in the module. Must be applied under the specific module component. 
+- `onComponentConflict` - configure the behavior when Airin finds more then one module component that can migrate a module.
+  - `Fail` - fail the build.
+  - `UsePriority` - pick one with higher priority.
+  - `Ignore` - ignore the module.
+- `onMissingComponent` - configure the behavior when Airin can't find any module component to migrate a module.
+  - `Fail` - fail the build.
+  - `Ignore` - ignore the module.
 
-**Resolution strategies**.
-
-**Registering module components**.
-
-**Including feature components**.
-
-**Decorating modules**.
 ### Gradle tasks
+
+### Components
 
 ## Module components
 ### Generating Bazel files
