@@ -26,6 +26,7 @@ plugins {
     id("io.morfly.airin.android") version "x.y.z"
 }
 ```
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.morfly.airin/airin-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.morfly.airin/airin-core)
 ### Configuration
 Next, in the same `build.gradle.kts` file, use the `airin` extension to configure the plugin and adjust it specifically 
 for your project.
