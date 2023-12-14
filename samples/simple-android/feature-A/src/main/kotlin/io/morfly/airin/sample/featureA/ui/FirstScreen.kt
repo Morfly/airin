@@ -1,6 +1,6 @@
 package io.morfly.airin.sample.featureA.ui
 
-import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +24,9 @@ fun FirstScreen(
     viewModel: FirstViewModel = hiltViewModel()
 ) {
     Box(
-        modifier.fillMaxSize(),
+        modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -34,7 +36,7 @@ fun FirstScreen(
             Text(
                 text = "First Screen",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = onNextClick) {
@@ -48,7 +50,6 @@ fun FirstScreen(
 }
 
 @Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun FirstScreenPreview() {
     FirstScreen(onNextClick = {})

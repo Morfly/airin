@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import io.morfly.airin.sample.featureA.navigation.firstScreen
 import io.morfly.airin.sample.featureA.navigation.firstScreenRoute
+import io.morfly.airin.sample.featureA.navigation.navigateToFirstScreen
 import io.morfly.airin.sample.featureB.navigation.navigateToSecondScreen
 import io.morfly.airin.sample.featureB.navigation.secondScreen
 
@@ -16,6 +17,6 @@ fun AirinSampleNavHost() {
 
     NavHost(navController = navController, startDestination = firstScreenRoute) {
         firstScreen(onNextClick = navController::navigateToSecondScreen)
-        secondScreen(onNextClick = {})
+        secondScreen(onNextClick = navController::navigateToFirstScreen)
     }
 }
