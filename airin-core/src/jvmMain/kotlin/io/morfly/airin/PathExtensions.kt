@@ -23,15 +23,15 @@ fun String.fixPath(): String =
 fun String.fixPathPrefix(): String {
     val path = trimStart()
     var i = 0
-    while (path.startsWith('/')) i++
+    while (i <= path.lastIndex && path[i] == '/') i++
 
     return path.removePrefix("/".repeat(i))
 }
 
 fun String.fixPathSuffix(): String {
     val path = trimEnd()
-    var i = 0
-    while (path.endsWith('/')) i++
+    var i = path.lastIndex
+    while (i >= 0 && path[i] == '/') i--
 
-    return path.removeSuffix("/".repeat(i))
+    return path.removeSuffix("/".repeat(path.lastIndex - i))
 }
